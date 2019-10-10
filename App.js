@@ -1,16 +1,35 @@
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform, StatusBar, StyleSheet, View, Text, AsyncStorage } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [firstUse, setFirstUse] = useState(false);
+  const [isRetrievalComplete, setIsRetrievalComplete] = useState(false);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  useEffect(() => {
+    checkFirstUse();
+  }, []);
+
+  async function checkFirstUse() {
+    try {
+      const user = await AsyncStorage.getItem('user');
+      if (!user) {
+        setFirstUse(true);
+      }
+      setIsRetrievalComplete(true);
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
+  if (!isLoadingComplete && !props.skipLoadingScreen && !isRetrievalComplete) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -19,6 +38,13 @@ export default function App(props) {
       />
     );
   } else {
+    if (firstUse) {
+      return (
+        <View style={styles.container}>
+          <Text>HELLO</Text>
+        </View>
+      )
+    }
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
