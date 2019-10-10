@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { db } from '../firebase';
 
 import { MonoText } from '../components/StyledText';
 

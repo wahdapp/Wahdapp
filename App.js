@@ -2,7 +2,16 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
-import { Platform, StatusBar, StyleSheet, View, Text, AsyncStorage } from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  Text,
+  AsyncStorage,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
@@ -19,6 +28,7 @@ export default function App(props) {
   async function checkFirstUse() {
     try {
       const user = await AsyncStorage.getItem('user');
+      console.log({ user })
       if (!user) {
         setFirstUse(true);
       }
@@ -29,7 +39,12 @@ export default function App(props) {
     }
   }
 
-  if (!isLoadingComplete && !props.skipLoadingScreen && !isRetrievalComplete) {
+  const handleSelectGender = (gender) => () => {
+    AsyncStorage.setItem('user', JSON.stringify({ gender }));
+    setFirstUse(false);
+  }
+
+  if (!isLoadingComplete && !props.skipLoadingScreen || !isRetrievalComplete) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -40,8 +55,17 @@ export default function App(props) {
   } else {
     if (firstUse) {
       return (
-        <View style={styles.container}>
-          <Text>HELLO</Text>
+        <View style={styles.genderSelectionContainer}>
+          <TouchableOpacity style={styles.woman} onPress={handleSelectGender("F")}>
+            <View>
+              <Text>Woman</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.man} onPress={handleSelectGender("M")}>
+            <View>
+              <Text>Man</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       )
     }
@@ -80,9 +104,27 @@ function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
 }
 
+const ScreenHeight = Dimensions.get("window").height;
+const ScreenWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
+  genderSelectionContainer: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    height: ScreenHeight,
+    width: ScreenWidth
+  },
+  woman: {
+    width: '50%',
+    backgroundColor: '#ea6ecd'
+  },
+  man: {
+    width: '50%',
+    backgroundColor: '#50a1b7'
+  }
 });
