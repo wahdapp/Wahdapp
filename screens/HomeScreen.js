@@ -1,10 +1,4 @@
-import * as WebBrowser from 'expo-web-browser';
 import React, { useState } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function HomeScreen() {
