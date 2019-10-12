@@ -10,7 +10,7 @@ export default function HomeScreen() {
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(0);
+    bs.current.snapTo(2);
   }
 
   const renderHeader = () => (
@@ -38,10 +38,10 @@ export default function HomeScreen() {
       </MapView>
       <BottomSheet
         ref={bs}
-        snapPoints={[400, 250, 0]}
+        snapPoints={[500, 400, 250, 0]}
         renderContent={renderContent}
         renderHeader={renderHeader}
-        initialSnap={2}
+        initialSnap={3}
         onCloseEnd={() => setSelectedLocation(null)}
       />
     </>
