@@ -13,6 +13,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -23,7 +24,16 @@ export default function App(props) {
 
   useEffect(() => {
     checkFirstUse();
+    getLocationPermission();
   }, []);
+
+  async function getLocationPermission() {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    console.log({ status })
+    if (status !== 'granted') {
+      alert("Please enable your location for the best experience!");
+    }
+  }
 
   async function checkFirstUse() {
     try {
