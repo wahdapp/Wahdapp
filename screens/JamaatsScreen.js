@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
 
-export default function HomeScreen() {
+export default function JamaatsScreen() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
 
@@ -34,18 +34,18 @@ export default function HomeScreen() {
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
   }
 
   // Google Maps only
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
   }
 
   async function handleFloatBtnClick() {
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
     try {
       const location = await Location.getCurrentPositionAsync({});
       setSelectedLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
@@ -115,7 +115,7 @@ export default function HomeScreen() {
   );
 }
 
-HomeScreen.navigationOptions = {
+JamaatsScreen.navigationOptions = {
   header: null,
 };
 
