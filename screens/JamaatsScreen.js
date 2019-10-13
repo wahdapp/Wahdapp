@@ -19,22 +19,26 @@ const listItemsINIT = [
   {
     title: "Prayer",
     description: "Choose which prayer to be performed",
-    icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'
+    icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon',
+    nav: 'PrayerSelection'
   },
   {
     title: "Number of people",
-    description: "Please choose the number of people currently present",
-    icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people'
+    description: "Choose the number of people currently present",
+    icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
+    nav: 'NumberSelection'
   },
   {
     title: "Starting time",
-    description: "Approximate time to start",
-    icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time'
+    description: "Select the approximate time to start",
+    icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
+    nav: 'TimeSelection'
   },
   {
     title: "Description",
     description: "Please describe the location",
-    icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'
+    icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
+    nav: 'Description'
   }
 ]
 
@@ -105,6 +109,7 @@ export default function JamaatsScreen({ navigation }) {
       <View style={{ flex: 1 }}>
         <BSListView
           itemList={listItems}
+
         />
       </View>
       <TouchableOpacity onPress={() => { navigation.navigate('PrayerSelection') }}>
