@@ -13,10 +13,35 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
+import BSListView from '../components/BSListView';
+
+const listItemsINIT = [
+  {
+    title: "Prayer",
+    description: "Choose which prayer to be performed",
+    icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'
+  },
+  {
+    title: "Number of people",
+    description: "Please choose the number of people currently present",
+    icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people'
+  },
+  {
+    title: "Starting time",
+    description: "Approximate time to start",
+    icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time'
+  },
+  {
+    title: "Description",
+    description: "Please describe the location",
+    icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'
+  }
+]
 
 export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
+  const [listItems, setListItems] = useState(listItemsINIT);
 
   useEffect(() => {
     getUserLocation();
@@ -77,6 +102,11 @@ export default function JamaatsScreen({ navigation }) {
       <Text style={styles.panelSubtitle}>
         People around this area will be notified afterwards
       </Text>
+      <View style={{ flex: 1 }}>
+        <BSListView
+          itemList={listItems}
+        />
+      </View>
       <TouchableOpacity onPress={() => { navigation.navigate('PrayerSelection') }}>
         <Text>Select Prayer</Text>
       </TouchableOpacity>
