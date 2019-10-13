@@ -109,7 +109,6 @@ export default function JamaatsScreen({ navigation }) {
       <View style={{ flex: 1 }}>
         <BSListView
           itemList={listItems}
-
         />
       </View>
       <TouchableOpacity onPress={() => { navigation.navigate('PrayerSelection') }}>

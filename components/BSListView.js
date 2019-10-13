@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListRow = ({ title, description, icon }) => (
+export const ListRow = ({ title, description, icon }) => (
   <TouchableOpacity style={styles.container}>
     <View style={styles.icon_container}>
       <Ionicons name={icon} size={30} color="#ffffff" />
