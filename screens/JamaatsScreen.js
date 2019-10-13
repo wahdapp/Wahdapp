@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Platform,
+  TouchableOpacity as RNTouchableOpacity
+} from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
 
-export default function JamaatsScreen() {
+export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
 
@@ -69,6 +77,9 @@ export default function JamaatsScreen() {
       <Text style={styles.panelSubtitle}>
         People around this area will be notified afterwards
       </Text>
+      <TouchableOpacity onPress={() => { navigation.navigate('PrayerSelection') }}>
+        <Text>Select Prayer</Text>
+      </TouchableOpacity>
     </View>
   )
 
@@ -97,12 +108,12 @@ export default function JamaatsScreen() {
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
-      <TouchableOpacity
+      <RNTouchableOpacity
         style={styles.floatingBtn}
         onPress={handleFloatBtnClick}
       >
         <Ionicons name={Platform.OS === 'ios' ? `ios-add` : 'md-add'} size={30} color="#ffffff" />
-      </TouchableOpacity>
+      </RNTouchableOpacity>
       <BottomSheet
         ref={bs}
         snapPoints={[500, 400, 250, 0]}
@@ -117,16 +128,17 @@ export default function JamaatsScreen() {
 
 JamaatsScreen.navigationOptions = {
   header: null,
+  title: 'Jamaats'
 };
 
 const styles = StyleSheet.create({
   panel: {
     height: 600,
     padding: 20,
-    backgroundColor: '#f7f5eee8',
+    backgroundColor: '#ffffffe8',
   },
   header: {
-    backgroundColor: '#f7f5eee8',
+    backgroundColor: '#ffffffe8',
     shadowColor: '#000000',
     paddingTop: 20,
     borderTopLeftRadius: 20,
