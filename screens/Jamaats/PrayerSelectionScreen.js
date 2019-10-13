@@ -15,7 +15,7 @@ export default function PrayerSelectionScreen() {
 }
 
 PrayerSelectionScreen.navigationOptions = {
-  title: 'PrayerSelection',
+  title: 'Choose prayer',
 };
 
 const styles = StyleSheet.create({
