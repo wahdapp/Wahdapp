@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   panelTitle: {
-    fontSize: 27,
+    fontSize: 18,
     height: 35,
   },
   panelSubtitle: {
-    fontSize: 14,
+    fontSize: 10,
     color: 'gray',
     height: 30,
     marginBottom: 10,

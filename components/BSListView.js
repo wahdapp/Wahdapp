@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   description: {
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: 'italic',
   },
 });
@@ -70,6 +70,7 @@ const BSListview = ({ itemList, navigate }) => (
   <View style={{ flex: 1 }}>
     <FlatList
       data={itemList}
+      scrollEnabled={false}
       renderItem={({ item }) => <ListRow
         key={item.title}
         item={item}
