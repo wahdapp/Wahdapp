@@ -6,10 +6,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   Platform,
-  TouchableOpacity as RNTouchableOpacity
+  TouchableOpacity as RNTouchableOpacity,
 } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
@@ -109,11 +108,9 @@ export default function JamaatsScreen({ navigation }) {
       <View style={{ flex: 1 }}>
         <BSListView
           itemList={listItems}
+          navigate={navigation.navigate}
         />
       </View>
-      <TouchableOpacity onPress={() => { navigation.navigate('PrayerSelection') }}>
-        <Text>Select Prayer</Text>
-      </TouchableOpacity>
     </View>
   )
 

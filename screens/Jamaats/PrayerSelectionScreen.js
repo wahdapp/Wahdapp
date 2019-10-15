@@ -1,8 +1,17 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function PrayerSelectionScreen() {
+export default function PrayerSelectionScreen({ navigation }) {
+  const [prayer, setPrayer] = useState("Fajr");
+
+  useEffect(() => {
+    navigation.setParams({
+      prayer
+    })
+  }, [prayer])
+
   return (
     <ScrollView style={styles.container}>
       {/**
@@ -14,8 +23,22 @@ export default function PrayerSelectionScreen() {
   );
 }
 
-PrayerSelectionScreen.navigationOptions = {
-  title: 'Choose prayer',
+PrayerSelectionScreen.navigationOptions = ({ navigation }) => {
+  const { submit } = navigation.state.params;
+
+  function handleSubmit() {
+    const { prayer } = navigation.state.params;
+    submit(prayer);
+    navigation.goBack();
+  }
+  return {
+    title: 'Choose prayer',
+    headerRight: (
+      <TouchableOpacity onPress={handleSubmit}>
+        <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={30} color="#000" />
+      </TouchableOpacity>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
