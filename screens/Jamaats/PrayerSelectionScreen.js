@@ -31,10 +31,11 @@ PrayerSelectionScreen.navigationOptions = ({ navigation }) => {
     submit(prayer);
     navigation.goBack();
   }
+  
   return {
     title: 'Choose prayer',
     headerRight: (
-      <TouchableOpacity onPress={handleSubmit}>
+      <TouchableOpacity onPress={handleSubmit} style={{ marginRight: 20 }}>
         <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={30} color="#000" />
       </TouchableOpacity>
     )

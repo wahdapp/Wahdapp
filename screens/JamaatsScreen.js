@@ -47,17 +47,17 @@ export default function JamaatsScreen({ navigation }) {
   const [listItems, setListItems] = useState(listItemsINIT);
 
   useEffect(() => {
-    getUserLocation();
+    getUserPosition();
   }, []);
 
-  async function getUserLocation() {
+  async function getUserPosition() {
     try {
-      const location = await Location.getCurrentPositionAsync({});
+      const position = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       });
     }
     catch (e) {
@@ -84,6 +84,10 @@ export default function JamaatsScreen({ navigation }) {
     bs.current.snapTo(1);
     try {
       const location = await Location.getCurrentPositionAsync({});
+      setCurrentRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
       setSelectedLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
     }
     catch (e) {
