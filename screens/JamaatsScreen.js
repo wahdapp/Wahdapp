@@ -35,7 +35,7 @@ export default function JamaatsScreen({ navigation }) {
     },
     {
       title: "Description",
-      description: description ? description : "Please describe the necessary information",
+      description: description.length ? description.substring(0, 50) : "Please describe the necessary information",
       icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
       nav: 'Description'
     }

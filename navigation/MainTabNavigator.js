@@ -4,7 +4,8 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import JamaatsScreen from '../screens/JamaatsScreen';
-import PrayerSelectionScreen from '../screens/Jamaats/PrayerSelectionScreen';
+import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
+import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
 import PrayersScreen from '../screens/PrayersScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
@@ -16,7 +17,8 @@ const config = Platform.select({
 const JamaatsStack = createStackNavigator(
   {
     Jamaats: JamaatsScreen,
-    PrayerSelection: PrayerSelectionScreen
+    PrayerSelection: PrayerSelectionScreen,
+    Description: DescriptionScreen
   },
   config
 );

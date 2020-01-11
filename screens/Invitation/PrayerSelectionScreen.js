@@ -82,22 +82,3 @@ export default function PrayerSelectionScreen({ navigation }) {
 PrayerSelectionScreen.navigationOptions = {
   header: null
 }
-
-// PrayerSelectionScreen.navigationOptions = ({ navigation }) => {
-//   const { submit } = navigation.state.params;
-
-//   function handleSubmit() {
-//     const { prayer } = navigation.state.params;
-//     submit(prayer);
-//     navigation.goBack();
-//   }
-
-//   return {
-//     title: 'Choose prayer',
-//     headerRight: (
-//       <TouchableOpacity onPress={handleSubmit} style={{ marginRight: 20 }}>
-//         <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={30} color="#000" />
-//       </TouchableOpacity>
-//     )
-//   }
-// };

@@ -6,3 +6,17 @@ export function setPrayer(payload) {
     payload
   }
 };
+
+export function setTime(payload) {
+  return {
+    type: actions.SET_TIME,
+    payload
+  }
+};
+
+export function setDescription(payload) {
+  return {
+    type: actions.SET_DESCRIPTION,
+    payload
+  }
+};
