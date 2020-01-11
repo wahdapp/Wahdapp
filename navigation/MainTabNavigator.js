@@ -3,8 +3,9 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import JamaatsScreen from '../screens/JamaatsScreen';
+import PrayerSelectionScreen from '../screens/Jamaats/PrayerSelectionScreen';
+import PrayersScreen from '../screens/PrayersScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
@@ -12,37 +13,38 @@ const config = Platform.select({
   default: {},
 });
 
-const HomeStack = createStackNavigator(
+const JamaatsStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Jamaats: JamaatsScreen,
+    PrayerSelection: PrayerSelectionScreen
   },
   config
 );
 
-HomeStack.navigationOptions = {
+JamaatsStack.navigationOptions = {
   tabBarLabel: 'Jamaats',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
   ),
 };
 
-HomeStack.path = '';
+JamaatsStack.path = '';
 
-const LinksStack = createStackNavigator(
+const PrayersStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Prayers: PrayersScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
+PrayersStack.navigationOptions = {
   tabBarLabel: 'Prayers',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
   ),
 };
 
-LinksStack.path = '';
+PrayersStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -61,8 +63,8 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
+  JamaatsStack,
+  PrayersStack,
   SettingsStack,
 });
 

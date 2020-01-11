@@ -1,27 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Platform,
+  TouchableOpacity as RNTouchableOpacity,
+} from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
+import BSListView from '../components/BSListView';
 
-export default function HomeScreen() {
+const listItemsINIT = [
+  {
+    title: "Prayer",
+    description: "Choose which prayer to be performed",
+    icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon',
+    nav: 'PrayerSelection'
+  },
+  {
+    title: "Number of people",
+    description: "Choose the number of people currently present",
+    icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
+    nav: 'NumberSelection'
+  },
+  {
+    title: "Starting time",
+    description: "Select the approximate time to start",
+    icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
+    nav: 'TimeSelection'
+  },
+  {
+    title: "Description",
+    description: "Please describe the location",
+    icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
+    nav: 'Description'
+  }
+]
+
+export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
+  const [listItems, setListItems] = useState(listItemsINIT);
 
   useEffect(() => {
-    getUserLocation();
+    getUserPosition();
   }, []);
 
-  async function getUserLocation() {
+  async function getUserPosition() {
     try {
-      const location = await Location.getCurrentPositionAsync({});
+      const position = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       });
     }
     catch (e) {
@@ -34,20 +70,24 @@ export default function HomeScreen() {
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
   }
 
   // Google Maps only
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
   }
 
   async function handleFloatBtnClick() {
-    bs.current.snapTo(2);
+    bs.current.snapTo(1);
     try {
       const location = await Location.getCurrentPositionAsync({});
+      setCurrentRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
       setSelectedLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
     }
     catch (e) {
@@ -69,6 +109,12 @@ export default function HomeScreen() {
       <Text style={styles.panelSubtitle}>
         People around this area will be notified afterwards
       </Text>
+      <View style={{ flex: 1 }}>
+        <BSListView
+          itemList={listItems}
+          navigate={navigation.navigate}
+        />
+      </View>
     </View>
   )
 
@@ -97,12 +143,12 @@ export default function HomeScreen() {
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
-      <TouchableOpacity
+      <RNTouchableOpacity
         style={styles.floatingBtn}
         onPress={handleFloatBtnClick}
       >
         <Ionicons name={Platform.OS === 'ios' ? `ios-add` : 'md-add'} size={30} color="#ffffff" />
-      </TouchableOpacity>
+      </RNTouchableOpacity>
       <BottomSheet
         ref={bs}
         snapPoints={[500, 400, 250, 0]}
@@ -115,18 +161,19 @@ export default function HomeScreen() {
   );
 }
 
-HomeScreen.navigationOptions = {
+JamaatsScreen.navigationOptions = {
   header: null,
+  title: 'Jamaats'
 };
 
 const styles = StyleSheet.create({
   panel: {
     height: 600,
     padding: 20,
-    backgroundColor: '#f7f5eee8',
+    backgroundColor: '#ffffffe8',
   },
   header: {
-    backgroundColor: '#f7f5eee8',
+    backgroundColor: '#ffffffe8',
     shadowColor: '#000000',
     paddingTop: 20,
     borderTopLeftRadius: 20,
@@ -143,11 +190,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   panelTitle: {
-    fontSize: 27,
+    fontSize: 18,
     height: 35,
   },
   panelSubtitle: {
-    fontSize: 14,
+    fontSize: 10,
     color: 'gray',
     height: 30,
     marginBottom: 10,
