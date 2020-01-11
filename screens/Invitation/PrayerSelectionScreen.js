@@ -18,6 +18,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { setPrayer } from '../../actions';
 
+const iconColor = Platform.OS === "ios" ? "#000" : "#fff";
+
 const fardhs = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const specials = ["Jumuah", "Janaazah", "Taraweeh", "Nafila"]
 
@@ -37,7 +39,7 @@ export default function PrayerSelectionScreen({ navigation }) {
       <Header>
         <Left>
           <Button onPress={() => navigation.goBack()} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="#fff" />
+            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color={iconColor} />
           </Button>
         </Left>
         <Body>
@@ -45,7 +47,7 @@ export default function PrayerSelectionScreen({ navigation }) {
         </Body>
         <Right>
           <Button onPress={confirm} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color="#fff" />
+            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color={iconColor} />
           </Button>
         </Right>
       </Header>

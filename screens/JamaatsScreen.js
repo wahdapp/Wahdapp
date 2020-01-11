@@ -7,9 +7,10 @@ import {
   ActivityIndicator,
   Platform,
   TouchableOpacity as RNTouchableOpacity,
+  ScrollView
 } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
-import { View, Button } from 'native-base';
+import { View, Button, Toast } from 'native-base';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
@@ -90,6 +91,17 @@ export default function JamaatsScreen({ navigation }) {
     }
   }
 
+  function invite() {
+    console.log('click')
+    if (!prayer.length || !time || !description.length) {
+      Toast.show({
+        text: "All information is required!",
+        buttonText: "OK",
+        type: "warning"
+      });
+    }
+  }
+
   const renderHeader = () => (
     <View style={styles.header}>
       <View style={styles.panelHeader}>
@@ -104,17 +116,19 @@ export default function JamaatsScreen({ navigation }) {
       <Text style={styles.panelSubtitle}>
         People around this area will be notified afterwards
       </Text>
-      <View style={{ flex: 1 }}>
-        <BSListView
-          itemList={listItems}
-          navigate={navigation.navigate}
-        />
+      <ScrollView>
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Button style={{ marginTop: 20, flex: 1, justifyContent: 'center' }} success>
-            <Text style={{ color: '#fff' }}>INVITE</Text>
-          </Button>
+          <BSListView
+            itemList={listItems}
+            navigate={navigation.navigate}
+          />
         </View>
-      </View>
+      </ScrollView>
+      <RNTouchableOpacity onPress={invite} style={{ flex: 1, flexDirection: 'row' }}>
+        <Button style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }} success>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>INVITE</Text>
+        </Button>
+      </RNTouchableOpacity>
     </View>
   )
 
@@ -167,7 +181,7 @@ JamaatsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   panel: {
-    height: 600,
+    height: '100%',
     padding: 20,
     backgroundColor: '#ffffffe8',
   },
@@ -195,8 +209,10 @@ const styles = StyleSheet.create({
   panelSubtitle: {
     fontSize: 12,
     color: 'gray',
-    height: 30,
     marginBottom: 10,
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   loadingContainer: {
     flex: 1,

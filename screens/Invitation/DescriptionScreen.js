@@ -16,6 +16,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { setDescription } from '../../actions';
 
+const iconColor = Platform.OS === "ios" ? "#000" : "#fff";
+
 export default function DescriptionScreen({ navigation }) {
   const { description } = useSelector(state => state.invitationState);
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ export default function DescriptionScreen({ navigation }) {
       <Header>
         <Left>
           <Button onPress={() => navigation.goBack()} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="#fff" />
+            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color={iconColor} />
           </Button>
         </Left>
         <Body>
@@ -40,7 +42,7 @@ export default function DescriptionScreen({ navigation }) {
         </Body>
         <Right>
           <Button onPress={confirm} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color="#fff" />
+            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color={iconColor} />
           </Button>
         </Right>
       </Header>

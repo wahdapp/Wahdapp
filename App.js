@@ -3,6 +3,7 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { Root } from "native-base";
 import store from './store';
 import {
   Platform,
@@ -85,7 +86,9 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <Provider store={store}>
-          <AppNavigator />
+          <Root>
+            <AppNavigator />
+          </Root>
         </Provider>
       </View>
     );
