@@ -18,7 +18,7 @@ import BSListView from '../components/BSListView';
 export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
-  const { prayer, people, time, description } = useSelector(state => state.invitationState);
+  const { prayer, time, description } = useSelector(state => state.invitationState);
 
   const listItems = useMemo(() => [
     {
@@ -28,12 +28,6 @@ export default function JamaatsScreen({ navigation }) {
       nav: 'PrayerSelection'
     },
     {
-      title: "Number of people",
-      description: people ? people : "Choose the number of people currently present",
-      icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
-      nav: 'NumberSelection'
-    },
-    {
       title: "Starting time",
       description: time ? time : "Select the approximate time to start",
       icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
@@ -41,11 +35,11 @@ export default function JamaatsScreen({ navigation }) {
     },
     {
       title: "Description",
-      description: description ? description : "Please describe the location",
+      description: description ? description : "Please describe the necessary information",
       icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
       nav: 'Description'
     }
-  ], [prayer, people, time, description]);
+  ], [prayer, time, description]);
 
   useEffect(() => {
     getUserPosition();
@@ -194,7 +188,7 @@ const styles = StyleSheet.create({
     height: 35,
   },
   panelSubtitle: {
-    fontSize: 10,
+    fontSize: 12,
     color: 'gray',
     height: 30,
     marginBottom: 10,
