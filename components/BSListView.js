@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 export function ListRow({ item, navigate }) {
-  const [title, setTitle] = useState(item.title);
-  const [icon, setIcon] = useState(item.icon);
+  const { title, icon, description } = item;
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => navigate(item.nav)}>
@@ -49,7 +48,7 @@ export function ListRow({ item, navigate }) {
           {title}
         </Text>
         <Text style={styles.description}>
-          {item.description}
+          {description}
         </Text>
       </View>
 

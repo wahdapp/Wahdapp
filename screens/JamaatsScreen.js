@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
-  View,
   Text,
   StyleSheet,
   ActivityIndicator,
@@ -10,6 +9,7 @@ import {
   TouchableOpacity as RNTouchableOpacity,
 } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { View, Button } from 'native-base';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
@@ -109,6 +109,11 @@ export default function JamaatsScreen({ navigation }) {
           itemList={listItems}
           navigate={navigation.navigate}
         />
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Button style={{ marginTop: 20, flex: 1, justifyContent: 'center' }} success>
+            <Text style={{ color: '#fff' }}>INVITE</Text>
+          </Button>
+        </View>
       </View>
     </View>
   )
@@ -208,5 +213,9 @@ const styles = StyleSheet.create({
     height: 70,
     backgroundColor: colors.tintColor,
     borderRadius: 100,
+  },
+  inviteBtn: {
+    width: '100%',
+    textAlign: 'center'
   }
 })
