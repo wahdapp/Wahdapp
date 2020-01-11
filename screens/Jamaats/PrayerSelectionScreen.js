@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Platform } from 'react-native';
 import {
   Container,
@@ -15,17 +16,19 @@ import {
   Title
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+import { setPrayer } from '../../actions';
 
 const fardhs = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const specials = ["Jumuah", "Janaazah", "Taraweeh", "Nafila"]
 
 export default function PrayerSelectionScreen({ navigation }) {
-  const [fardhPrayer, setFardhPrayer] = useState("Fajr");
-  const [specialPrayer, setSpecialPrayer] = useState("Jumuah");
+  const { prayer } = useSelector(state => state.invitationState);
+  const dispatch = useDispatch();
+
+  const [selectedPrayer, setSelectedPrayer] = useState(prayer ? prayer : "Fajr");
 
   function confirm() {
-    const { submit } = navigation.state.params;
-    submit(fardhPrayer);
+    dispatch(setPrayer(selectedPrayer));
     navigation.goBack();
   }
 
@@ -49,24 +52,24 @@ export default function PrayerSelectionScreen({ navigation }) {
       <Tabs>
         <Tab heading="Compulsory">
           {fardhs.map((fardh, i) => (
-            <ListItem key={i} onPress={() => setFardhPrayer(fardh)} selected={fardhPrayer === fardh}>
+            <ListItem key={i} onPress={() => setSelectedPrayer(fardh)}>
               <Left>
                 <Text>{fardh}</Text>
               </Left>
               <Right>
-                <Radio onPress={() => setFardhPrayer(fardh)} selected={fardhPrayer === fardh} />
+                <Radio onPress={() => setSelectedPrayer(fardh)} selected={selectedPrayer === fardh} />
               </Right>
             </ListItem>
           ))}
         </Tab>
         <Tab heading="Special">
           {specials.map((special, i) => (
-            <ListItem key={i} onPress={() => setSpecialPrayer(special)}>
+            <ListItem key={i} onPress={() => setSelectedPrayer(special)}>
               <Left>
                 <Text>{special}</Text>
               </Left>
               <Right>
-                <Radio onPress={() => setSpecialPrayer(special)} selected={specialPrayer === special} />
+                <Radio onPress={() => setSelectedPrayer(special)} selected={selectedPrayer === special} />
               </Right>
             </ListItem>
           ))}

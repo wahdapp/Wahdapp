@@ -37,19 +37,10 @@ const styles = StyleSheet.create({
 });
 export function ListRow({ item, navigate }) {
   const [title, setTitle] = useState(item.title);
-  const [description, setDescription] = useState(item.description);
   const [icon, setIcon] = useState(item.icon);
 
-  function handlePress() {
-    navigate(item.nav, {
-      submit: function(res) {
-        setDescription(res);
-      }
-    })
-  }
-
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
+    <TouchableOpacity style={styles.container} onPress={() => navigate(item.nav)}>
       <View style={styles.icon_container}>
         <Ionicons name={icon} size={30} color="#ffffff" />
       </View>
@@ -58,7 +49,7 @@ export function ListRow({ item, navigate }) {
           {title}
         </Text>
         <Text style={styles.description}>
-          {description}
+          {item.description}
         </Text>
       </View>
 

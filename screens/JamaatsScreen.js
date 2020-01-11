@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
@@ -15,41 +15,39 @@ import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
 import BSListView from '../components/BSListView';
 
-const listItemsINIT = [
-  {
-    title: "Prayer",
-    description: "Choose which prayer to be performed",
-    icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon',
-    nav: 'PrayerSelection'
-  },
-  {
-    title: "Number of people",
-    description: "Choose the number of people currently present",
-    icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
-    nav: 'NumberSelection'
-  },
-  {
-    title: "Starting time",
-    description: "Select the approximate time to start",
-    icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
-    nav: 'TimeSelection'
-  },
-  {
-    title: "Description",
-    description: "Please describe the location",
-    icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
-    nav: 'Description'
-  }
-]
-
 export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
-  const [listItems, setListItems] = useState(listItemsINIT);
-  const { prayer } = useSelector(state => state.invitationState);
+  const { prayer, people, time, description } = useSelector(state => state.invitationState);
+
+  const listItems = useMemo(() => [
+    {
+      title: "Prayer",
+      description: prayer.length ? prayer : "Choose which prayer to be performed",
+      icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon',
+      nav: 'PrayerSelection'
+    },
+    {
+      title: "Number of people",
+      description: people ? people : "Choose the number of people currently present",
+      icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
+      nav: 'NumberSelection'
+    },
+    {
+      title: "Starting time",
+      description: time ? time : "Select the approximate time to start",
+      icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
+      nav: 'TimeSelection'
+    },
+    {
+      title: "Description",
+      description: description ? description : "Please describe the location",
+      icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
+      nav: 'Description'
+    }
+  ], [prayer, people, time, description]);
 
   useEffect(() => {
-    console.log({ prayer })
     getUserPosition();
   }, []);
 
