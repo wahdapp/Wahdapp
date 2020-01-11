@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
   View,
@@ -45,8 +46,10 @@ export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [listItems, setListItems] = useState(listItemsINIT);
+  const { prayer } = useSelector(state => state.invitationState);
 
   useEffect(() => {
+    console.log({ prayer })
     getUserPosition();
   }, []);
 
@@ -163,7 +166,6 @@ export default function JamaatsScreen({ navigation }) {
 
 JamaatsScreen.navigationOptions = {
   header: null,
-  title: 'Jamaats'
 };
 
 const styles = StyleSheet.create({
