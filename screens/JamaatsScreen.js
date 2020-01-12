@@ -7,7 +7,8 @@ import {
   ActivityIndicator,
   Platform,
   TouchableOpacity as RNTouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { View, Button, Toast } from 'native-base';
@@ -15,6 +16,8 @@ import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
 import BSListView from '../components/BSListView';
+
+const ScreenHeight = Dimensions.get("window").height;
 
 export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -62,9 +65,13 @@ export default function JamaatsScreen({ navigation }) {
   }
 
   const bs = React.createRef();
+  let currentSnap = 3;
 
   function openBottomSheet() {
-    bs.current.snapTo(0);
+    if (currentSnap) {
+      bs.current.snapTo(0);
+      currentSnap = 0;
+    }
   }
 
   function handleDrag(coords) {
@@ -174,7 +181,7 @@ export default function JamaatsScreen({ navigation }) {
         region={currentRegion}
         onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
-        mapPadding={{ bottom: selectedLocation ? 400 : 0 }}
+        mapPadding={{ bottom: selectedLocation ? ScreenHeight * 0.7 : 0 }}
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>

@@ -11,12 +11,10 @@ import {
   Textarea,
   Button,
   Title,
-  Content
+  Content,
+  Text
 } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 import { setDescription } from '../../actions';
-
-const iconColor = Platform.OS === "ios" ? "#000" : "#fff";
 
 export default function DescriptionScreen({ navigation }) {
   const { description } = useSelector(state => state.invitationState);
@@ -33,16 +31,16 @@ export default function DescriptionScreen({ navigation }) {
     <Container>
       <Header>
         <Left>
-          <Button onPress={() => navigation.goBack()} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color={iconColor} />
+          <Button hasText onPress={() => navigation.goBack()} transparent>
+            <Text>Back</Text>
           </Button>
         </Left>
         <Body>
           <Title>Description</Title>
         </Body>
         <Right>
-          <Button onPress={confirm} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color={iconColor} />
+          <Button hasText onPress={confirm} transparent>
+            <Text>Next</Text>
           </Button>
         </Right>
       </Header>

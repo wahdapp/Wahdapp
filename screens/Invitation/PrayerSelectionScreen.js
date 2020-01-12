@@ -15,13 +15,14 @@ import {
   Button,
   Title
 } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 import { setPrayer } from '../../actions';
+//import { fardhs, specials, fardhsArabic } from '../../constants/prayers';
 
-const iconColor = Platform.OS === "ios" ? "#000" : "#fff";
+const fardhs = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Jumuah"];
+const others = ["Janaazah", "Taraweeh"];
 
-const fardhs = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
-const specials = ["Jumuah", "Janaazah", "Taraweeh", "Nafila"]
+const othersArabic = ["جنازة", "تراويح"]
+const fardhsArabic = ["فجر", "ظهر", "عصر", "مغرب", "عشاء", "جمعة"];
 
 export default function PrayerSelectionScreen({ navigation }) {
   const { prayer } = useSelector(state => state.invitationState);
@@ -36,18 +37,18 @@ export default function PrayerSelectionScreen({ navigation }) {
 
   return (
     <Container>
-      <Header>
+      <Header style={{ paddingTop: 0 }}>
         <Left>
-          <Button onPress={() => navigation.goBack()} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color={iconColor} />
+          <Button style={{ padding: 0 }} hasText onPress={() => navigation.goBack()} transparent>
+            <Text>Back</Text>
           </Button>
         </Left>
         <Body>
-          <Title>Choose Prayer</Title>
+          <Title>Prayer</Title>
         </Body>
         <Right>
-          <Button onPress={confirm} transparent>
-            <Ionicons name={Platform.OS === 'ios' ? `ios-checkmark` : 'md-checkmark'} size={24} color={iconColor} />
+          <Button style={{ padding: 0 }} hasText onPress={confirm} transparent>
+            <Text>Next</Text>
           </Button>
         </Right>
       </Header>
@@ -56,7 +57,7 @@ export default function PrayerSelectionScreen({ navigation }) {
           {fardhs.map((fardh, i) => (
             <ListItem key={i} onPress={() => setSelectedPrayer(fardh)}>
               <Left>
-                <Text>{fardh}</Text>
+                <Text>{fardh} {fardhsArabic[i]}</Text>
               </Left>
               <Right>
                 <Radio onPress={() => setSelectedPrayer(fardh)} selected={selectedPrayer === fardh} />
@@ -64,14 +65,14 @@ export default function PrayerSelectionScreen({ navigation }) {
             </ListItem>
           ))}
         </Tab>
-        <Tab heading="Special">
-          {specials.map((special, i) => (
-            <ListItem key={i} onPress={() => setSelectedPrayer(special)}>
+        <Tab heading="Others">
+          {others.map((other, i) => (
+            <ListItem key={i} onPress={() => setSelectedPrayer(other)}>
               <Left>
-                <Text>{special}</Text>
+                <Text>{other} {othersArabic[i]}</Text>
               </Left>
               <Right>
-                <Radio onPress={() => setSelectedPrayer(special)} selected={selectedPrayer === special} />
+                <Radio onPress={() => setSelectedPrayer(other)} selected={selectedPrayer === other} />
               </Right>
             </ListItem>
           ))}
