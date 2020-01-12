@@ -63,24 +63,47 @@ export default function JamaatsScreen({ navigation }) {
 
   const bs = React.createRef();
 
+  function openBottomSheet() {
+    bs.current.snapTo(0);
+  }
+
+  function handleDrag(coords) {
+    setCurrentRegion(coords);
+  }
+
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(1);
+    setCurrentRegion({
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    });
+    openBottomSheet();
   }
 
   // Google Maps only
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(1);
+    setCurrentRegion({
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    });
+    openBottomSheet();
   }
 
   async function handleFloatBtnClick() {
-    bs.current.snapTo(1);
+    openBottomSheet();
+
     try {
       const location = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       });
@@ -143,17 +166,15 @@ export default function JamaatsScreen({ navigation }) {
   return (
     <>
       <MapView
+        provider="google"
         style={{ flex: 1 }}
         showsUserLocation={true}
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
-        initialRegion={{
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-          latitude: currentRegion.latitude,
-          longitude: currentRegion.longitude
-        }}
+        region={currentRegion}
+        onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
+        mapPadding={{ bottom: selectedLocation ? 400 : 0 }}
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
