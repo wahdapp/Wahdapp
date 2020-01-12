@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+//import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 export function ListRow({ item, navigate }) {
-  const [title, setTitle] = useState(item.title);
-  const [icon, setIcon] = useState(item.icon);
+  const { title, icon, description } = item;
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => navigate(item.nav)}>
@@ -49,7 +48,7 @@ export function ListRow({ item, navigate }) {
           {title}
         </Text>
         <Text style={styles.description}>
-          {item.description}
+          {description}
         </Text>
       </View>
 
@@ -58,21 +57,15 @@ export function ListRow({ item, navigate }) {
 }
 
 const BSListview = ({ itemList, navigate }) => (
-  <View style={{ flex: 1 }}>
     <FlatList
       data={itemList}
       scrollEnabled={false}
       renderItem={({ item }) => <ListRow
         key={item.title}
         item={item}
-        // title={item.title}
-        // description={item.description}
-        // icon={item.icon}
         navigate={navigate}
       />}
     />
-
-  </View>
 );
 
 export default BSListview;

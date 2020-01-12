@@ -2,23 +2,27 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
-  View,
   Text,
   StyleSheet,
   ActivityIndicator,
   Platform,
   TouchableOpacity as RNTouchableOpacity,
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { View, Button, Toast } from 'native-base';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../constants/Colors';
 import BSListView from '../components/BSListView';
 
+const ScreenHeight = Dimensions.get("window").height;
+
 export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
-  const { prayer, people, time, description } = useSelector(state => state.invitationState);
+  const { prayer, time, description } = useSelector(state => state.invitationState);
 
   const listItems = useMemo(() => [
     {
@@ -28,12 +32,6 @@ export default function JamaatsScreen({ navigation }) {
       nav: 'PrayerSelection'
     },
     {
-      title: "Number of people",
-      description: people ? people : "Choose the number of people currently present",
-      icon: Platform.OS === 'ios' ? 'ios-people' : 'md-people',
-      nav: 'NumberSelection'
-    },
-    {
       title: "Starting time",
       description: time ? time : "Select the approximate time to start",
       icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
@@ -41,11 +39,11 @@ export default function JamaatsScreen({ navigation }) {
     },
     {
       title: "Description",
-      description: description ? description : "Please describe the location",
+      description: description.length ? description.substring(0, 50) : "Please describe the necessary information",
       icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
       nav: 'Description'
     }
-  ], [prayer, people, time, description]);
+  ], [prayer, time, description]);
 
   useEffect(() => {
     getUserPosition();
@@ -67,25 +65,52 @@ export default function JamaatsScreen({ navigation }) {
   }
 
   const bs = React.createRef();
+  let currentSnap = 3;
+
+  function openBottomSheet() {
+    if (currentSnap) {
+      bs.current.snapTo(0);
+      currentSnap = 0;
+    }
+  }
+
+  function handleDrag(coords) {
+    setCurrentRegion(coords);
+  }
 
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(1);
+    setCurrentRegion({
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    });
+    openBottomSheet();
   }
 
   // Google Maps only
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    bs.current.snapTo(1);
+    setCurrentRegion({
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    });
+    openBottomSheet();
   }
 
   async function handleFloatBtnClick() {
-    bs.current.snapTo(1);
+    openBottomSheet();
+
     try {
       const location = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       });
@@ -93,6 +118,17 @@ export default function JamaatsScreen({ navigation }) {
     }
     catch (e) {
       throw e;
+    }
+  }
+
+  function invite() {
+    console.log('click')
+    if (!prayer.length || !time || !description.length) {
+      Toast.show({
+        text: "All information is required!",
+        buttonText: "OK",
+        type: "warning"
+      });
     }
   }
 
@@ -110,12 +146,19 @@ export default function JamaatsScreen({ navigation }) {
       <Text style={styles.panelSubtitle}>
         People around this area will be notified afterwards
       </Text>
-      <View style={{ flex: 1 }}>
-        <BSListView
-          itemList={listItems}
-          navigate={navigation.navigate}
-        />
-      </View>
+      <ScrollView>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <BSListView
+            itemList={listItems}
+            navigate={navigation.navigate}
+          />
+        </View>
+      </ScrollView>
+      <RNTouchableOpacity onPress={invite} style={{ flex: 1, flexDirection: 'row' }}>
+        <Button style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }} success>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>INVITE</Text>
+        </Button>
+      </RNTouchableOpacity>
     </View>
   )
 
@@ -130,17 +173,15 @@ export default function JamaatsScreen({ navigation }) {
   return (
     <>
       <MapView
+        provider="google"
         style={{ flex: 1 }}
         showsUserLocation={true}
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
-        initialRegion={{
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-          latitude: currentRegion.latitude,
-          longitude: currentRegion.longitude
-        }}
+        region={currentRegion}
+        onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
+        mapPadding={{ bottom: selectedLocation ? ScreenHeight * 0.7 : 0 }}
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
@@ -168,7 +209,7 @@ JamaatsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   panel: {
-    height: 600,
+    height: '100%',
     padding: 20,
     backgroundColor: '#ffffffe8',
   },
@@ -194,10 +235,12 @@ const styles = StyleSheet.create({
     height: 35,
   },
   panelSubtitle: {
-    fontSize: 10,
+    fontSize: 12,
     color: 'gray',
-    height: 30,
     marginBottom: 10,
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   loadingContainer: {
     flex: 1,
@@ -214,5 +257,9 @@ const styles = StyleSheet.create({
     height: 70,
     backgroundColor: colors.tintColor,
     borderRadius: 100,
+  },
+  inviteBtn: {
+    width: '100%',
+    textAlign: 'center'
   }
 })
