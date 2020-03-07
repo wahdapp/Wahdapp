@@ -1,0 +1,1 @@
+export const ICON = require('./icon.png');

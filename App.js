@@ -4,6 +4,7 @@ import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Root } from "native-base";
+import { auth } from './firebase';
 import store from './store';
 import {
   Platform,
@@ -17,18 +18,32 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
+import LoginScreen from './screens/LoginScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import AppNavigator from './navigation/AppNavigator';
+
+const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [firstUse, setFirstUse] = useState(false);
   const [isRetrievalComplete, setIsRetrievalComplete] = useState(false);
+  const [userAuth, setUserAuth] = useState(null);
 
   useEffect(() => {
     checkFirstUse();
     getLocationPermission();
+    authenticateUser();
   }, []);
+
+  function authenticateUser() {
+    auth.onAuthStateChanged(user => {
+      console.log({ user })
+      setUserAuth(user);
+    });
+  }
 
   async function getLocationPermission() {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -66,22 +81,31 @@ export default function App(props) {
       />
     );
   } else {
-    if (firstUse) {
+    if (!userAuth) {
       return (
-        <View style={styles.genderSelectionContainer}>
-          <TouchableOpacity style={styles.woman} onPress={handleSelectGender("F")}>
-            <View>
-              <Text>Woman</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.man} onPress={handleSelectGender("M")}>
-            <View>
-              <Text>Man</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       )
     }
+    // if (firstUse) {
+    //   return (
+    //     <View style={styles.genderSelectionContainer}>
+    //       <TouchableOpacity style={styles.woman} onPress={handleSelectGender("F")}>
+    //         <View>
+    //           <Text>Woman</Text>
+    //         </View>
+    //       </TouchableOpacity>
+    //       <TouchableOpacity style={styles.man} onPress={handleSelectGender("M")}>
+    //         <View>
+    //           <Text>Man</Text>
+    //         </View>
+    //       </TouchableOpacity>
+    //     </View>
+    //   )
+    // }
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
