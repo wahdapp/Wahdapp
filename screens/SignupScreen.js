@@ -1,38 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, Dimensions, Animated } from 'react-native';
-import { Form, Item, Input, Label, Button, Text, Toast } from 'native-base';
-import AnimatedButton from '../components/AnimatedButton';
-import { auth } from '../firebase';
+import React from 'react';
+import { StyleSheet, Platform, View, Image, Dimensions } from 'react-native';
+import { Form, Item, Input, Label, Button, Text } from 'native-base';
 
-export default function LoginScreen({ navigation: { navigate } }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  async function handleLogin() {
-    if (!email || !password) {
-      Toast.show({
-        text: "Email or password is missing",
-        buttonText: "OK",
-        type: "danger"
-      });
-      return;
-    }
-    try {
-      setLoading(true);
-      await auth.signInWithEmailAndPassword(email, password);
-      setLoading(false);
-    }
-    catch (e) {
-      setLoading(false);
-      Toast.show({
-        text: e.message,
-        buttonText: "OK",
-        type: "danger"
-      });
-    }
-  }
-
+export default function SignupScreen({ navigation: { navigate } }) {
   return (
     <View style={styles.container}>
       <View style={styles.loginContainer}>
@@ -45,24 +15,16 @@ export default function LoginScreen({ navigation: { navigate } }) {
         <Form style={styles.formContainer}>
           <Item floatingLabel>
             <Label>Email</Label>
-            <Input value={email} onChangeText={setEmail} />
+            <Input />
           </Item>
           <Item floatingLabel>
             <Label>Password</Label>
-            <Input value={password} onChangeText={setPassword} secureTextEntry={true} />
+            <Input />
           </Item>
-          <View style={styles.loginBtnContainer}>
-            <AnimatedButton
-              showLoading={loading}
-              width={150}
-              height={50}
-              title="Login"
-              titleFontSize={16}
-              titleColor="rgb(255,255,255)"
-              backgroundColor="rgb(29,18,121)"
-              borderRadius={25}
-              onPress={handleLogin}
-            />
+          <View style={styles.loginBtnContainer} s>
+            <Button rounded info style={styles.loginBtn}>
+              <Text>Login</Text>
+            </Button>
           </View>
 
           <View style={styles.signUpLabelContainer}>
@@ -70,7 +32,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
           </View>
 
           <View style={styles.loginBtnContainer} s>
-            <Button rounded info style={styles.loginBtn} onPress={() => navigate('Signup')}>
+            <Button rounded info style={styles.loginBtn} onPress={() => navigate('')}>
               <Text>Sign up</Text>
             </Button>
           </View>
@@ -86,7 +48,7 @@ const ScreenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#12D2AB',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     height: ScreenHeight,
     width: ScreenWidth,
@@ -120,7 +82,7 @@ const styles = StyleSheet.create({
   },
   signUpLabel: {
     fontSize: 14,
-    color: '#000',
+    color: '#fff',
     textAlign: 'center'
   },
   hyperlink: {

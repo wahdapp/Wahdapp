@@ -19,6 +19,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -83,11 +84,14 @@ export default function App(props) {
   } else {
     if (!userAuth) {
       return (
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <Root>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Signup" component={SignupScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Root>
       )
     }
     // if (firstUse) {
