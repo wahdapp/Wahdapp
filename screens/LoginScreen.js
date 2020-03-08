@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, Dimensions, Animated } from 'react-native';
+import { StyleSheet, Platform, View, Image, Dimensions } from 'react-native';
 import { Form, Item, Input, Label, Button, Text, Toast } from 'native-base';
 import AnimatedButton from '../components/AnimatedButton';
 import { auth } from '../firebase';
@@ -51,11 +51,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Label>Password</Label>
             <Input value={password} onChangeText={setPassword} secureTextEntry={true} />
           </Item>
+          <View style={styles.forgotPwdContainer}>
+            <Text styles={styles.forgotPwdText}>Forgot password</Text>
+          </View>
           <View style={styles.loginBtnContainer}>
             <AnimatedButton
               showLoading={loading}
               width={150}
-              height={50}
+              height={45}
               title="Login"
               titleFontSize={16}
               titleColor="rgb(255,255,255)"
@@ -115,6 +118,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   loginBtn: { flexDirection: 'column', width: 150 },
+  forgotPwdContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 10
+  },
+  forgotPwdText: {
+    color: '#000'
+  },
   signUpLabelContainer: {
     marginTop: 25,
   },

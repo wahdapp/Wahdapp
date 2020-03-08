@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, Animated, ActivityIndicator, View, Text } from 'react-native';
+import { Spinner } from 'native-base';
 
 export default function AnimatedButton(props) {
   const [loadingValue, setLoadingValue] = useState({
@@ -64,7 +65,7 @@ export default function AnimatedButton(props) {
   }
 
   function _renderIndicator() {
-    return <ActivityIndicator color={props.activityIndicatorColor} />;
+    return <Spinner color={props.activityIndicatorColor} />;
   }
 
   return (
