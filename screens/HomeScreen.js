@@ -40,53 +40,68 @@ const styles = StyleSheet.create({
 
 const mockData = [
   {
-    scheduleTime: 1585292895784,
-    timestamp: 1585292895784,
+    scheduleTime: '2020-03-27T17:48:23+08:00',
+    timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'fajr',
     join: 0,
-    max: 0,
-    lat: 0,
-    lon: 0,
-    id: 'KdjOAwjf02dkQ1Z5Lckfksaq'
+    lat: 39.8861116,
+    lon: 32.8454252,
+    id: 'KdjOAwjf02dkQ1Z5Lckfksaq',
+    inviter: {
+      id: 'KdjOAwjf',
+      name: 'Abdullah'
+    }
   },
   {
-    scheduleTime: 1585292895784,
-    timestamp: 1585292895784,
+    scheduleTime: '2020-03-27T17:48:23+08:00',
+    timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'dhuhr',
     join: 0,
-    max: 0,
-    lat: 0,
-    lon: 0,
-    id: 'Q1ZKdjjf02dk5LckfksaqOAw'
+    lat: 25.0574763,
+    lon: 121.5223977,
+    id: 'Q1ZKdjjf02dk5LckfksaqOAw',
+    inviter: {
+      id: 'Q1ZKdjjf',
+      name: 'Ali'
+    }
   },
   {
-    scheduleTime: 1585292895784,
-    timestamp: 1585292895784,
+    scheduleTime: '2020-03-27T17:48:23+08:00',
+    timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'asr',
     join: 0,
-    max: 0,
-    lat: 0,
-    lon: 0,
-    id: 'fks2dkQ1Z5LckaqKdjOAwjf0'
+    lat: 25.0574763,
+    lon: 121.5223977,
+    id: 'fks2dkQ1Z5LckaqKdjOAwjf0',
+    inviter: {
+      id: 'fks2dkQ1',
+      name: 'Amin'
+    }
   },
   {
-    scheduleTime: 1585292895784,
-    timestamp: 1585292895784,
+    scheduleTime: '2020-03-27T17:48:23+08:00',
+    timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'maghrib',
     join: 0,
-    max: 0,
-    lat: 0,
-    lon: 0,
-    id: 'K2kjdkQ1Z5LcOAwdf0jfksaq'
+    lat: 25.0574763,
+    lon: 121.5223977,
+    id: 'K2kjdkQ1Z5LcOAwdf0jfksaq',
+    inviter: {
+      id: 'K2kjdkQ1',
+      name: 'Omar'
+    }
   },
   {
-    scheduleTime: 1585292895784,
-    timestamp: 1585292895784,
+    scheduleTime: '2020-03-27T17:48:23+08:00',
+    timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'isha',
     join: 0,
-    max: 0,
-    lat: 0,
-    lon: 0,
-    id: 'd1Z5saqKLf02kQckfkdjOAwj'
+    lat: 25.0574763,
+    lon: 121.5223977,
+    id: 'd1Z5saqKLf02kQckfkdjOAwj',
+    inviter: {
+      id: 'd1Z5saqK',
+      name: 'Ibrahim'
+    }
   }
 ];

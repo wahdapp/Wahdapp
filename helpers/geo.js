@@ -1,4 +1,6 @@
-export default function calculateDistance(x, y) {
+import * as Location from 'expo-location';
+
+export function calculateDistance(x, y) {
   const R = 6371; // Radius of the earth in km
   const dLat = deg2rad(y.lat - x.lat);  // deg2rad below
   const dLon = deg2rad(y.lon - x.lon);
@@ -14,4 +16,21 @@ export default function calculateDistance(x, y) {
 
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
+}
+
+export async function getLatLong() {
+  try {
+    const position = await Location.getCurrentPositionAsync({});
+    return { lat: position.coords.latitude, lon: position.coords.longitude };
+  }
+  catch (e) {
+    throw e;
+  }
+}
+
+export function formatDistance(distance) {
+  if (distance < 1) {
+    return `${Math.floor(distance * 1000)} m`;
+  }
+  return `${distance.toFixed(2)} km`;
 }
