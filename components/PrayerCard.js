@@ -19,14 +19,16 @@ export default function PrayerCard(props) {
     }
   }
   return (
-    <Card style={styles.card}>
-      <CardItem cardBody={true} style={styles.imageWrapper}>
-        <Image source={getBackgroundImg()} style={styles.image} />
-      </CardItem>
-      <CardItem bordered style={styles.descriptionWrapper}>
-        <Text style={styles.descriptionTitle}>{prayer}</Text>
-      </CardItem>
-    </Card>
+    <View style={styles.cardWrapper}>
+      <Card style={styles.card}>
+        <CardItem cardBody={true} style={styles.imageWrapper}>
+          <Image source={getBackgroundImg()} style={styles.image} />
+        </CardItem>
+        <CardItem bordered style={styles.descriptionWrapper}>
+          <Text style={styles.descriptionTitle}>{prayer}</Text>
+        </CardItem>
+      </Card>
+    </View>
   )
 }
 
@@ -42,10 +44,11 @@ PrayerCard.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+  cardWrapper: {
     marginBottom: 20
+  },
+  card: {
+    borderRadius: 8
   },
   imageWrapper: {
     height: 200,

@@ -9,15 +9,13 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.topHeader}>
         <Text style={styles.headerText}>Nearby Prayers</Text>
       </View>
-      <SafeAreaView style={styles.prayerListWrapper}>
-        <PrayerCard prayer="fajr" />
+      <View style={styles.prayerListWrapper}>
         <FlatList
-          style={{ flex: 1, width: '100%', height: '100%' }}
           data={mockData}
           renderItem={({ item }) => <PrayerCard {...item} />}
           keyExtractor={item => item.id}
         />
-      </SafeAreaView>
+      </View>
     </View>
   )
 }
@@ -32,9 +30,10 @@ const styles = StyleSheet.create({
     color: '#7C7C7C'
   },
   prayerListWrapper: {
-    flex: 1,
-    marginTop: 15,
-    paddingHorizontal: 15
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    marginBottom: 120
   }
 })
 
