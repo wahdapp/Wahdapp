@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
@@ -23,6 +23,7 @@ export default function JamaatsScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const { prayer, time, description } = useSelector(state => state.invitationState);
+  const bs = useRef(null);
 
   const listItems = useMemo(() => [
     {
@@ -64,7 +65,6 @@ export default function JamaatsScreen({ navigation }) {
     }
   }
 
-  const bs = React.createRef();
   let currentSnap = 3;
 
   function openBottomSheet() {

@@ -1,75 +1,95 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
+import HomeScreen from '../screens/HomeScreen';
 import JamaatsScreen from '../screens/JamaatsScreen';
 import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
 import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
 import PrayersScreen from '../screens/PrayersScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
-});
+const Stack = createStackNavigator();
 
-const JamaatsStack = createStackNavigator(
-  {
-    Jamaats: JamaatsScreen,
-    PrayerSelection: PrayerSelectionScreen,
-    Description: DescriptionScreen
-  },
-  config
-);
+function HomeStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+    </Stack.Navigator>
+  )
+}
 
-JamaatsStack.navigationOptions = {
-  tabBarLabel: 'Jamaats',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
-  ),
-};
+function JamaatsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Jamaats" component={JamaatsScreen} />
+      <Stack.Screen name="PrayerSelection" component={PrayerSelectionScreen} />
+      <Stack.Screen name="Description" component={DescriptionScreen} />
+    </Stack.Navigator>
+  )
+}
 
-JamaatsStack.path = '';
+function PrayersStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Prayers" component={PrayersScreen} />
+    </Stack.Navigator>
+  )
+}
 
-const PrayersStack = createStackNavigator(
-  {
-    Prayers: PrayersScreen,
-  },
-  config
-);
+function SettingsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  )
+}
 
-PrayersStack.navigationOptions = {
-  tabBarLabel: 'Prayers',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
-  ),
-};
+const Tab = createBottomTabNavigator();
 
-PrayersStack.path = '';
+function Tabs() {
+  return (
+    <Tab.Navigator initialRouteName="Home" tabBarOptions={{ showLabel: false }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Jamaats"
+        component={JamaatsStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Prayers"
+        component={PrayersStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+          )
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
 
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen,
-  },
-  config
-);
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-};
-
-SettingsStack.path = '';
-
-const tabNavigator = createBottomTabNavigator({
-  JamaatsStack,
-  PrayersStack,
-  SettingsStack,
-});
-
-tabNavigator.path = '';
-
-export default tabNavigator;
+export default Tabs;

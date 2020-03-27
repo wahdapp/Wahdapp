@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({

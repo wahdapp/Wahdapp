@@ -4,6 +4,7 @@ import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Root } from "native-base";
+import { auth } from './firebase';
 import store from './store';
 import {
   Platform,
@@ -17,18 +18,33 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import AppNavigator from './navigation/AppNavigator';
 
+const Stack = createStackNavigator();
+
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
-  const [firstUse, setFirstUse] = useState(false);
-  const [isRetrievalComplete, setIsRetrievalComplete] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [userAuth, setUserAuth] = useState(null);
 
   useEffect(() => {
-    checkFirstUse();
     getLocationPermission();
+    authenticateUser();
   }, []);
+
+  function authenticateUser() {
+    auth.onAuthStateChanged(user => {
+      setIsAuthenticating(false);
+      console.log({ user })
+      setUserAuth(user);
+    });
+  }
 
   async function getLocationPermission() {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -38,26 +54,7 @@ export default function App(props) {
     }
   }
 
-  async function checkFirstUse() {
-    try {
-      const user = await AsyncStorage.getItem('user');
-      console.log({ user })
-      if (!user) {
-        setFirstUse(true);
-      }
-      setIsRetrievalComplete(true);
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  const handleSelectGender = (gender) => () => {
-    AsyncStorage.setItem('user', JSON.stringify({ gender }));
-    setFirstUse(false);
-  }
-
-  if (!isLoadingComplete && !props.skipLoadingScreen || !isRetrievalComplete) {
+  if (!isLoadingComplete && !props.skipLoadingScreen || isAuthenticating) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -65,34 +62,31 @@ export default function App(props) {
         onFinish={() => handleFinishLoading(setLoadingComplete)}
       />
     );
-  } else {
-    if (firstUse) {
-      return (
-        <View style={styles.genderSelectionContainer}>
-          <TouchableOpacity style={styles.woman} onPress={handleSelectGender("F")}>
-            <View>
-              <Text>Woman</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.man} onPress={handleSelectGender("M")}>
-            <View>
-              <Text>Man</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )
-    }
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <Provider store={store}>
-          <Root>
-            <AppNavigator />
-          </Root>
-        </Provider>
-      </View>
-    );
   }
+  
+  if (!userAuth) {
+    return (
+      <Root>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Root>
+    )
+  }
+
+  return (
+    <View style={styles.container}>
+      {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+      <Provider store={store}>
+        <Root>
+          <AppNavigator />
+        </Root>
+      </Provider>
+    </View>
+  );
 }
 
 async function loadResourcesAsync() {
