@@ -71,7 +71,6 @@ export default function PrayerCard({ navigate, ...props }) {
 PrayerCard.propTypes = {
   scheduleTime: PropTypes.string.isRequired,
   prayer: PropTypes.string.isRequired,
-  join: PropTypes.number.isRequired,
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
