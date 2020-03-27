@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Text from './Text';
+import { Text } from './Text';
 import { View, Card, CardItem, Left, Body, Right } from 'native-base';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA } from '../assets/images';
 import moment from 'moment';

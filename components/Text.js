@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text as DefaultText } from 'react-native';
 
-export default (props) => {
+export function Text(props) {
   return (
-    <Text {...props} style={[props.style, { fontFamily: 'Sen' }]} />
+    <DefaultText {...props} style={[props.style, { fontFamily: 'Sen' }]} />
   );
 }
 
 export function BoldText(props) {
   return (
-    <Text {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />
+    <DefaultText {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />
   );
 }
