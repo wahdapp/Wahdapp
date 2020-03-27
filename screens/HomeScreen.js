@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.prayerListWrapper}>
         <FlatList
           data={mockData}
-          renderItem={({ item }) => <PrayerCard {...item} />}
+          renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
           keyExtractor={item => item.id}
         />
       </View>

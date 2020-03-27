@@ -1,10 +1,11 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
+import PrayerDetailScreen from '../screens/Prayer/PrayerDetailScreen';
 import JamaatsScreen from '../screens/JamaatsScreen';
 import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
 import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
@@ -17,6 +18,10 @@ function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="PrayerDetail"
+        component={PrayerDetailScreen}
+      />
     </Stack.Navigator>
   )
 }
@@ -47,11 +52,15 @@ function SettingsStack() {
   )
 }
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
   return (
-    <Tab.Navigator initialRouteName="Home" tabBarOptions={{ showLabel: false }}>
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions={{ showLabel: false }}
+      activeColor="#fff"
+      barStyle={{ backgroundColor: '#589e61' }}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
@@ -71,11 +80,11 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="Prayers"
+        name="Notifications"
         component={PrayersStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
           )
         }}
       />

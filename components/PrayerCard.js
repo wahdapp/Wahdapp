@@ -6,7 +6,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { getLatLong, calculateDistance, formatDistance } from '../helpers/geo';
 
-export default function PrayerCard(props) {
+export default function PrayerCard({ navigate, ...props}) {
   const [distance, setDistance] = useState(null);
   const { prayer, timestamp, scheduleTime, lat, lon, join } = props;
 
@@ -29,9 +29,14 @@ export default function PrayerCard(props) {
       default: return MAGHRIB;
     }
   }
+
+  function handleCardPress() {
+    navigate('PrayerDetail', props);
+  }
+
   return (
     <View style={styles.cardWrapper}>
-      <TouchableOpacity onPress={() => console.log(props.prayer)}>
+      <TouchableOpacity onPress={handleCardPress}>
         <Card style={styles.card} pointerEvents="none">
           <CardItem cardBody={true} style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />

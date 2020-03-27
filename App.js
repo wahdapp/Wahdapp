@@ -133,12 +133,4 @@ const styles = StyleSheet.create({
     height: ScreenHeight,
     width: ScreenWidth
   },
-  woman: {
-    width: '50%',
-    backgroundColor: '#ea6ecd'
-  },
-  man: {
-    width: '50%',
-    backgroundColor: '#50a1b7'
-  }
 });
