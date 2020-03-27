@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View, Text } from 'native-base';
-import PrayerCard from '../components/PrayerCard';
+import { View } from 'native-base';
+import { PrayerCard, Text } from '../components';
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -43,14 +43,31 @@ const mockData = [
     scheduleTime: '2020-03-27T17:48:23+08:00',
     timestamp: '2020-03-27T17:48:23+08:00',
     prayer: 'fajr',
-    join: 0,
     lat: 39.8861116,
     lon: 32.8454252,
     id: 'KdjOAwjf02dkQ1Z5Lckfksaq',
     inviter: {
       id: 'KdjOAwjf',
-      name: 'Abdullah'
-    }
+      name: 'Abdullah',
+      gender: 'M'
+    },
+    participants: [
+      {
+        id: 'Q1ZKdjjf',
+        name: 'Ali',
+        gender: 'M'
+      },
+      {
+        id: 'fks2dkQ1',
+        name: 'Amin',
+        gender: 'M'
+      },
+      {
+        id: 'PwqAfjzl',
+        name: 'Aisha',
+        gender: 'F'
+      }
+    ]
   },
   {
     scheduleTime: '2020-03-27T17:48:23+08:00',
@@ -62,7 +79,8 @@ const mockData = [
     id: 'Q1ZKdjjf02dk5LckfksaqOAw',
     inviter: {
       id: 'Q1ZKdjjf',
-      name: 'Ali'
+      name: 'Ali',
+      gender: 'M'
     }
   },
   {
@@ -75,7 +93,8 @@ const mockData = [
     id: 'fks2dkQ1Z5LckaqKdjOAwjf0',
     inviter: {
       id: 'fks2dkQ1',
-      name: 'Amin'
+      name: 'Amin',
+      gender: 'M'
     }
   },
   {
@@ -88,7 +107,8 @@ const mockData = [
     id: 'K2kjdkQ1Z5LcOAwdf0jfksaq',
     inviter: {
       id: 'K2kjdkQ1',
-      name: 'Omar'
+      name: 'Omar',
+      gender: 'M'
     }
   },
   {
@@ -101,7 +121,8 @@ const mockData = [
     id: 'd1Z5saqKLf02kQckfkdjOAwj',
     inviter: {
       id: 'd1Z5saqK',
-      name: 'Ibrahim'
+      name: 'Ibrahim',
+      gender: 'M'
     }
   }
 ];

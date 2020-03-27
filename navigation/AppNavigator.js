@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createSwitchNavigator } from '@react-navigation/compat';
+import { getLatLong } from '../helpers/geo';
+import { setLocation } from '../actions';
 
 import MainTabNavigator from './MainTabNavigator';
 
-export default () => (
-  <NavigationContainer>
-    <MainTabNavigator />
-  </NavigationContainer>
-)
+export default () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  async function getLocation() {
+    const location = await getLatLong();
+    dispatch(setLocation(location));
+  }
+
+  return (
+    <NavigationContainer>
+      <MainTabNavigator />
+    </NavigationContainer>
+  )
+}

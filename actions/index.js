@@ -20,3 +20,10 @@ export function setDescription(payload) {
     payload
   }
 };
+
+export function setLocation(payload) {
+  return {
+    type: actions.SET_LOCATION,
+    payload
+  }
+};

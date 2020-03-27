@@ -6,3 +6,6 @@ export const MAGHRIB = require('./maghrib.jpg');
 export const ISHA = require('./isha.jpg');
 
 export const MARKER = require('./marker.png');
+
+export const MAN_AVATAR = require('./man-avatar.png');
+export const WOMAN_AVATAR = require('./woman-avatar.png');

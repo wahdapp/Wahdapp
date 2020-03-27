@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { View, Text, Card, CardItem, Left, Body, Right } from 'native-base';
+import Text from './Text';
+import { View, Card, CardItem, Left, Body, Right } from 'native-base';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA } from '../assets/images';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { getLatLong, calculateDistance, formatDistance } from '../helpers/geo';
+import { calculateDistance, formatDistance } from '../helpers/geo';
 
-export default function PrayerCard({ navigate, ...props}) {
+export default function PrayerCard({ navigate, ...props }) {
   const [distance, setDistance] = useState(null);
-  const { prayer, timestamp, scheduleTime, lat, lon, join } = props;
+  const location = useSelector(state => state.locationState);
+  const { prayer, scheduleTime, lat, lon, participants } = props;
 
   useEffect(() => {
     getDistance();
-  }, []);
+  }, [location]);
 
   async function getDistance() {
-    const location = await getLatLong();
-    setDistance(calculateDistance({ lat, lon }, { lat: location.lat, lon: location.lon }));
+    if (location.lat && location.lon) {
+      setDistance(calculateDistance({ lat, lon }, { lat: location.lat, lon: location.lon }));
+    }
   }
 
   function getBackgroundImg() {
@@ -53,8 +57,8 @@ export default function PrayerCard({ navigate, ...props}) {
             <View>
               <Text style={styles.invited}>invited by {props.inviter.name}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Left><Text>{join} participating</Text></Left>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+              <Left><Text>{participants.length} participating</Text></Left>
               {distance && <Right><Text>{formatDistance(distance)}</Text></Right>}
             </View>
           </CardItem>
@@ -66,7 +70,6 @@ export default function PrayerCard({ navigate, ...props}) {
 
 PrayerCard.propTypes = {
   scheduleTime: PropTypes.string.isRequired,
-  timestamp: PropTypes.string.isRequired,
   prayer: PropTypes.string.isRequired,
   join: PropTypes.number.isRequired,
   lat: PropTypes.number.isRequired,
@@ -74,20 +77,19 @@ PrayerCard.propTypes = {
   id: PropTypes.string.isRequired,
   inviter: PropTypes.exact({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    gender: PropTypes.string.isRequired
   })
 }
 
 PrayerCard.defaultProps = {
   scheduleTime: 1585292895784,
-  timestamp: 1585292895784,
   prayer: 'isha',
-  join: 0,
-  max: 0,
   lat: 0,
   lon: 0,
   id: 'abc',
-  inviter: {}
+  inviter: {},
+  participants: []
 }
 
 const styles = StyleSheet.create({

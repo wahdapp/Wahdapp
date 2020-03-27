@@ -98,6 +98,8 @@ async function loadResourcesAsync() {
     Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      'Sen': require('./assets/fonts/Sen-Regular.ttf'),
+      'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
       // This is the font that we are using for our tab bar
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
