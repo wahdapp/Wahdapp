@@ -56,7 +56,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         prayer: selectedPrayer,
         description,
         geolocation: new GeoPoint(latitude, longitude),
-        inviter: auth.currentUser.uid,
+        inviter: db.doc('users/' + auth.currentUser.uid).ref,
         participants: [],
         geohash: geohash.encode(latitude, longitude)
       })

@@ -11,7 +11,7 @@ import { calculateDistance, formatDistance } from '../helpers/geo';
 export default function PrayerCard({ navigate, ...props }) {
   const [distance, setDistance] = useState(null);
   const location = useSelector(state => state.locationState);
-  const { prayer, scheduleTime, geolocation, participants } = props;
+  const { prayer, scheduleTime, geolocation, participants, inviter } = props;
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
 
@@ -20,9 +20,7 @@ export default function PrayerCard({ navigate, ...props }) {
   }, [location]);
 
   async function getDistance() {
-    if (location.lat && location.lon) {
-      setDistance(calculateDistance({ lat, lon }, { lat: location.lat, lon: location.lon }));
-    }
+    setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
   }
 
   function getBackgroundImg() {
@@ -57,7 +55,7 @@ export default function PrayerCard({ navigate, ...props }) {
               </Right>
             </View>
             <View>
-              <Text style={styles.invited}>invited by {props.inviter.name}</Text>
+              <Text style={styles.invited}>invited by {inviter.fullName}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
               <Left><Text>{participants.length} participating</Text></Left>
@@ -75,7 +73,8 @@ PrayerCard.propTypes = {
   timestamp: PropTypes.string.isRequired,
   prayer: PropTypes.string.isRequired,
   geohash: PropTypes.string.isRequired,
-  inviter: PropTypes.string.isRequired,
+  inviter: PropTypes.any.isRequired,
+  inviterID: PropTypes.string.isRequired,
   geolocation: PropTypes.any.isRequired
 }
 

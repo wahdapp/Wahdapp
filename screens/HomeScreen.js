@@ -7,17 +7,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
 import { getGeohashRange } from 'helpers/geo';
+import moment from 'moment';
 
 export default function HomeScreen({ navigation }) {
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
 
   useEffect(() => {
     if (!isEmpty(filter) && !isEmpty(location)) {
       // fetch nearby prayers according to filter preference
-      fetchNearbyPrayers();
+      fetchNearbyPrayers().then(() => setIsFetching(false));
     }
   }, [filter, location]);
 
@@ -25,17 +27,29 @@ export default function HomeScreen({ navigation }) {
     const { latitude, longitude } = location;
     const range = getGeohashRange(latitude, longitude, filter.distance);
     const prayersDoc = await db.collection('prayers')
-      .where("geohash", ">=", range.lower)
-      .where("geohash", "<=", range.upper)
+      .where('geohash', '>=', range.lower)
+      .where('geohash', '<=', range.upper)
       .get();
 
     const prayers = [];
+
     prayersDoc.forEach(doc => {
-      prayers.push(doc.data());
+      if (
+        moment().isBefore(moment(doc.data().scheduleTime)) && // filter by schedule
+        doc.data().participants.length >= filter.minimumParticipants // filter participants number
+      ) {
+        prayers.push({ ...doc.data(), id: doc.id });
+      }
     });
 
-    setNearbyPrayers(prayers);
-    setIsFetching(false);
+    if (prayers.length) {
+
+      const inviters = prayers.map(p => p.inviter);
+      const ids = inviters.map(i => i.id);
+      const promises = inviters.map(i => i.get());
+      const docs = await Promise.all(promises);
+      setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+    }
   }
 
   return (
@@ -53,16 +67,24 @@ export default function HomeScreen({ navigation }) {
             <View>
               <Text>Loading</Text>
             </View>
-          ) : nearbyPrayers.length ? (
+          ) : (
             <FlatList
+              style={{ height: '100%' }}
               data={nearbyPrayers}
               renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
+              keyExtractor={item => item.id}
+              onRefresh={() => {
+                setIsRefreshing(true)
+                fetchNearbyPrayers().then(() => setIsRefreshing(false));
+              }}
+              refreshing={isRefreshing}
+              ListEmptyComponent={() => (
+                <View>
+                  <Text>No prayer found</Text>
+                </View>
+              )}
             />
-          ) : (
-              <View>
-                <Text>No prayer found</Text>
-              </View>
-            )
+          )
         }
       </View>
     </View>
@@ -81,6 +103,7 @@ const styles = StyleSheet.create({
     color: '#7C7C7C'
   },
   prayerListWrapper: {
+    height: '100%',
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
