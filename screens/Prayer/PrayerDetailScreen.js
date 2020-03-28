@@ -13,7 +13,8 @@ import { auth } from 'firebaseDB';
 const ScreenHeight = Dimensions.get("window").height;
 
 export default function PrayerDetailScreen({ route, navigation }) {
-  const { geolocation, prayer, scheduleTime, participants, inviter, inviterID, description } = route.params;
+  console.log(route.params)
+  const { geolocation, prayer, scheduleTime, participants, inviter, inviterID, description, guests } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
   const [distance, setDistance] = useState(null);
@@ -78,7 +79,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
             {auth.currentUser.uid === inviterID ? (
               <Button rounded
                 style={{ width: 100, justifyContent: 'center', backgroundColor: '#c4302b' }}
-                // onPress={handleJoin}
+              // onPress={handleJoin}
               >
                 <Text style={{ color: '#fff' }}>CANCEL</Text>
               </Button>
@@ -123,6 +124,21 @@ export default function PrayerDetailScreen({ route, navigation }) {
                 horizontal={true}
                 data={currentParticipants}
                 renderItem={({ item }) => <UserItem item={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Left>
+          </View>
+        )}
+
+        {(guests.male > 0 || guests.female > 0) && (
+          <View style={styles.detailSection}>
+            <Left>
+              <BoldText style={styles.sectionHeader}>Guests ({guests.male + guests.female})</BoldText>
+              <FlatList
+                style={{ width: "100%" }}
+                horizontal={true}
+                data={[...new Array(guests.male).fill('M'), ...new Array(guests.female).fill('F')]}
+                renderItem={({ item }) => <UserItem item={{ gender: item, fullName: 'Guest' }} />}
                 keyExtractor={item => item.id}
               />
             </Left>

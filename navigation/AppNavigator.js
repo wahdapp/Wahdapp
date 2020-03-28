@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { AsyncStorage } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { getLatLong } from '../helpers/geo';
@@ -27,10 +28,9 @@ export default ({ user }) => {
   }
 
   async function initFilter(userData) {
-    const filterDoc = await db.collection('filters').doc(user.uid).get();
-    // query user filter preference
-    if (filterDoc.data()) {
-      dispatch(setFilter(filterDoc.data()));
+    const prayersFilter = await AsyncStorage.getItem('prayersFilter');
+    if (prayersFilter) {
+      dispatch(setFilter(JSON.parse(prayersFilter)));
     }
     else {
       // initialize according to user's gender

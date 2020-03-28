@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { View, Button } from 'native-base';
+import { StyleSheet, FlatList, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
+import { View } from 'native-base';
 import { PrayerCard, Text } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
@@ -18,12 +18,17 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     if (!isEmpty(filter) && !isEmpty(location)) {
+      setIsRefreshing(true);
       // fetch nearby prayers according to filter preference
-      fetchNearbyPrayers().then(() => setIsFetching(false));
+      fetchNearbyPrayers().then(() => {
+        setIsFetching(false);
+        setIsRefreshing(false);
+      });
     }
   }, [filter, location]);
 
   async function fetchNearbyPrayers() {
+    console.log({ distance: filter.distance })
     const { latitude, longitude } = location;
     const range = getGeohashRange(latitude, longitude, filter.distance);
     const prayersDoc = await db.collection('prayers')
@@ -36,7 +41,8 @@ export default function HomeScreen({ navigation }) {
     prayersDoc.forEach(doc => {
       if (
         moment().isBefore(moment(doc.data().scheduleTime)) && // filter by schedule
-        doc.data().participants.length >= filter.minimumParticipants // filter participants number
+        doc.data().participants.length >= filter.minimumParticipants && // filter participants number
+        filter.selectedPrayers.includes(doc.data().prayer) // filter by prayer
       ) {
         prayers.push({ ...doc.data(), id: doc.id });
       }
@@ -57,15 +63,15 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.topHeader}>
         <Ionicons size={24} />
         <Text style={styles.headerText}>Nearby Prayers</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Filter')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
           <Ionicons name={Platform.OS === 'ios' ? 'ios-funnel' : 'md-funnel'} size={24} />
         </TouchableOpacity>
       </View>
-      <View style={styles.prayerListWrapper}>
+      <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
-            <View>
-              <Text>Loading</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator color="#000" size="large" />
             </View>
           ) : (
             <FlatList
@@ -87,7 +93,7 @@ export default function HomeScreen({ navigation }) {
           )
         }
       </View>
-    </View>
+    </View >
   )
 }
 
@@ -103,96 +109,9 @@ const styles = StyleSheet.create({
     color: '#7C7C7C'
   },
   prayerListWrapper: {
-    height: '100%',
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     marginBottom: 120
   }
 })
-
-
-const mockData = [
-  {
-    scheduleTime: '2020-03-27T17:48:23+08:00',
-    timestamp: '2020-03-27T17:48:23+08:00',
-    prayer: 'fajr',
-    lat: 39.8861116,
-    lon: 32.8454252,
-    id: 'KdjOAwjf02dkQ1Z5Lckfksaq',
-    inviter: {
-      id: 'KdjOAwjf',
-      name: 'Abdullah ibn Yasir',
-      gender: 'M'
-    },
-    participants: [
-      {
-        id: 'Q1ZKdjjf',
-        name: 'Ali Khan',
-        gender: 'M'
-      },
-      {
-        id: 'fks2dkQ1',
-        name: 'Amin',
-        gender: 'M'
-      },
-      {
-        id: 'PwqAfjzl',
-        name: 'Aisha',
-        gender: 'F'
-      }
-    ]
-  },
-  {
-    scheduleTime: '2020-03-27T17:48:23+08:00',
-    timestamp: '2020-03-27T17:48:23+08:00',
-    prayer: 'dhuhr',
-    lat: 25.0574763,
-    lon: 121.5223977,
-    id: 'Q1ZKdjjf02dk5LckfksaqOAw',
-    inviter: {
-      id: 'Q1ZKdjjf',
-      name: 'Ali',
-      gender: 'M'
-    }
-  },
-  {
-    scheduleTime: '2020-03-27T17:48:23+08:00',
-    timestamp: '2020-03-27T17:48:23+08:00',
-    prayer: 'asr',
-    lat: 25.0574763,
-    lon: 121.5223977,
-    id: 'fks2dkQ1Z5LckaqKdjOAwjf0',
-    inviter: {
-      id: 'fks2dkQ1',
-      name: 'Amin',
-      gender: 'M'
-    }
-  },
-  {
-    scheduleTime: '2020-03-27T17:48:23+08:00',
-    timestamp: '2020-03-27T17:48:23+08:00',
-    prayer: 'maghrib',
-    lat: 25.0574763,
-    lon: 121.5223977,
-    id: 'K2kjdkQ1Z5LcOAwdf0jfksaq',
-    inviter: {
-      id: 'K2kjdkQ1',
-      name: 'Omar',
-      gender: 'M'
-    }
-  },
-  {
-    scheduleTime: '2020-03-27T17:48:23+08:00',
-    timestamp: '2020-03-27T17:48:23+08:00',
-    prayer: 'isha',
-    lat: 25.0574763,
-    lon: 121.5223977,
-    id: 'd1Z5saqKLf02kQckfkdjOAwj',
-    inviter: {
-      id: 'd1Z5saqK',
-      name: 'Ibrahim',
-      gender: 'M'
-    }
-  }
-];

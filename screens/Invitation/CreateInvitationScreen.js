@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import TimePicker from "react-native-24h-timepicker";
-import { View, Left, Button, Toast, Textarea, DatePicker } from 'native-base';
+import { View, Left, Right, Button, Toast, Textarea, DatePicker } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -15,6 +15,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(null);
+  const [male, setMale] = useState(0);
+  const [female, setFemale] = useState(0);
   const user = useSelector(state => state.userState);
   const timePickerRef = useRef(null);
 
@@ -31,6 +33,25 @@ export default function CreateInvitationScreen({ route, navigation }) {
     console.log({ hour, minute })
     setTime({ hour, minute });
     timePickerRef.current.close();
+  }
+
+  function handleOperation(gender, operator) {
+    if (gender === 'M') {
+      if (operator === '+') {
+        setMale(prev => prev + 1);
+      }
+      else if (male > 0) {
+        setMale(prev => prev - 1);
+      }
+    }
+    else {
+      if (operator === '+') {
+        setFemale(prev => prev + 1);
+      }
+      else if (male > 0) {
+        setFemale(prev => prev - 1);
+      }
+    }
   }
 
   function submit() {
@@ -56,26 +77,20 @@ export default function CreateInvitationScreen({ route, navigation }) {
         prayer: selectedPrayer,
         description,
         geolocation: new GeoPoint(latitude, longitude),
-        inviter: db.doc('users/' + auth.currentUser.uid).ref,
+        inviter: db.doc('users/' + auth.currentUser.uid),
         participants: [],
-        geohash: geohash.encode(latitude, longitude)
+        geohash: geohash.encode(latitude, longitude),
+        guests: {
+          male,
+          female
+        }
       })
-
-      // db.ref('prayers').push({
-      //   scheduleTime: formattedSchedule,
-      //   timestamp: now.format(),
-      //   prayer: selectedPrayer,
-      //   description,
-      //   latitude,
-      //   longitude,
-      //   inviter: auth.currentUser.uid,
-      //   participants: []
-      // });
 
       navigation.goBack();
     }
     catch (e) {
       if (e.message) {
+        console.error(e.message);
         Toast.show({
           text: e.message,
           buttonText: 'OK',
@@ -89,7 +104,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.topHeader}>
         <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={24} />
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={Platform.OS === 'ios' ? 36 : 24} />
         </TouchableOpacity>
         <Text style={styles.header}>Invite Prayer</Text>
         <Ionicons size={24} />
@@ -113,6 +128,42 @@ export default function CreateInvitationScreen({ route, navigation }) {
               ))}
             </View>
           </Left>
+        </View>
+
+        <View style={styles.detailSection}>
+          <Left>
+            <BoldText style={styles.sectionHeader}>Participants:</BoldText>
+          </Left>
+        </View>
+        <View style={styles.participantsSection}>
+          <View style={styles.participantsRow}>
+            <View>
+              <Text style={styles.sectionSubHeader}>Male</Text>
+            </View>
+            <View style={styles.counter}>
+              <Button style={styles.operationBtn} onPress={() => handleOperation('M', '-')}>
+                <Text style={styles.operationText}>-</Text>
+              </Button>
+              <Text style={{ minWidth: 30, textAlign: 'center' }}>{male}</Text>
+              <Button style={styles.operationBtn} onPress={() => handleOperation('M', '+')}>
+                <Text style={styles.operationText}>+</Text>
+              </Button>
+            </View>
+          </View>
+          <View style={styles.participantsRow}>
+            <View>
+              <Text style={styles.sectionSubHeader}>Female</Text>
+            </View>
+            <View style={styles.counter}>
+              <Button style={styles.operationBtn} onPress={() => handleOperation('F', '-')}>
+                <Text style={styles.operationText}>-</Text>
+              </Button>
+              <Text style={{ minWidth: 30, textAlign: 'center' }}>{female}</Text>
+              <Button style={styles.operationBtn} onPress={() => handleOperation('F', '+')}>
+                <Text style={styles.operationText}>+</Text>
+              </Button>
+            </View>
+          </View>
         </View>
 
         <View style={styles.detailSection}>
@@ -192,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: 80,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     marginBottom: 15,
     marginRight: 20
   },
@@ -205,6 +256,23 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  participantsSection: {
+    paddingHorizontal: 15,
+  },
+  participantsRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  counter: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  numberText: {
+    marginHorizontal: 10
   },
   sectionHeader: {
     fontSize: 16,
@@ -248,5 +316,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: '#7C7C7C',
     borderWidth: 1
+  },
+  operationBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 45,
+    height: 45,
+    backgroundColor: '#fff',
+    borderColor: '#7C7C7C',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 100,
+    marginHorizontal: 10
+  },
+  operationText: {
+    fontSize: 14
   }
 })

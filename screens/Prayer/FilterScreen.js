@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage } from 'react-native';
 import { View, Left, Button, CheckBox, Right } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { fardhs } from 'constants/prayers';
+import { setFilter } from 'actions';
+import isEmpty from 'lodash/isEmpty';
 
 export default function FilterScreen({ route, navigation }) {
+  const filter = useSelector(state => state.filterState);
   const [selectedPrayers, setSelectedPrayers] = useState(fardhs);
   const [distance, setDistance] = useState(3);
   const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
   const [minimumParticipants, setMinimumParticipants] = useState(user.gender === 'M' ? 0 : 2);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isEmpty(filter)) {
+      setSelectedPrayers(filter.selectedPrayers);
+      setDistance(filter.distance);
+      setMinimumParticipants(filter.minimumParticipants);
+      setSameGender(filter.sameGender);
+    }
+  }, [filter]);
 
   function resetFilter() {
     setSelectedPrayers(fardhs);
@@ -20,8 +34,17 @@ export default function FilterScreen({ route, navigation }) {
     setSameGender(false)
   }
 
-  function applyFilter() {
-
+  async function applyFilter() {
+    const { setIsRefreshing, fetchNearbyPrayers } = route.params;
+    const prayersFilter = {
+      selectedPrayers,
+      distance,
+      minimumParticipants,
+      sameGender
+    };
+    await AsyncStorage.setItem('prayersFilter', JSON.stringify(prayersFilter));
+    dispatch(setFilter(prayersFilter));
+    
     navigation.goBack();
   }
 
@@ -38,7 +61,7 @@ export default function FilterScreen({ route, navigation }) {
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.topHeader}>
         <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={24} />
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={Platform.OS === 'ios' ? 36 : 24} />
         </TouchableOpacity>
         <Text style={styles.header}>Filter</Text>
         <TouchableOpacity onPress={resetFilter} style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -136,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: 80,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     marginBottom: 15,
     marginRight: 20
   },

@@ -13,7 +13,8 @@ module.exports = function(api) {
             firebaseDB: './firebase',
             helpers: './helpers',
             reducers: './reducers',
-            screens: './screens'
+            screens: './screens',
+            actions: './actions'
           },
         },
       ],
