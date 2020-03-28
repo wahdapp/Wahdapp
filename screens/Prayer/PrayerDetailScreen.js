@@ -93,6 +93,7 @@ Hope to see you soon Insha Allah!
           <Left>
             <BoldText style={styles.sectionHeader}>Participants ({participants.length})</BoldText>
             <FlatList
+              style={{ width: "100%" }}
               horizontal={true}
               data={participants}
               renderItem={({ item }) => <UserItem item={item} />}
@@ -127,7 +128,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    fontSize: 24,
+    fontSize: 18,
+    color: '#7C7C7C',
     textTransform: 'capitalize'
   },
   sectionWrapper: {
@@ -159,7 +161,8 @@ const styles = StyleSheet.create({
   },
   userName: {
     marginTop: 5,
-    fontSize: 16,
+    fontSize: 12,
+    flexWrap: 'wrap',
     color: '#000'
   }
 })

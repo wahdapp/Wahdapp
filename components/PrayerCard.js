@@ -57,7 +57,7 @@ export default function PrayerCard({ navigate, ...props }) {
             <View>
               <Text style={styles.invited}>invited by {props.inviter.name}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
               <Left><Text>{participants.length} participating</Text></Left>
               {distance && <Right><Text>{formatDistance(distance)}</Text></Right>}
             </View>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8
   },
   descriptionWrapper: {
-    height: 100,
+    minHeight: 100,
     paddingHorizontal: 15,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,

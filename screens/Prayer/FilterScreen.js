@@ -15,8 +15,6 @@ export default function FilterScreen({ route, navigation }) {
 
   function resetFilter() {
     setSelectedPrayers(prayerList);
-    setDistance(3);
-    setMinimumParticipants(user.gender === 'M' ? 0 : 2);
   }
 
   function applyFilter() {
@@ -55,7 +53,7 @@ export default function FilterScreen({ route, navigation }) {
                 <Button block rounded success key={i}
                   bordered={!selectedPrayers.includes(prayer)}
                   onPress={() => handlePrayerClick(prayer)}
-                  style={{ justifyContent: 'center', alignItems: 'center', minWidth: 80, marginBottom: 15, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2 }}
+                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2 }}
                 >
                   <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#000' }}>{prayer}</Text>
                 </Button>
@@ -70,9 +68,9 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={1}
-              value={distance}
+              value={3}
               step={1}
-              maximumValue={10}
+              maximumValue={50}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
               onValueChange={setDistance}
@@ -86,7 +84,7 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={user.gender === 'M' ? 0 : 2}
-              value={minimumParticipants}
+              value={user.gender === 'M' ? 0 : 2}
               step={1}
               maximumValue={50}
               minimumTrackTintColor="#000"
@@ -98,7 +96,6 @@ export default function FilterScreen({ route, navigation }) {
 
         <View style={styles.applySection}>
           <Button block rounded success style={styles.applyBtn}>
-            <Ionicons style={{ marginRight: 10 }} name={Platform.OS === 'ios' ? 'ios-checkmark' : 'md-checkmark'} size={24} color="#fff" />
             <Text style={{ color: '#fff', fontSize: 18 }}>APPLY</Text>
           </Button>
         </View>
@@ -115,8 +112,17 @@ const styles = StyleSheet.create({
     padding: 20
   },
   header: {
-    fontSize: 24,
+    fontSize: 18,
+    color: '#7C7C7C',
     textTransform: 'capitalize'
+  },
+  prayerBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 80,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+    marginRight: 20
   },
   line: {
     height: 1,
@@ -137,7 +143,7 @@ const styles = StyleSheet.create({
   },
   prayerList: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexWrap: 'wrap',
     marginTop: 15
   },
