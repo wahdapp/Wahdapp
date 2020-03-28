@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'react-native';
-import { View, Left, Button, Right, Textarea } from 'native-base';
+import TimePicker from "react-native-24h-timepicker";
+import { View, Left, Button, Toast, Textarea, DatePicker } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
+import moment from 'moment';
+import { db, auth } from 'firebaseDB';
 
 const prayerList = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const [selectedPrayer, setSelectedPrayer] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(null);
   const user = useSelector(state => state.userState);
+  const timePickerRef = useRef(null);
 
   function handlePrayerClick(prayer) {
     if (selectedPrayer === prayer) {
@@ -17,6 +24,53 @@ export default function CreateInvitationScreen({ route, navigation }) {
     }
     else {
       setSelectedPrayer(prayer);
+    }
+  }
+
+  function handlePickerConfirm(hour, minute) {
+    console.log({ hour, minute })
+    setTime({ hour, minute });
+    timePickerRef.current.close();
+  }
+
+  function submit() {
+    try {
+      // validate date time
+      const now = moment();
+      const formattedDate = moment(date).format('YYYY-DD-MM');
+      const schedule = moment(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-DD-MM HH:mm');
+      const formattedSchedule = schedule.format();
+
+      console.log({ formattedSchedule })
+      console.log(route.params)
+
+      if (now > schedule) {
+        throw { message: 'Prayer time cannot be before now' };
+      }
+
+      const { latitude, longitude } = route.params;
+
+      db.ref('prayers').push({
+        scheduleTime: formattedSchedule,
+        timestamp: now.format(),
+        prayer: selectedPrayer,
+        description,
+        latitude,
+        longitude,
+        inviter: auth.currentUser.uid,
+        participants: []
+      });
+
+      navigation.goBack();
+    }
+    catch (e) {
+      if (e.message) {
+        Toast.show({
+          text: e.message,
+          buttonText: 'OK',
+          type: 'danger'
+        });
+      }
     }
   }
 
@@ -53,12 +107,56 @@ export default function CreateInvitationScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>Description:</BoldText>
-            <Textarea style={{ width: '100%', borderRadius: 8 }} rowSpan={8} bordered placeholder="Please briefly describe the location" />
+            <Textarea
+              value={description}
+              onChangeText={setDescription}
+              style={{ width: '100%', borderRadius: 8 }}
+              rowSpan={8}
+              bordered
+              placeholder="Please briefly describe the location"
+            />
           </Left>
         </View>
 
+        <View style={styles.detailSection}>
+          <Left>
+            <BoldText style={styles.sectionHeader}>Date:</BoldText>
+            <View style={styles.datePicker}>
+              <DatePicker
+                defaultDate={new Date()}
+                minimumDate={new Date()}
+                locale={"en"}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText={moment(date).format('YYYY-MM-DD')}
+                textStyle={{ color: '#000', fontSize: 18 }}
+                placeHolderTextStyle={{ color: "#000" }}
+                onDateChange={setDate}
+                disabled={false}
+              />
+            </View>
+          </Left>
+        </View>
+
+        <View style={styles.detailSection}>
+          <Left>
+            <BoldText style={styles.sectionHeader}>Time:</BoldText>
+            <Button bordered
+              onPress={() => timePickerRef.current.open()}
+              style={styles.timePickerBtn}>
+              <Text style={{ fontSize: 18 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : 'Choose Time'}</Text>
+            </Button>
+          </Left>
+        </View>
+
+        <TimePicker
+          ref={timePickerRef}
+          onCancel={() => timePickerRef.current.close()}
+          onConfirm={handlePickerConfirm}
+        />
+
         <View style={styles.inviteSection}>
-          <Button block rounded success style={styles.inviteBtn}>
+          <Button block rounded success style={styles.inviteBtn} disabled={!selectedPrayer || !description || !time} onPress={submit}>
             <Text style={{ color: '#fff', fontSize: 18 }}>INVITE</Text>
           </Button>
         </View>
@@ -98,7 +196,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   sectionHeader: {
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 10
   },
   sectionSubHeader: {
     fontSize: 12,
@@ -120,7 +219,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 120,
-    paddingHorizontal: 10
+    minWidth: 150,
+    paddingHorizontal: 15
+  },
+  datePicker: {
+    borderStyle: 'solid',
+    borderColor: '#7C7C7C',
+    borderRadius: 8,
+    borderWidth: 1,
+    minWidth: 170,
+    alignItems: 'center'
+  },
+  timePickerBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 170,
+    paddingHorizontal: 10,
+    borderColor: '#7C7C7C',
+    borderWidth: 1
   }
 })

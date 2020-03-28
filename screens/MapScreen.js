@@ -93,7 +93,7 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleConfirm() {
-    navigation.navigate('CreateInvitation', { currentRegion });
+    navigation.navigate('CreateInvitation', currentRegion);
   }
 
   if (!currentRegion || !currentZoom) {
