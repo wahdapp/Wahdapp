@@ -91,7 +91,7 @@ Hope to see you soon Insha Allah!
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Participants</BoldText>
+            <BoldText style={styles.sectionHeader}>Participants ({participants.length})</BoldText>
             <FlatList
               horizontal={true}
               data={participants}

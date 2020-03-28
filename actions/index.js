@@ -27,3 +27,10 @@ export function setLocation(payload) {
     payload
   }
 };
+
+export function setUser(payload) {
+  return {
+    type: actions.SET_USER,
+    payload
+  }
+};

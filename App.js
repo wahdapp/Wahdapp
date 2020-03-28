@@ -82,7 +82,7 @@ export default function App(props) {
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
       <Provider store={store}>
         <Root>
-          <AppNavigator />
+          <AppNavigator user={userAuth} />
         </Root>
       </Provider>
     </View>

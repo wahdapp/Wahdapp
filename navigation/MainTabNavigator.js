@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import PrayerDetailScreen from '../screens/Prayer/PrayerDetailScreen';
+import FilterScreen from '../screens/Prayer/FilterScreen';
 import JamaatsScreen from '../screens/JamaatsScreen';
 import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
 import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
@@ -18,10 +19,8 @@ function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
-        name="PrayerDetail"
-        component={PrayerDetailScreen}
-      />
+      <Stack.Screen name="PrayerDetail" component={PrayerDetailScreen} />
+      <Stack.Screen name="Filter" component={FilterScreen} />
     </Stack.Navigator>
   )
 }

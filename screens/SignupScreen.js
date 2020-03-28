@@ -38,8 +38,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
       db.ref(`users/${authUser.user.uid}`).set({
         fullName,
         email,
-        gender,
-        createdTime: +new Date()
+        gender
       });
     }
     catch (e) {

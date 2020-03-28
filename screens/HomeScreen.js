@@ -1,13 +1,19 @@
-import React from 'react';
-import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View } from 'native-base';
+import React, { useState } from 'react';
+import { StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { View, Button } from 'native-base';
 import { PrayerCard, Text } from '../components';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
+
   return (
     <View>
       <View style={styles.topHeader}>
+        <Ionicons size={24} />
         <Text style={styles.headerText}>Nearby Prayers</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Filter')}>
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-funnel' : 'md-funnel'} size={24} />
+        </TouchableOpacity>
       </View>
       <View style={styles.prayerListWrapper}>
         <FlatList
@@ -22,8 +28,10 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   topHeader: {
-    paddingVertical: 20,
+    padding: 20,
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   headerText: {
     fontSize: 18,
@@ -48,13 +56,13 @@ const mockData = [
     id: 'KdjOAwjf02dkQ1Z5Lckfksaq',
     inviter: {
       id: 'KdjOAwjf',
-      name: 'Abdullah',
+      name: 'Abdullah ibn Yasir',
       gender: 'M'
     },
     participants: [
       {
         id: 'Q1ZKdjjf',
-        name: 'Ali',
+        name: 'Ali Khan',
         gender: 'M'
       },
       {
