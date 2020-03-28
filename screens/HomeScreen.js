@@ -5,13 +5,38 @@ import { View, Button } from 'native-base';
 import { PrayerCard, Text } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
+import isEmpty from 'lodash/isEmpty';
+import { getGeohashRange } from 'helpers/geo';
 
 export default function HomeScreen({ navigation }) {
+  const [nearbyPrayers, setNearbyPrayers] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
   const filter = useSelector(state => state.filterState);
+  const location = useSelector(state => state.locationState);
 
   useEffect(() => {
-    console.log({ filter })
-  }, [filter]);
+    if (!isEmpty(filter) && !isEmpty(location)) {
+      // fetch nearby prayers according to filter preference
+      fetchNearbyPrayers();
+    }
+  }, [filter, location]);
+
+  async function fetchNearbyPrayers() {
+    const { latitude, longitude } = location;
+    const range = getGeohashRange(latitude, longitude, filter.distance);
+    const prayersDoc = await db.collection('prayers')
+      .where("geohash", ">=", range.lower)
+      .where("geohash", "<=", range.upper)
+      .get();
+
+    const prayers = [];
+    prayersDoc.forEach(doc => {
+      prayers.push(doc.data());
+    });
+
+    setNearbyPrayers(prayers);
+    setIsFetching(false);
+  }
 
   return (
     <View>
@@ -23,11 +48,22 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.prayerListWrapper}>
-        <FlatList
-          data={mockData}
-          renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
-          keyExtractor={item => item.id}
-        />
+        {isFetching
+          ? (
+            <View>
+              <Text>Loading</Text>
+            </View>
+          ) : nearbyPrayers.length ? (
+            <FlatList
+              data={nearbyPrayers}
+              renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
+            />
+          ) : (
+              <View>
+                <Text>No prayer found</Text>
+              </View>
+            )
+        }
       </View>
     </View>
   )

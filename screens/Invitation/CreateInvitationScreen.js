@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
 import { fardhs } from 'constants/prayers';
+import geohash from 'ngeohash';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const [selectedPrayer, setSelectedPrayer] = useState('');
@@ -56,7 +57,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
         description,
         geolocation: new GeoPoint(latitude, longitude),
         inviter: auth.currentUser.uid,
-        participants: []
+        participants: [],
+        geohash: geohash.encode(latitude, longitude)
       })
 
       // db.ref('prayers').push({

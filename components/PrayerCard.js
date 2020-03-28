@@ -11,7 +11,9 @@ import { calculateDistance, formatDistance } from '../helpers/geo';
 export default function PrayerCard({ navigate, ...props }) {
   const [distance, setDistance] = useState(null);
   const location = useSelector(state => state.locationState);
-  const { prayer, scheduleTime, lat, lon, participants } = props;
+  const { prayer, scheduleTime, geolocation, participants } = props;
+  const lat = geolocation.latitude;
+  const lon = geolocation.longitude;
 
   useEffect(() => {
     getDistance();
@@ -70,15 +72,11 @@ export default function PrayerCard({ navigate, ...props }) {
 
 PrayerCard.propTypes = {
   scheduleTime: PropTypes.string.isRequired,
+  timestamp: PropTypes.string.isRequired,
   prayer: PropTypes.string.isRequired,
-  lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  inviter: PropTypes.exact({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    gender: PropTypes.string.isRequired
-  })
+  geohash: PropTypes.string.isRequired,
+  inviter: PropTypes.string.isRequired,
+  geolocation: PropTypes.any.isRequired
 }
 
 PrayerCard.defaultProps = {

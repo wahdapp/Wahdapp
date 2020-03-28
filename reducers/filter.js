@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   sameGender: false
 };
 
-function filterReducer(state = INITIAL_STATE, action) {
+function filterReducer(state = {}, action) {
   switch (action.type) {
     case SET_FILTER:
       return action.payload;

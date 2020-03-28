@@ -11,30 +11,31 @@ export default ({ user }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getLocation();
-    getUserInfo();
+    init();
   }, []);
 
-  async function getUserInfo() {
+  async function init() {
+    // get user location
+    const location = await getLatLong();
+    dispatch(setLocation(location));
+
     const doc = await db.collection('users').doc(user.uid).get();
     if (doc.exists) {
       dispatch(setUser(doc.data()));
-
-      const filterDoc = await db.collection('filters').doc(user.uid).get();
-      // query user filter preference
-      if (filterDoc.data()) {
-        dispatch(setFilter(filterDoc.data()));
-      }
-      else {
-        // initialize according to user's gender
-        dispatch(initializeFilter(doc.data().gender));
-      }
+      initFilter(doc.data());
     }
   }
 
-  async function getLocation() {
-    const location = await getLatLong();
-    dispatch(setLocation(location));
+  async function initFilter(userData) {
+    const filterDoc = await db.collection('filters').doc(user.uid).get();
+    // query user filter preference
+    if (filterDoc.data()) {
+      dispatch(setFilter(filterDoc.data()));
+    }
+    else {
+      // initialize according to user's gender
+      dispatch(initializeFilter(userData.gender));
+    }
   }
 
   return (
