@@ -1,26 +1,5 @@
 import * as actions from '../constants/action_types';
 
-export function setPrayer(payload) {
-  return {
-    type: actions.SET_PRAYER,
-    payload
-  }
-};
-
-export function setTime(payload) {
-  return {
-    type: actions.SET_TIME,
-    payload
-  }
-};
-
-export function setDescription(payload) {
-  return {
-    type: actions.SET_DESCRIPTION,
-    payload
-  }
-};
-
 export function setLocation(payload) {
   return {
     type: actions.SET_LOCATION,
@@ -33,4 +12,15 @@ export function setUser(payload) {
     type: actions.SET_USER,
     payload
   }
+};
+
+export function setFilter(payload) {
+  return {
+    type: actions.SET_FILTER,
+    payload
+  }
+};
+
+export function initializeFilter(gender) {
+  return { type: actions.INITIALIZE_FILTER, payload: gender }
 };

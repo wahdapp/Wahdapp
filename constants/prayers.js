@@ -1,4 +1,4 @@
-export const fardhs = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Jumuah"];
-export const sunnahs = ["Janaazah", "Taraweeh", "Nafila"];
+export const fardhs = ["fajr", "dhuhr", "asr", "maghrib", "isha", "jumuah"];
+export const sunnahs = ["janaazah", "taraweeh", "nafila"];
 
 export const fardhsArabic = ["فجر", "ظهر", "عصر", "مغرب", "عشاء", "جمعة"];

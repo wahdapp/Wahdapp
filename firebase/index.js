@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import "firebase/database";
+import "firebase/firestore";
 
 const config = {
   apiKey: "AIzaSyDMceVnG02LkHECfd7LRudD9dfxfJ7K7n8",
@@ -16,5 +16,6 @@ const config = {
 firebase.initializeApp(config);
 //firebase.analytics();
 
-export const db = firebase.database();
+export const db = firebase.firestore();
+export const GeoPoint = firebase.firestore.GeoPoint;
 export const auth = firebase.auth();

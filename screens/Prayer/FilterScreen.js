@@ -4,18 +4,17 @@ import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'reac
 import { View, Left, Button, CheckBox, Right } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
-
-const prayerList = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+import { fardhs } from 'constants/prayers';
 
 export default function FilterScreen({ route, navigation }) {
-  const [selectedPrayers, setSelectedPrayers] = useState(prayerList);
+  const [selectedPrayers, setSelectedPrayers] = useState(fardhs);
   const [distance, setDistance] = useState(3);
   const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
   const [minimumParticipants, setMinimumParticipants] = useState(user.gender === 'M' ? 0 : 2);
 
   function resetFilter() {
-    setSelectedPrayers(prayerList);
+    setSelectedPrayers(fardhs);
     setDistance(3);
     setMinimumParticipants(user.gender === 'M' ? 0 : 2);
     setSameGender(false)
@@ -54,7 +53,7 @@ export default function FilterScreen({ route, navigation }) {
           <Left>
             <BoldText style={styles.sectionHeader}>Prayers:</BoldText>
             <View style={styles.prayerList}>
-              {prayerList.map((prayer, i) => (
+              {fardhs.map((prayer, i) => (
                 <Button block rounded success key={i}
                   bordered={!selectedPrayers.includes(prayer)}
                   onPress={() => handlePrayerClick(prayer)}

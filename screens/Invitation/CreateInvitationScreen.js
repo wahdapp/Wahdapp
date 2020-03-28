@@ -6,9 +6,8 @@ import { View, Left, Button, Toast, Textarea, DatePicker } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
-import { db, auth } from 'firebaseDB';
-
-const prayerList = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+import { db, auth, GeoPoint } from 'firebaseDB';
+import { fardhs } from 'constants/prayers';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const [selectedPrayer, setSelectedPrayer] = useState('');
@@ -50,16 +49,26 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
       const { latitude, longitude } = route.params;
 
-      db.ref('prayers').push({
+      db.collection('prayers').add({
         scheduleTime: formattedSchedule,
         timestamp: now.format(),
         prayer: selectedPrayer,
         description,
-        latitude,
-        longitude,
+        geolocation: new GeoPoint(latitude, longitude),
         inviter: auth.currentUser.uid,
         participants: []
-      });
+      })
+
+      // db.ref('prayers').push({
+      //   scheduleTime: formattedSchedule,
+      //   timestamp: now.format(),
+      //   prayer: selectedPrayer,
+      //   description,
+      //   latitude,
+      //   longitude,
+      //   inviter: auth.currentUser.uid,
+      //   participants: []
+      // });
 
       navigation.goBack();
     }
@@ -91,7 +100,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Left>
             <BoldText style={styles.sectionHeader}>Prayer:</BoldText>
             <View style={styles.prayerList}>
-              {prayerList.map((prayer, i) => (
+              {fardhs.map((prayer, i) => (
                 <Button block rounded success key={i}
                   bordered={selectedPrayer !== prayer}
                   onPress={() => handlePrayerClick(prayer)}

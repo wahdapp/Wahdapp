@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { View, Button } from 'native-base';
 import { PrayerCard, Text } from 'components';
 import { Ionicons } from '@expo/vector-icons';
+import { db } from 'firebaseDB';
 
 export default function HomeScreen({ navigation }) {
+  const filter = useSelector(state => state.filterState);
+
+  useEffect(() => {
+    console.log({ filter })
+  }, [filter]);
 
   return (
     <View>

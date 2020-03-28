@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import invitationReducer from './invitation';
 import locationReducer from './location';
 import userReducer from './user';
+import filterReducer from './filter';
 
 const rootReducer = combineReducers({
-  invitationState: invitationReducer,
   locationState: locationReducer,
-  userState: userReducer
+  userState: userReducer,
+  filterState: filterReducer
 });
 
 export default rootReducer;

@@ -35,13 +35,14 @@ export default function SignupScreen({ navigation: { navigate } }) {
     try {
       setLoading(true);
       const authUser = await auth.createUserWithEmailAndPassword(email, password);
-      db.ref(`users/${authUser.user.uid}`).set({
+      db.collection('users').doc(authUser.user.uid).set({
         fullName,
         email,
-        gender
+        gender,
       });
     }
     catch (e) {
+      console.error({ e })
       setLoading(false);
       Toast.show({
         text: e.message,
