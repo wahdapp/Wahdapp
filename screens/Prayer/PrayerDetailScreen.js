@@ -14,8 +14,11 @@ const ScreenWidth = Dimensions.get("window").width;
 
 export default function PrayerDetailScreen({ route, navigation }) {
   const location = useSelector(state => state.locationState);
+  const user = useSelector(state => state.userState);
   const [distance, setDistance] = useState(null);
+  const [isJoined, setIsJoined] = useState(false);
   const { lat, lon, prayer, scheduleTime, participants, inviter } = route.params;
+  const [currentParticipants, setCurrentParticipants] = useState(participants);
 
   useEffect(() => {
     getDistance();
@@ -23,6 +26,11 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   async function getDistance() {
     setDistance(calculateDistance({ lat, lon }, { lat: location.lat, lon: location.lon }));
+  }
+
+  function handleJoin() {
+    setIsJoined(prev => !prev);
+    // setCurrentParticipants(prev => [...prev, user]);
   }
 
   return (
@@ -59,8 +67,12 @@ export default function PrayerDetailScreen({ route, navigation }) {
             <Text style={styles.sectionSubHeader}>{formatDistance(distance)}</Text>
           </Left>
           <Right>
-            <Button rounded success style={{ width: 100, justifyContent: 'center' }}>
-              <Text style={{ color: '#fff' }}>JOIN</Text>
+            <Button rounded success
+              bordered={!isJoined}
+              style={{ width: 100, justifyContent: 'center' }}
+              onPress={handleJoin}
+            >
+              <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? 'JOINED' : 'JOIN'}</Text>
             </Button>
           </Right>
         </View>
@@ -91,11 +103,11 @@ Hope to see you soon Insha Allah!
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Participants ({participants.length})</BoldText>
+            <BoldText style={styles.sectionHeader}>Participants ({currentParticipants.length})</BoldText>
             <FlatList
               style={{ width: "100%" }}
               horizontal={true}
-              data={participants}
+              data={currentParticipants}
               renderItem={({ item }) => <UserItem item={item} />}
               keyExtractor={item => item.id}
             />

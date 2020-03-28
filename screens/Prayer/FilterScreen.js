@@ -60,7 +60,7 @@ export default function FilterScreen({ route, navigation }) {
                   onPress={() => handlePrayerClick(prayer)}
                   style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2 }}
                 >
-                  <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#000' }}>{prayer}</Text>
+                  <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#7C7C7C' }}>{prayer}</Text>
                 </Button>
               ))}
             </View>
