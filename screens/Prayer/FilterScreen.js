@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'react-native';
-import { View, Left, Right, Button, List, ListItem } from 'native-base';
+import { View, Left, Button, CheckBox, Right } from 'native-base';
 import { Text, BoldText } from '../../components';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,15 +10,20 @@ const prayerList = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 export default function FilterScreen({ route, navigation }) {
   const [selectedPrayers, setSelectedPrayers] = useState(prayerList);
   const [distance, setDistance] = useState(3);
+  const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
   const [minimumParticipants, setMinimumParticipants] = useState(user.gender === 'M' ? 0 : 2);
 
   function resetFilter() {
     setSelectedPrayers(prayerList);
+    setDistance(3);
+    setMinimumParticipants(user.gender === 'M' ? 0 : 2);
+    setSameGender(false)
   }
 
   function applyFilter() {
 
+    navigation.goBack();
   }
 
   function handlePrayerClick(prayer) {
@@ -68,12 +73,12 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={1}
-              value={3}
+              value={distance}
               step={1}
               maximumValue={50}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
-              onValueChange={setDistance}
+              onSlidingComplete={setDistance}
             />
           </Left>
         </View>
@@ -84,23 +89,35 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={user.gender === 'M' ? 0 : 2}
-              value={user.gender === 'M' ? 0 : 2}
+              value={minimumParticipants}
               step={1}
               maximumValue={50}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
-              onValueChange={setMinimumParticipants}
+              onSlidingComplete={setMinimumParticipants}
             />
           </Left>
         </View>
 
+        {user.gender === 'F' && (
+          <View style={styles.detailSection}>
+            <Left>
+              <BoldText style={styles.sectionHeader}>Same gender:</BoldText>
+              <Text style={styles.sectionSubHeader}>If checked, you will only see invitations organized by females.</Text>
+            </Left>
+            <Right>
+              <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color="#589e61" />
+            </Right>
+          </View>
+        )}
+
         <View style={styles.applySection}>
-          <Button block rounded success style={styles.applyBtn}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>APPLY</Text>
+          <Button block rounded success style={styles.applyBtn} onPress={applyFilter}>
+            <Text style={{ color: '#fff', fontSize: 18 }}>SAVE</Text>
           </Button>
         </View>
       </View>
-    </ScrollView>
+    </ScrollView >
   )
 }
 
@@ -135,10 +152,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   sectionHeader: {
-    fontSize: 18
+    fontSize: 16
   },
   sectionSubHeader: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#7C7C7C',
   },
   prayerList: {
@@ -148,6 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   applySection: {
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
