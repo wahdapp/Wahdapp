@@ -1,50 +1,26 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import MapView, { Marker } from 'react-native-maps';
+import React, { useState, useEffect } from 'react';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import {
-  Text,
   StyleSheet,
   ActivityIndicator,
   Platform,
-  TouchableOpacity as RNTouchableOpacity,
-  ScrollView,
-  Dimensions
+  Image,
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
-import BottomSheet from 'reanimated-bottom-sheet';
+import { Text } from 'components';
 import { View, Button, Toast } from 'native-base';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
-import colors from '../constants/Colors';
-import BSListView from '../components/BSListView';
+import colors from 'constants/Colors';
+import { PIN } from 'assets/images';
 
 const ScreenHeight = Dimensions.get("window").height;
 
 export default function MapScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
-  const { prayer, time, description } = useSelector(state => state.invitationState);
-  const bs = useRef(null);
-
-  const listItems = useMemo(() => [
-    {
-      title: "Prayer",
-      description: prayer.length ? prayer : "Choose which prayer to be performed",
-      icon: Platform.OS === 'ios' ? 'ios-moon' : 'md-moon',
-      nav: 'PrayerSelection'
-    },
-    {
-      title: "Starting time",
-      description: time ? time : "Select the approximate time to start",
-      icon: Platform.OS === 'ios' ? 'ios-time' : 'md-time',
-      nav: 'TimeSelection'
-    },
-    {
-      title: "Description",
-      description: description.length ? description.substring(0, 50) : "Please describe the necessary information",
-      icon: Platform.OS === 'ios' ? 'ios-pin' : 'md-pin',
-      nav: 'Description'
-    }
-  ], [prayer, time, description]);
+  const [currentZoom, setCurrentZoom] = useState(null);
 
   useEffect(() => {
     getUserPosition();
@@ -54,10 +30,12 @@ export default function MapScreen({ navigation }) {
     try {
       const position = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
+      });
+      setCurrentZoom({
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       });
     }
     catch (e) {
@@ -65,29 +43,20 @@ export default function MapScreen({ navigation }) {
     }
   }
 
-  let currentSnap = 3;
-
-  function openBottomSheet() {
-    if (currentSnap) {
-      bs.current.snapTo(0);
-      currentSnap = 0;
-    }
-  }
-
   function handleDrag(coords) {
-    setCurrentRegion(coords);
+    setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
+    setCurrentZoom({ latitudeDelta: coords.latitudeDelta, longitudeDelta: coords.longitudeDelta });
   }
 
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     setCurrentRegion({
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: currentZoom.latitudeDelta,
+      longitudeDelta: currentZoom.longitudeDelta,
       latitude: coordinate.latitude,
       longitude: coordinate.longitude
     });
-    openBottomSheet();
   }
 
   // Google Maps only
@@ -95,22 +64,19 @@ export default function MapScreen({ navigation }) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     setCurrentRegion({
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: currentZoom.latitudeDelta,
+      longitudeDelta: currentZoom.longitudeDelta,
       latitude: coordinate.latitude,
       longitude: coordinate.longitude
     });
-    openBottomSheet();
   }
 
   async function handleFloatBtnClick() {
-    openBottomSheet();
-
     try {
       const location = await Location.getCurrentPositionAsync({});
       setCurrentRegion({
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: currentZoom.latitudeDelta,
+        longitudeDelta: currentZoom.longitudeDelta,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       });
@@ -121,48 +87,16 @@ export default function MapScreen({ navigation }) {
     }
   }
 
-  function invite() {
-    console.log('click')
-    if (!prayer.length || !time || !description.length) {
-      Toast.show({
-        text: "All information is required!",
-        buttonText: "OK",
-        type: "warning"
-      });
-    }
+  function handleMarkerDrag(coords) {
+    const { coordinate } = coords.nativeEvent;
+    setSelectedLocation(coordinate);
   }
 
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <View style={styles.panelHeader}>
-        <View style={styles.panelHandle} />
-      </View>
-    </View>
-  )
+  function handleConfirm() {
+    console.log('confirm')
+  }
 
-  const renderContent = () => (
-    <View style={styles.panel}>
-      <Text style={styles.panelTitle}>Confirm Prayer Information</Text>
-      <Text style={styles.panelSubtitle}>
-        People around this area will be notified afterwards
-      </Text>
-      <ScrollView>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <BSListView
-            itemList={listItems}
-            navigate={navigation.navigate}
-          />
-        </View>
-      </ScrollView>
-      <RNTouchableOpacity onPress={invite} style={{ flex: 1, flexDirection: 'row' }}>
-        <Button style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }} success>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>INVITE</Text>
-        </Button>
-      </RNTouchableOpacity>
-    </View>
-  )
-
-  if (!currentRegion) {
+  if (!currentRegion || !currentZoom) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" />
@@ -178,27 +112,28 @@ export default function MapScreen({ navigation }) {
         showsUserLocation={true}
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
-        region={currentRegion}
+        region={{ ...currentRegion, ...currentZoom }}
         onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
-        mapPadding={{ bottom: selectedLocation ? ScreenHeight * 0.7 : 0 }}
+      // mapPadding={{ bottom: selectedLocation ? ScreenHeight * 0.7 : 0 }}
       >
-        {selectedLocation && <Marker coordinate={selectedLocation} />}
+        {selectedLocation && (
+          <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
+            <View style={{ alignItems: 'center' }}>
+              <Button rounded light style={{ paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
+                <Text>Confirm</Text>
+              </Button>
+              <Image source={PIN} style={{ height: 50, width: 50 }} />
+            </View>
+          </Marker>
+        )}
       </MapView>
-      <RNTouchableOpacity
+      <TouchableOpacity
         style={styles.floatingBtn}
         onPress={handleFloatBtnClick}
       >
         <Ionicons name={Platform.OS === 'ios' ? `ios-add` : 'md-add'} size={30} color="#ffffff" />
-      </RNTouchableOpacity>
-      <BottomSheet
-        ref={bs}
-        snapPoints={[500, 400, 250, 0]}
-        renderContent={renderContent}
-        renderHeader={renderHeader}
-        initialSnap={3}
-        onCloseEnd={() => setSelectedLocation(null)}
-      />
+      </TouchableOpacity>
     </>
   );
 }
