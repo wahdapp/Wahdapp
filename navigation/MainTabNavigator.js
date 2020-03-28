@@ -3,15 +3,14 @@ import { Platform, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import PrayerDetailScreen from '../screens/Prayer/PrayerDetailScreen';
-import FilterScreen from '../screens/Prayer/FilterScreen';
-import MapScreen from '../screens/MapScreen';
-import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
-import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
-import PrayersScreen from '../screens/PrayersScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from 'components/TabBarIcon';
+import HomeScreen from 'screens/HomeScreen';
+import PrayerDetailScreen from 'screens/Prayer/PrayerDetailScreen';
+import FilterScreen from 'screens/Prayer/FilterScreen';
+import MapScreen from 'screens/MapScreen';
+import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
+import PrayersScreen from 'screens/PrayersScreen';
+import SettingsScreen from 'screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,8 +28,7 @@ function MapStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Map" component={MapScreen} />
-      <Stack.Screen name="PrayerSelection" component={PrayerSelectionScreen} />
-      <Stack.Screen name="Description" component={DescriptionScreen} />
+      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} />
     </Stack.Navigator>
   )
 }

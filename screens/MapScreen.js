@@ -93,7 +93,7 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleConfirm() {
-    console.log('confirm')
+    navigation.navigate('CreateInvitation', { currentRegion });
   }
 
   if (!currentRegion || !currentZoom) {
@@ -115,7 +115,6 @@ export default function MapScreen({ navigation }) {
         region={{ ...currentRegion, ...currentZoom }}
         onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
-      // mapPadding={{ bottom: selectedLocation ? ScreenHeight * 0.7 : 0 }}
       >
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
@@ -132,7 +131,7 @@ export default function MapScreen({ navigation }) {
         style={styles.floatingBtn}
         onPress={handleFloatBtnClick}
       >
-        <Ionicons name={Platform.OS === 'ios' ? `ios-add` : 'md-add'} size={30} color="#ffffff" />
+        <Ionicons name={Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'} size={30} color="#ffffff" />
       </TouchableOpacity>
     </>
   );

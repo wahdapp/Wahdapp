@@ -96,8 +96,8 @@ async function loadResourcesAsync() {
       require('./assets/images/robot-prod.png'),
     ]),
     Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      'Roboto': require('./assets/fonts/Sen-Regular.ttf'),
+      'Roboto_medium': require('./assets/fonts/Sen-Bold.ttf'),
       'Sen': require('./assets/fonts/Sen-Regular.ttf'),
       'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
       // This is the font that we are using for our tab bar
