@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Dimensions, Image, Platform, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { View, Left, Right, Button, List, ListItem } from 'native-base';
 import MapView, { Marker } from 'react-native-maps';
-import { Text, BoldText } from '../../components';
-import { MARKER, MAN_AVATAR, WOMAN_AVATAR } from '../../assets/images';
+import { Text, BoldText } from 'components';
+import { MARKER, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
-import { calculateDistance, formatDistance } from '../../helpers/geo';
+import { calculateDistance, formatDistance } from 'helpers/geo';
 
 const ScreenHeight = Dimensions.get("window").height;
 const ScreenWidth = Dimensions.get("window").width;

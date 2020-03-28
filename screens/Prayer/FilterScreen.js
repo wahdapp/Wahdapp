@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider } from 'react-native';
 import { View, Left, Button, CheckBox, Right } from 'native-base';
-import { Text, BoldText } from '../../components';
+import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 
 const prayerList = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];

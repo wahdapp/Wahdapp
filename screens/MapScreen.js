@@ -19,7 +19,7 @@ import BSListView from '../components/BSListView';
 
 const ScreenHeight = Dimensions.get("window").height;
 
-export default function JamaatsScreen({ navigation }) {
+export default function MapScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const { prayer, time, description } = useSelector(state => state.invitationState);
@@ -203,7 +203,7 @@ export default function JamaatsScreen({ navigation }) {
   );
 }
 
-JamaatsScreen.navigationOptions = {
+MapScreen.navigationOptions = {
   header: null,
 };
 

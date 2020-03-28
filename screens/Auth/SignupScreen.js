@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Dimensions } from 'react-native';
 import { Form, Item, Input, Label, Segment, Text, Toast, Button } from 'native-base';
-import AnimatedButton from '../components/AnimatedButton';
-import { auth, db } from '../firebase';
+import AnimatedButton from 'components/AnimatedButton';
+import { auth, db } from 'firebaseDB';
 
 export default function SignupScreen({ navigation: { navigate } }) {
   const [fullName, setFullName] = useState('');

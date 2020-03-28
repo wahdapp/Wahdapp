@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, Dimensions } from 'react-native';
 import { Form, Item, Input, Label, Button, Text, Toast } from 'native-base';
-import AnimatedButton from '../components/AnimatedButton';
-import { auth } from '../firebase';
+import AnimatedButton from 'components/AnimatedButton';
+import { auth } from 'firebaseDB';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');

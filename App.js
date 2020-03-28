@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Root } from "native-base";
-import { auth } from './firebase';
+import { auth } from 'firebaseDB';
 import store from './store';
 import {
   Platform,
@@ -18,8 +18,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
-import LoginScreen from './screens/LoginScreen';
-import SignupScreen from './screens/SignupScreen';
+import LoginScreen from 'screens/Auth/LoginScreen';
+import SignupScreen from 'screens/Auth/SignupScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

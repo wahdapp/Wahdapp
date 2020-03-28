@@ -7,7 +7,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import PrayerDetailScreen from '../screens/Prayer/PrayerDetailScreen';
 import FilterScreen from '../screens/Prayer/FilterScreen';
-import JamaatsScreen from '../screens/JamaatsScreen';
+import MapScreen from '../screens/MapScreen';
 import PrayerSelectionScreen from '../screens/Invitation/PrayerSelectionScreen';
 import DescriptionScreen from '../screens/Invitation/DescriptionScreen';
 import PrayersScreen from '../screens/PrayersScreen';
@@ -25,10 +25,10 @@ function HomeStack() {
   )
 }
 
-function JamaatsStack() {
+function MapStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Jamaats" component={JamaatsScreen} />
+      <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="PrayerSelection" component={PrayerSelectionScreen} />
       <Stack.Screen name="Description" component={DescriptionScreen} />
     </Stack.Navigator>
@@ -70,8 +70,8 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="Jamaats"
-        component={JamaatsStack}
+        name="Map"
+        component={MapStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />

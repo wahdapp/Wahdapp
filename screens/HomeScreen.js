@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { View, Button } from 'native-base';
-import { PrayerCard, Text } from '../components';
+import { PrayerCard, Text } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
