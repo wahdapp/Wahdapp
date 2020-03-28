@@ -53,12 +53,12 @@ export default function LoginScreen({ navigation: { navigate } }) {
           <View style={styles.formContainer}>
             <Form>
               <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
-                <Label style={{ height: '100%', width: '100%' }}>Email</Label>
-                <Input style={{ height: '100%', width: '100%' }} value={email} onChangeText={setEmail} />
+                <Label style={{ height: '100%', width: '100%', fontFamily: 'Sen' }}>Email</Label>
+                <Input style={{ height: '100%', width: '100%', fontFamily: 'Sen' }} value={email} onChangeText={setEmail} />
               </Item>
               <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
-                <Label>Password</Label>
-                <Input style={{ height: '100%', width: '100%' }} value={password} onChangeText={setPassword} secureTextEntry={true} />
+                <Label style={{ height: '100%', width: '100%', fontFamily: 'Sen' }}>Password</Label>
+                <Input style={{ height: '100%', width: '100%', fontFamily: 'Sen' }} value={password} onChangeText={setPassword} secureTextEntry={true} />
               </Item>
             </Form>
             <View style={styles.forgotPwdContainer}>
@@ -80,14 +80,19 @@ export default function LoginScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.signUpLabelContainer}>
-              <Text style={styles.signUpLabel}>OR</Text>
+              <Text style={styles.signUpLabel}>Already have an account? </Text>
+              <Text style={{ ...styles.signUpLabel, color: '#68A854' }} onPress={() => navigate('Signup')}> Sign Up </Text>
             </View>
 
-            <View style={styles.loginBtnContainer} s>
+            <View style={styles.signUpLabelContainer}>
+              <Text style={styles.signUpLabel}>Or connect with</Text>
+            </View>
+
+            {/* <View style={styles.loginBtnContainer} s>
               <Button rounded style={styles.loginBtn} onPress={() => navigate('Signup')}>
                 <Text style={{ color: '#fff' }}>SIGN UP</Text>
               </Button>
-            </View>
+            </View> */}
           </View>
         </Card>
       </ScrollView>
@@ -152,14 +157,15 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   forgotPwdText: {
-    color: '#000'
+    fontSize: 12,
+    color: '#7C7C7C'
   },
   signUpLabelContainer: {
     marginTop: 25,
   },
   signUpLabel: {
-    fontSize: 14,
-    color: '#000',
+    fontSize: 12,
+    color: '#7C7C7C',
     textAlign: 'center'
   },
   hyperlink: {

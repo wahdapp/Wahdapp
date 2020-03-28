@@ -62,53 +62,47 @@ export default function SignupScreen({ navigation: { navigate } }) {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Create an account</Text>
         </View>
-        <Form style={styles.formContainer}>
-          <Item floatingLabel>
-            <Label>Full Name</Label>
-            <Input value={fullName} onChangeText={setFullName} />
-          </Item>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input value={email} onChangeText={setEmail} />
-          </Item>
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input value={password} onChangeText={setPassword} secureTextEntry={true} />
-          </Item>
-          <Item floatingLabel>
-            <Label>Confirm Password</Label>
-            <Input value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
-          </Item>
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
-              <Picker.Item label="Male" value="M" />
-              <Picker.Item label="Female" value="F" />
-            </Picker>
-          </View>
-          {/* <Segment style={styles.segment}>
-            <Button active={gender === 'M'} onPress={() => setGender('M')} style={{ backgroundColor: gender === 'M' ? '#12967A' : 'white' }}>
-              <Text style={{ color: gender === 'M' ? 'white' : '#12967A' }}>Male</Text>
-            </Button>
-            <Button active={gender === 'F'} onPress={() => setGender('F')} style={{ backgroundColor: gender === 'F' ? '#12967A' : 'white' }}>
-              <Text style={{ color: gender === 'F' ? 'white' : '#12967A' }}>Female</Text>
-            </Button>
-          </Segment> */}
+        <View style={styles.formContainer}>
+          <Form>
+            <Item floatingLabel rounded style={styles.itemStyle}>
+              <Label style={styles.itemLabel}>Full Name</Label>
+              <Input style={styles.itemLabel} value={fullName} onChangeText={setFullName} />
+            </Item>
+            <Item floatingLabel rounded style={styles.itemStyle}>
+              <Label style={styles.itemLabel}>Email</Label>
+              <Input style={styles.itemLabel} value={email} onChangeText={setEmail} />
+            </Item>
+            <Item floatingLabel rounded style={styles.itemStyle}>
+              <Label style={styles.itemLabel}>Password</Label>
+              <Input style={styles.itemLabel} value={password} onChangeText={setPassword} secureTextEntry={true} />
+            </Item>
+            <Item floatingLabel rounded style={styles.itemStyle}>
+              <Label style={styles.itemLabel}>Confirm Password</Label>
+              <Input style={styles.itemLabel} value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
+            </Item>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
+              <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
+                <Picker.Item label="Male" value="M" />
+                <Picker.Item label="Female" value="F" />
+              </Picker>
+            </View>
 
-          <View style={styles.signupBtnContainer}>
-            <AnimatedButton
-              showLoading={loading}
-              width={150}
-              height={45}
-              title="SIGN UP"
-              titleFontSize={14}
-              titleFontFamily="Sen"
-              titleColor="rgb(255,255,255)"
-              backgroundColor="#12967A"
-              borderRadius={25}
-              onPress={handleSignup}
-            />
-          </View>
-        </Form>
+            <View style={styles.signupBtnContainer}>
+              <AnimatedButton
+                showLoading={loading}
+                width={150}
+                height={45}
+                title="SIGN UP"
+                titleFontSize={14}
+                titleFontFamily="Sen"
+                titleColor="rgb(255,255,255)"
+                backgroundColor="#12967A"
+                borderRadius={25}
+                onPress={handleSignup}
+              />
+            </View>
+          </Form>
+        </View>
       </Card>
     </ScrollView>
   )
@@ -154,8 +148,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   signupBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150 },
-  segment: {
-    marginTop: 25,
-    backgroundColor: 'white',
+  itemStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+    width: '100%'
   },
+  itemLabel: {
+    height: '100%',
+    width: '100%',
+    fontFamily: 'Sen'
+  }
 });

@@ -79,7 +79,7 @@ export default function App(props) {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>
