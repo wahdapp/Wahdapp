@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Dimensions } from 'react-native';
-import { Form, Item, Input, Label, Segment, Text, Toast, Button } from 'native-base';
+import { StyleSheet, Platform, View, Picker, ScrollView } from 'react-native';
+import { Form, Item, Input, Label, Segment, Toast, Button, Card } from 'native-base';
+import { Text } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth, db } from 'firebaseDB';
 
@@ -17,6 +18,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
     if (!fullName || !email || !password || !confirm) {
       Toast.show({
         text: "You have one or more fields missing",
+        textStyle: { fontSize: 12 },
         buttonText: "OK",
         type: "danger"
       });
@@ -26,6 +28,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
     if (password !== confirm) {
       Toast.show({
         text: "Two passwords do not match",
+        textStyle: { fontSize: 12 },
         buttonText: "OK",
         type: "danger"
       });
@@ -46,6 +49,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
       setLoading(false);
       Toast.show({
         text: e.message,
+        textStyle: { fontSize: 12 },
         buttonText: "OK",
         type: "danger"
       });
@@ -53,8 +57,8 @@ export default function SignupScreen({ navigation: { navigate } }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.signupContainer}>
+    <ScrollView style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+      <Card style={styles.signupContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Create an account</Text>
         </View>
@@ -75,51 +79,58 @@ export default function SignupScreen({ navigation: { navigate } }) {
             <Label>Confirm Password</Label>
             <Input value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
           </Item>
-          <Segment style={styles.segment}>
-            <Button active={gender === 'M'} onPress={() => setGender('M')} style={{ backgroundColor: gender === 'M' ? '#1d1279' : 'white' }}>
-              <Text style={{ color: gender === 'M' ? 'white' : '#1d1279' }}>Male</Text>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
+              <Picker.Item label="Male" value="M" />
+              <Picker.Item label="Female" value="F" />
+            </Picker>
+          </View>
+          {/* <Segment style={styles.segment}>
+            <Button active={gender === 'M'} onPress={() => setGender('M')} style={{ backgroundColor: gender === 'M' ? '#12967A' : 'white' }}>
+              <Text style={{ color: gender === 'M' ? 'white' : '#12967A' }}>Male</Text>
             </Button>
-            <Button active={gender === 'F'} onPress={() => setGender('F')} style={{ backgroundColor: gender === 'F' ? '#1d1279' : 'white' }}>
-              <Text style={{ color: gender === 'F' ? 'white' : '#1d1279' }}>Female</Text>
+            <Button active={gender === 'F'} onPress={() => setGender('F')} style={{ backgroundColor: gender === 'F' ? '#12967A' : 'white' }}>
+              <Text style={{ color: gender === 'F' ? 'white' : '#12967A' }}>Female</Text>
             </Button>
-          </Segment>
+          </Segment> */}
 
           <View style={styles.signupBtnContainer}>
             <AnimatedButton
               showLoading={loading}
               width={150}
               height={45}
-              title="Signup"
-              titleFontSize={16}
+              title="SIGN UP"
+              titleFontSize={14}
+              titleFontFamily="Sen"
               titleColor="rgb(255,255,255)"
-              backgroundColor="rgb(29,18,121)"
+              backgroundColor="#12967A"
               borderRadius={25}
               onPress={handleSignup}
             />
           </View>
         </Form>
-      </View>
-    </View>
+      </Card>
+    </ScrollView>
   )
 }
-
-const ScreenHeight = Dimensions.get("window").height;
-const ScreenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#12967A',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
-    height: ScreenHeight,
-    width: ScreenWidth,
+    padding: 25,
   },
   signupContainer: {
-    flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    paddingVertical: 25,
+    borderRadius: 8,
+    shadowOpacity: 0.65,
+    shadowRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { height: 0, width: 0 },
   },
   titleContainer: {
     width: '100%',
@@ -142,7 +153,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     justifyContent: 'center'
   },
-  signupBtn: { flexDirection: 'column', width: 150 },
+  signupBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150 },
   segment: {
     marginTop: 25,
     backgroundColor: 'white',

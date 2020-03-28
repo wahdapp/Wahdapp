@@ -11,7 +11,7 @@ import { calculateDistance, formatDistance } from '../helpers/geo';
 export default function PrayerCard({ navigate, ...props }) {
   const [distance, setDistance] = useState(null);
   const location = useSelector(state => state.locationState);
-  const { prayer, scheduleTime, geolocation, participants, inviter } = props;
+  const { prayer, scheduleTime, geolocation, participants, inviter, guests } = props;
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
 
@@ -58,7 +58,7 @@ export default function PrayerCard({ navigate, ...props }) {
               <Text style={styles.invited}>invited by {inviter.fullName}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-              <Left><Text>{participants.length} participating</Text></Left>
+              <Left><Text>{1 + participants.length + guests.male + guests.female} participating</Text></Left>
               {distance && <Right><Text>{formatDistance(distance)}</Text></Right>}
             </View>
           </CardItem>

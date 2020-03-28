@@ -93,6 +93,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         console.error(e.message);
         Toast.show({
           text: e.message,
+          textStyle: { fontSize: 12 },
           buttonText: 'OK',
           type: 'danger'
         });
@@ -175,7 +176,6 @@ export default function CreateInvitationScreen({ route, navigation }) {
               style={{ width: '100%', borderRadius: 8 }}
               rowSpan={8}
               bordered
-              placeholder="Please briefly describe the location"
             />
           </Left>
         </View>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: 80,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     marginBottom: 15,
     marginRight: 20
   },

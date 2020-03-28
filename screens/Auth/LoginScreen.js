@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, Dimensions } from 'react-native';
-import { Form, Item, Input, Label, Button, Text, Toast } from 'native-base';
+import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
+import { Form, Item, Input, Label, Button, Toast, Content, Container, Card } from 'native-base';
+import { Text } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth } from 'firebaseDB';
+import { BISMILLAH } from 'assets/images';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -13,6 +15,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
     if (!email || !password) {
       Toast.show({
         text: "Email or password is missing",
+        textStyle: { fontSize: 12 },
         buttonText: "OK",
         type: "danger"
       });
@@ -27,6 +30,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
       setLoading(false);
       Toast.show({
         text: e.message,
+        textStyle: { fontSize: 12 },
         buttonText: "OK",
         type: "danger"
       });
@@ -34,72 +38,96 @@ export default function LoginScreen({ navigation: { navigate } }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.loginContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={{ height: 150, resizeMode: 'contain' }}
-            source={{ uri: 'https://www.pngonly.com/wp-content/uploads/2017/05/Bismillah-PNG-File-Transparent-001.png' }}
-          />
-        </View>
-        <Form style={styles.formContainer}>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input value={email} onChangeText={setEmail} />
-          </Item>
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input value={password} onChangeText={setPassword} secureTextEntry={true} />
-          </Item>
-          <View style={styles.forgotPwdContainer}>
-            <Text styles={styles.forgotPwdText}>Forgot password</Text>
-          </View>
-          <View style={styles.loginBtnContainer}>
-            <AnimatedButton
-              showLoading={loading}
-              width={150}
-              height={45}
-              title="Login"
-              titleFontSize={16}
-              titleColor="rgb(255,255,255)"
-              backgroundColor="rgb(29,18,121)"
-              borderRadius={25}
-              onPress={handleLogin}
+    <>
+      <View style={styles.topHeader}>
+        <Text style={styles.headerText}>Jamaat</Text>
+      </View>
+      <ScrollView style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <Card style={styles.loginContainer}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={{ height: 150, width: '100%', resizeMode: 'contain' }}
+              source={BISMILLAH}
             />
           </View>
+          <View style={styles.formContainer}>
+            <Form>
+              <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
+                <Label style={{ height: '100%', width: '100%' }}>Email</Label>
+                <Input style={{ height: '100%', width: '100%' }} value={email} onChangeText={setEmail} />
+              </Item>
+              <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
+                <Label>Password</Label>
+                <Input style={{ height: '100%', width: '100%' }} value={password} onChangeText={setPassword} secureTextEntry={true} />
+              </Item>
+            </Form>
+            <View style={styles.forgotPwdContainer}>
+              <Text styles={styles.forgotPwdText}>Forgot password</Text>
+            </View>
+            <View style={styles.loginBtnContainer}>
+              <AnimatedButton
+                showLoading={loading}
+                width={150}
+                height={45}
+                title="Login"
+                titleFontSize={14}
+                titleFontFamily="Sen"
+                titleColor="rgb(255,255,255)"
+                backgroundColor="#68A854"
+                borderRadius={25}
+                onPress={handleLogin}
+              />
+            </View>
 
-          <View style={styles.signUpLabelContainer}>
-            <Text style={styles.signUpLabel}>OR</Text>
-          </View>
+            <View style={styles.signUpLabelContainer}>
+              <Text style={styles.signUpLabel}>OR</Text>
+            </View>
 
-          <View style={styles.loginBtnContainer} s>
-            <Button rounded info style={styles.loginBtn} onPress={() => navigate('Signup')}>
-              <Text>Sign up</Text>
-            </Button>
+            <View style={styles.loginBtnContainer} s>
+              <Button rounded style={styles.loginBtn} onPress={() => navigate('Signup')}>
+                <Text style={{ color: '#fff' }}>SIGN UP</Text>
+              </Button>
+            </View>
           </View>
-        </Form>
-      </View>
-    </View>
+        </Card>
+      </ScrollView>
+    </>
   )
 }
 
-const ScreenHeight = Dimensions.get("window").height;
-const ScreenWidth = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
+  topHeader: {
+    padding: 25,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    width: '100%',
+  },
+  headerText: {
+    fontSize: 16,
+    color: '#68A854',
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#68A854',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
-    height: ScreenHeight,
-    width: ScreenWidth,
+    height: '100%',
+    width: '100%',
+    padding: 25,
   },
   loginContainer: {
-    flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    paddingVertical: 25,
+    borderRadius: 8,
+    shadowOpacity: 0.65,
+    shadowRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { height: 0, width: 0 },
   },
   imageContainer: {
     width: '100%',
@@ -117,7 +145,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     justifyContent: 'center'
   },
-  loginBtn: { flexDirection: 'column', width: 150 },
+  loginBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150, backgroundColor: '#12967A' },
   forgotPwdContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
