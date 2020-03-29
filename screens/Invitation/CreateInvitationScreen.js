@@ -182,6 +182,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 animationType={"fade"}
                 androidMode={"default"}
                 placeHolderText={moment(date).format('YYYY-MM-DD')}
+                formatChosenDate={d => moment(d).format('YYYY-MM-DD')}
                 textStyle={{ color: '#000', fontSize: 18, fontFamily: 'Sen' }}
                 placeHolderTextStyle={{ color: "#000" }}
                 onDateChange={setDate}

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Dimensions, Image, Platform, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, Image, FlatList, ScrollView } from 'react-native';
 import { View, Left, Right, Button } from 'native-base';
 import MapView, { Marker } from 'react-native-maps';
 import { Text, BoldText } from 'components';
 import { MARKER, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
-import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
-import Spinner from 'react-native-loading-spinner-overlay';
 import useOptimisticReducer from 'use-optimistic-reducer';
 
 const ScreenHeight = Dimensions.get("window").height;
@@ -256,7 +254,10 @@ const styles = StyleSheet.create({
   userName: {
     marginTop: 5,
     fontSize: 12,
+    textAlign: 'center',
     flexWrap: 'wrap',
+    minWidth: 50,
+    minHeight: 50,
     color: '#000'
   }
 })
