@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Platform, TouchableOpacity, ScrollView } from 'react-native';
-import TimePicker from "react-native-24h-timepicker";
+import { StyleSheet, ScrollView } from 'react-native';
+import TimePicker from 'react-native-24h-timepicker';
 import { View, Left, Right, Button, Toast, Textarea, DatePicker } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
@@ -161,7 +161,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
             <Textarea
               value={description}
               onChangeText={setDescription}
-              style={{ width: '100%', borderRadius: 8, fontFamily: 'Sen' }}
+              style={{ width: '100%', borderRadius: 8, borderColor: '#7C7C7C', fontFamily: 'Sen' }}
               rowSpan={8}
               bordered
             />
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: '#7C7C7C',
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   operationBtn: {
     alignItems: 'center',
