@@ -65,7 +65,7 @@ export default function AnimatedButton(props) {
   }
 
   function _renderIndicator() {
-    return <Spinner color={props.activityIndicatorColor} />;
+    return <Spinner color={props.activityIndicatorColor} size="small" />;
   }
 
   return (
