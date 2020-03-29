@@ -4,13 +4,13 @@ import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorag
 import { View, Left, Button, CheckBox, Right } from 'native-base';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
-import { fardhs } from 'constants/prayers';
+import { prayerTypes } from 'constants/prayers';
 import { setFilter } from 'actions';
 import isEmpty from 'lodash/isEmpty';
 
 export default function FilterScreen({ route, navigation }) {
   const filter = useSelector(state => state.filterState);
-  const [selectedPrayers, setSelectedPrayers] = useState(fardhs);
+  const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
   const [distance, setDistance] = useState(3);
   const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
@@ -38,7 +38,7 @@ export default function FilterScreen({ route, navigation }) {
   }, [navigation]);
 
   function resetFilter() {
-    setSelectedPrayers(fardhs);
+    setSelectedPrayers(prayerTypes);
     setDistance(3);
     setMinimumParticipants(user.gender === 'M' ? 0 : 2);
     setSameGender(false)
@@ -74,7 +74,7 @@ export default function FilterScreen({ route, navigation }) {
           <Left>
             <BoldText style={styles.sectionHeader}>Prayers:</BoldText>
             <View style={styles.prayerList}>
-              {fardhs.map((prayer, i) => (
+              {prayerTypes.map((prayer, i) => (
                 <Button block rounded success key={i}
                   bordered={!selectedPrayers.includes(prayer)}
                   onPress={() => handlePrayerClick(prayer)}

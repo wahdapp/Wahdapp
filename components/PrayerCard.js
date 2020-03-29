@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Text } from './Text';
 import { View, Card, CardItem, Left, Body, Right } from 'native-base';
-import { FAJR, DHUHR, ASR, MAGHRIB, ISHA } from '../assets/images';
+import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH } from '../assets/images';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from '../helpers/geo';
@@ -30,6 +30,7 @@ export default function PrayerCard({ navigate, ...props }) {
       case 'asr': return ASR;
       case 'maghrib': return MAGHRIB;
       case 'isha': return ISHA;
+      case 'janazah': return JANAZAH;
       default: return MAGHRIB;
     }
   }

@@ -7,7 +7,7 @@ import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
-import { fardhs } from 'constants/prayers';
+import { prayerTypes } from 'constants/prayers';
 import geohash from 'ngeohash';
 
 export default function CreateInvitationScreen({ route, navigation }) {
@@ -106,7 +106,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Left>
             <BoldText style={styles.sectionHeader}>Prayer:</BoldText>
             <View style={styles.prayerList}>
-              {fardhs.map((prayer, i) => (
+              {prayerTypes.map((prayer, i) => (
                 <Button block rounded success key={i}
                   bordered={selectedPrayer !== prayer}
                   onPress={() => handlePrayerClick(prayer)}

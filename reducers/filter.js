@@ -1,8 +1,8 @@
 import { SET_FILTER, INITIALIZE_FILTER } from '../constants/action_types';
-import { fardhs } from 'constants/prayers';
+import { prayerTypes } from 'constants/prayers';
 
 const INITIAL_STATE = {
-  selectedPrayers: fardhs,
+  selectedPrayers: prayerTypes,
   distance: 3,
   minimumParticipants: 0,
   sameGender: false

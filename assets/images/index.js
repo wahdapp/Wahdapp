@@ -4,6 +4,7 @@ export const DHUHR = require('./dhuhr.jpg');
 export const ASR = require('./asr.jpg');
 export const MAGHRIB = require('./maghrib.jpg');
 export const ISHA = require('./isha.jpg');
+export const JANAZAH = require('./janazah.jpg');
 
 export const MARKER = require('./marker.png');
 export const PIN = require('./pin.png');
