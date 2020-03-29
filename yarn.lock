@@ -8366,6 +8366,11 @@ url-parse@^1.4.4:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
+use-optimistic-reducer@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/use-optimistic-reducer/-/use-optimistic-reducer-1.1.7.tgz#83c9fe1d526bfde6b526c1b199b8cefb5847a392"
+  integrity sha512-blPzS5zINIHpUCsZTve/4IlNB3PqUMbiX85tiQD/CJamIaj16UIk0WZCqo0LMCUF7ps2a+p6UB5k5OoybzuPQw==
+
 use-subscription@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.0.tgz#c4e808cfed6fe6e1ac875df1369c63f3ddae9522"

@@ -54,7 +54,8 @@
     "react-navigation": "^3.12.0",
     "react-redux": "^7.1.3",
     "reanimated-bottom-sheet": "^1.0.0-alpha.14",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "use-optimistic-reducer": "^1.1.7"
   },
   "devDependencies": {
     "babel-preset-expo": "^7.0.0",

@@ -10,17 +10,37 @@ import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
 import Spinner from 'react-native-loading-spinner-overlay';
+import useOptimisticReducer from 'use-optimistic-reducer';
 
 const ScreenHeight = Dimensions.get("window").height;
+
+function joinReducer(state, action) {
+  switch (action.type) {
+    case 'JOIN':
+      return { isJoined: true, currentParticipants: [...state.currentParticipants, action.payload] };
+    case 'CANCEL':
+      return { isJoined: false, currentParticipants: state.currentParticipants.filter(p => p.id !== action.id) };
+    case 'SET_PARTICIPANTS':
+      return { ...state, currentParticipants: action.payload };
+    case 'FALLBACK':
+      return action.payload;
+    default:
+      return state;
+  }
+}
 
 export default function PrayerDetailScreen({ route, navigation }) {
   const { geolocation, prayer, scheduleTime, participants, inviter, inviterID, description, guests, id } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
+  const [originalParticipants, setOriginalParticipants] = useState(participants); // participants in pure form (Ref Object)
   const [distance, setDistance] = useState(null);
-  const [isJoined, setIsJoined] = useState(participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false);
-  const [currentParticipants, setCurrentParticipants] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [joinState, joinDispatch] = useOptimisticReducer(joinReducer, {
+    currentParticipants: [], // in formatted form
+    isJoined: participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false
+  });
+  const { isJoined, currentParticipants } = joinState;
+  console.log({ isJoined, currentParticipants })
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
 
@@ -30,11 +50,14 @@ export default function PrayerDetailScreen({ route, navigation }) {
   }, [location]);
 
   async function getParticipantsInfo() {
-    const ids = participants.map(p => p.id);
-    const promises = participants.map(p => p.get());
+    const ids = originalParticipants.map(p => p.id);
+    const promises = originalParticipants.map(p => p.get());
     const docs = await Promise.all(promises);
 
-    setCurrentParticipants(ids.map((id, i) => ({ ...docs[i].data(), id })));
+    joinDispatch({
+      type: 'SET_PARTICIPANTS',
+      payload: ids.map((id, i) => ({ ...docs[i].data(), id }))
+    });
   }
 
   async function getDistance() {
@@ -42,28 +65,42 @@ export default function PrayerDetailScreen({ route, navigation }) {
   }
 
   async function handleJoin() {
-    setLoading(true);
-    const ids = participants.map(p => p.id);
-
     // do the operations for joining
     if (!isJoined) {
-      await db.collection('prayers').doc(id).set({ participants: [...participants, db.doc('users/' + auth.currentUser.uid)] }, { merge: true });
-      setCurrentParticipants(prev => [...prev, { ...user, id: auth.currentUser.uid }]);
+      joinDispatch({
+        type: 'JOIN',
+        optimistic: {
+          callback: async () => {
+            const payload = [...originalParticipants, db.doc('users/' + auth.currentUser.uid)];
+            await db.collection('prayers').doc(id).set({ participants: payload }, { merge: true });
+            setOriginalParticipants(payload);
+          },
+          fallback: (prevState) => {
+            joinDispatch({ type: 'FALLBACK', payload: prevState });
+          }
+        },
+        payload: { ...user, id: auth.currentUser.uid },
+        queue: 'join'
+      })
     }
-    // cancel joining
     else {
-      db.collection('prayers').doc(id).set({ participants: participants.filter(p => p.id !== auth.currentUser.uid) }, { merge: true });
-      setCurrentParticipants(prev => prev.filter(p => p.id !== auth.currentUser.uid));
+      joinDispatch({
+        type: 'CANCEL',
+        optimistic: {
+          callback: async () => {
+            await db.collection('prayers').doc(id).set({ participants: originalParticipants.filter(p => p.id !== auth.currentUser.uid) }, { merge: true });
+          },
+          fallback: (prevState) => {
+            joinDispatch({ type: 'FALLBACK', payload: prevState });
+          }
+        },
+        queue: 'join'
+      })
     }
-    setIsJoined(prev => !prev);
-    setLoading(false);
   }
 
   return (
     <View style={{ flex: 1 }}>
-      <Spinner
-        visible={loading}
-      />
       <MapView
         initialRegion={{
           latitudeDelta: 0.0922,
