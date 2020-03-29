@@ -54,8 +54,9 @@ export default function PrayerCard({ navigate, ...props }) {
                 <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
               </Right>
             </View>
-            <View>
-              <Text style={styles.invited}>invited by {inviter.fullName}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Left><Text style={styles.invited}>invited by {inviter.fullName}</Text></Left>
+              <Right><Text style={styles.invited}>{moment(scheduleTime).format('DD MMM')}</Text></Right>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
               <Left><Text>{1 + participants.length + guests.male + guests.female} participating</Text></Left>
