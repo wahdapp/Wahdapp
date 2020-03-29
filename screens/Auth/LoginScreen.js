@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
-import { Form, Item, Input, Label, Button, Toast, Content, Container, Card } from 'native-base';
+import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { Text } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth } from 'firebaseDB';
 import { BISMILLAH } from 'assets/images';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -51,14 +52,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
           </View>
           <View style={styles.formContainer}>
             <Form>
-              <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
-                <Label style={{ height: '100%', width: '100%', fontFamily: 'Sen' }}>Email</Label>
-                <Input style={{ height: '100%', width: '100%', fontFamily: 'Sen' }} value={email} onChangeText={setEmail} />
-              </Item>
-              <Item floatingLabel rounded style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, width: '100%' }}>
-                <Label style={{ height: '100%', width: '100%', fontFamily: 'Sen' }}>Password</Label>
-                <Input style={{ height: '100%', width: '100%', fontFamily: 'Sen' }} value={password} onChangeText={setPassword} secureTextEntry={true} />
-              </Item>
+              <InputGroup floatingLabel rounded style={styles.inputGroup}>
+                <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+                <Input value={email} onChangeText={setEmail} style={styles.input} />
+              </InputGroup>
+              <InputGroup floatingLabel rounded style={styles.inputGroup}>
+                <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+                <Input value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
+              </InputGroup>
             </Form>
             <View style={styles.forgotPwdContainer}>
               <Text styles={styles.forgotPwdText}>Forgot password</Text>
@@ -170,5 +171,17 @@ const styles = StyleSheet.create({
   hyperlink: {
     fontSize: 14,
     color: 'blue'
+  },
+  inputGroup: {
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    justifyContent: 'center'
+  },
+  input: {
+    fontSize: 12,
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    fontFamily: 'Sen',
+    lineHeight: 16
   }
 });
