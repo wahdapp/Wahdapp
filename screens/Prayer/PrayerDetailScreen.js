@@ -94,6 +94,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
           }
         },
+        id: auth.currentUser.uid,
         queue: 'join'
       })
     }

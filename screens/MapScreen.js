@@ -93,7 +93,7 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleConfirm() {
-    navigation.navigate('CreateInvitation', currentRegion);
+    navigation.navigate('CreateInvitation', { ...currentRegion, removeMarker: () => setSelectedLocation(null) });
   }
 
   if (!currentRegion || !currentZoom) {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     height: 70,
-    backgroundColor: colors.tintColor,
+    backgroundColor: '#2f95dc',
     borderRadius: 100,
   },
   inviteBtn: {

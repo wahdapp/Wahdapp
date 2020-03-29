@@ -62,14 +62,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
       const schedule = moment(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-DD-MM HH:mm');
       const formattedSchedule = schedule.format();
 
-      console.log({ formattedSchedule })
-      console.log(route.params)
-
       if (now > schedule) {
         throw { message: 'Prayer time cannot be before now' };
       }
 
-      const { latitude, longitude } = route.params;
+      const { latitude, longitude, removeMarker } = route.params;
 
       db.collection('prayers').add({
         scheduleTime: formattedSchedule,
@@ -87,6 +84,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
       })
 
       navigation.goBack();
+      removeMarker();
     }
     catch (e) {
       if (e.message) {

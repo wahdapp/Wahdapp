@@ -105,7 +105,7 @@ export default function FilterScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Minimum Participants: {`(>= ${minimumParticipants} ${minimumParticipants > 1 ? 'people' : 'person'})`}</BoldText>
+            <BoldText style={styles.sectionHeader}>Minimum Participants:{`\n(>= ${minimumParticipants} ${minimumParticipants > 1 ? 'people' : 'person'})`}</BoldText>
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={user.gender === 'M' ? 0 : 2}
