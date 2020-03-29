@@ -78,7 +78,7 @@ export default function FilterScreen({ route, navigation }) {
                 <Button block rounded success key={i}
                   bordered={!selectedPrayers.includes(prayer)}
                   onPress={() => handlePrayerClick(prayer)}
-                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2 }}
+                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2, borderColor: selectedPrayers.includes(prayer) ? null : '#7C7C7C' }}
                 >
                   <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#7C7C7C' }}>{prayer}</Text>
                 </Button>

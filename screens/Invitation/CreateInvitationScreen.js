@@ -110,7 +110,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 <Button block rounded success key={i}
                   bordered={selectedPrayer !== prayer}
                   onPress={() => handlePrayerClick(prayer)}
-                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayer === prayer ? 0 : 2 }}
+                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayer === prayer ? 0 : 2, borderColor: selectedPrayers === prayer ? null : '#7C7C7C' }}
                 >
                   <Text style={{ textTransform: 'capitalize', color: selectedPrayer === prayer ? '#fff' : '#7C7C7C' }}>{prayer}</Text>
                 </Button>
