@@ -232,9 +232,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: 80,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginBottom: 15,
-    marginRight: 20
+    marginRight: 10
   },
   line: {
     height: 1,
