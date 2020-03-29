@@ -320,6 +320,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   operationText: {
-    fontSize: 14
+    fontSize: 18
   }
 })

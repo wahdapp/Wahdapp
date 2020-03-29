@@ -30,7 +30,7 @@ export default function FilterScreen({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={resetFilter} style={{ marginRight: 15 }}>
+        <TouchableOpacity onPress={resetFilter} style={{ marginRight: 25 }}>
           <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} />
         </TouchableOpacity>
       ),

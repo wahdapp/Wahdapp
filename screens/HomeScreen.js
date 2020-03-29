@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
       <View style={styles.topHeader}>
         <Ionicons size={24} />
         <Text style={styles.headerText}>Nearby Prayers</Text>

@@ -87,14 +87,14 @@ export default function App(props) {
   }
 
   return (
-    <View style={styles.container}>
-      {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-      <Provider store={store}>
-        <Root>
+    <Root>
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <Provider store={store}>
           <AppNavigator user={userAuth} />
-        </Root>
-      </Provider>
-    </View>
+        </Provider>
+      </View>
+    </Root>
   );
 }
 
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'ios' ? 20 : 24
   },
   genderSelectionContainer: {
     flex: 1,

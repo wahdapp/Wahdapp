@@ -20,7 +20,7 @@ const headerOptions = {
 
 function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen
         name="PrayerDetail"
@@ -41,7 +41,7 @@ function HomeStack() {
 
 function MapStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: 'Invite Prayer' }} />
     </Stack.Navigator>
@@ -72,7 +72,8 @@ function Tabs() {
       initialRouteName="Home"
       tabBarOptions={{ showLabel: false }}
       activeColor="#fff"
-      barStyle={{ backgroundColor: '#589e61' }}>
+      barStyle={{ backgroundColor: '#589e61' }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeStack}

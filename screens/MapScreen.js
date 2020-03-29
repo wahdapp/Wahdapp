@@ -105,7 +105,7 @@ export default function MapScreen({ navigation }) {
   }
 
   return (
-    <>
+    <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
       <MapView
         provider="google"
         style={{ flex: 1 }}
@@ -133,7 +133,7 @@ export default function MapScreen({ navigation }) {
       >
         <Ionicons name={Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'} size={30} color="#ffffff" />
       </TouchableOpacity>
-    </>
+    </View>
   );
 }
 
