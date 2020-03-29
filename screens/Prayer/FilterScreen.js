@@ -27,6 +27,16 @@ export default function FilterScreen({ route, navigation }) {
     }
   }, [filter]);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={resetFilter} style={{ marginRight: 15 }}>
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   function resetFilter() {
     setSelectedPrayers(fardhs);
     setDistance(3);
@@ -44,7 +54,7 @@ export default function FilterScreen({ route, navigation }) {
     };
     await AsyncStorage.setItem('prayersFilter', JSON.stringify(prayersFilter));
     dispatch(setFilter(prayersFilter));
-    
+
     navigation.goBack();
   }
 
@@ -59,17 +69,6 @@ export default function FilterScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <View style={styles.topHeader}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={Platform.OS === 'ios' ? 36 : 24} />
-        </TouchableOpacity>
-        <Text style={styles.header}>Filter</Text>
-        <TouchableOpacity onPress={resetFilter} style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.line} />
 
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>

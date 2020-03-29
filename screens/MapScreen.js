@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { Text } from 'components';
 import { View, Button, Toast } from 'native-base';
 import * as Location from 'expo-location';
@@ -21,6 +22,7 @@ export default function MapScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUserPosition();
@@ -93,7 +95,10 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleConfirm() {
+    console.log('confirm')
+    setIsLoading(true);
     navigation.navigate('CreateInvitation', currentRegion);
+    setIsLoading(false);
   }
 
   if (!currentRegion || !currentZoom) {
@@ -106,6 +111,11 @@ export default function MapScreen({ navigation }) {
 
   return (
     <>
+      <Spinner
+        visible={isLoading}
+        textContent={'Loading...'}
+        textStyle={{ color: '#fff' }}
+      />
       <MapView
         provider="google"
         style={{ flex: 1 }}

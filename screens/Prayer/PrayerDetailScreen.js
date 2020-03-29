@@ -44,13 +44,6 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.topHeader}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} />
-        </TouchableOpacity>
-        <Text style={styles.header}>{prayer} prayer</Text>
-        <Ionicons size={24} />
-      </View>
       <MapView
         initialRegion={{
           latitudeDelta: 0.0922,

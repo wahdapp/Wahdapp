@@ -13,22 +13,37 @@ import PrayersScreen from 'screens/PrayersScreen';
 import SettingsScreen from 'screens/SettingsScreen';
 
 const Stack = createStackNavigator();
+const headerOptions = {
+  headerStyle: { backgroundColor: '#f7f7f7' },
+  headerTitleStyle: { fontFamily: 'Sen' }
+}
 
 function HomeStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="PrayerDetail" component={PrayerDetailScreen} />
-      <Stack.Screen name="Filter" component={FilterScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PrayerDetail"
+        component={PrayerDetailScreen}
+        options={({ route }) => ({
+          ...headerOptions,
+          title: `${route.params.prayer} prayer`,
+          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' }
+        })} />
+      <Stack.Screen
+        name="Filter"
+        component={FilterScreen}
+        options={{ ...headerOptions, title: 'Filter' }}
+        />
     </Stack.Navigator>
   )
 }
 
 function MapStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Map" component={MapScreen} />
-      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: 'Invite Prayer' }} />
     </Stack.Navigator>
   )
 }

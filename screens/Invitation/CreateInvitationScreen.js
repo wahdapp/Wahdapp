@@ -102,16 +102,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={styles.topHeader}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={Platform.OS === 'ios' ? 36 : 24} />
-        </TouchableOpacity>
-        <Text style={styles.header}>Invite Prayer</Text>
-        <Ionicons size={24} />
-      </View>
-
-      <View style={styles.line} />
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
 
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
@@ -133,7 +124,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Participants:</BoldText>
+            <BoldText style={styles.sectionHeader}>Current participants:</BoldText>
           </Left>
         </View>
         <View style={styles.participantsSection}>
@@ -173,7 +164,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
             <Textarea
               value={description}
               onChangeText={setDescription}
-              style={{ width: '100%', borderRadius: 8 }}
+              style={{ width: '100%', borderRadius: 8, fontFamily: 'Sen' }}
               rowSpan={8}
               bordered
             />
@@ -191,7 +182,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 animationType={"fade"}
                 androidMode={"default"}
                 placeHolderText={moment(date).format('YYYY-MM-DD')}
-                textStyle={{ color: '#000', fontSize: 18 }}
+                textStyle={{ color: '#000', fontSize: 18, fontFamily: 'Sen' }}
                 placeHolderTextStyle={{ color: "#000" }}
                 onDateChange={setDate}
                 disabled={false}
@@ -206,7 +197,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
             <Button bordered
               onPress={() => timePickerRef.current.open()}
               style={styles.timePickerBtn}>
-              <Text style={{ fontSize: 18 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : 'Choose Time'}</Text>
+              <Text style={{ fontSize: 18, paddingHorizontal: 5 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : 'Choose Time'}</Text>
             </Button>
           </Left>
         </View>
@@ -279,7 +270,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   sectionSubHeader: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#7C7C7C',
   },
   prayerList: {
@@ -315,7 +306,8 @@ const styles = StyleSheet.create({
     minWidth: 170,
     paddingHorizontal: 10,
     borderColor: '#7C7C7C',
-    borderWidth: 1
+    borderStyle: 'solid',
+    borderWidth: 1,
   },
   operationBtn: {
     alignItems: 'center',
