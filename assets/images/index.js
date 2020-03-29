@@ -14,3 +14,5 @@ export const MAN_AVATAR = require('./man-avatar.png');
 export const WOMAN_AVATAR = require('./woman-avatar.png');
 
 export const BISMILLAH = require('./bismillah.png');
+
+export const FORGOT = require('./forgot.png');

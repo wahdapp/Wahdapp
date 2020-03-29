@@ -62,7 +62,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
               </InputGroup>
             </Form>
             <View style={styles.forgotPwdContainer}>
-              <Text styles={styles.forgotPwdText}>Forgot password</Text>
+              <Text styles={styles.forgotPwdText} onPress={() => navigate('ForgotPassword')}>Forgot password</Text>
             </View>
             <View style={styles.loginBtnContainer}>
               <AnimatedButton
@@ -102,6 +102,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
 const styles = StyleSheet.create({
   topHeader: {
+    marginTop: Platform.OS === 'ios' ? 20 : 24,
     padding: 25,
     alignItems: 'center',
     flexDirection: 'row',

@@ -20,6 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
+import ForgotPasswordScreen from 'screens/Auth/ForgotPasswordScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -80,6 +81,7 @@ export default function App(props) {
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '' }} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Forgot Password' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>
