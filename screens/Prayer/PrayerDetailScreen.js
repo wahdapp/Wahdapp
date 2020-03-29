@@ -140,7 +140,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
       <ScrollView style={styles.sectionWrapper}>
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>{moment(scheduleTime).format('MMM DD, hh:mm A')}</BoldText>
+            <BoldText style={styles.sectionHeader}>{`${moment(scheduleTime).format('MMM DD')}\n${moment(scheduleTime).format('hh:mm A')}`}</BoldText>
             <Text style={styles.sectionSubHeader}>{formatDistance(distance)}</Text>
           </Left>
           <Right>
