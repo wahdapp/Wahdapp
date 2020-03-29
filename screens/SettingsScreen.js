@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { AsyncStorage } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
 import { auth } from 'firebaseDB';
 
 export default function SettingsScreen() {
   useEffect(() => {
-    auth.signOut() ;
+    auth.signOut();
+    AsyncStorage.removeItem('prayersFilter');
   }, []);
   /**
    * Go ahead and delete ExpoConfigView and replace it with your content;

@@ -24,7 +24,6 @@ export default function LoginScreen({ navigation: { navigate } }) {
     try {
       setLoading(true);
       await auth.signInWithEmailAndPassword(email, password);
-      setLoading(false);
     }
     catch (e) {
       setLoading(false);

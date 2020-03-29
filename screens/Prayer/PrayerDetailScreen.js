@@ -8,42 +8,62 @@ import { MARKER, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
-import { auth } from 'firebaseDB';
+import { auth, db } from 'firebaseDB';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const ScreenHeight = Dimensions.get("window").height;
 
 export default function PrayerDetailScreen({ route, navigation }) {
-  console.log(route.params)
-  const { geolocation, prayer, scheduleTime, participants, inviter, inviterID, description, guests } = route.params;
+  const { geolocation, prayer, scheduleTime, participants, inviter, inviterID, description, guests, id } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
   const [distance, setDistance] = useState(null);
-  const [isJoined, setIsJoined] = useState(false);
-  const [currentParticipants, setCurrentParticipants] = useState(participants);
+  const [isJoined, setIsJoined] = useState(participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false);
+  const [currentParticipants, setCurrentParticipants] = useState([]);
+  const [loading, setLoading] = useState(false);
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
 
   useEffect(() => {
     getDistance();
-    // getAllUsers();
+    getParticipantsInfo();
   }, [location]);
 
-  async function getAllUsers() {
-    const users = [inviter, ...currentParticipants];
+  async function getParticipantsInfo() {
+    const ids = participants.map(p => p.id);
+    const promises = participants.map(p => p.get());
+    const docs = await Promise.all(promises);
 
+    setCurrentParticipants(ids.map((id, i) => ({ ...docs[i].data(), id })));
   }
 
   async function getDistance() {
     setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
   }
 
-  function handleJoin() {
+  async function handleJoin() {
+    setLoading(true);
+    const ids = participants.map(p => p.id);
+
+    // do the operations for joining
+    if (!isJoined) {
+      await db.collection('prayers').doc(id).set({ participants: [...participants, db.doc('users/' + auth.currentUser.uid)] }, { merge: true });
+      setCurrentParticipants(prev => [...prev, { ...user, id: auth.currentUser.uid }]);
+    }
+    // cancel joining
+    else {
+      db.collection('prayers').doc(id).set({ participants: participants.filter(p => p.id !== auth.currentUser.uid) }, { merge: true });
+      setCurrentParticipants(prev => prev.filter(p => p.id !== auth.currentUser.uid));
+    }
     setIsJoined(prev => !prev);
-    // setCurrentParticipants(prev => [...prev, user]);
+    setLoading(false);
   }
 
   return (
     <View style={{ flex: 1 }}>
+      <Spinner
+        visible={loading}
+      />
       <MapView
         initialRegion={{
           latitudeDelta: 0.0922,

@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     if (!isEmpty(filter) && !isEmpty(location)) {
+      console.log({ filter })
       setIsRefreshing(true);
       // fetch nearby prayers according to filter preference
       fetchNearbyPrayers().then(() => {
@@ -39,6 +40,7 @@ export default function HomeScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
+      console.log({ participants: doc.data().participants.length, min: filter.minimumParticipants })
       if (
         moment().isBefore(moment(doc.data().scheduleTime)) && // filter by schedule
         doc.data().participants.length >= filter.minimumParticipants && // filter participants number
