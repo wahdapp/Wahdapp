@@ -44,11 +44,12 @@ export default function HomeScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
-      console.log({ participants: doc.data().participants.length, min: filter.minimumParticipants })
+      const { participants, guests: { male, female }, scheduleTime, prayer } = doc.data();
+
       if (
-        moment().isBefore(moment(doc.data().scheduleTime)) && // filter by schedule
-        doc.data().participants.length >= filter.minimumParticipants && // filter participants number
-        filter.selectedPrayers.includes(doc.data().prayer) // filter by prayer
+        moment().isBefore(moment(scheduleTime)) && // filter by schedule
+        (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
+        filter.selectedPrayers.includes(prayer) // filter by prayer
       ) {
         prayers.push({ ...doc.data(), id: doc.id });
       }
