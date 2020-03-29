@@ -90,7 +90,6 @@ export default function CreateInvitationScreen({ route, navigation }) {
     }
     catch (e) {
       if (e.message) {
-        console.error(e.message);
         Toast.show({
           text: e.message,
           textStyle: { fontSize: 12 },

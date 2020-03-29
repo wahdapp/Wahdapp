@@ -45,7 +45,6 @@ export default function FilterScreen({ route, navigation }) {
   }
 
   async function applyFilter() {
-    const { setIsRefreshing, fetchNearbyPrayers } = route.params;
     const prayersFilter = {
       selectedPrayers,
       distance,

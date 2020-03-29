@@ -17,6 +17,10 @@ export default function HomeScreen({ navigation }) {
   const location = useSelector(state => state.locationState);
 
   useEffect(() => {
+    query();
+  }, [filter, location]);
+
+  function query() {
     if (!isEmpty(filter) && !isEmpty(location)) {
       console.log({ filter })
       setIsRefreshing(true);
@@ -26,7 +30,7 @@ export default function HomeScreen({ navigation }) {
         setIsRefreshing(false);
       });
     }
-  }, [filter, location]);
+  }
 
   async function fetchNearbyPrayers() {
     console.log({ distance: filter.distance })
@@ -79,7 +83,7 @@ export default function HomeScreen({ navigation }) {
             <FlatList
               style={{ height: '100%' }}
               data={nearbyPrayers}
-              renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
+              renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} query={query} />}
               keyExtractor={item => item.id}
               onRefresh={() => {
                 setIsRefreshing(true)
