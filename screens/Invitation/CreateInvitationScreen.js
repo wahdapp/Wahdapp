@@ -9,8 +9,10 @@ import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
 import { prayerTypes } from 'constants/prayers';
 import geohash from 'ngeohash';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateInvitationScreen({ route, navigation }) {
+  const { t } = useTranslation(['INVITATION', 'COMMON']);
   const [selectedPrayer, setSelectedPrayer] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
@@ -19,6 +21,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [female, setFemale] = useState(0);
   const user = useSelector(state => state.userState);
   const timePickerRef = useRef(null);
+  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
   function handlePrayerClick(prayer) {
     if (selectedPrayer === prayer) {
@@ -63,7 +66,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
       const formattedSchedule = schedule.format();
 
       if (now > schedule) {
-        throw { message: 'Prayer time cannot be before now' };
+        throw { message: t('ERROR.0') };
       }
 
       const { latitude, longitude, removeMarker } = route.params;
@@ -104,7 +107,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Prayer:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('PRAYER')}</BoldText>
             <View style={styles.prayerList}>
               {prayerTypes.map((prayer, i) => (
                 <Button block rounded success key={i}
@@ -112,7 +115,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                   onPress={() => handlePrayerClick(prayer)}
                   style={{ ...styles.prayerBtn, borderWidth: selectedPrayer === prayer ? 0 : 2, borderColor: selectedPrayer === prayer ? null : '#7C7C7C' }}
                 >
-                  <Text style={{ textTransform: 'capitalize', color: selectedPrayer === prayer ? '#fff' : '#7C7C7C' }}>{prayer}</Text>
+                  <Text style={{ textTransform: 'capitalize', color: selectedPrayer === prayer ? '#fff' : '#7C7C7C' }}>{PRAYERS[prayer]}</Text>
                 </Button>
               ))}
             </View>
@@ -121,13 +124,13 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Current participants:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
           </Left>
         </View>
         <View style={styles.participantsSection}>
           <View style={styles.participantsRow}>
             <View>
-              <Text style={styles.sectionSubHeader}>Male</Text>
+              <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
             </View>
             <View style={styles.counter}>
               <Button style={styles.operationBtn} onPress={() => handleOperation('M', '-')}>
@@ -141,7 +144,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           </View>
           <View style={styles.participantsRow}>
             <View>
-              <Text style={styles.sectionSubHeader}>Female</Text>
+              <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
               <Button style={styles.operationBtn} onPress={() => handleOperation('F', '-')}>
@@ -157,7 +160,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Description:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
             <Textarea
               value={description}
               onChangeText={setDescription}
@@ -170,7 +173,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Date:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
             <View style={styles.datePicker}>
               <DatePicker
                 defaultDate={new Date()}
@@ -191,11 +194,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Time:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
             <Button bordered
               onPress={() => timePickerRef.current.open()}
               style={styles.timePickerBtn}>
-              <Text style={{ fontSize: 18, paddingHorizontal: 5 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : 'Choose Time'}</Text>
+              <Text style={{ fontSize: 18, paddingHorizontal: 5 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
             </Button>
           </Left>
         </View>
@@ -208,7 +211,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.inviteSection}>
           <Button block rounded success style={styles.inviteBtn} disabled={!selectedPrayer || !description || !time} onPress={submit}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>INVITE</Text>
+            <Text style={{ color: '#fff', fontSize: 18 }}>{t('INVITE')}</Text>
           </Button>
         </View>
       </View>

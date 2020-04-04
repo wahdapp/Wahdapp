@@ -1,0 +1,99 @@
+{
+  "HOME": {
+    "HEADER": "附近集會",
+    "EMPTY": "目前尚未有任何集會 :("
+  },
+  "FILTER": {
+    "HEADER": "篩選",
+    "PRAYERS": "禮拜：",
+    "DISTANCE": "距離：",
+    "MIN_PARTICIPANTS": "最低人數：",
+    "PERSON": "人",
+    "PEOPLE": "人",
+    "SAME_GENDER": "同性別",
+    "CHECKBOX_DESC": "如果打勾，您將只會看到由女性發出的邀請。",
+    "BUTTON": "保存"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "{{prayer}}",
+    "JOIN": "加入",
+    "JOINED": "已加入",
+    "DESCRIPTION": "說明",
+    "ORGANIZER": "發起人",
+    "PARTICIPANTS": "參加者",
+    "GUESTS": "來賓"
+  },
+  "INVITATION": {
+    "CONFIRM": "確認",
+    "HEADER": "邀請禮拜",
+    "CURRENT_PARTICIPANTS": "目前人數：",
+    "DESCRIPTION": "說明：",
+    "DATE": "日期：",
+    "TIME": "時間：",
+    "CHOOSE_TIME": "選擇時間",
+    "INVITE": "發出邀請",
+    "ERROR": [
+      "禮拜時間不可比現在還早"
+    ]
+  },
+  "PROFILE": {
+    "HEADER": "個人",
+    "PRAYERS_INVITED": "邀請次數",
+    "PRAYERS_PARTICIPATED": "參加次數",
+    "EMPTY": "目前尚未邀請過禮拜 :(",
+    "LANGUAGE_HEADER": "選擇語言",
+    "OPTIONS": {
+      "LANGUAGE": "語言偏好",
+      "LOGOUT": "登出"
+    }
+  },
+  "TABS": {
+    "HOME": "首頁",
+    "MAP": "地圖",
+    "NOTIFICATIONS": "通知",
+    "PROFILE": "個人",
+    "BACK": "回去"
+  },
+  "SIGN": {
+    "LOGIN": "登入",
+    "FORGOT_PWD": "忘記密碼",
+    "NOT_HAVE": "還沒有帳號？",
+    "SIGNUP_NOW": "馬上註冊",
+    "SIGNUP": "註冊",
+    "CONNECT": "或者",
+    "CREATE_ACCOUNT": "創辦帳號",
+    "FULL_NAME": "全名",
+    "EMAIL": "電子郵件",
+    "PASSWORD": "密碼",
+    "CONFIRM": "確認密碼",
+    "FORGOT_QUESTION": "忘記了您的密碼？",
+    "FORGOT_DESC": "請輸入您用來註冊的電子郵件。 我們將向您發送電子郵件以再次重置您的密碼！",
+    "SUBMIT": "提交",
+    "ERROR": [
+      "電子郵件或密碼尚未填寫",
+      "有至少一欄尚未填寫喔",
+      "兩個密碼不符",
+      "好"
+    ]
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "晨禮",
+      "dhuhr": "晌禮",
+      "asr": "晡禮",
+      "maghrib": "昏禮",
+      "isha": "宵禮",
+      "jumuah": "聚禮",
+      "janazah": "葬禮"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "由 {{name}} 邀請",
+      "PARTICIPATING": "{{num}}人參加"
+    },
+    "GENDER": {
+      "LABEL": "性別",
+      "MALE": "男性",
+      "FEMALE": "女性"
+    }
+  }
+}

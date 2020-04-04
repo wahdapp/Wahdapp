@@ -1,0 +1,99 @@
+{
+  "HOME": {
+    "HEADER": "Nearby Prayers",
+    "EMPTY": "No prayer found so far :("
+  },
+  "FILTER": {
+    "HEADER": "Filter",
+    "PRAYERS": "Prayers:",
+    "DISTANCE": "Distance:",
+    "MIN_PARTICIPANTS": "Minimum Participants:",
+    "PERSON": "person",
+    "PEOPLE": "people",
+    "SAME_GENDER": "Same gender",
+    "CHECKBOX_DESC": "If checked, you will only see invitations organized by females.",
+    "BUTTON": "SAVE"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "{{prayer}} Prayer",
+    "JOIN": "JOIN",
+    "JOINED": "JOINED",
+    "DESCRIPTION": "Description",
+    "ORGANIZER": "Organizer",
+    "PARTICIPANTS": "Participants",
+    "GUESTS": "Guests"
+  },
+  "INVITATION": {
+    "CONFIRM": "Confirm",
+    "HEADER": "Invite Prayer",
+    "CURRENT_PARTICIPANTS": "Current Participants:",
+    "DESCRIPTION": "Description:",
+    "DATE": "Date:",
+    "TIME": "Time:",
+    "CHOOSE_TIME": "Choose Time",
+    "INVITE": "INVITE",
+    "ERRORS": [
+      "Prayer time cannot be before now"
+    ]
+  },
+  "PROFILE": {
+    "HEADER": "Profile",
+    "PRAYERS_INVITED": "PRAYERS\nINVITED",
+    "PRAYERS_PARTICIPATED": "PRAYERS\nPARTICIPATED",
+    "EMPTY": "No prayer invited so far :(",
+    "LANGUAGE_HEADER": "Choose Language",
+    "OPTIONS": {
+      "LANGUAGE": "Language Preference",
+      "LOGOUT": "Logout"
+    }
+  },
+  "TABS": {
+    "HOME": "Home",
+    "MAP": "Map",
+    "NOTIFICATIONS": "Notifications",
+    "PROFILE": "Profile",
+    "BACK": "Back"
+  },
+  "SIGN": {
+    "LOGIN": "LOGIN",
+    "FORGOT_PWD": "Forgot Password",
+    "NOT_HAVE": "Don't have an account yet?",
+    "SIGNUP_NOW": "Sign up now",
+    "SIGNUP": "Sign Up",
+    "CONNECT": "Or connect with",
+    "CREATE_ACCOUNT": "Create Account",
+    "FULL_NAME": "Full Name",
+    "EMAIL": "Email Address",
+    "PASSWORD": "Password",
+    "CONFIRM": "Confirm Password",
+    "FORGOT_QUESTION": "Forgot Your Password?",
+    "FORGOT_DESC": "Please enter the email that you have used to register. We will send you an email to reset your password again!",
+    "SUBMIT": "SUBMIT",
+    "ERROR": [
+      "Email or password is missing",
+      "You have one or more fields missing",
+      "Two passwords do not match",
+      "OK"
+    ]
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "jumuah": "Jumuah",
+      "janazah": "Janazah"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "invited by {{name}}",
+      "PARTICIPATING": "{{num}} participating"
+    },
+    "GENDER": {
+      "LABEL": "Gender",
+      "MALE": "Male",
+      "FEMALE": "Female"
+    }
+  }
+}

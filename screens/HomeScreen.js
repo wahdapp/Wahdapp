@@ -9,6 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getGeohashRange } from 'helpers/geo';
 import moment from 'moment';
 import { NOT_FOUND } from 'assets/images';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeScreen({ navigation }) {
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
@@ -16,6 +17,7 @@ export default function HomeScreen({ navigation }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
+  const { t } = useTranslation(['HOME']);
 
   useEffect(() => {
     query();
@@ -97,7 +99,7 @@ export default function HomeScreen({ navigation }) {
               ListEmptyComponent={() => (
                 <View style={styles.imageContainer}>
                   <Image source={NOT_FOUND} style={styles.image} />
-                  <Text style={styles.notFoundText}>No prayer found so far :(</Text>
+                  <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
                 </View>
               )}
             />

@@ -6,18 +6,20 @@ import AnimatedButton from 'components/AnimatedButton';
 import { auth } from 'firebaseDB';
 import { BISMILLAH } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation(['SIGN']);
 
   async function handleLogin() {
     if (!email || !password) {
       Toast.show({
-        text: "Email or password is missing",
+        text: t('ERROR.0'),
         textStyle: { fontSize: 12 },
-        buttonText: "OK",
+        buttonText: t('ERROR.3'),
         type: "danger"
       });
       return;
@@ -31,7 +33,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
       Toast.show({
         text: e.message,
         textStyle: { fontSize: 12 },
-        buttonText: "OK",
+        buttonText: t('ERROR.3'),
         type: "danger"
       });
     }
@@ -62,14 +64,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
               </InputGroup>
             </Form>
             <View style={styles.forgotPwdContainer}>
-              <Text styles={styles.forgotPwdText} onPress={() => navigate('ForgotPassword')}>Forgot password</Text>
+              <Text styles={styles.forgotPwdText} onPress={() => navigate('ForgotPassword')}>{t('FORGOT_PWD')}</Text>
             </View>
             <View style={styles.loginBtnContainer}>
               <AnimatedButton
                 showLoading={loading}
                 width={150}
                 height={45}
-                title="Login"
+                title={t('LOGIN')}
                 titleFontSize={14}
                 titleFontFamily="Sen"
                 titleColor="rgb(255,255,255)"
@@ -80,19 +82,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.signUpLabelContainer}>
-              <Text style={styles.signUpLabel}>Already have an account? </Text>
-              <Text style={{ ...styles.signUpLabel, color: '#68A854' }} onPress={() => navigate('Signup')}> Sign Up </Text>
+              <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
+              <Text style={{ ...styles.signUpLabel, color: '#68A854' }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
             </View>
 
             <View style={styles.signUpLabelContainer}>
-              <Text style={styles.signUpLabel}>Or connect with</Text>
+              <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
             </View>
 
-            {/* <View style={styles.loginBtnContainer} s>
-              <Button rounded style={styles.loginBtn} onPress={() => navigate('Signup')}>
-                <Text style={{ color: '#fff' }}>SIGN UP</Text>
-              </Button>
-            </View> */}
           </View>
         </Card>
       </ScrollView>

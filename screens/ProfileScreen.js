@@ -9,8 +9,10 @@ import moment from 'moment';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfileScreen({ navigation }) {
+  const { t } = useTranslation(['PROFILE']);
   const [isLoading, setIsLoading] = useState(true);
   const [invitedPrayersList, setInvitedPrayersList] = useState([]);
   const [participatedLength, setParticipatedLength] = useState(0);
@@ -67,12 +69,20 @@ export default function ProfileScreen({ navigation }) {
   function renderContent() {
     return (
       <View style={styles.panel}>
+        <TouchableNativeFeedback onPress={() => navigation.navigate('Language')}>
+          <ListItem icon>
+            <Left>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-planet' : 'md-planet'} size={24} />
+            </Left>
+            <Body><Text>{t('OPTIONS.LANGUAGE')}</Text></Body>
+          </ListItem>
+        </TouchableNativeFeedback>
         <TouchableNativeFeedback onPress={logout}>
           <ListItem icon>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
             </Left>
-            <Body><Text>Logout</Text></Body>
+            <Body><Text>{t('OPTIONS.LOGOUT')}</Text></Body>
           </ListItem>
         </TouchableNativeFeedback>
       </View>
@@ -100,11 +110,11 @@ export default function ProfileScreen({ navigation }) {
             <View style={styles.infoContainer}>
               <View style={styles.infoItem}>
                 <BoldText style={styles.infoNumber}>{invitedPrayersList.length}</BoldText>
-                <BoldText style={styles.infoLabel}>prayers{'\n'}invited</BoldText>
+                <BoldText style={styles.infoLabel}>{t('PRAYERS_INVITED')}</BoldText>
               </View>
               <View style={styles.infoItem}>
                 <BoldText style={styles.infoNumber}>{participatedLength}</BoldText>
-                <BoldText style={styles.infoLabel}>prayers{'\n'}participated</BoldText>
+                <BoldText style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</BoldText>
               </View>
             </View>
           </View>
@@ -124,7 +134,7 @@ export default function ProfileScreen({ navigation }) {
                 ListEmptyComponent={() => (
                   <View style={styles.imageContainer}>
                     <Image source={NOT_FOUND} style={styles.image} />
-                    <Text style={styles.notFoundText}>No prayer invited so far :(</Text>
+                    <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
                   </View>
                 )}
               />

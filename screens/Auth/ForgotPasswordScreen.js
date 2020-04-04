@@ -5,9 +5,11 @@ import { Text, BoldText } from 'components';
 import { auth, db } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
 import { FORGOT } from 'assets/images';
+import { useTranslation } from 'react-i18next';
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
+  const { t } = useTranslation(['SIGN'])
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -19,8 +21,8 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.descriptionSection}>
-              <BoldText style={styles.bold}>Forgot Your Password?</BoldText>
-              <Text style={styles.text}>Please enter the email that you have used to register. We will send you an email to reset your password again!</Text>
+              <BoldText style={styles.bold}>{t('FORGOT_QUESTION')}</BoldText>
+              <Text style={styles.text}>{t('FORGOT_DESC')}</Text>
             </View>
 
 
@@ -35,7 +37,7 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
 
             <View style={styles.buttonContainer}>
               <Button rounded block style={styles.buttton}>
-                <Text style={{ color: '#fff' }}>SUBMIT</Text>
+                <Text style={{ color: '#fff' }}>{t('SUBMIT')}</Text>
               </Button>
             </View>
           </View>
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25
   },
   button: {
-    width: '100%',    
+    width: '100%',
     backgroundColor: '#68A854',
     height: 50
   }

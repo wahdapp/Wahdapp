@@ -13,8 +13,10 @@ import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'constants/Colors';
 import { PIN } from 'assets/images';
+import { useTranslation } from 'react-i18next';
 
 export default function MapScreen({ navigation }) {
+  const { t } = useTranslation(['INVITATION']);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
@@ -139,7 +141,7 @@ export default function MapScreen({ navigation }) {
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
             <View style={{ alignItems: 'center' }}>
               <Button rounded light style={{ paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
-                <Text>Confirm</Text>
+                <Text>{t('CONFIRM')}</Text>
               </Button>
               <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
             </View>

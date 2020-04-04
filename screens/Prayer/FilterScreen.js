@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { setFilter } from 'actions';
 import isEmpty from 'lodash/isEmpty';
+import { useTranslation } from 'react-i18next';
 
 export default function FilterScreen({ route, navigation }) {
   const filter = useSelector(state => state.filterState);
@@ -16,6 +17,8 @@ export default function FilterScreen({ route, navigation }) {
   const user = useSelector(state => state.userState);
   const [minNum, setMinNum] = useState(user.gender === 'M' ? 0 : 2);
   const [minimumParticipants, setMinimumParticipants] = useState(minNum);
+  const { t } = useTranslation(['FILTER', 'COMMON']);
+  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
   const dispatch = useDispatch();
 
@@ -83,7 +86,7 @@ export default function FilterScreen({ route, navigation }) {
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Prayers:</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('PRAYERS')}</BoldText>
             <View style={styles.prayerList}>
               {prayerTypes.map((prayer, i) => (
                 <Button rounded success key={i}
@@ -91,7 +94,7 @@ export default function FilterScreen({ route, navigation }) {
                   onPress={() => handlePrayerClick(prayer)}
                   style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2, borderColor: selectedPrayers.includes(prayer) ? null : '#7C7C7C' }}
                 >
-                  <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#7C7C7C' }}>{prayer}</Text>
+                  <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#7C7C7C' }}>{PRAYERS[prayer]}</Text>
                 </Button>
               ))}
             </View>
@@ -100,7 +103,7 @@ export default function FilterScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Distance: {`(< ${distance} km)`}</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('DISTANCE')} {`(< ${distance} km)`}</BoldText>
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={1}
@@ -116,7 +119,7 @@ export default function FilterScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Minimum Participants:{`\n(>= ${minimumParticipants} ${minimumParticipants > 1 ? 'people' : 'person'})`}</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('MIN_PARTICIPANTS')}{`\n(>= ${minimumParticipants} ${minimumParticipants > 1 ? 'people' : 'person'})`}</BoldText>
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={minNum}
@@ -133,8 +136,8 @@ export default function FilterScreen({ route, navigation }) {
         {user.gender === 'F' && (
           <View style={styles.detailSection}>
             <Left>
-              <BoldText style={styles.sectionHeader}>Same gender:</BoldText>
-              <Text style={styles.sectionSubHeader}>If checked, you will only see invitations organized by females.</Text>
+              <BoldText style={styles.sectionHeader}>{t('SAME_GENDER')}</BoldText>
+              <Text style={styles.sectionSubHeader}>{t('If checked, you will only see invitations organized by females.')}</Text>
             </Left>
             <Right>
               <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color="#589e61" />
@@ -144,7 +147,7 @@ export default function FilterScreen({ route, navigation }) {
 
         <View style={styles.applySection}>
           <Button block rounded success style={styles.applyBtn} onPress={applyFilter}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>SAVE</Text>
+            <Text style={{ color: '#fff', fontSize: 18 }}>{t('BUTTON')}</Text>
           </Button>
         </View>
       </View>
