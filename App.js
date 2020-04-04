@@ -27,6 +27,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import AppNavigator from './navigation/AppNavigator';
 import { decode, encode } from 'base-64'
+import 'helpers/clearTimer';
 
 /* Firebase bug */
 global.crypto = require("@firebase/firestore");

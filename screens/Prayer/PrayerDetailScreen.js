@@ -254,11 +254,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   sectionHeader: {
-    fontSize: 16,
-    marginBottom: 10
+    fontSize: 14,
+    marginBottom: 10,
+    color: '#7C7C7C'
   },
   sectionSubHeader: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#7C7C7C',
   },
   line: {

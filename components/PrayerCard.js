@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { Text } from './Text';
 import { View, Card, CardItem, Left, Body, Right } from 'native-base';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '../assets/images';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from '../helpers/geo';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 export default function PrayerCard({ navigate, ...props }) {
   const [distance, setDistance] = useState(null);
@@ -42,7 +43,7 @@ export default function PrayerCard({ navigate, ...props }) {
 
   return (
     <View style={styles.cardWrapper}>
-      <TouchableOpacity onPress={handleCardPress}>
+      <TouchableNativeFeedback onPress={handleCardPress}>
         <Card style={styles.card} pointerEvents="none">
           <CardItem cardBody={true} style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />
@@ -66,7 +67,7 @@ export default function PrayerCard({ navigate, ...props }) {
             </View>
           </CardItem>
         </Card>
-      </TouchableOpacity>
+      </TouchableNativeFeedback>
     </View>
   )
 }
