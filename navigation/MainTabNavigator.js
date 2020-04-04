@@ -14,8 +14,8 @@ import ProfileScreen from 'screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 const headerOptions = {
-  headerStyle: { backgroundColor: '#f7f7f7', borderWidth: 0 },
-  headerTitleStyle: { fontFamily: 'Sen' },
+  headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
+  headerTitleStyle: { fontFamily: 'Sen', fontWeight: '200' },
 }
 
 function HomeStack() {

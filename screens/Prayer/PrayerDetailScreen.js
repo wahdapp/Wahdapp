@@ -117,7 +117,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Spinner visible={isLoading} />
       <MapView
         initialRegion={{

@@ -9,6 +9,7 @@ import moment from 'moment';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 
 export default function ProfileScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +33,8 @@ export default function ProfileScreen({ navigation }) {
       getPastInfo();
     }
   }, [user]);
+
+  const fall = new Animated.Value(1);
 
   async function getPastInfo() {
     const invitedDoc = await db.collection('prayers')
@@ -85,59 +88,62 @@ export default function ProfileScreen({ navigation }) {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={styles.profileHeader}>
-        <View style={styles.profilePicContainer}>
-          <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
-        </View>
+    <>
+      <Animated.View style={{ flex: 1, backgroundColor: '#fff', opacity: Animated.add(0.1, Animated.multiply(fall, 0.9)) }}>
+        <View style={styles.profileHeader}>
+          <View style={styles.profilePicContainer}>
+            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
+          </View>
 
-        <View style={styles.nameContainer}>
-          <BoldText style={styles.nameText}>{user.fullName}</BoldText>
-        </View>
+          <View style={styles.nameContainer}>
+            <BoldText style={styles.nameText}>{user.fullName}</BoldText>
+          </View>
 
-        <View style={styles.infoSection}>
-          <View style={styles.infoContainer}>
-            <View style={styles.infoItem}>
-              <BoldText style={styles.infoNumber}>{invitedPrayersList.length}</BoldText>
-              <BoldText style={styles.infoLabel}>prayers invited</BoldText>
-            </View>
-            <View style={styles.infoItem}>
-              <BoldText style={styles.infoNumber}>{participatedLength}</BoldText>
-              <BoldText style={styles.infoLabel}>prayers participated</BoldText>
+          <View style={styles.infoSection}>
+            <View style={styles.infoContainer}>
+              <View style={styles.infoItem}>
+                <BoldText style={styles.infoNumber}>{invitedPrayersList.length}</BoldText>
+                <BoldText style={styles.infoLabel}>prayers{'\n'}invited</BoldText>
+              </View>
+              <View style={styles.infoItem}>
+                <BoldText style={styles.infoNumber}>{participatedLength}</BoldText>
+                <BoldText style={styles.infoLabel}>prayers{'\n'}participated</BoldText>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <View style={{ ...styles.prayerListWrapper, height: invitedPrayersList.length ? null : '100%' }}>
-        {isLoading
-          ? (
-            <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15 }}>
-              <ActivityIndicator color="#000" size="large" />
-            </View>
-          ) : (
-            <FlatList
-              style={{ height: '100%', paddingTop: 15 }}
-              data={invitedPrayersList}
-              renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
-              keyExtractor={item => item.id}
-              ListEmptyComponent={() => (
-                <View style={styles.imageContainer}>
-                  <Image source={NOT_FOUND} style={styles.image} />
-                  <Text style={styles.notFoundText}>No prayer invited so far :(</Text>
-                </View>
-              )}
-            />
-          )
-        }
-      </View>
+        <View style={{ ...styles.prayerListWrapper, height: invitedPrayersList.length ? null : '100%' }}>
+          {isLoading
+            ? (
+              <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15 }}>
+                <ActivityIndicator color="#000" size="large" />
+              </View>
+            ) : (
+              <FlatList
+                style={{ height: '100%', paddingTop: 15 }}
+                data={invitedPrayersList}
+                renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
+                keyExtractor={item => item.id}
+                ListEmptyComponent={() => (
+                  <View style={styles.imageContainer}>
+                    <Image source={NOT_FOUND} style={styles.image} />
+                    <Text style={styles.notFoundText}>No prayer invited so far :(</Text>
+                  </View>
+                )}
+              />
+            )
+          }
+        </View>
+      </Animated.View>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={[250, 0]}
         renderHeader={renderHeader}
         renderContent={renderContent}
         initialSnap={1}
+        callbackNode={fall}
       />
-    </View>
+    </>
   )
 }
 
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
   },
   panelHandle: {
     width: 40,
-    height: 8,
+    height: 4,
     borderRadius: 4,
     backgroundColor: '#00000040',
     marginBottom: 10,

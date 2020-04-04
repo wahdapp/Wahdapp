@@ -14,7 +14,8 @@ export default function FilterScreen({ route, navigation }) {
   const [distance, setDistance] = useState(3);
   const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
-  const [minimumParticipants, setMinimumParticipants] = useState(user.gender === 'M' ? 0 : 2);
+  const [minNum, setMinNum] = useState(user.gender === 'M' ? 0 : 2);
+  const [minimumParticipants, setMinimumParticipants] = useState(minNum);
 
   const dispatch = useDispatch();
 
@@ -26,6 +27,16 @@ export default function FilterScreen({ route, navigation }) {
       setSameGender(filter.sameGender);
     }
   }, [filter]);
+
+  useEffect(() => {
+    if (sameGender) {
+      setMinNum(0);
+    }
+    else {
+      setMinNum(2);
+      setMinimumParticipants(2);
+    }
+  }, [sameGender]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,7 +51,7 @@ export default function FilterScreen({ route, navigation }) {
   function resetFilter() {
     setSelectedPrayers(prayerTypes);
     setDistance(3);
-    setMinimumParticipants(user.gender === 'M' ? 0 : 2);
+    setMinimumParticipants(minNum);
     setSameGender(false)
   }
 
@@ -67,7 +78,7 @@ export default function FilterScreen({ route, navigation }) {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
 
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
@@ -75,7 +86,7 @@ export default function FilterScreen({ route, navigation }) {
             <BoldText style={styles.sectionHeader}>Prayers:</BoldText>
             <View style={styles.prayerList}>
               {prayerTypes.map((prayer, i) => (
-                <Button block rounded success key={i}
+                <Button rounded success key={i}
                   bordered={!selectedPrayers.includes(prayer)}
                   onPress={() => handlePrayerClick(prayer)}
                   style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2, borderColor: selectedPrayers.includes(prayer) ? null : '#7C7C7C' }}
@@ -95,7 +106,7 @@ export default function FilterScreen({ route, navigation }) {
               minimumValue={1}
               value={distance}
               step={1}
-              maximumValue={50}
+              maximumValue={30}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
               onSlidingComplete={setDistance}
@@ -108,10 +119,10 @@ export default function FilterScreen({ route, navigation }) {
             <BoldText style={styles.sectionHeader}>Minimum Participants:{`\n(>= ${minimumParticipants} ${minimumParticipants > 1 ? 'people' : 'person'})`}</BoldText>
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
-              minimumValue={user.gender === 'M' ? 0 : 2}
+              minimumValue={minNum}
               value={minimumParticipants}
               step={1}
-              maximumValue={50}
+              maximumValue={30}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
               onSlidingComplete={setMinimumParticipants}
@@ -154,6 +165,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize'
   },
   prayerBtn: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: 80,
