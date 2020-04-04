@@ -33,7 +33,7 @@ function HomeStack() {
       <Stack.Screen
         name="Filter"
         component={FilterScreen}
-        options={{ ...headerOptions, title: 'Filter' }}
+        options={{ ...headerOptions, title: '' }}
         />
     </Stack.Navigator>
   )

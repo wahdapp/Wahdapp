@@ -1,12 +1,16 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { View, AsyncStorage, Platform, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, AsyncStorage, Platform, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, BoldText } from 'components';
-import { auth } from 'firebaseDB';
-import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { Text, BoldText, PrayerCard } from 'components';
+import { auth, db } from 'firebaseDB';
+import { MAN_AVATAR, WOMAN_AVATAR, NOT_FOUND } from 'assets/images';
+import moment from 'moment';
 
 export default function ProfileScreen({ navigation }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [invitedPrayersList, setInvitedPrayersList] = useState([]);
+  const [participatedLength, setParticipatedLength] = useState(0);
   const user = useSelector(state => state.userState);
 
   useLayoutEffect(() => {
@@ -19,12 +23,43 @@ export default function ProfileScreen({ navigation }) {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    if (user) {
+      getInvitedNum();
+      getParticipatedNum();
+    }
+  }, [user]);
+
+  async function getInvitedNum() {
+    const invitedDoc = await db.collection('prayers')
+      .where('inviter', '==', db.doc('users/' + auth.currentUser.uid))
+      .get();
+
+    const invitedPrayers = [];
+    invitedDoc.forEach(doc => {
+      invitedPrayers.push({ ...doc.data(), id: doc.id, inviterID: auth.currentUser.uid });
+    });
+
+    invitedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
+
+    setIsLoading(false);
+    setInvitedPrayersList(invitedPrayers);
+  }
+
+  async function getParticipatedNum() {
+    const snap = await db.collection('prayers')
+      .where('participants', 'array-contains', db.doc('users/' + auth.currentUser.uid))
+      .get();
+
+    setParticipatedLength(snap.size);
+  }
+
   // useEffect(() => {
   //   auth.signOut();
   //   AsyncStorage.removeItem('prayersFilter');
   // }, []);
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
@@ -37,15 +72,37 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.infoSection}>
           <View style={styles.infoContainer}>
             <View style={styles.infoItem}>
-              <BoldText style={styles.infoNumber}>3</BoldText>
+              <BoldText style={styles.infoNumber}>{invitedPrayersList.length}</BoldText>
               <BoldText style={styles.infoLabel}>prayers invited</BoldText>
             </View>
             <View style={styles.infoItem}>
-              <BoldText style={styles.infoNumber}>7</BoldText>
+              <BoldText style={styles.infoNumber}>{participatedLength}</BoldText>
               <BoldText style={styles.infoLabel}>prayers participated</BoldText>
             </View>
           </View>
         </View>
+      </View>
+      <View style={{ ...styles.prayerListWrapper, height: invitedPrayersList.length ? null : '100%' }}>
+        {isLoading
+          ? (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator color="#000" size="large" />
+            </View>
+          ) : (
+            <FlatList
+              style={{ height: '100%' }}
+              data={invitedPrayersList}
+              renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
+              keyExtractor={item => item.id}
+              ListEmptyComponent={() => (
+                <View style={styles.imageContainer}>
+                  <Image source={NOT_FOUND} style={styles.image} />
+                  <Text style={styles.notFoundText}>No prayer invited so far :(</Text>
+                </View>
+              )}
+            />
+          )
+        }
       </View>
     </ScrollView>
   )
@@ -102,5 +159,24 @@ const styles = StyleSheet.create({
     color: '#7C7C7C',
     fontSize: 10,
     textAlign: 'center'
+  },
+  prayerListWrapper: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    marginBottom: 120
+  },
+  imageContainer: {
+    width: '100%',
+  },
+  image: {
+    width: '100%',
+    resizeMode: 'contain',
+    height: 250
+  },
+  notFoundText: {
+    textAlign: 'center',
+    color: '#7C7C7C',
+    fontSize: 18,
   }
 })

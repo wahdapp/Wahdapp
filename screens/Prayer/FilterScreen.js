@@ -172,11 +172,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   sectionHeader: {
-    fontSize: 16,
+    fontSize: 12,
     marginBottom: 10
   },
   sectionSubHeader: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#7C7C7C',
   },
   prayerList: {
