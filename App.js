@@ -28,6 +28,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AppNavigator from './navigation/AppNavigator';
 import { decode, encode } from 'base-64'
 import 'helpers/clearTimer';
+import './i18n';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 /* Firebase bug */
 global.crypto = require("@firebase/firestore");
@@ -43,10 +46,12 @@ export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [userAuth, setUserAuth] = useState(null);
+  const { t } = useTranslation(['SIGN']);
 
   useEffect(() => {
     getLocationPermission();
     authenticateUser();
+    initLanguage();
   }, []);
 
   function authenticateUser() {
@@ -55,6 +60,13 @@ export default function App(props) {
       console.log({ user })
       setUserAuth(user);
     });
+  }
+
+  async function initLanguage() {
+    const language = await AsyncStorage.getItem('lang');
+    if (language) {
+      i18n.changeLanguage(language);
+    }
   }
 
   async function getLocationPermission() {
@@ -82,7 +94,7 @@ export default function App(props) {
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '' }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Forgot Password' }} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: t('FORGOT_PWD') }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

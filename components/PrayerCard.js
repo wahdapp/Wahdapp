@@ -8,13 +8,18 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from '../helpers/geo';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 export default function PrayerCard({ navigate, ...props }) {
+  const { t } = useTranslation('COMMON');
   const [distance, setDistance] = useState(null);
   const location = useSelector(state => state.locationState);
   const { prayer, scheduleTime, geolocation, participants, inviter, guests } = props;
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
+
+  const PRAYERS = t('PRAYERS', { returnObjects: true });
 
   useEffect(() => {
     getDistance();
@@ -51,18 +56,18 @@ export default function PrayerCard({ navigate, ...props }) {
           <CardItem bordered style={styles.descriptionWrapper}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Left>
-                <Text style={styles.descriptionTitle}>{prayer}</Text>
+                <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
               </Left>
               <Right>
-                <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
+                <Text style={styles.scheduleTitle}>{moment(scheduleTime).locale(i18n.language.toLocaleLowerCase()).format('hh:mm A')}</Text>
               </Right>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Left><Text style={styles.invited}>invited by {inviter.fullName}</Text></Left>
-              <Right><Text style={styles.invited}>{moment(scheduleTime).format('DD MMM')}</Text></Right>
+              <Left><Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text></Left>
+              <Right><Text style={styles.invited}>{moment(scheduleTime).locale(i18n.language.toLocaleLowerCase()).format('DD MMM')}</Text></Right>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-              <Left><Text>{1 + participants.length + guests.male + guests.female} participating</Text></Left>
+              <Left><Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text></Left>
               {distance && <Right><Text>{formatDistance(distance)}</Text></Right>}
             </View>
           </CardItem>

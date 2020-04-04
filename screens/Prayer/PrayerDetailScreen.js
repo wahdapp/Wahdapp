@@ -10,6 +10,7 @@ import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useTranslation } from 'react-i18next';
 
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -29,6 +30,7 @@ function joinReducer(state, action) {
 }
 
 export default function PrayerDetailScreen({ route, navigation }) {
+  const { t } = useTranslation(['PRAYER_DETAILS']);
   const { geolocation, query, scheduleTime, participants, inviter, inviterID, description, guests, id } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
@@ -149,7 +151,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
                 style={{ width: 100, justifyContent: 'center', backgroundColor: '#c4302b' }}
                 onPress={handleDeletePrayer}
               >
-                <Text style={{ color: '#fff' }}>DELETE</Text>
+                <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
               </Button>
             ) : (
                 <Button rounded success
@@ -157,7 +159,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
                   style={{ width: 100, justifyContent: 'center' }}
                   onPress={handleJoin}
                 >
-                  <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? 'JOINED' : 'JOIN'}</Text>
+                  <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
                 </Button>
               )}
           </Right>
@@ -167,7 +169,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Description</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
             <Text style={styles.sectionSubHeader}>{description}</Text>
           </Left>
         </View>
@@ -176,7 +178,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>Organizer</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('ORGANIZER')}</BoldText>
             <View style={styles.userList}>
               <UserItem item={inviter} />
             </View>
@@ -186,7 +188,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         {currentParticipants.length > 0 && (
           <View style={styles.detailSection}>
             <Left>
-              <BoldText style={styles.sectionHeader}>Participants ({currentParticipants.length})</BoldText>
+              <BoldText style={styles.sectionHeader}>{t('PARTICIPANTS')} ({currentParticipants.length})</BoldText>
               <FlatList
                 style={{ width: "100%" }}
                 horizontal={true}
@@ -201,7 +203,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         {(guests.male > 0 || guests.female > 0) && (
           <View style={styles.detailSection}>
             <Left>
-              <BoldText style={styles.sectionHeader}>Guests ({guests.male + guests.female})</BoldText>
+              <BoldText style={styles.sectionHeader}>{t('GUESTS')} ({guests.male + guests.female})</BoldText>
               <FlatList
                 style={{ width: "100%" }}
                 horizontal={true}
