@@ -89,7 +89,9 @@ export default function SignupScreen({ navigation: { navigate } }) {
                 <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
                 <Input style={styles.input} value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
               </InputGroup>
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
+
+              <View style={{ marginTop: 25 }}>
+                <BoldText style={styles.inputLabel}>Gender</BoldText>
                 <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
                   <Picker.Item label="Male" value="M" />
                   <Picker.Item label="Female" value="F" />

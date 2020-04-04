@@ -10,18 +10,18 @@ import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import PrayersScreen from 'screens/PrayersScreen';
-import SettingsScreen from 'screens/SettingsScreen';
+import ProfileScreen from 'screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 const headerOptions = {
-  headerStyle: { backgroundColor: '#f7f7f7' },
-  headerTitleStyle: { fontFamily: 'Sen' }
+  headerStyle: { backgroundColor: '#f7f7f7', borderWidth: 0 },
+  headerTitleStyle: { fontFamily: 'Sen' },
 }
 
 function HomeStack() {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ ...headerOptions, title: 'Nearby Prayers' }} />
       <Stack.Screen
         name="PrayerDetail"
         component={PrayerDetailScreen}
@@ -56,10 +56,10 @@ function PrayersStack() {
   )
 }
 
-function SettingsStack() {
+function ProfileStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Settings" component={SettingsScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ ...headerOptions, title: 'Profile' }} />
     </Stack.Navigator>
   )
 }
@@ -102,11 +102,11 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsStack}
+        name="Profile"
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
           )
         }}
       />

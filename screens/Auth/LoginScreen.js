@@ -38,9 +38,9 @@ export default function LoginScreen({ navigation: { navigate } }) {
   }
 
   return (
-    <>
+    <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
       <View style={styles.topHeader}>
-        <Text style={styles.headerText}>Jamaat</Text>
+        <Text style={styles.headerText}>JamaatApp</Text>
       </View>
       <ScrollView style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <Card style={styles.loginContainer}>
@@ -96,25 +96,20 @@ export default function LoginScreen({ navigation: { navigate } }) {
           </View>
         </Card>
       </ScrollView>
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   topHeader: {
-    marginTop: Platform.OS === 'ios' ? 20 : 24,
-    padding: 25,
-    alignItems: 'center',
-    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    width: '100%',
+    flexDirection: 'row',
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#68A854',
-    fontWeight: 'bold',
-    textTransform: 'uppercase'
   },
   container: {
     flex: 1,
