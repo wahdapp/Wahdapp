@@ -7,7 +7,7 @@
     "HEADER": "Filter",
     "PRAYERS": "Prayers:",
     "DISTANCE": "Distance:",
-    "MIN_PARTICIPANTS": "Minimum Participants:",
+    "MIN_PARTICIPANTS": "Minimum Participants: \n",
     "PERSON": "person",
     "PEOPLE": "people",
     "SAME_GENDER": "Same gender",
@@ -26,6 +26,7 @@
   "INVITATION": {
     "CONFIRM": "Confirm",
     "HEADER": "Invite Prayer",
+    "PRAYER": "Prayer:",
     "CURRENT_PARTICIPANTS": "Current Participants:",
     "DESCRIPTION": "Description:",
     "DATE": "Date:",

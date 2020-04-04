@@ -1,5 +1,6 @@
 import * as Location from 'expo-location';
 import geohash from 'ngeohash';
+import GeoPoint from 'geopoint';
 
 export function calculateDistance(x, y) {
   const R = 6371; // Radius of the earth in km
@@ -13,6 +14,14 @@ export function calculateDistance(x, y) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const d = R * c; // Distance in km
   return d;
+}
+
+export function isWithinBoundary(hash, location, distance) {
+  const decoded = geohash.decode(hash);
+  return calculateDistance(
+    { lat: decoded.latitude, lon: decoded.longitude },
+    { lat: location.latitude, lon: location.longitude }
+  ) < distance;
 }
 
 function deg2rad(deg) {
@@ -36,22 +45,12 @@ export function formatDistance(distance) {
   return `${distance.toFixed(2)} km`;
 }
 
-export const getGeohashRange = (
-  latitude,
-  longitude,
-  distance, // km
-) => {
-  const lat = 0.009009009009; // degrees latitude per km
-  const lon = 0.01129943502; // degrees longitude per km
+export const getGeohashRange = (latitude, longitude, distance) => {
+  const geopoint = new GeoPoint(latitude, longitude);
+  const bounds = geopoint.boundingCoordinates(distance, null, true);
 
-  const lowerLat = latitude - lat * distance;
-  const lowerLon = longitude - lon * distance;
-
-  const upperLat = latitude + lat * distance;
-  const upperLon = longitude + lon * distance;
-
-  const lower = geohash.encode(lowerLat, lowerLon);
-  const upper = geohash.encode(upperLat, upperLon);
+  const lower = geohash.encode(bounds[0]._degLat, bounds[0]._degLon);
+  const upper = geohash.encode(bounds[1]._degLat, bounds[1]._degLon);
 
   return {
     lower,

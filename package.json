@@ -34,6 +34,7 @@
     "expo-permissions": "^7.0.0",
     "expo-web-browser": "^7.0.0",
     "firebase": "^7.13.1",
+    "geopoint": "^1.0.1",
     "i18next": "^19.3.4",
     "moment": "^2.24.0",
     "native-base": "^2.13.8",

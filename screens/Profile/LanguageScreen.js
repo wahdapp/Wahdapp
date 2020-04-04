@@ -8,9 +8,9 @@ import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 function LanguageScreen({ navigation }) {
   async function handleSelectLanguage(lng) {
-    i18n.changeLanguage(lng);
     await AsyncStorage.setItem('lang', lng);
     navigation.goBack();
+    i18n.changeLanguage(lng);
   }
 
   return (

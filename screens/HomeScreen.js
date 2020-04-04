@@ -6,7 +6,7 @@ import { PrayerCard, Text } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
-import { getGeohashRange } from 'helpers/geo';
+import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +49,7 @@ export default function HomeScreen({ navigation }) {
     console.log({ distance: filter.distance })
     const { latitude, longitude } = location;
     const range = getGeohashRange(latitude, longitude, filter.distance);
+    console.log({ range })
     const prayersDoc = await db.collection('prayers')
       .where('geohash', '>=', range.lower)
       .where('geohash', '<=', range.upper)
@@ -57,9 +58,10 @@ export default function HomeScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, scheduleTime, prayer } = doc.data();
+      const { participants, guests: { male, female }, scheduleTime, prayer, geohash } = doc.data();
 
       if (
+        isWithinBoundary(geohash, location, filter.distance) &&
         moment().isBefore(moment(scheduleTime)) && // filter by schedule
         (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
         filter.selectedPrayers.includes(prayer) // filter by prayer
@@ -67,6 +69,8 @@ export default function HomeScreen({ navigation }) {
         prayers.push({ ...doc.data(), id: doc.id });
       }
     });
+
+    prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
 
     if (prayers.length) {
       const inviters = prayers.map(p => p.inviter);
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginBottom: 120
+    marginBottom: 10
   },
   imageContainer: {
     width: '100%',

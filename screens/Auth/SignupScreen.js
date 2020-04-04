@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 12,
     marginLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#7C7C7C'
   },
   inputGroup: {
     marginBottom: 15,

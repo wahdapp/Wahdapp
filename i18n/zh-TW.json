@@ -26,6 +26,7 @@
   "INVITATION": {
     "CONFIRM": "確認",
     "HEADER": "邀請禮拜",
+    "PRAYER": "禮拜：",
     "CURRENT_PARTICIPANTS": "目前人數：",
     "DESCRIPTION": "說明：",
     "DATE": "日期：",
@@ -67,7 +68,7 @@
     "PASSWORD": "密碼",
     "CONFIRM": "確認密碼",
     "FORGOT_QUESTION": "忘記了您的密碼？",
-    "FORGOT_DESC": "請輸入您用來註冊的電子郵件。 我們將向您發送電子郵件以再次重置您的密碼！",
+    "FORGOT_DESC": "請輸入您用來註冊的電子郵件。我們將向您發送電子郵件以再次重置您的密碼！",
     "SUBMIT": "提交",
     "ERROR": [
       "電子郵件或密碼尚未填寫",

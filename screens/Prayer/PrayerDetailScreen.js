@@ -156,7 +156,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
             ) : (
                 <Button rounded success
                   bordered={!isJoined}
-                  style={{ width: 100, justifyContent: 'center' }}
+                  style={{ width: 100, justifyContent: 'center', borderColor: '#7C7C7C' }}
                   onPress={handleJoin}
                 >
                   <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
