@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import React, { useState, useEffect, useRef } from 'react';
+import MapView, { Marker } from 'react-native-maps';
 import {
   StyleSheet,
   ActivityIndicator,
   Platform,
   Image,
-  Dimensions,
   TouchableOpacity
 } from 'react-native';
 import { Text } from 'components';
@@ -15,27 +14,35 @@ import { Ionicons } from '@expo/vector-icons';
 import colors from 'constants/Colors';
 import { PIN } from 'assets/images';
 
-const ScreenHeight = Dimensions.get("window").height;
-
 export default function MapScreen({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
-  const [currentZoom, setCurrentZoom] = useState(null);
+  const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
+  const [userPosition, setUserPosition] = useState(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     getUserPosition();
   }, []);
 
+  useEffect(() => {
+    if (userPosition && mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: userPosition.latitude,
+        longitude: userPosition.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }, 800);
+      setCurrentRegion(userPosition);
+    }
+  }, [userPosition, mapRef]);
+
   async function getUserPosition() {
     try {
       const position = await Location.getCurrentPositionAsync({});
-      setCurrentRegion({
+      setUserPosition({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
-      });
-      setCurrentZoom({
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
       });
     }
     catch (e) {
@@ -44,16 +51,20 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleDrag(coords) {
-    setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
+    // setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
     setCurrentZoom({ latitudeDelta: coords.latitudeDelta, longitudeDelta: coords.longitudeDelta });
   }
 
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    setCurrentRegion({
+    mapRef.current.animateToRegion({
       latitudeDelta: currentZoom.latitudeDelta,
       longitudeDelta: currentZoom.longitudeDelta,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    }, 800)
+    setCurrentRegion({
       latitude: coordinate.latitude,
       longitude: coordinate.longitude
     });
@@ -63,9 +74,13 @@ export default function MapScreen({ navigation }) {
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    setCurrentRegion({
+    mapRef.current.animateToRegion({
       latitudeDelta: currentZoom.latitudeDelta,
       longitudeDelta: currentZoom.longitudeDelta,
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude
+    }, 800)
+    setCurrentRegion({
       latitude: coordinate.latitude,
       longitude: coordinate.longitude
     });
@@ -74,9 +89,13 @@ export default function MapScreen({ navigation }) {
   async function handleFloatBtnClick() {
     try {
       const location = await Location.getCurrentPositionAsync({});
-      setCurrentRegion({
+      mapRef.current.animateToRegion({
         latitudeDelta: currentZoom.latitudeDelta,
         longitudeDelta: currentZoom.longitudeDelta,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      }, 800)
+      setCurrentRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       });
@@ -96,7 +115,7 @@ export default function MapScreen({ navigation }) {
     navigation.navigate('CreateInvitation', { ...currentRegion, removeMarker: () => setSelectedLocation(null) });
   }
 
-  if (!currentRegion || !currentZoom) {
+  if (!userPosition) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" />
@@ -108,11 +127,11 @@ export default function MapScreen({ navigation }) {
     <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
       <MapView
         provider="google"
+        ref={mapRef}
         style={{ flex: 1 }}
         showsUserLocation={true}
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
-        region={{ ...currentRegion, ...currentZoom }}
         onRegionChangeComplete={handleDrag}
         showsMyLocationButton={false}
       >
@@ -122,7 +141,7 @@ export default function MapScreen({ navigation }) {
               <Button rounded light style={{ paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
                 <Text>Confirm</Text>
               </Button>
-              <Image source={PIN} style={{ height: 50, width: 50 }} />
+              <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
             </View>
           </Marker>
         )}
@@ -189,7 +208,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     height: 70,
-    backgroundColor: '#2f95dc',
+    backgroundColor: '#12967A',
     borderRadius: 100,
   },
   inviteBtn: {

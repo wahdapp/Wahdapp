@@ -9,7 +9,6 @@ import moment from 'moment';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 
 export default function ProfileScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,8 +32,6 @@ export default function ProfileScreen({ navigation }) {
       getPastInfo();
     }
   }, [user]);
-
-  const fall = new Animated.Value(1);
 
   async function getPastInfo() {
     const invitedDoc = await db.collection('prayers')
@@ -89,7 +86,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <>
-      <Animated.View style={{ flex: 1, backgroundColor: '#fff', opacity: Animated.add(0.1, Animated.multiply(fall, 0.9)) }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={styles.profileHeader}>
           <View style={styles.profilePicContainer}>
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
@@ -134,14 +131,13 @@ export default function ProfileScreen({ navigation }) {
             )
           }
         </View>
-      </Animated.View>
+      </View>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={[250, 0]}
         renderHeader={renderHeader}
         renderContent={renderContent}
         initialSnap={1}
-        callbackNode={fall}
       />
     </>
   )
