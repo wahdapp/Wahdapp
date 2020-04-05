@@ -15,7 +15,6 @@ import moment from 'moment';
 import { db } from 'firebaseDB';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
-import colors from 'constants/Colors';
 import { PIN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
@@ -28,6 +27,7 @@ export default function MapScreen({ navigation }) {
   const [userPosition, setUserPosition] = useState(null);
   const [isQuerying, setIsQuerying] = useState(false);
   const [nearbyMarkers, setNearbyMarkers] = useState([]);
+  const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState([]);
   const filter = useSelector(state => state.filterState);
   const mapRef = useRef(null);
 
@@ -160,16 +160,22 @@ export default function MapScreen({ navigation }) {
       const promises = inviters.map(i => i.get());
       const docs = await Promise.all(promises);
       setNearbyMarkers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+
+      // Gather all unique geohashes to prevent multiple markers on the same spot
+      const geohashes = [];
+      const filtered = [];
+      for (let prayer of prayers) {
+        if (!geohashes.includes(prayer.geohash)) {
+          geohashes.push(prayer.geohash);
+          filtered.push(prayer);
+        }
+      }
+      setFilteredNearbyMarkers(filtered);
     }
   }
 
   function handleMarkerPress(marker) {
-    const nearbyPrayers = [];
-    nearbyMarkers.forEach(item => {
-      if (item.geolocation.latitude === marker.geolocation.latitude && item.geolocation.longitude === marker.geolocation.longitude) {
-        nearbyPrayers.push(item);
-      }
-    });
+    const nearbyPrayers = nearbyMarkers.filter(item => item.geohash === marker.geohash);
     navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });
   }
 
@@ -217,13 +223,21 @@ export default function MapScreen({ navigation }) {
             </View>
           </Marker>
         )}
-        {nearbyMarkers.length > 0 && (
-          nearbyMarkers.map((marker, i) => (
-            <Marker
-              coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
-              onPress={() => handleMarkerPress(marker)}
-              key={i}
-            />
+        {filteredNearbyMarkers.length > 0 && (
+          filteredNearbyMarkers.map((marker, i) => (
+            moment().isBefore(moment(marker.scheduleTime)) ? (
+              <Marker
+                coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+                onPress={() => handleMarkerPress(marker)}
+                key={i}
+              />
+            ) : (
+                <Dot
+                  coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+                  onPress={() => handleMarkerPress(marker)}
+                  key={i}
+                />
+              )
           ))
         )}
       </MapView>
@@ -316,5 +330,24 @@ const styles = StyleSheet.create({
   inviteBtn: {
     width: '100%',
     textAlign: 'center'
+  },
+  dot: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#12967A',
+    borderWidth: 4,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })
+
+function Dot({ coordinate, onPress }) {
+  return (
+    <Marker coordinate={coordinate} onPress={onPress}>
+      <View style={styles.dot} />
+    </Marker>
+  )
+}
