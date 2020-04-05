@@ -17,3 +17,5 @@ export const BISMILLAH = require('./bismillah.png');
 
 export const FORGOT = require('./forgot.png');
 export const NOT_FOUND = require('./not_found.png');
+
+export const FACEBOOK = require('./facebook.png');

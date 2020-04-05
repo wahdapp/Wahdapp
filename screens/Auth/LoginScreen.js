@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
-import { Text, Touchable } from 'components';
+import { Text, Touchable, BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
-import { auth } from 'firebaseDB';
-import { BISMILLAH } from 'assets/images';
+import { auth, signInWithFacebook } from 'firebaseDB';
+import { BISMILLAH, FACEBOOK } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -40,61 +40,72 @@ export default function LoginScreen({ navigation: { navigate } }) {
     }
   }
 
+  async function handleFacebookPress() {
+    await signInWithFacebook();
+  }
+
   return (
-    <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
-      <View style={styles.topHeader}>
-        <Text style={styles.headerText}>JamaatApp</Text>
-      </View>
-      <ScrollView style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-        <Card style={styles.loginContainer}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={{ height: 150, width: '100%', resizeMode: 'contain' }}
-              source={BISMILLAH}
+    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20  }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ height: 150, width: '100%', resizeMode: 'contain' }}
+            source={BISMILLAH}
+          />
+        </View>
+        <View style={{ width: '100%', paddingHorizontal: 25, marginBottom: 25 }}>
+          <BoldText style={{ fontSize: 24, color: '#000', textAlign: 'center' }}>Welcome to JamaatApp</BoldText>
+        </View>
+        <View style={styles.formContainer}>
+          <Form>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input value={email} onChangeText={setEmail} style={styles.input} />
+            </InputGroup>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
+            </InputGroup>
+          </Form>
+          <View style={styles.forgotPwdContainer}>
+            <Touchable onPress={() => navigate('ForgotPassword')}>
+              <Text styles={styles.forgotPwdText}>{t('FORGOT_PWD')}</Text>
+            </Touchable>
+          </View>
+          <View style={styles.loginBtnContainer}>
+            <AnimatedButton
+              showLoading={loading}
+              width={150}
+              height={45}
+              title={t('LOGIN')}
+              titleFontSize={14}
+              titleFontFamily="Sen"
+              titleColor="rgb(255,255,255)"
+              backgroundColor="#68A854"
+              borderRadius={25}
+              onPress={handleLogin}
             />
           </View>
-          <View style={styles.formContainer}>
-            <Form>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input value={email} onChangeText={setEmail} style={styles.input} />
-              </InputGroup>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
-              </InputGroup>
-            </Form>
-            <View style={styles.forgotPwdContainer}>
-              <Touchable onPress={() => navigate('ForgotPassword')}>
-                <Text styles={styles.forgotPwdText}>{t('FORGOT_PWD')}</Text>
-              </Touchable>
-            </View>
-            <View style={styles.loginBtnContainer}>
-              <AnimatedButton
-                showLoading={loading}
-                width={150}
-                height={45}
-                title={t('LOGIN')}
-                titleFontSize={14}
-                titleFontFamily="Sen"
-                titleColor="rgb(255,255,255)"
-                backgroundColor="#68A854"
-                borderRadius={25}
-                onPress={handleLogin}
-              />
-            </View>
 
-            <View style={styles.signUpLabelContainer}>
-              <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
-              <Text style={{ ...styles.signUpLabel, color: colors.secondary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
-            </View>
-
-            <View style={styles.signUpLabelContainer}>
-              <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
-            </View>
-
+          <View style={styles.signUpLabelContainer}>
+            <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
+            <Text style={{ ...styles.signUpLabel, color: colors.secondary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
           </View>
-        </Card>
+
+          <View style={styles.signUpLabelContainer}>
+            <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
+          </View>
+
+          <View style={styles.loginBtnContainer}>
+            <Touchable onPress={handleFacebookPress}>
+              <View style={styles.facebookButton}>
+                <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
+                <Text style={{ fontSize: 10, color: '#ffffff' }}>Continue With Facebook</Text>
+              </View>
+            </Touchable>
+          </View>
+
+        </View>
       </ScrollView>
     </View>
   )
@@ -112,12 +123,8 @@ const styles = StyleSheet.create({
     color: '#68A854',
   },
   container: {
-    flex: 1,
-    backgroundColor: '#68A854',
-    paddingTop: Platform.OS === 'ios' ? 20 : 24,
     height: '100%',
     width: '100%',
-    padding: 25,
   },
   loginContainer: {
     justifyContent: 'center',
@@ -179,5 +186,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontFamily: 'Sen',
     lineHeight: 16
+  },
+  facebookButton: {
+    height: 52,
+    width: '100%',
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    backgroundColor: '#3b5998'
   }
 });

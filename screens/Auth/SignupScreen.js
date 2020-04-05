@@ -61,7 +61,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
   }
 
   return (
-    <View style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <ScrollView style={{ width: '100%', height: '100%' }}>
         <View style={styles.titleContainer}>
           <BoldText style={styles.title}>{t('CREATE_ACCOUNT')}</BoldText>
