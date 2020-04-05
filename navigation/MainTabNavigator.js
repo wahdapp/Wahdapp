@@ -14,6 +14,7 @@ import PrayersScreen from 'screens/PrayersScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 const Stack = createStackNavigator();
 const headerOptions = {
@@ -82,7 +83,7 @@ function Tabs() {
       initialRouteName="Home"
       tabBarOptions={{ showLabel: false }}
       activeColor="#fff"
-      barStyle={{ backgroundColor: '#12967A' }}
+      barStyle={{ backgroundColor: colors.primary }}
     >
       <Tab.Screen
         name="Home"
@@ -104,7 +105,7 @@ function Tabs() {
           )
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Notifications"
         component={PrayersStack}
         options={{
@@ -113,7 +114,7 @@ function Tabs() {
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStack}

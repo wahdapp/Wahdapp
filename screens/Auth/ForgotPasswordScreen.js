@@ -6,6 +6,7 @@ import { auth, db } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
 import { FORGOT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button rounded block style={styles.buttton}>
+              <Button rounded block style={styles.button}>
                 <Text style={{ color: '#fff' }}>{t('SUBMIT')}</Text>
               </Button>
             </View>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    backgroundColor: '#68A854',
-    height: 50
+    backgroundColor: colors.secondary,
+    height: 52
   }
 });

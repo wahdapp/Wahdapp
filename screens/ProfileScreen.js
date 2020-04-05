@@ -9,6 +9,7 @@ import moment from 'moment';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE']);
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 18,
-    color: '#68A854'
+    color: colors.primary
   },
   infoSection: {
     marginTop: 25,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   },
   infoNumber: {
     fontSize: 18,
-    color: '#68A854',
+    color: colors.primary,
     textAlign: 'center',
     marginBottom: 10
   },

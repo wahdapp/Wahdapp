@@ -10,6 +10,7 @@ import { prayerTypes } from 'constants/prayers';
 import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
+import colors from 'constants/Colors';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
@@ -126,7 +127,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                     ...styles.prayerBtn,
                     borderWidth: selectedPrayer === item ? 0 : 2,
                     borderColor: selectedPrayer === item ? null : '#dedede',
-                    backgroundColor: selectedPrayer === item ? '#12967A' : '#fff'
+                    backgroundColor: selectedPrayer === item ? colors.primary : '#fff'
                   }}>
                     <Text style={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}>{PRAYERS[item]}</Text>
                   </View>
@@ -153,7 +154,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
-              <Text style={{ minWidth: 30, textAlign: 'center', color: '#12967A' }}>{male}</Text>
+              <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{male}</Text>
               <Touchable onPress={() => handleOperation('M', '+')}>
                 <View style={styles.operationBtn}>
                   <Text style={styles.operationText}>+</Text>
@@ -171,7 +172,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
-              <Text style={{ minWidth: 30, textAlign: 'center', color: '#12967A' }}>{female}</Text>
+              <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{female}</Text>
               <Touchable onPress={() => handleOperation('F', '+')}>
                 <View style={styles.operationBtn}>
                   <Text style={styles.operationText}>+</Text>
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 16,
     marginBottom: 10,
-    color: '#12967A',
+    color: '#7C7C7C',
   },
   sectionSubHeader: {
     fontSize: 14,
@@ -318,10 +319,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    backgroundColor: '#12967A'
+    backgroundColor: colors.primary
   },
   datePicker: {
-    backgroundColor: '#12967A',
+    backgroundColor: colors.primary,
     borderRadius: 8,
     minWidth: 170,
     alignItems: 'center'
@@ -332,7 +333,7 @@ const styles = StyleSheet.create({
     minWidth: 170,
     paddingHorizontal: 10,
     borderRadius: 8,
-    backgroundColor: '#12967A',
+    backgroundColor: colors.primary,
     height: 42
   },
   operationBtn: {
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 45,
     height: 45,
-    backgroundColor: '#12967A',
+    backgroundColor: colors.primary,
     borderRadius: 100,
     marginHorizontal: 10
   },

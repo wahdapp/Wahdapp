@@ -4,7 +4,7 @@ import { StyleSheet, Dimensions, Image, FlatList, ScrollView, Alert } from 'reac
 import { View, Left, Right, Button } from 'native-base';
 import MapView, { Marker } from 'react-native-maps';
 import { Text, BoldText } from 'components';
-import { MARKER, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { PIN, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
@@ -139,7 +139,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
       >
         <Marker coordinate={{ latitude: lat, longitude: lon }}>
           <View>
-            <Image source={MARKER} style={{ height: 30, width: 30 }} />
+            <Image source={PIN} style={{ height: 35, width: 35 }} />
           </View>
         </Marker>
       </MapView>

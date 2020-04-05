@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
 import { View, Left, Button, CheckBox, Right } from 'native-base';
-import { Text, BoldText } from 'components';
+import { Text, BoldText, Touchable } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { setFilter } from 'actions';
 import isEmpty from 'lodash/isEmpty';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function FilterScreen({ route, navigation }) {
   const filter = useSelector(state => state.filterState);
@@ -89,17 +90,24 @@ export default function FilterScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{t('PRAYERS')}</BoldText>
-            <View style={styles.prayerList}>
-              {prayerTypes.map((prayer, i) => (
-                <Button rounded success key={i}
-                  bordered={!selectedPrayers.includes(prayer)}
-                  onPress={() => handlePrayerClick(prayer)}
-                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayers.includes(prayer) ? 0 : 2, borderColor: selectedPrayers.includes(prayer) ? null : '#7C7C7C' }}
-                >
-                  <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(prayer) ? '#fff' : '#7C7C7C' }}>{PRAYERS[prayer]}</Text>
-                </Button>
-              ))}
-            </View>
+            <FlatList
+              style={{ width: '100%' }}
+              horizontal={true}
+              data={prayerTypes}
+              renderItem={({ item }) => (
+                <Touchable onPress={() => handlePrayerClick(item)}>
+                  <View style={{
+                    ...styles.prayerBtn,
+                    borderWidth: selectedPrayers.includes(item) ? 0 : 2,
+                    borderColor: selectedPrayers.includes(item) ? null : '#dedede',
+                    backgroundColor: selectedPrayers.includes(item) ? colors.primary : '#fff'
+                  }}>
+                    <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}>{PRAYERS[item]}</Text>
+                  </View>
+                </Touchable>
+              )}
+              keyExtractor={item => item}
+            />
           </Left>
         </View>
 
@@ -142,15 +150,17 @@ export default function FilterScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('If checked, you will only see invitations organized by females.')}</Text>
             </Left>
             <Right>
-              <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color="#589e61" />
+              <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color={colors.primary} />
             </Right>
           </View>
         )}
 
-        <View style={styles.applySection}>
-          <Button block rounded success style={styles.applyBtn} onPress={applyFilter}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>{t('BUTTON')}</Text>
-          </Button>
+        <View style={{ marginTop: 20 }}>
+          <Touchable onPress={applyFilter}>
+            <View style={styles.applyBtn}>
+              <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('BUTTON')}</Text>
+            </View>
+          </Touchable>
         </View>
       </View>
     </ScrollView >
@@ -170,11 +180,12 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize'
   },
   prayerBtn: {
-    flexDirection: 'row',
+    borderRadius: 25,
+    minWidth: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 80,
     paddingHorizontal: 20,
+    height: 40,
     marginBottom: 15,
     marginRight: 10
   },
@@ -203,17 +214,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: 15
   },
-  applySection: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   applyBtn: {
+    height: 52,
+    width: '100%',
+    borderRadius: 33,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 120,
-    paddingHorizontal: 10
+    marginBottom: 15,
+    backgroundColor: colors.primary
   }
 })

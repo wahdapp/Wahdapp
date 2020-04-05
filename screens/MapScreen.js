@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Text } from 'components';
-import { View, Button, Toast } from 'native-base';
+import { View, Button } from 'native-base';
 import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
 import { db } from 'firebaseDB';
@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { PIN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
+import colors from 'constants/Colors';
 
 export default function MapScreen({ navigation }) {
   const { t } = useTranslation(['INVITATION']);
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
     bottom: 80,
     right: 10,
     height: 60,
-    backgroundColor: '#12967A',
+    backgroundColor: colors.primary,
     borderRadius: 100,
   },
   removeMarkerBtn: {
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
   dot: {
     width: 24,
     height: 24,
-    backgroundColor: '#12967A',
+    backgroundColor: colors.primary,
     borderWidth: 4,
     borderStyle: 'solid',
     borderColor: '#fff',

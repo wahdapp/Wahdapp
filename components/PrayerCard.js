@@ -7,7 +7,7 @@ import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '../assets/imag
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from '../helpers/geo';
-import { Touchable } from 'components';
+import Touchable from './Touchable';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 

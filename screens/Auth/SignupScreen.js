@@ -6,6 +6,7 @@ import AnimatedButton from 'components/AnimatedButton';
 import { auth, db } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function SignupScreen({ navigation: { navigate } }) {
   const [fullName, setFullName] = useState('');
@@ -61,63 +62,61 @@ export default function SignupScreen({ navigation: { navigate } }) {
 
   return (
     <View style={styles.container} contentContainerStyle={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-      <Card style={styles.signupContainer}>
-        <ScrollView style={{ width: '100%', height: '100%' }}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{t('CREATE_ACCOUNT')}</Text>
-          </View>
-          <View style={styles.formContainer}>
-            <Form>
-              <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input style={styles.input} value={fullName} onChangeText={setFullName} />
-              </InputGroup>
+      <ScrollView style={{ width: '100%', height: '100%' }}>
+        <View style={styles.titleContainer}>
+          <BoldText style={styles.title}>{t('CREATE_ACCOUNT')}</BoldText>
+        </View>
+        <View style={styles.formContainer}>
+          <Form>
+            <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input style={styles.input} value={fullName} onChangeText={setFullName} />
+            </InputGroup>
 
-              <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input style={styles.input} value={email} onChangeText={setEmail} />
-              </InputGroup>
+            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input style={styles.input} value={email} onChangeText={setEmail} />
+            </InputGroup>
 
-              <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input style={styles.input} value={password} onChangeText={setPassword} secureTextEntry={true} />
-              </InputGroup>
+            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input style={styles.input} value={password} onChangeText={setPassword} secureTextEntry={true} />
+            </InputGroup>
 
-              <BoldText style={styles.inputLabel}>{t('CONFIRM')}</BoldText>
-              <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                <Input style={styles.input} value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
-              </InputGroup>
+            <BoldText style={styles.inputLabel}>{t('CONFIRM')}</BoldText>
+            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+              <Input style={styles.input} value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
+            </InputGroup>
 
-              <View style={{ marginTop: 25 }}>
-                <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
-                <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
-                  <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
-                  <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
-                </Picker>
-              </View>
+            <View style={{ marginTop: 25 }}>
+              <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
+              <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
+                <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
+                <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
+              </Picker>
+            </View>
 
-              <View style={styles.signupBtnContainer}>
-                <AnimatedButton
-                  showLoading={loading}
-                  width={150}
-                  height={45}
-                  title={t('SIGNUP')}
-                  titleFontSize={14}
-                  titleFontFamily="Sen"
-                  titleColor="rgb(255,255,255)"
-                  backgroundColor="#12967A"
-                  borderRadius={25}
-                  onPress={handleSignup}
-                />
-              </View>
-            </Form>
-          </View>
-        </ScrollView>
-      </Card>
+            <View style={styles.signupBtnContainer}>
+              <AnimatedButton
+                showLoading={loading}
+                width={150}
+                height={45}
+                title={t('SIGNUP')}
+                titleFontSize={14}
+                titleFontFamily="Sen"
+                titleColor="rgb(255,255,255)"
+                backgroundColor={colors.primary}
+                borderRadius={25}
+                onPress={handleSignup}
+              />
+            </View>
+          </Form>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -125,9 +124,9 @@ export default function SignupScreen({ navigation: { navigate } }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#12967A',
-    paddingTop: Platform.OS === 'ios' ? 20 : 24,
-    padding: 25,
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 40
   },
   signupContainer: {
     justifyContent: 'center',
@@ -148,7 +147,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
+    letterSpacing: 2.5
   },
   formContainer: {
     paddingLeft: 25,

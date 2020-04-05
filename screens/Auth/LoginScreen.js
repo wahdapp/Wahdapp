@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
-import { Text } from 'components';
+import { Text, Touchable } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth } from 'firebaseDB';
 import { BISMILLAH } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -64,7 +65,9 @@ export default function LoginScreen({ navigation: { navigate } }) {
               </InputGroup>
             </Form>
             <View style={styles.forgotPwdContainer}>
-              <Text styles={styles.forgotPwdText} onPress={() => navigate('ForgotPassword')}>{t('FORGOT_PWD')}</Text>
+              <Touchable onPress={() => navigate('ForgotPassword')}>
+                <Text styles={styles.forgotPwdText}>{t('FORGOT_PWD')}</Text>
+              </Touchable>
             </View>
             <View style={styles.loginBtnContainer}>
               <AnimatedButton
@@ -83,7 +86,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
             <View style={styles.signUpLabelContainer}>
               <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
-              <Text style={{ ...styles.signUpLabel, color: '#68A854' }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
+              <Text style={{ ...styles.signUpLabel, color: colors.secondary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
             </View>
 
             <View style={styles.signUpLabelContainer}>
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     justifyContent: 'center'
   },
-  loginBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150, backgroundColor: '#12967A' },
+  loginBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150, backgroundColor: colors.primary },
   forgotPwdContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, FlatList, Platform } from 'react-native';
 import { View } from 'native-base';
 import { PrayerCard, Text, Touchable } from 'components';
+import colors from 'constants/Colors';
 
 export default function MarkerPrayersScreen({ navigation, route }) {
   const { nearbyPrayers, handleConfirm } = route.params;
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    backgroundColor: '#68A854'
+    backgroundColor: colors.primary
 
   },
   buttonText: {
