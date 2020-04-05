@@ -16,8 +16,10 @@ export async function signInWithFacebook() {
   const appId = Constants.manifest.extra.facebook.appId;
   const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
 
-  const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId, { permissions });
+  await Facebook.initializeAsync(appId, 'JamaatApp');
 
+  const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId, { permissions });
+  console.log({ type, token })
   switch (type) {
     case 'success': {
       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
