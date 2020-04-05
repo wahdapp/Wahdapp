@@ -191,7 +191,7 @@ export default function MapScreen({ navigation }) {
     <View style={{ flex: 1 }}>
       <AnimatedButton
         showLoading={isQuerying}
-        width={120}
+        width={150}
         height={30}
         title={t('QUERY')}
         titleFontSize={10}
@@ -308,22 +308,22 @@ const styles = StyleSheet.create({
   floatingBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 70,
+    width: 60,
     position: 'absolute',
-    bottom: 10,
+    bottom: 80,
     right: 10,
-    height: 70,
+    height: 60,
     backgroundColor: '#12967A',
     borderRadius: 100,
   },
   removeMarkerBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 70,
+    width: 60,
     position: 'absolute',
-    bottom: 10,
+    bottom: 80,
     right: 10,
-    height: 70,
+    height: 60,
     backgroundColor: '#fff',
     borderRadius: 100,
   },

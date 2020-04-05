@@ -7,7 +7,7 @@ import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '../assets/imag
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from '../helpers/geo';
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { Touchable } from 'components';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 
@@ -48,7 +48,7 @@ export default function PrayerCard({ navigate, ...props }) {
 
   return (
     <View style={styles.cardWrapper}>
-      <TouchableNativeFeedback onPress={handleCardPress}>
+      <Touchable onPress={handleCardPress}>
         <Card style={styles.card} pointerEvents="none">
           <CardItem cardBody={true} style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />
@@ -72,7 +72,7 @@ export default function PrayerCard({ navigate, ...props }) {
             </View>
           </CardItem>
         </Card>
-      </TouchableNativeFeedback>
+      </Touchable>
     </View>
   )
 }

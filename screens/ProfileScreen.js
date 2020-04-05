@@ -2,13 +2,12 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { View, AsyncStorage, Platform, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, BoldText, PrayerCard } from 'components';
+import { Text, BoldText, PrayerCard, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
 import { MAN_AVATAR, WOMAN_AVATAR, NOT_FOUND } from 'assets/images';
 import moment from 'moment';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 
 export default function ProfileScreen({ navigation }) {
@@ -69,22 +68,22 @@ export default function ProfileScreen({ navigation }) {
   function renderContent() {
     return (
       <View style={styles.panel}>
-        <TouchableNativeFeedback onPress={() => navigation.navigate('Language')}>
-          <ListItem icon>
+        <Touchable onPress={() => navigation.navigate('Language')}>
+          <ListItem icon onPress={() => navigation.navigate('Language')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-planet' : 'md-planet'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.LANGUAGE')}</Text></Body>
           </ListItem>
-        </TouchableNativeFeedback>
-        <TouchableNativeFeedback onPress={logout}>
-          <ListItem icon>
+        </Touchable>
+        <Touchable onPress={logout}>
+          <ListItem icon onPress={logout}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.LOGOUT')}</Text></Body>
           </ListItem>
-        </TouchableNativeFeedback>
+        </Touchable>
       </View>
     )
   }

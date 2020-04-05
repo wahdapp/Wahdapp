@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, FlatList, Platform } from 'react-native';
 import { View } from 'native-base';
-import { PrayerCard, Text } from 'components';
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { PrayerCard, Text, Touchable } from 'components';
 
 export default function MarkerPrayersScreen({ navigation, route }) {
   const { nearbyPrayers, handleConfirm } = route.params;
@@ -15,9 +14,9 @@ export default function MarkerPrayersScreen({ navigation, route }) {
   return (
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.prayerListWrapper}>
-        <TouchableNativeFeedback style={styles.button} onPress={handleInvite}>
+        <Touchable style={styles.button} onPress={handleInvite}>
           <Text style={styles.buttonText}>INVITE HERE</Text>
-        </TouchableNativeFeedback>
+        </Touchable>
         <FlatList
           style={{ height: '100%' }}
           data={nearbyPrayers}

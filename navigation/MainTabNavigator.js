@@ -82,7 +82,7 @@ function Tabs() {
       initialRouteName="Home"
       tabBarOptions={{ showLabel: false }}
       activeColor="#fff"
-      barStyle={{ backgroundColor: '#589e61' }}
+      barStyle={{ backgroundColor: '#12967A' }}
     >
       <Tab.Screen
         name="Home"

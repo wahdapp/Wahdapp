@@ -1,15 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, FlatList } from 'react-native';
 import TimePicker from 'react-native-24h-timepicker';
 import { View, Left, Right, Button, Toast, Textarea, DatePicker } from 'native-base';
-import { Text, BoldText } from 'components';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, BoldText, Touchable } from 'components';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
 import { prayerTypes } from 'constants/prayers';
 import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
@@ -19,7 +19,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [time, setTime] = useState(null);
   const [male, setMale] = useState(0);
   const [female, setFemale] = useState(0);
-  const user = useSelector(state => state.userState);
+  const [isLoading, setIsLoading] = useState(false);
   const timePickerRef = useRef(null);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
@@ -59,6 +59,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   function submit() {
     try {
+      setIsLoading(true);
       // validate date time
       const now = moment();
       const formattedDate = moment(date).format('YYYY-DD-MM');
@@ -84,12 +85,15 @@ export default function CreateInvitationScreen({ route, navigation }) {
           male,
           female
         }
-      })
+      });
+
+      setIsLoading(true);
 
       navigation.pop(2);
       removeMarker();
     }
     catch (e) {
+      setIsLoading(false);
       if (e.message) {
         Toast.show({
           text: e.message,
@@ -103,22 +107,33 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-
+      <Spinner
+        visible={isLoading}
+        textContent={'Loading...'}
+        textStyle={{ color: '#fff' }}
+      />
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{t('PRAYER')}</BoldText>
-            <View style={styles.prayerList}>
-              {prayerTypes.map((prayer, i) => (
-                <Button block rounded success key={i}
-                  bordered={selectedPrayer !== prayer}
-                  onPress={() => handlePrayerClick(prayer)}
-                  style={{ ...styles.prayerBtn, borderWidth: selectedPrayer === prayer ? 0 : 2, borderColor: selectedPrayer === prayer ? null : '#7C7C7C' }}
-                >
-                  <Text style={{ textTransform: 'capitalize', color: selectedPrayer === prayer ? '#fff' : '#7C7C7C' }}>{PRAYERS[prayer]}</Text>
-                </Button>
-              ))}
-            </View>
+            <FlatList
+              style={{ width: '100%' }}
+              horizontal={true}
+              data={prayerTypes}
+              renderItem={({ item }) => (
+                <Touchable onPress={() => handlePrayerClick(item)}>
+                  <View style={{
+                    ...styles.prayerBtn,
+                    borderWidth: selectedPrayer === item ? 0 : 2,
+                    borderColor: selectedPrayer === item ? null : '#dedede',
+                    backgroundColor: selectedPrayer === item ? '#12967A' : '#fff'
+                  }}>
+                    <Text style={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}>{PRAYERS[item]}</Text>
+                  </View>
+                </Touchable>
+              )}
+              keyExtractor={item => item}
+            />
           </Left>
         </View>
 
@@ -133,13 +148,17 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Button style={styles.operationBtn} onPress={() => handleOperation('M', '-')}>
-                <Text style={styles.operationText}>-</Text>
-              </Button>
-              <Text style={{ minWidth: 30, textAlign: 'center' }}>{male}</Text>
-              <Button style={styles.operationBtn} onPress={() => handleOperation('M', '+')}>
-                <Text style={styles.operationText}>+</Text>
-              </Button>
+              <Touchable onPress={() => handleOperation('M', '-')}>
+                <View style={styles.operationBtn}>
+                  <Text style={styles.operationText}>-</Text>
+                </View>
+              </Touchable>
+              <Text style={{ minWidth: 30, textAlign: 'center', color: '#12967A' }}>{male}</Text>
+              <Touchable onPress={() => handleOperation('M', '+')}>
+                <View style={styles.operationBtn}>
+                  <Text style={styles.operationText}>+</Text>
+                </View>
+              </Touchable>
             </View>
           </View>
           <View style={styles.participantsRow}>
@@ -147,13 +166,17 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Button style={styles.operationBtn} onPress={() => handleOperation('F', '-')}>
-                <Text style={styles.operationText}>-</Text>
-              </Button>
-              <Text style={{ minWidth: 30, textAlign: 'center' }}>{female}</Text>
-              <Button style={styles.operationBtn} onPress={() => handleOperation('F', '+')}>
-                <Text style={styles.operationText}>+</Text>
-              </Button>
+              <Touchable onPress={() => handleOperation('F', '-')}>
+                <View style={styles.operationBtn}>
+                  <Text style={styles.operationText}>-</Text>
+                </View>
+              </Touchable>
+              <Text style={{ minWidth: 30, textAlign: 'center', color: '#12967A' }}>{female}</Text>
+              <Touchable onPress={() => handleOperation('F', '+')}>
+                <View style={styles.operationBtn}>
+                  <Text style={styles.operationText}>+</Text>
+                </View>
+              </Touchable>
             </View>
           </View>
         </View>
@@ -164,9 +187,10 @@ export default function CreateInvitationScreen({ route, navigation }) {
             <Textarea
               value={description}
               onChangeText={setDescription}
-              style={{ width: '100%', borderRadius: 8, borderColor: '#7C7C7C', fontFamily: 'Sen' }}
-              rowSpan={8}
-              bordered
+              style={{ width: '100%', borderBottomWidth: 1, borderColor: '#dedede', fontFamily: 'Sen', paddingVertical: 10, paddingLeft: 0 }}
+              placeholderTextColor="#dedede"
+              placeholder="Briefly describe the location so that people may find it easily"
+              rowSpan={4}
             />
           </Left>
         </View>
@@ -183,8 +207,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 androidMode={"default"}
                 placeHolderText={moment(date).format('YYYY-MM-DD')}
                 formatChosenDate={d => moment(d).format('YYYY-MM-DD')}
-                textStyle={{ color: '#000', fontSize: 18, fontFamily: 'Sen' }}
-                placeHolderTextStyle={{ color: "#000" }}
+                textStyle={{ color: '#fff', fontSize: 18, fontFamily: 'Sen' }}
+                placeHolderTextStyle={{ color: '#fff' }}
                 onDateChange={setDate}
                 disabled={false}
               />
@@ -195,11 +219,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-            <Button bordered
-              onPress={() => timePickerRef.current.open()}
-              style={styles.timePickerBtn}>
-              <Text style={{ fontSize: 18, paddingHorizontal: 5 }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
-            </Button>
+            <Touchable onPress={() => timePickerRef.current.open()}>
+              <View style={styles.timePickerBtn}>
+                <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+              </View>
+            </Touchable>
           </Left>
         </View>
 
@@ -209,10 +233,13 @@ export default function CreateInvitationScreen({ route, navigation }) {
           onConfirm={handlePickerConfirm}
         />
 
-        <View style={styles.inviteSection}>
-          <Button block rounded success style={styles.inviteBtn} disabled={!selectedPrayer || !description || !time} onPress={submit}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>{t('INVITE')}</Text>
-          </Button>
+        <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
+          <Touchable
+            style={styles.inviteBtn}
+            disabled={!selectedPrayer || !description || !time}
+            onPress={submit}>
+            <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('INVITE')}</Text>
+          </Touchable>
         </View>
       </View>
     </ScrollView >
@@ -232,10 +259,12 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize'
   },
   prayerBtn: {
+    borderRadius: 25,
+    minWidth: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 80,
     paddingHorizontal: 20,
+    height: 40,
     marginBottom: 15,
     marginRight: 10
   },
@@ -268,7 +297,8 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 16,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#12967A',
   },
   sectionSubHeader: {
     fontSize: 14,
@@ -280,24 +310,19 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: 15
   },
-  inviteSection: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   inviteBtn: {
+    height: 52,
+    width: '100%',
+    borderRadius: 33,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 150,
-    paddingHorizontal: 15
+    marginBottom: 15,
+    backgroundColor: '#12967A'
   },
   datePicker: {
-    borderStyle: 'solid',
-    borderColor: '#7C7C7C',
+    backgroundColor: '#12967A',
     borderRadius: 8,
-    borderWidth: 1,
     minWidth: 170,
     alignItems: 'center'
   },
@@ -306,23 +331,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minWidth: 170,
     paddingHorizontal: 10,
-    borderColor: '#7C7C7C',
-    borderStyle: 'solid',
-    borderWidth: 1.5,
+    borderRadius: 8,
+    backgroundColor: '#12967A',
+    height: 42
   },
   operationBtn: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 45,
     height: 45,
-    backgroundColor: '#fff',
-    borderColor: '#7C7C7C',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    backgroundColor: '#12967A',
     borderRadius: 100,
     marginHorizontal: 10
   },
   operationText: {
-    fontSize: 18
+    fontSize: 18,
+    color: '#fff'
   }
 })

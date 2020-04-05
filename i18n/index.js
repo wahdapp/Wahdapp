@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import zh_hant from './zh-TW.json';
 import en from './en.json';
+import parseLanguage from './parse';
 
 const resources = {
   "en": en,
@@ -14,7 +15,7 @@ const languageDetector = {
   async: true, // flags below detection to be async
   detect: callback => {
     return /*'en'; */ Localization.getLocalizationAsync().then(({ locale }) => {
-      callback(locale);
+      callback(parseLanguage(locale));
     });
   },
   init: () => {},
