@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import TabBarIcon from 'components/TabBarIcon';
 import HomeScreen from 'screens/HomeScreen';
 import PrayerDetailScreen from 'screens/Prayer/PrayerDetailScreen';
+import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
@@ -49,6 +50,7 @@ function MapStack() {
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER') }} />
+      <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: 'History Prayers' }} />
     </Stack.Navigator>
   )
 }

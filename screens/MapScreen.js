@@ -98,18 +98,14 @@ export default function MapScreen({ navigation }) {
 
   async function handleFloatBtnClick() {
     try {
-      const location = await Location.getCurrentPositionAsync({});
       mapRef.current.animateToRegion({
         latitudeDelta: currentZoom.latitudeDelta,
         longitudeDelta: currentZoom.longitudeDelta,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
+        latitude: userPosition.latitude,
+        longitude: userPosition.longitude
       }, 800)
-      setCurrentRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
-      });
-      setSelectedLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
+
+      setSelectedLocation({ latitude: userPosition.latitude, longitude: userPosition.longitude });
     }
     catch (e) {
       throw e;
@@ -121,8 +117,13 @@ export default function MapScreen({ navigation }) {
     setSelectedLocation(coordinate);
   }
 
-  function handleConfirm() {
-    navigation.navigate('CreateInvitation', { ...currentRegion, removeMarker: () => setSelectedLocation(null) });
+  function removeMarker() {
+    setSelectedLocation(null);
+  }
+
+  function handleConfirm(region = currentRegion) {
+    console.log({ region, currentRegion })
+    navigation.navigate('CreateInvitation', { ...region, removeMarker, goBackScreen: 'Map' });
   }
 
   async function queryArea() {
@@ -143,7 +144,7 @@ export default function MapScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, prayer, geohash } = doc.data();
+      const { participants, guests: { male, female }, geohash } = doc.data();
 
       if (
         isWithinBoundary(geohash, currentRegion, distance) &&
@@ -160,6 +161,16 @@ export default function MapScreen({ navigation }) {
       const docs = await Promise.all(promises);
       setNearbyMarkers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
     }
+  }
+
+  function handleMarkerPress(marker) {
+    const nearbyPrayers = [];
+    nearbyMarkers.forEach(item => {
+      if (item.geolocation.latitude === marker.geolocation.latitude && item.geolocation.longitude === marker.geolocation.longitude) {
+        nearbyPrayers.push(item);
+      }
+    });
+    navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });
   }
 
   if (!userPosition) {
@@ -194,12 +205,12 @@ export default function MapScreen({ navigation }) {
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
         onRegionChangeComplete={handleDrag}
-        showsMyLocationButton={false}
+        showsMyLocationButton={true}
       >
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
             <View style={{ alignItems: 'center' }}>
-              <Button rounded light style={{ paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
+              <Button rounded style={{ backgroundColor: '#fff', paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
                 <Text>{t('CONFIRM')}</Text>
               </Button>
               <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
@@ -210,17 +221,28 @@ export default function MapScreen({ navigation }) {
           nearbyMarkers.map((marker, i) => (
             <Marker
               coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+              onPress={() => handleMarkerPress(marker)}
               key={i}
             />
           ))
         )}
       </MapView>
-      <TouchableOpacity
-        style={styles.floatingBtn}
-        onPress={handleFloatBtnClick}
-      >
-        <Ionicons name={Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'} size={30} color="#ffffff" />
-      </TouchableOpacity>
+      {selectedLocation ? (
+        <TouchableOpacity
+          style={styles.removeMarkerBtn}
+          onPress={removeMarker}
+        >
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={30} color="#7C7C7C" />
+        </TouchableOpacity>
+      ) : (
+          <TouchableOpacity
+            style={styles.floatingBtn}
+            onPress={handleFloatBtnClick}
+          >
+            <Ionicons name={Platform.OS === 'ios' ? 'ios-pin' : 'md-pin'} size={30} color="#ffffff" />
+          </TouchableOpacity>
+        )
+      }
     </View>
   );
 }
@@ -278,6 +300,17 @@ const styles = StyleSheet.create({
     right: 10,
     height: 70,
     backgroundColor: '#12967A',
+    borderRadius: 100,
+  },
+  removeMarkerBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    height: 70,
+    backgroundColor: '#fff',
     borderRadius: 100,
   },
   inviteBtn: {

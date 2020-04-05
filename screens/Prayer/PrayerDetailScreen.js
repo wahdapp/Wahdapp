@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Dimensions, Image, FlatList, ScrollView, Alert } from 'react-native';
 import { View, Left, Right, Button } from 'native-base';
@@ -45,6 +45,8 @@ export default function PrayerDetailScreen({ route, navigation }) {
   console.log({ isJoined, currentParticipants })
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
+
+  const isExpired = useMemo(() => moment(scheduleTime).isBefore(moment()), [scheduleTime]);
 
   useEffect(() => {
     getDistance();
@@ -146,7 +148,13 @@ export default function PrayerDetailScreen({ route, navigation }) {
             <Text style={styles.sectionSubHeader}>{formatDistance(distance)}</Text>
           </Left>
           <Right>
-            {auth.currentUser.uid === inviterID ? (
+            {isExpired ? (
+              <Button rounded disabled
+                style={{ width: 100, justifyContent: 'center' }}
+              >
+                <Text style={{ color: '#fff' }}>ENDED</Text>
+              </Button>
+            ) : auth.currentUser.uid === inviterID ? (
               <Button rounded
                 style={{ width: 100, justifyContent: 'center', backgroundColor: '#c4302b' }}
                 onPress={handleDeletePrayer}
@@ -154,14 +162,14 @@ export default function PrayerDetailScreen({ route, navigation }) {
                 <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
               </Button>
             ) : (
-                <Button rounded success
-                  bordered={!isJoined}
-                  style={{ width: 100, justifyContent: 'center', borderColor: '#7C7C7C' }}
-                  onPress={handleJoin}
-                >
-                  <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
-                </Button>
-              )}
+                  <Button rounded success
+                    bordered={!isJoined}
+                    style={{ width: 100, justifyContent: 'center', borderColor: '#7C7C7C' }}
+                    onPress={handleJoin}
+                  >
+                    <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
+                  </Button>
+                )}
           </Right>
         </View>
 
