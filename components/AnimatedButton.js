@@ -69,7 +69,7 @@ export default function AnimatedButton(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, ...props.containerStyle }}>
       <TouchableWithoutFeedback onPress={!props.showLoading ? props.onPress : null}>
         <Animated.View
           style={[
@@ -97,6 +97,7 @@ AnimatedButton.defaultProps = {
   activityIndicatorColor: 'white',
   borderRadius: 0,
   customStyles: {},
+  containerStyle: {}
 };
 
 const styles = StyleSheet.create({

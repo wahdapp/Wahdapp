@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
   StyleSheet,
@@ -9,11 +10,15 @@ import {
 } from 'react-native';
 import { Text } from 'components';
 import { View, Button, Toast } from 'native-base';
+import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
+import moment from 'moment';
+import { db } from 'firebaseDB';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'constants/Colors';
 import { PIN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import { AnimatedButton } from 'components';
 
 export default function MapScreen({ navigation }) {
   const { t } = useTranslation(['INVITATION']);
@@ -21,6 +26,9 @@ export default function MapScreen({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
   const [userPosition, setUserPosition] = useState(null);
+  const [isQuerying, setIsQuerying] = useState(false);
+  const [nearbyMarkers, setNearbyMarkers] = useState([]);
+  const filter = useSelector(state => state.filterState);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -53,7 +61,7 @@ export default function MapScreen({ navigation }) {
   }
 
   function handleDrag(coords) {
-    // setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
+    setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
     setCurrentZoom({ latitudeDelta: coords.latitudeDelta, longitudeDelta: coords.longitudeDelta });
   }
 
@@ -117,6 +125,43 @@ export default function MapScreen({ navigation }) {
     navigation.navigate('CreateInvitation', { ...currentRegion, removeMarker: () => setSelectedLocation(null) });
   }
 
+  async function queryArea() {
+    setIsQuerying(true);
+    await fetchNearbyPrayers();
+    setIsQuerying(false);
+  }
+
+  async function fetchNearbyPrayers() {
+    let distance = 2; // set default to 2 kilometers
+    const { latitude, longitude } = currentRegion;
+    const range = getGeohashRange(latitude, longitude, distance);
+    const prayersDoc = await db.collection('prayers')
+      .where('geohash', '>=', range.lower)
+      .where('geohash', '<=', range.upper)
+      .get();
+
+    const prayers = [];
+
+    prayersDoc.forEach(doc => {
+      const { participants, guests: { male, female }, prayer, geohash } = doc.data();
+
+      if (
+        isWithinBoundary(geohash, currentRegion, distance) &&
+        (1 + participants.length + male + female) >= filter.minimumParticipants // filter participants number
+      ) {
+        prayers.push({ ...doc.data(), id: doc.id });
+      }
+    });
+
+    if (prayers.length) {
+      const inviters = prayers.map(p => p.inviter);
+      const ids = inviters.map(i => i.id);
+      const promises = inviters.map(i => i.get());
+      const docs = await Promise.all(promises);
+      setNearbyMarkers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+    }
+  }
+
   if (!userPosition) {
     return (
       <View style={styles.loadingContainer}>
@@ -126,7 +171,21 @@ export default function MapScreen({ navigation }) {
   }
 
   return (
-    <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
+    <View style={{ flex: 1 }}>
+      <AnimatedButton
+        showLoading={isQuerying}
+        width={120}
+        height={30}
+        title="Query this area"
+        titleFontSize={10}
+        titleFontFamily="Sen"
+        titleColor="#000"
+        backgroundColor="#fff"
+        borderRadius={25}
+        onPress={queryArea}
+        containerStyle={{ position: 'absolute', top: 35, left: 0, right: 0, zIndex: 5 }}
+        activityIndicatorColor="#000"
+      />
       <MapView
         provider="google"
         ref={mapRef}
@@ -146,6 +205,14 @@ export default function MapScreen({ navigation }) {
               <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
             </View>
           </Marker>
+        )}
+        {nearbyMarkers.length > 0 && (
+          nearbyMarkers.map((marker, i) => (
+            <Marker
+              coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+              key={i}
+            />
+          ))
         )}
       </MapView>
       <TouchableOpacity
