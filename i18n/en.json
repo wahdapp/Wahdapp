@@ -24,6 +24,8 @@
     "GUESTS": "Guests"
   },
   "INVITATION": {
+    "HISTORY_PRAYERS": "History Prayers",
+    "QUERY": "Query this area",
     "CONFIRM": "Confirm",
     "HEADER": "Invite Prayer",
     "PRAYER": "Prayer:",

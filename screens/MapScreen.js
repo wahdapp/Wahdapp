@@ -123,7 +123,7 @@ export default function MapScreen({ navigation }) {
 
   function handleConfirm(region = currentRegion) {
     console.log({ region, currentRegion })
-    navigation.navigate('CreateInvitation', { ...region, removeMarker, goBackScreen: 'Map' });
+    navigation.navigate('CreateInvitation', { ...region, removeMarker });
   }
 
   async function queryArea() {
@@ -187,7 +187,7 @@ export default function MapScreen({ navigation }) {
         showLoading={isQuerying}
         width={120}
         height={30}
-        title="Query this area"
+        title={t('QUERY')}
         titleFontSize={10}
         titleFontFamily="Sen"
         titleColor="#000"

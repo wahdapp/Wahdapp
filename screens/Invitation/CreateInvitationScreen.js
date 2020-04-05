@@ -69,7 +69,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         throw { message: t('ERROR.0') };
       }
 
-      const { latitude, longitude, removeMarker, goBackScreen } = route.params;
+      const { latitude, longitude, removeMarker } = route.params;
 
       db.collection('prayers').add({
         scheduleTime: formattedSchedule,
@@ -86,7 +86,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         }
       })
 
-      navigation.goBack(goBackScreen);
+      navigation.pop(2);
       removeMarker();
     }
     catch (e) {
