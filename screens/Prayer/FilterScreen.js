@@ -32,12 +32,14 @@ export default function FilterScreen({ route, navigation }) {
   }, [filter]);
 
   useEffect(() => {
-    if (sameGender) {
-      setMinNum(0);
-    }
-    else {
-      setMinNum(2);
-      setMinimumParticipants(2);
+    if (user.gender === 'F') {
+      if (sameGender) {
+        setMinNum(0);
+      }
+      else {
+        setMinNum(2);
+        setMinimumParticipants(2);
+      }
     }
   }, [sameGender]);
 

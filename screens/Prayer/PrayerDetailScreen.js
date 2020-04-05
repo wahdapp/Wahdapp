@@ -117,7 +117,9 @@ export default function PrayerDetailScreen({ route, navigation }) {
     await db.collection('prayers').doc(id).delete();
     setIsLoading(false);
     navigation.goBack();
-    query();
+    if (query) {
+      query();
+    }
   }
 
   return (
@@ -148,18 +150,18 @@ export default function PrayerDetailScreen({ route, navigation }) {
             <Text style={styles.sectionSubHeader}>{formatDistance(distance)}</Text>
           </Left>
           <Right>
-            {isExpired ? (
-              <Button rounded disabled
-                style={{ width: 100, justifyContent: 'center' }}
-              >
-                <Text style={{ color: '#fff' }}>ENDED</Text>
-              </Button>
-            ) : auth.currentUser.uid === inviterID ? (
+            {auth.currentUser.uid === inviterID ? (
               <Button rounded
                 style={{ width: 100, justifyContent: 'center', backgroundColor: '#c4302b' }}
                 onPress={handleDeletePrayer}
               >
                 <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
+              </Button>
+            ) : isExpired ? (
+              <Button rounded disabled
+                style={{ width: 100, justifyContent: 'center' }}
+              >
+                <Text style={{ color: '#fff' }}>ENDED</Text>
               </Button>
             ) : (
                   <Button rounded success
