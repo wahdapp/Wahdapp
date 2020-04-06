@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { View, AsyncStorage, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Text, Touchable } from 'components';
-import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import { auth, db } from 'firebaseDB';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { setUser, initializeFilter } from 'actions';
+import { useTranslation } from 'react-i18next';
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   const [isCreating, setIsCreating] = useState(false);
   const dispatch = useDispatch();
+  const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function chooseGender(gender) {
     setIsCreating(true);
@@ -35,14 +36,14 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Spinner
         visible={isCreating}
-        textContent={'Loading...'}
+        textContent={t('COMMON:LOADING')}
         textStyle={{ color: '#fff' }}
       />
-      <Text style={styles.header}>Please choose your gender</Text>
+      <Text style={styles.header}>{t('CHOOSE_GENDER')}</Text>
       <Touchable onPress={() => chooseGender('M')}>
         <ListItem onPress={() => chooseGender('M')}>
           <Left>
-            <Text>Male</Text>
+            <Text>{t('COMMON:GENDER.MALE')}</Text>
           </Left>
           <Right>
             <Radio />
@@ -52,7 +53,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
       <Touchable onPress={() => chooseGender('F')}>
         <ListItem onPress={() => chooseGender('F')}>
           <Left>
-            <Text>Female</Text>
+            <Text>{t('COMMON:GENDER.FEMALE')}</Text>
           </Left>
           <Right>
             <Radio />

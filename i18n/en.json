@@ -31,10 +31,12 @@
     "PRAYER": "Prayer",
     "CURRENT_PARTICIPANTS": "Current Participants",
     "DESCRIPTION": "Description",
+    "PLACEHOLDER": "Briefly describe the location so that people may find it easily",
     "DATE": "Date",
     "TIME": "Time",
     "CHOOSE_TIME": "Choose Time",
     "INVITE": "INVITE",
+    "INVITE_HERE": "INVITE HERE",
     "ERRORS": [
       "Prayer time cannot be before now"
     ]
@@ -72,6 +74,9 @@
     "FORGOT_QUESTION": "Forgot Your Password?",
     "FORGOT_DESC": "Please enter the email that you have used to register. We will send you an email to reset your password again!",
     "SUBMIT": "SUBMIT",
+    "GOOGLE_LOGIN": "Continue With Google",
+    "FACEBOOK_LOGIN": "Continue With Facebook",
+    "CHOOSE_GENDER": "Please choose your gender",
     "ERROR": [
       "Email or password is missing",
       "You have one or more fields missing",
@@ -97,6 +102,7 @@
       "LABEL": "Gender",
       "MALE": "Male",
       "FEMALE": "Female"
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

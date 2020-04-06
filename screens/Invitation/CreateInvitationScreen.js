@@ -190,7 +190,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
               onChangeText={setDescription}
               style={{ width: '100%', borderBottomWidth: 1, borderColor: '#dedede', fontFamily: 'Sen', paddingVertical: 10, paddingLeft: 0 }}
               placeholderTextColor="#dedede"
-              placeholder="Briefly describe the location so that people may find it easily"
+              placeholder={t('PLACEHOLDER')}
               rowSpan={4}
             />
           </Left>

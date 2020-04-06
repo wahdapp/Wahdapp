@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 60,
     position: 'absolute',
-    bottom: 80,
+    bottom: Platform.OS === 'android' ? 10 : 80,
     right: 10,
     height: 60,
     backgroundColor: colors.primary,

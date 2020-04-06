@@ -51,14 +51,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
+        <View style={{ width: '100%', paddingHorizontal: 25, marginTop: 50, marginBottom: 25 }}>
+          <BoldText style={{ fontSize: 24, textAlign: 'center', color: colors.primary }}>Welcome to JamaatApp</BoldText>
+        </View>
         <View style={styles.imageContainer}>
           <Image
             style={{ height: 150, width: '100%', resizeMode: 'contain' }}
             source={BISMILLAH}
           />
-        </View>
-        <View style={{ width: '100%', paddingHorizontal: 25, marginBottom: 25 }}>
-          <BoldText style={{ fontSize: 24, color: '#000', textAlign: 'center' }}>Welcome to JamaatApp</BoldText>
         </View>
         <View style={styles.formContainer}>
           <Form>
@@ -104,7 +104,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Touchable onPress={handleFacebookPress}>
               <View style={styles.facebookButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
-                <Text style={{ fontSize: 10, color: '#ffffff' }}>Continue With Facebook</Text>
+                <Text style={{ fontSize: 10, color: '#ffffff' }}>{t('FACEBOOK_LOGIN')}</Text>
               </View>
             </Touchable>
           </View> */}
@@ -113,7 +113,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Touchable onPress={handleGooglePress}>
               <View style={styles.googleButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={GOOGLE} />
-                <Text style={{ fontSize: 10, color: '#7F7F7F' }}>Continue With Google</Text>
+                <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('GOOGLE_LOGIN')}</Text>
               </View>
             </Touchable>
           </View>
@@ -178,11 +178,14 @@ const styles = StyleSheet.create({
   },
   signUpLabelContainer: {
     marginTop: 25,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   signUpLabel: {
     fontSize: 12,
     color: '#7C7C7C',
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: 30
   },
   hyperlink: {
     fontSize: 14,
@@ -219,6 +222,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
     backgroundColor: '#fff',
+    borderColor: '#7F7F7F',
+    borderWidth: 0.7,
     shadowOpacity: 0.65,
     shadowRadius: 3,
     shadowColor: '#000',

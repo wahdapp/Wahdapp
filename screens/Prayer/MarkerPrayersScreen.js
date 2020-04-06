@@ -3,9 +3,11 @@ import { StyleSheet, FlatList, Platform } from 'react-native';
 import { View } from 'native-base';
 import { PrayerCard, Text, Touchable } from 'components';
 import colors from 'constants/Colors';
+import { useTranslation } from 'react-i18next';
 
 export default function MarkerPrayersScreen({ navigation, route }) {
   const { nearbyPrayers, handleConfirm } = route.params;
+  const { t } = useTranslation(['INVITATION']);
 
   function handleInvite() {
     const { geolocation } = nearbyPrayers[0];
@@ -16,7 +18,7 @@ export default function MarkerPrayersScreen({ navigation, route }) {
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.prayerListWrapper}>
         <Touchable style={styles.button} onPress={handleInvite}>
-          <Text style={styles.buttonText}>INVITE HERE</Text>
+          <Text style={styles.buttonText}>{t('INVITE_HERE')}</Text>
         </Touchable>
         <FlatList
           style={{ height: '100%' }}

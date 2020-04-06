@@ -31,10 +31,12 @@
     "PRAYER": "禮拜",
     "CURRENT_PARTICIPANTS": "目前人數",
     "DESCRIPTION": "說明",
+    "PLACEHOLDER": "簡短描述一下地點讓大家比較容易找到",
     "DATE": "日期",
     "TIME": "時間",
     "CHOOSE_TIME": "選擇時間",
     "INVITE": "發出邀請",
+    "INVITE_HERE": "在此處邀請",
     "ERROR": [
       "禮拜時間不可比現在還早"
     ]
@@ -72,6 +74,9 @@
     "FORGOT_QUESTION": "忘記了您的密碼？",
     "FORGOT_DESC": "請輸入您用來註冊的電子郵件。我們將向您發送電子郵件以再次重置您的密碼！",
     "SUBMIT": "提交",
+    "GOOGLE_LOGIN": "用 Google 登入",
+    "FACEBOOK_LOGIN": "用 Facebook 登入",
+    "CHOOSE_GENDER": "請選擇您的性別",
     "ERROR": [
       "電子郵件或密碼尚未填寫",
       "有至少一欄尚未填寫喔",
@@ -97,6 +102,7 @@
       "LABEL": "性別",
       "MALE": "男性",
       "FEMALE": "女性"
-    }
+    },
+    "LOADING": "載入中..."
   }
 }

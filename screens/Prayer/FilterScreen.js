@@ -147,7 +147,7 @@ export default function FilterScreen({ route, navigation }) {
           <View style={styles.detailSection}>
             <Left>
               <BoldText style={styles.sectionHeader}>{t('SAME_GENDER')}</BoldText>
-              <Text style={styles.sectionSubHeader}>{t('If checked, you will only see invitations organized by females.')}</Text>
+              <Text style={styles.sectionSubHeader}>{t('CHECKBOX_DESC')}</Text>
             </Left>
             <Right>
               <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color={colors.primary} />
