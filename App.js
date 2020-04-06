@@ -58,7 +58,7 @@ export default function App(props) {
     auth.onAuthStateChanged(user => {
       setIsAuthenticating(false);
       console.log({ user })
-      // setUserAuth(user);
+      setUserAuth(user);
     });
   }
 
