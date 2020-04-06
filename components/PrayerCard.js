@@ -60,7 +60,7 @@ export default function PrayerCard({ navigate, ...props }) {
                 <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
               </Left>
               <Right>
-                <Text style={styles.scheduleTitle}>{moment(scheduleTime).locale(i18n.language.toLocaleLowerCase()).format('hh:mm A')}</Text>
+                <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
               </Right>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -69,7 +69,7 @@ export default function PrayerCard({ navigate, ...props }) {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
               <Left><Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text></Left>
-              {distance && <Right><Text>{formatDistance(distance)}</Text></Right>}
+              {distance && <Right><Text>{formatDistance(distance, t)}</Text></Right>}
             </View>
           </CardItem>
         </Card>

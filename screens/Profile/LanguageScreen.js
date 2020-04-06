@@ -4,12 +4,18 @@ import { Text, Touchable } from 'components';
 import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import { languages } from 'constants/languages';
+import { formatLanguage } from 'helpers/dateFormat';
+import moment from 'moment';
+import 'moment/locale/zh-tw';
+import 'moment/locale/zh-cn';
 
 function LanguageScreen({ navigation }) {
   async function handleSelectLanguage(lng) {
     await AsyncStorage.setItem('lang', lng);
     navigation.goBack();
     i18n.changeLanguage(lng);
+
+    formatLanguage(lng);
   }
 
   return (

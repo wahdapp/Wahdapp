@@ -29,6 +29,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AppNavigator from './navigation/AppNavigator';
 import { decode, encode } from 'base-64'
 import 'helpers/clearTimer';
+import { formatLanguage } from 'helpers/dateFormat';
 import './i18n';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
@@ -67,6 +68,7 @@ export default function App(props) {
     const language = await AsyncStorage.getItem('lang');
     if (language) {
       i18n.changeLanguage(language);
+      formatLanguage(language);
     }
   }
 

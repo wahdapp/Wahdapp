@@ -30,7 +30,7 @@ function joinReducer(state, action) {
 }
 
 export default function PrayerDetailScreen({ route, navigation }) {
-  const { t } = useTranslation(['PRAYER_DETAILS']);
+  const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
   const { geolocation, query, scheduleTime, participants, inviter, inviterID, description, guests, id } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
@@ -147,7 +147,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{`${moment(scheduleTime).format('MMM DD')}\n${moment(scheduleTime).format('hh:mm A')}`}</BoldText>
-            <Text style={styles.sectionSubHeader}>{formatDistance(distance)}</Text>
+            <Text style={styles.sectionSubHeader}>{formatDistance(distance, t)}</Text>
           </Left>
           <Right>
             {auth.currentUser.uid === inviterID ? (

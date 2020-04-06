@@ -7,7 +7,7 @@
     "HEADER": "筛选",
     "PRAYERS": "礼拜",
     "DISTANCE": "距离",
-    "MIN_PARTICIPANTS": "最低人数",
+    "MIN_PARTICIPANTS": "最低人数 ",
     "PERSON": "人",
     "PEOPLE": "人",
     "SAME_GENDER": "同性别",
@@ -119,6 +119,10 @@
       "TODAY": "今天",
       "YESTERDAY": "昨天",
       "TOMORROW": "明天"
+    },
+    "DISTANCE": {
+      "KM": "公里",
+      "M": "公尺"
     }
   }
 }

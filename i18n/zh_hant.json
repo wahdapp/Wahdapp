@@ -7,7 +7,7 @@
     "HEADER": "篩選",
     "PRAYERS": "禮拜",
     "DISTANCE": "距離",
-    "MIN_PARTICIPANTS": "最低人數",
+    "MIN_PARTICIPANTS": "最低人數 ",
     "PERSON": "人",
     "PEOPLE": "人",
     "SAME_GENDER": "同性別",
@@ -119,6 +119,10 @@
       "TODAY": "今天",
       "YESTERDAY": "昨天",
       "TOMORROW": "明天"
+    },
+    "DISTANCE": {
+      "KM": "公里",
+      "M": "公尺"
     }
   }
 }

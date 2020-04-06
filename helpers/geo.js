@@ -38,11 +38,11 @@ export async function getLatLong() {
   }
 }
 
-export function formatDistance(distance) {
+export function formatDistance(distance, t) {
   if (distance < 1) {
-    return `${Math.floor(distance * 1000)} m`;
+    return `${Math.floor(distance * 1000)} ${t('COMMON:DISTANCE.M')}`;
   }
-  return `${distance.toFixed(2)} km`;
+  return `${distance.toFixed(2)} ${t('COMMON:DISTANCE.KM')}`;
 }
 
 export const getGeohashRange = (latitude, longitude, distance) => {

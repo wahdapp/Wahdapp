@@ -1,4 +1,6 @@
 import moment from 'moment';
+import 'moment/locale/zh-tw';
+import 'moment/locale/zh-cn';
 
 export function formatDay(t, date) {
   const today = moment();
@@ -14,4 +16,20 @@ export function formatDay(t, date) {
     return t('DAY.YESTERDAY');
   }
   return date.format('DD MMM');
+}
+
+export function formatLanguage(language) {
+  switch(language) {
+    case 'en':
+      moment.locale('en');
+      break;
+    case 'zh_hant':
+      moment.locale('zh-tw');
+      break;
+    case 'zh_hans':
+      moment.locale('zh-cn');
+      break;
+    default:
+      moment.locale('en');
+  }
 }

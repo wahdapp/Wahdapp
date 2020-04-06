@@ -119,6 +119,10 @@
       "TODAY": "Today",
       "YESTERDAY": "Yesterday",
       "TOMORROW": "Tomorrow"
+    },
+    "DISTANCE": {
+      "KM": "km",
+      "M": "m"
     }
   }
 }
