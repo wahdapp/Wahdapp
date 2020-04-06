@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Image } from 'react-native';
 import { Text } from './Text';
 import { View, Card, CardItem, Left, Body, Right } from 'native-base';
-import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '../assets/images';
+import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { calculateDistance, formatDistance } from '../helpers/geo';
+import { calculateDistance, formatDistance } from 'helpers/geo';
+import { formatDay } from 'helpers/dateFormat';
 import Touchable from './Touchable';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
@@ -64,7 +65,7 @@ export default function PrayerCard({ navigate, ...props }) {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Left><Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text></Left>
-              <Right><Text style={styles.invited}>{moment(scheduleTime).locale(i18n.language.toLocaleLowerCase()).format('DD MMM')}</Text></Right>
+              <Right><Text style={styles.invited}>{formatDay(t, moment(scheduleTime))}</Text></Right>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
               <Left><Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text></Left>

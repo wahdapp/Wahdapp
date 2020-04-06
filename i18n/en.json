@@ -114,6 +114,11 @@
       "MALE": "Male",
       "FEMALE": "Female"
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "DAY": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "TOMORROW": "Tomorrow"
+    }
   }
 }
