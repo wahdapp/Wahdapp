@@ -21,6 +21,7 @@ import * as Permissions from 'expo-permissions';
 import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
 import ForgotPasswordScreen from 'screens/Auth/ForgotPasswordScreen';
+import EmailSentScreen from 'screens/Auth/EmailSentScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -87,7 +88,7 @@ export default function App(props) {
     );
   }
 
-  if (!userAuth) {
+  if (!userAuth || !userAuth.emailVerified) {
     return (
       <Root>
         <NavigationContainer>
@@ -95,6 +96,7 @@ export default function App(props) {
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '' }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: t('FORGOT_PWD') }} />
+            <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

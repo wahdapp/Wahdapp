@@ -85,7 +85,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
               titleFontSize={14}
               titleFontFamily="Sen"
               titleColor="rgb(255,255,255)"
-              backgroundColor="#68A854"
+              backgroundColor={colors.secondary}
               borderRadius={25}
               onPress={handleLogin}
             />

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Picker, ScrollView } from 'react-native';
-import { Form, Item, Input, Toast, InputGroup, Card } from 'native-base';
-import { Text, BoldText } from 'components';
+import { Form, Input, Toast, InputGroup, Card } from 'native-base';
+import { BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
-import { auth, db } from 'firebaseDB';
+import { auth, createAccount } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -19,7 +19,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function handleSignup() {
-    if (!fullName || !email || !password || !confirm) {
+    if (!fullName.trim() || !email.trim() || !password.trim() || !confirm.trim()) {
       Toast.show({
         text: t('ERROR.1'),
         textStyle: { fontSize: 12 },
@@ -41,12 +41,10 @@ export default function SignupScreen({ navigation: { navigate } }) {
 
     try {
       setLoading(true);
-      const authUser = await auth.createUserWithEmailAndPassword(email, password);
-      db.collection('users').doc(authUser.user.uid).set({
-        fullName,
-        email,
-        gender,
-      });
+      await auth.createUserWithEmailAndPassword(email.trim(), password);
+      await createAccount(fullName.trim(), email.trim(), gender);
+      await auth.currentUser.sendEmailVerification();
+      navigate('EmailSent');
     }
     catch (e) {
       console.error({ e })

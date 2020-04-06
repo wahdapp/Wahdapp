@@ -63,3 +63,11 @@ export async function signInWithGoogle() {
     }
   }
 }
+
+export async function createAccount(fullName, email, gender) {
+  await db.collection('users').doc(auth.currentUser.uid).set({
+    fullName,
+    email,
+    gender,
+  });
+}
