@@ -1,56 +1,99 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Picker, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
-import { Form, Item, Input, Toast, InputGroup, Content, Button } from 'native-base';
+import { Form, Input, Toast, InputGroup, Content, Button } from 'native-base';
 import { Text, BoldText } from 'components';
-import { auth, db } from 'firebaseDB';
+import { auth } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
-import { FORGOT } from 'assets/images';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { FORGOT, EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }) {
+  const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [email, setEmail] = useState('');
-  const { t } = useTranslation(['SIGN'])
+  const { t } = useTranslation(['SIGN', 'COMMON']);
+
+  async function sendResetEmail() {
+    try {
+      setIsSending(true);
+
+      await auth.sendPasswordResetEmail(email);
+
+      setIsSending(false);
+      setIsSent(true);
+    }
+    catch (e) {
+      setIsSending(false);
+      Toast.show({
+        text: e.message,
+        textStyle: { fontSize: 12 },
+        buttonText: t('ERROR.3'),
+        type: 'danger'
+      });
+    }
+  }
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <Content style={{ flex: 1 }}>
+    <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+      <Spinner
+        visible={isSending}
+        textContent={t('COMMON:LOADING')}
+        textStyle={{ color: '#fff' }}
+      />
+      <Content contentContainerStyle={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.imageContainer}>
-              <Image source={FORGOT} style={styles.image} />
+              <Image source={isSent ? EMAIL_SENT : FORGOT} style={styles.image} />
             </View>
 
-            <View style={styles.descriptionSection}>
-              <BoldText style={styles.bold}>{t('FORGOT_QUESTION')}</BoldText>
-              <Text style={styles.text}>{t('FORGOT_DESC')}</Text>
-            </View>
+            {isSent ? (
+              <>
+                <View style={styles.descriptionSection}>
+                  <BoldText style={styles.bold}>Reset Your Password</BoldText>
+                  <Text style={styles.text}>An email has been sent to your inbox. Follow the necessary steps to reset your password for your account.</Text>
+                </View>
 
+                <View style={styles.buttonContainer}>
+                  <Button rounded block style={styles.button} onPress={() => navigate('Login')}>
+                    <Text style={{ color: '#fff' }}>BACK TO LOGIN</Text>
+                  </Button>
+                </View>
+              </>
+            ) : (
+                <>
+                  <View style={styles.descriptionSection}>
+                    <BoldText style={styles.bold}>{t('FORGOT_QUESTION')}</BoldText>
+                    <Text style={styles.text}>{t('FORGOT_DESC')}</Text>
+                  </View>
 
-            <View style={styles.formContainer}>
-              <Form>
-                <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                  <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                  <Input style={styles.input} value={email} onChangeText={setEmail} />
-                </InputGroup>
-              </Form>
-            </View>
+                  <View style={styles.formContainer}>
+                    <Form>
+                      <InputGroup floatingLabel rounded style={styles.inputGroup}>
+                        <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
+                        <Input style={styles.input} value={email} onChangeText={setEmail} />
+                      </InputGroup>
+                    </Form>
+                  </View>
 
-            <View style={styles.buttonContainer}>
-              <Button rounded block style={styles.button}>
-                <Text style={{ color: '#fff' }}>{t('SUBMIT')}</Text>
-              </Button>
-            </View>
+                  <View style={styles.buttonContainer}>
+                    <Button rounded block style={styles.button} onPress={sendResetEmail}>
+                      <Text style={{ color: '#fff' }}>{t('SUBMIT')}</Text>
+                    </Button>
+                  </View>
+                </>
+              )}
           </View>
         </View>
       </Content>
-    </KeyboardAvoidingView>
+    </View >
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     padding: 25,

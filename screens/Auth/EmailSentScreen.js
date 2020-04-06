@@ -10,8 +10,8 @@ import colors from 'constants/Colors';
 export default function EmailSentScreen({ navigation: { navigate } }) {
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <Content style={{ flex: 1 }}>
+    <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+      <Content contentContainerStyle={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.imageContainer}>
@@ -32,7 +32,7 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
           </View>
         </View>
       </Content>
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
