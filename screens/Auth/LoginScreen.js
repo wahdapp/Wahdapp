@@ -3,8 +3,8 @@ import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { Text, Touchable, BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
-import { auth, signInWithFacebook } from 'firebaseDB';
-import { BISMILLAH, FACEBOOK } from 'assets/images';
+import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
+import { BISMILLAH, FACEBOOK, GOOGLE } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -44,8 +44,12 @@ export default function LoginScreen({ navigation: { navigate } }) {
     await signInWithFacebook();
   }
 
+  async function handleGooglePress() {
+    await signInWithGoogle();
+  }
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20  }}>
+    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
@@ -104,6 +108,15 @@ export default function LoginScreen({ navigation: { navigate } }) {
               </View>
             </Touchable>
           </View> */}
+
+          <View style={styles.loginBtnContainer}>
+            <Touchable onPress={handleGooglePress}>
+              <View style={styles.googleButton}>
+                <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={GOOGLE} />
+                <Text style={{ fontSize: 10, color: '#7F7F7F' }}>Continue With Google</Text>
+              </View>
+            </Touchable>
+          </View>
 
         </View>
       </ScrollView>
@@ -196,5 +209,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
     backgroundColor: '#3b5998'
+  },
+  googleButton: {
+    height: 52,
+    width: '100%',
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    backgroundColor: '#fff',
+    shadowOpacity: 0.65,
+    shadowRadius: 3,
+    shadowColor: '#000',
+    shadowOffset: { height: 0, width: 0 },
   }
 });

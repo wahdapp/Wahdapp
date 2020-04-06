@@ -38,6 +38,10 @@
       },
       "facebook": {
         "appId": "208549550576320"
+      },
+      "google": {
+        "iosClientId": "397539853913-o8ma020o2ke11ehdko4op00b9gfp2s2g.apps.googleusercontent.com",
+        "androidClientId": "397539853913-rh5iuc360cq8imo46mfjgsc72g2ao40q.apps.googleusercontent.com"
       }
     }
   }
