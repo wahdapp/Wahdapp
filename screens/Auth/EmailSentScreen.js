@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
 export default function EmailSentScreen({ navigation: { navigate } }) {
+  const { t } = useTranslation(['SIGN']);
 
   return (
     <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
@@ -19,13 +20,13 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.descriptionSection}>
-              <BoldText style={styles.bold}>Verify Your Email Address</BoldText>
-              <Text style={styles.text}>An verification email has been sent to your inbox. Please follow the necessary steps to start your journey!</Text>
+              <BoldText style={styles.bold}>{t('VERIFY.HEADER')}</BoldText>
+              <Text style={styles.text}>{t('VERIFY.DESCRIPTION')}</Text>
             </View>
 
             <View style={styles.buttonContainer}>
               <Button rounded block style={styles.button} onPress={() => navigate('Login')}>
-                <Text style={{ color: '#fff' }}>BACK TO LOGIN</Text>
+                <Text style={{ color: '#fff' }}>{t('BACK_TO_LOGIN')}</Text>
               </Button>
             </View>
 

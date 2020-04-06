@@ -71,8 +71,19 @@
     "EMAIL": "Email Address",
     "PASSWORD": "Password",
     "CONFIRM": "Confirm Password",
-    "FORGOT_QUESTION": "Forgot Your Password?",
-    "FORGOT_DESC": "Please enter the email that you have used to register. We will send you an email to reset your password again!",
+    "FORGOT": {
+      "HEADER": "Forgot Your Password?",
+      "DESCRIPTION": "Please enter the email that you have used to register. We will send you an email to reset your password again!"
+    },
+    "RESET": {
+      "HEADER": "Reset Your Password",
+      "DESCRIPTION": "An email has been sent to your inbox. Follow the necessary steps to reset your password for your account."
+    },
+    "VERIFY": {
+      "HEADER": "Verify Your Email Address",
+      "DESCRIPTION": "An verification email has been sent to your inbox. Please follow the necessary steps to start your journey!"
+    },
+    "BACK_TO_LOGIN": "BACK TO LOGIN",
     "SUBMIT": "SUBMIT",
     "GOOGLE_LOGIN": "Continue With Google",
     "FACEBOOK_LOGIN": "Continue With Facebook",

@@ -52,21 +52,21 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
             {isSent ? (
               <>
                 <View style={styles.descriptionSection}>
-                  <BoldText style={styles.bold}>Reset Your Password</BoldText>
-                  <Text style={styles.text}>An email has been sent to your inbox. Follow the necessary steps to reset your password for your account.</Text>
+                  <BoldText style={styles.bold}>{t('RESET.HEADER')}</BoldText>
+                  <Text style={styles.text}>{t('RESET.DESCRIPTION')}</Text>
                 </View>
 
                 <View style={styles.buttonContainer}>
                   <Button rounded block style={styles.button} onPress={() => navigate('Login')}>
-                    <Text style={{ color: '#fff' }}>BACK TO LOGIN</Text>
+                    <Text style={{ color: '#fff' }}>{t('BACK_TO_LOGIN')}</Text>
                   </Button>
                 </View>
               </>
             ) : (
                 <>
                   <View style={styles.descriptionSection}>
-                    <BoldText style={styles.bold}>{t('FORGOT_QUESTION')}</BoldText>
-                    <Text style={styles.text}>{t('FORGOT_DESC')}</Text>
+                    <BoldText style={styles.bold}>{t('FORGOT.HEADER')}</BoldText>
+                    <Text style={styles.text}>{t('FORGOT.DESCRIPTION')}</Text>
                   </View>
 
                   <View style={styles.formContainer}>

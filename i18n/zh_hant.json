@@ -71,8 +71,19 @@
     "EMAIL": "電子郵件",
     "PASSWORD": "密碼",
     "CONFIRM": "確認密碼",
-    "FORGOT_QUESTION": "忘記了您的密碼？",
-    "FORGOT_DESC": "請輸入您用來註冊的電子郵件。我們將向您發送電子郵件以再次重置您的密碼！",
+    "FORGOT": {
+      "HEADER": "忘記了您的密碼？",
+      "DESCRIPTION": "請輸入您用來註冊的電子郵件。我們將向您發送電子郵件以再次重置您的密碼！"
+    },
+    "RESET": {
+      "HEADER": "重設您的密碼",
+      "DESCRIPTION": "電子郵件已發送到您的收件箱。請按照步驟來重置您的帳戶密碼。"
+    },
+    "VERIFY": {
+      "HEADER": "驗證您的電子郵件",
+      "DESCRIPTION": "電子郵件已發送到您的收件箱。請按照步驟來啟動您的帳號。"
+    },
+    "BACK_TO_LOGIN": "回到登入畫面",
     "SUBMIT": "提交",
     "GOOGLE_LOGIN": "用 Google 登入",
     "FACEBOOK_LOGIN": "用 Facebook 登入",
