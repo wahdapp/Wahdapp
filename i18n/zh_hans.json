@@ -1,0 +1,108 @@
+{
+  "HOME": {
+    "HEADER": "附近集会",
+    "EMPTY": "目前尚未有任何集会 :("
+  },
+  "FILTER": {
+    "HEADER": "筛选",
+    "PRAYERS": "礼拜",
+    "DISTANCE": "距离",
+    "MIN_PARTICIPANTS": "最低人数",
+    "PERSON": "人",
+    "PEOPLE": "人",
+    "SAME_GENDER": "同性别",
+    "CHECKBOX_DESC": "如果打勾，您将只会看到由女性发出的邀请。",
+    "BUTTON": "保存"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "{{prayer}}",
+    "JOIN": "加入",
+    "JOINED": "已加入",
+    "DESCRIPTION": "说明",
+    "ORGANIZER": "发起人",
+    "PARTICIPANTS": "参加者",
+    "GUESTS": "来宾"
+  },
+  "INVITATION": {
+    "HISTORY_PRAYERS": "礼拜纪录",
+    "QUERY": "搜寻这个区域",
+    "CONFIRM": "确认",
+    "HEADER": "邀请礼拜",
+    "PRAYER": "礼拜",
+    "CURRENT_PARTICIPANTS": "目前人数",
+    "DESCRIPTION": "说明",
+    "PLACEHOLDER": "简短描述一下地点让大家比较容易找到",
+    "DATE": "日期",
+    "TIME": "时间",
+    "CHOOSE_TIME": "选择时间",
+    "INVITE": "发出邀请",
+    "INVITE_HERE": "在此处邀请",
+    "ERROR": [
+      "礼拜时间不可比现在还早"
+    ]
+  },
+  "PROFILE": {
+    "HEADER": "个人",
+    "PRAYERS_INVITED": "邀请次数",
+    "PRAYERS_PARTICIPATED": "参加次数",
+    "EMPTY": "目前尚未邀请过礼拜 :(",
+    "LANGUAGE_HEADER": "选择语言",
+    "OPTIONS": {
+      "LANGUAGE": "语言偏好",
+      "LOGOUT": "登出"
+    }
+  },
+  "TABS": {
+    "HOME": "首页",
+    "MAP": "地图",
+    "NOTIFICATIONS": "通知",
+    "PROFILE": "个人",
+    "BACK": "回去"
+  },
+  "SIGN": {
+    "LOGIN": "登入",
+    "FORGOT_PWD": "忘记密码",
+    "NOT_HAVE": "还没有帐号？",
+    "SIGNUP_NOW": "马上注册",
+    "SIGNUP": "注册",
+    "CONNECT": "或者",
+    "CREATE_ACCOUNT": "创办帐号",
+    "FULL_NAME": "全名",
+    "EMAIL": "电子邮件",
+    "PASSWORD": "密码",
+    "CONFIRM": "确认密码",
+    "FORGOT_QUESTION": "忘记了您的密码？",
+    "FORGOT_DESC": "请输入您用来注册的电子邮件。我们将向您发送电子邮件以再次重置您的密码！",
+    "SUBMIT": "提交",
+    "GOOGLE_LOGIN": "用 Google 登入",
+    "FACEBOOK_LOGIN": "用 Facebook 登入",
+    "CHOOSE_GENDER": "请选择您的性别",
+    "ERROR": [
+      "电子邮件或密码尚未填写",
+      "有至少一栏尚未填写喔",
+      "两个密码不符",
+      "好"
+    ]
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "晨礼",
+      "dhuhr": "晌礼",
+      "asr": "晡礼",
+      "maghrib": "昏礼",
+      "isha": "宵礼",
+      "jumuah": "聚礼",
+      "janazah": "葬礼"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "由 {{name}} 邀请",
+      "PARTICIPATING": "{{num}}人参加"
+    },
+    "GENDER": {
+      "LABEL": "性别",
+      "MALE": "男性",
+      "FEMALE": "女性"
+    },
+    "LOADING": "载入中..."
+  }
+}

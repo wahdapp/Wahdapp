@@ -1,13 +1,15 @@
 import * as Localization from 'expo-localization';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import zh_hant from './zh-TW.json';
+import zh_hant from './zh_hant.json';
+import zh_hans from './zh_hans.json';
 import en from './en.json';
 import parseLanguage from './parse';
 
 const resources = {
   "en": en,
-  "zh-TW": zh_hant
+  "zh_hant": zh_hant,
+  "zh_hans": zh_hans
 };
 
 const languageDetector = {

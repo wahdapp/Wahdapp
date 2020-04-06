@@ -4,7 +4,11 @@ export const languages = [
     label: 'English'
   },
   {
-    code: 'zh-TW',
+    code: 'zh_hant',
     label: '繁體中文'
+  },
+  {
+    code: 'zh_hans',
+    label: '简体中文'
   }
 ];
