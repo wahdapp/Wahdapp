@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import Constants from 'expo-constants';
 import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-google-app-auth';
 
 firebase.initializeApp(Constants.manifest.extra.firebase);
 //firebase.analytics();
@@ -24,7 +25,33 @@ export async function signInWithFacebook() {
     case 'success': {
       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      const facebookProfileData = await auth.signInAndRetrieveDataWithCredential(credential);  // Sign in with Facebook credential
+      const facebookProfileData = await auth.signInWithCredential(credential);  // Sign in with Facebook credential
+
+      // Do something with Facebook profile data
+      // OR you have subscribed to auth state change, authStateChange handler will process the profile data
+
+      return Promise.resolve({ type: 'success' });
+    }
+    case 'cancel': {
+      return Promise.reject({ type: 'cancel' });
+    }
+  }
+}
+
+export async function signInWithGoogle() {
+  const { type, accessToken } = await Google.logInAsync({
+    androidClientId: Constants.manifest.extra.google.androidClientId,
+    iosClientId: Constants.manifest.extra.google.iosClientId,
+    scopes: ['profile', 'email'],
+  });
+
+  switch (type) {
+    case 'success': {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
+      const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+      console.log({ credential })
+      const googleProfileData = await auth.signInWithCredential(credential);  // Sign in with Facebook credential
+      console.log({ googleProfileData })
 
       // Do something with Facebook profile data
       // OR you have subscribed to auth state change, authStateChange handler will process the profile data
