@@ -22,8 +22,24 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.pingcheng.jamaatapp",
+      "versionCode": 1
+    },
     "ios": {
       "supportsTablet": true
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "jamaatapp",
+            "project": "jamaatapp",
+            "authToken": "566589cc0a0c45639e094033d296f333f7280df58746423991001446e48f8973"
+          }
+        }
+      ]
     },
     "extra": {
       "firebase": {

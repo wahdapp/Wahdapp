@@ -33,6 +33,13 @@ import { formatLanguage } from 'helpers/dateFormat';
 import './i18n';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
+import * as Sentry from 'sentry-expo';
+
+Sentry.init({
+  dsn: 'https://1c85f06f0e814e3f862b9204f5bb07ba@o374179.ingest.sentry.io/5191762',
+  enableInExpoDevelopment: true,
+  debug: true
+});
 
 /* Firebase bug */
 global.crypto = require("@firebase/firestore");
