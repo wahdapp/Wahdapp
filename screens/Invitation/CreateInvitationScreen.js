@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
 import colors from 'constants/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
@@ -234,8 +235,12 @@ export default function CreateInvitationScreen({ route, navigation }) {
         <DateTimePickerModal
           isVisible={isTimePickerVisible}
           mode="time"
+          locale={i18n.language}
           onConfirm={handlePickerConfirm}
           onCancel={() => setIsTimePickerVisible(false)}
+          headerTextIOS={t('CHOOSE_TIME')}
+          cancelTextIOS={t('CANCEL')}
+          confirmTextIOS={t('CONFIRM')}
         />
 
         <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
