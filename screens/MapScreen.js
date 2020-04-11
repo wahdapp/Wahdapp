@@ -30,6 +30,7 @@ export default function MapScreen({ navigation }) {
   const [nearbyMarkers, setNearbyMarkers] = useState([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState([]);
   const filter = useSelector(state => state.filterState);
+  const user = useSelector(state => state.userState);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export default function MapScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, geohash } = doc.data();
+      const { participants, guests: { male, female }, geohash, gender } = doc.data();
 
       if (
         isWithinBoundary(geohash, currentRegion, distance) &&
