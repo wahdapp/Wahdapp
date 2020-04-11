@@ -61,7 +61,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
     }
   }
 
-  function submit() {
+  async function submit() {
     try {
       setIsLoading(true);
       // validate date time
@@ -76,7 +76,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
       const { latitude, longitude, removeMarker } = route.params;
 
-      db.collection('prayers').add({
+      const payload = {
         scheduleTime: formattedSchedule,
         timestamp: now.format(),
         prayer: selectedPrayer,
@@ -90,12 +90,17 @@ export default function CreateInvitationScreen({ route, navigation }) {
           female
         },
         gender: user.gender
-      });
+      }
 
-      setIsLoading(true);
+      const docRef = await db.collection('prayers').add(payload);
 
-      navigation.pop(2);
+      const { id } = docRef;
+
+      setIsLoading(false);
       removeMarker();
+
+      navigation.goBack();
+      navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
     }
     catch (e) {
       setIsLoading(false);
