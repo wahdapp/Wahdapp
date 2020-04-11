@@ -24,10 +24,22 @@
     ],
     "android": {
       "package": "com.pingcheng.jamaatapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAjQJ6y5HZ-pevNO5ZlAadfH4HOmhwP7_s"
+        }
+      },
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.pingcheng.jamaatapp",
+      "googleMapsApiKey": "AIzaSyCUGDIHnDwedzUlQHMlwvNtwWPRfI1n9Zo",
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "googleSignIn": {
+        "reservedClientId": "com.googleusercontent.apps.397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp"
+      }
     },
     "hooks": {
       "postPublish": [
