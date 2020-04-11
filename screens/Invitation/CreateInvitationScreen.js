@@ -1,7 +1,6 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList } from 'react-native';
-import TimePicker from 'react-native-24h-timepicker';
 import { View, Left, Right, Button, Toast, Textarea, DatePicker } from 'native-base';
 import { Text, BoldText, Touchable } from 'components';
 import moment from 'moment';
@@ -11,6 +10,7 @@ import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
 import colors from 'constants/Colors';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
@@ -21,7 +21,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [male, setMale] = useState(0);
   const [female, setFemale] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const timePickerRef = useRef(null);
+  const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
   const user = useSelector(state => state.userState);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
@@ -36,10 +36,9 @@ export default function CreateInvitationScreen({ route, navigation }) {
     }
   }
 
-  function handlePickerConfirm(hour, minute) {
-    console.log({ hour, minute })
-    setTime({ hour, minute });
-    timePickerRef.current.close();
+  function handlePickerConfirm(date) {
+    setIsTimePickerVisible(false);
+    setTime({ hour: moment(date).format('HH'), minute: moment(date).format('mm') });
   }
 
   function handleOperation(gender, operator) {
@@ -224,7 +223,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-            <Touchable onPress={() => timePickerRef.current.open()}>
+            <Touchable onPress={() => setIsTimePickerVisible(true)}>
               <View style={styles.timePickerBtn}>
                 <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
               </View>
@@ -232,10 +231,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
           </Left>
         </View>
 
-        <TimePicker
-          ref={timePickerRef}
-          onCancel={() => timePickerRef.current.close()}
+        <DateTimePickerModal
+          isVisible={isTimePickerVisible}
+          mode="time"
           onConfirm={handlePickerConfirm}
+          onCancel={() => setIsTimePickerVisible(false)}
         />
 
         <View style={{ marginTop: 20, paddingHorizontal: 15 }}>

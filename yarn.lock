@@ -7282,13 +7282,6 @@ react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-i
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"
   integrity sha512-GFMtL0vHkiBv9HluwNZTggSn/sCyEt9n02aM0dSAjGGyqyNlAyftYm4phPxdvCigG15JreC5biwxCgTAJZ7yAA==
 
-react-native-24h-timepicker@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-24h-timepicker/-/react-native-24h-timepicker-1.1.0.tgz#b95a86339c0bd7261216956d16c3f41b7bbfb8dd"
-  integrity sha512-rnOHWmKcSbbdpYBVl2MxkQY7IU83f/5K6NB8iq4nmWdq8WfHklnkfvfpjnga8uY6sqLDAK11j+dQHo0XVK+QIg==
-  dependencies:
-    react-native-raw-bottom-sheet "^1.0.0"
-
 react-native-animatable@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
@@ -7346,6 +7339,13 @@ react-native-maps@0.26.1:
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.26.1.tgz#6ec316259b38d259c8974448d894bd7a23101da4"
   integrity sha512-p4VTB8YB5ZmOmDRCUpoHZkm05amZwhIo04AJMBbB9+JAR2PNNfpo0vceoWX0Mag4wnePkdzPomeWMplr/wimTg==
 
+react-native-modal-datetime-picker@^8.5.4:
+  version "8.5.4"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-8.5.4.tgz#e348367810b4b534c8a1f844ec1f0a57a1542232"
+  integrity sha512-QKs4nsiZ2Ncr9pOrnnFyy3laHzReH87StV54hos1jGhT8MwlC5yQ9QfGqVDy8yRKz3bROST0wg3hS2Wy1mSQuQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-modal@^11.5.6:
   version "11.5.6"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.5.6.tgz#bb25a78c35a5e24f45de060e5f64284397d38a87"
@@ -7367,13 +7367,6 @@ react-native-platform-touchable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
   integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
-
-react-native-raw-bottom-sheet@^1.0.0:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-1.1.4.tgz#1f79bd1bf5b74fec3c9a97b108a5a527d5157318"
-  integrity sha512-rn9KZuxWLE/EwxuoVzVBrzuTTcUZyhUfOOmAXScuGc90W6sf2NgM38vx6+SkZ0pqWgXmAKnUALmjE3kdNnxAFQ==
-  dependencies:
-    prop-types "^15.6.2"
 
 react-native-reanimated@~1.7.0:
   version "1.7.1"
