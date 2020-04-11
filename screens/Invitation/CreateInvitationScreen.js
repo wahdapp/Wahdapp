@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList } from 'react-native';
 import TimePicker from 'react-native-24h-timepicker';
@@ -24,6 +24,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const timePickerRef = useRef(null);
   const user = useSelector(state => state.userState);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+
+  const isComplete = useMemo(() => selectedPrayer && description && time, [selectedPrayer, description, time]);
 
   function handlePrayerClick(prayer) {
     if (selectedPrayer === prayer) {
@@ -238,10 +240,19 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
           <Touchable
-            style={styles.inviteBtn}
-            disabled={!selectedPrayer || !description || !time}
+            style={{
+              ...styles.inviteBtn,
+              backgroundColor: isComplete ? colors.primary : '#dedede',
+              borderColor: isComplete ? colors.primary : '#dedede',
+              borderWidth: isComplete ? 2 : 0,
+            }}
+            disabled={!isComplete}
             onPress={submit}>
-            <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('INVITE')}</Text>
+            <Text style={{
+              fontSize: 14,
+              letterSpacing: 1.8,
+              color: '#ffffff'
+            }}>{t('INVITE')}</Text>
           </Touchable>
         </View>
       </View>
