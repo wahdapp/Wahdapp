@@ -48,6 +48,7 @@
     "EMPTY": "目前尚未邀請過禮拜 :(",
     "LANGUAGE_HEADER": "選擇語言",
     "OPTIONS": {
+      "DONATE": "捐款",
       "LANGUAGE": "語言偏好",
       "LOGOUT": "登出"
     }

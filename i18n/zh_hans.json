@@ -48,6 +48,7 @@
     "EMPTY": "目前尚未邀请过礼拜 :(",
     "LANGUAGE_HEADER": "选择语言",
     "OPTIONS": {
+      "DONATE": "捐款",
       "LANGUAGE": "语言偏好",
       "LOGOUT": "登出"
     }

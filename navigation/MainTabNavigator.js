@@ -13,6 +13,7 @@ import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import PrayersScreen from 'screens/PrayersScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
+import DonateWebview from 'screens/Profile/DonateWebview';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
@@ -70,6 +71,7 @@ function ProfileStack() {
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ ...headerOptions, title: t('HEADER') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
+      <Stack.Screen name="Donate" component={DonateWebview} options={{ ...headerOptions, title: t('OPTIONS.DONATE') }} />
     </Stack.Navigator>
   )
 }

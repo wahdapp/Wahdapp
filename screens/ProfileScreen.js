@@ -69,6 +69,14 @@ export default function ProfileScreen({ navigation }) {
   function renderContent() {
     return (
       <View style={styles.panel}>
+        <Touchable onPress={() => navigation.navigate('Donate')}>
+          <ListItem icon onPress={() => navigation.navigate('Donate')}>
+            <Left>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'} size={24} />
+            </Left>
+            <Body><Text>{t('OPTIONS.DONATE')}</Text></Body>
+          </ListItem>
+        </Touchable>
         <Touchable onPress={() => navigation.navigate('Language')}>
           <ListItem icon onPress={() => navigation.navigate('Language')}>
             <Left>
