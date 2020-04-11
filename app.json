@@ -27,6 +27,9 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAjQJ6y5HZ-pevNO5ZlAadfH4HOmhwP7_s"
+        },
+        "googleSignIn": {
+          "certificateHash": "1A4BE360A1113ADD822FC4A7336E2E19C2E97B69"
         }
       },
       "googleServicesFile": "./google-services.json",
@@ -34,11 +37,13 @@
     },
     "ios": {
       "bundleIdentifier": "com.pingcheng.jamaatapp",
-      "googleMapsApiKey": "AIzaSyCUGDIHnDwedzUlQHMlwvNtwWPRfI1n9Zo",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "googleSignIn": {
-        "reservedClientId": "com.googleusercontent.apps.397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp"
+      "config": {
+        "googleMapsApiKey": "AIzaSyCUGDIHnDwedzUlQHMlwvNtwWPRfI1n9Zo",
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp"
+        }
       }
     },
     "hooks": {
@@ -69,7 +74,9 @@
       },
       "google": {
         "iosClientId": "397539853913-o8ma020o2ke11ehdko4op00b9gfp2s2g.apps.googleusercontent.com",
-        "androidClientId": "397539853913-rh5iuc360cq8imo46mfjgsc72g2ao40q.apps.googleusercontent.com"
+        "androidClientId": "397539853913-rh5iuc360cq8imo46mfjgsc72g2ao40q.apps.googleusercontent.com",
+        "iosStandaloneAppClientId": "397539853913-bul1h4aiq73gmf2tle4rt3caa5uidr37.apps.googleusercontent.com",
+        "androidStandaloneAppClientId": "397539853913-0t61s7r1l1hlok6086advnuvh71ldis9.apps.googleusercontent.com"
       }
     }
   }

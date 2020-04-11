@@ -42,6 +42,8 @@ export async function signInWithGoogle() {
   const { type, accessToken } = await Google.logInAsync({
     androidClientId: Constants.manifest.extra.google.androidClientId,
     iosClientId: Constants.manifest.extra.google.iosClientId,
+    iosStandaloneAppClientId: Constants.manifest.extra.google.iosStandaloneAppClientId,
+    androidStandaloneAppClientId: Constants.manifest.extra.google.androidStandaloneAppClientId,
     scopes: ['profile', 'email'],
   });
 

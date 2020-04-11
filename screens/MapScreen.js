@@ -149,7 +149,11 @@ export default function MapScreen({ navigation }) {
 
       if (
         isWithinBoundary(geohash, currentRegion, distance) &&
-        (1 + participants.length + male + female) >= filter.minimumParticipants // filter participants number
+        (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
+        (
+          (user.gender === gender) ||
+          (user.gender === 'F' && !filter.sameGender)
+        ) // filter by gender and sameGender preference
       ) {
         prayers.push({ ...doc.data(), id: doc.id });
       }

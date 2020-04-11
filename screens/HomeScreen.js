@@ -17,6 +17,7 @@ export default function HomeScreen({ navigation }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
+  const user = useSelector(state => state.userState);
   const { t } = useTranslation(['HOME']);
 
   useEffect(() => {
@@ -58,13 +59,17 @@ export default function HomeScreen({ navigation }) {
     const prayers = [];
 
     prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, scheduleTime, prayer, geohash } = doc.data();
+      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
 
       if (
         isWithinBoundary(geohash, location, filter.distance) &&
         moment().isBefore(moment(scheduleTime)) && // filter by schedule
         (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
-        filter.selectedPrayers.includes(prayer) // filter by prayer
+        filter.selectedPrayers.includes(prayer) && // filter by prayer
+        (
+          (user.gender === gender) ||
+          (user.gender === 'F' && !filter.sameGender)
+        ) // filter by gender and sameGender preference
       ) {
         prayers.push({ ...doc.data(), id: doc.id });
       }

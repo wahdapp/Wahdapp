@@ -22,6 +22,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [female, setFemale] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const timePickerRef = useRef(null);
+  const user = useSelector(state => state.userState);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
   function handlePrayerClick(prayer) {
@@ -85,7 +86,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
         guests: {
           male,
           female
-        }
+        },
+        gender: user.gender
       });
 
       setIsLoading(true);
