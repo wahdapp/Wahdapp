@@ -122,8 +122,11 @@ export default function MapScreen({ navigation }) {
     setSelectedLocation(null);
   }
 
-  function handleConfirm(region = currentRegion) {
-    console.log({ region, currentRegion })
+  function handleConfirm(coords) {
+    let region = coords;
+    if (region.nativeEvent) {
+      region = region.nativeEvent.coordinate;
+    }
     navigation.navigate('CreateInvitation', { ...region, removeMarker });
   }
 
