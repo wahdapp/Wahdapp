@@ -25,18 +25,10 @@ const headerOptions = {
 
 function HomeStack() {
   const { t } = useTranslation(['TABS', 'HOME', 'FILTER', 'PRAYER_DETAILS', 'COMMON']);
-  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+  
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} options={{ ...headerOptions, title: t('HOME:HEADER') }} />
-      <Stack.Screen
-        name="PrayerDetail"
-        component={PrayerDetailScreen}
-        options={({ route }) => ({
-          ...headerOptions,
-          title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
-          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' }
-        })} />
       <Stack.Screen
         name="Filter"
         component={FilterScreen}
@@ -131,4 +123,22 @@ function Tabs() {
   )
 }
 
-export default Tabs;
+function MainStack() {
+  const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
+  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+  return (
+    <Stack.Navigator initialRouteName="Tabs">
+      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PrayerDetail"
+        component={PrayerDetailScreen}
+        options={({ route }) => ({
+          ...headerOptions,
+          title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
+          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' }
+        })} />
+    </Stack.Navigator>
+  )
+}
+
+export default MainStack;
