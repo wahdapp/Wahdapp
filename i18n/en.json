@@ -62,7 +62,7 @@
     "BACK": "Back"
   },
   "SIGN": {
-    "LOGIN": "LOGIN",
+    "LOGIN": "Login",
     "FORGOT_PWD": "Forgot Password",
     "NOT_HAVE": "Don't have an account yet?",
     "SIGNUP_NOW": "Sign up now",
@@ -83,7 +83,7 @@
     },
     "VERIFY": {
       "HEADER": "Verify Your Email Address",
-      "DESCRIPTION": "An verification email has been sent to your inbox. Please follow the necessary steps to start your journey!"
+      "DESCRIPTION": "A verification email has been sent to your inbox. Please follow the necessary steps to start your journey!"
     },
     "BACK_TO_LOGIN": "BACK TO LOGIN",
     "SUBMIT": "SUBMIT",

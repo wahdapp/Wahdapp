@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Platform, View, Image, ScrollView, Dimensions } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { Text, Touchable, BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
@@ -52,20 +52,23 @@ export default function LoginScreen({ navigation: { navigate } }) {
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
         <View style={{ width: '100%', paddingHorizontal: 25, marginTop: 50, marginBottom: 25 }}>
-          <BoldText style={{ fontSize: 24, textAlign: 'center', color: colors.primary }}>Welcome to Wahdapp</BoldText>
+          <BoldText style={{ fontSize: 24, textAlign: 'left', color: colors.primary, letterSpacing: 1.8 }}>Welcome to Wahdapp</BoldText>
         </View>
-        <View style={styles.imageContainer}>
+        {/* <View style={styles.imageContainer}>
           <Image
             style={{ height: 150, width: '100%', resizeMode: 'contain' }}
             source={BISMILLAH}
           />
-        </View>
+        </View> */}
         <View style={styles.formContainer}>
           <Form>
+            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
             <InputGroup floatingLabel rounded style={styles.inputGroup}>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
               <Input value={email} onChangeText={setEmail} style={styles.input} />
             </InputGroup>
+
+            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
             <InputGroup floatingLabel rounded style={styles.inputGroup}>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
               <Input value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
@@ -79,13 +82,13 @@ export default function LoginScreen({ navigation: { navigate } }) {
           <View style={styles.loginBtnContainer}>
             <AnimatedButton
               showLoading={loading}
-              width={150}
-              height={45}
+              width={Dimensions.get('window').width - 45}
+              height={50}
               title={t('LOGIN')}
               titleFontSize={14}
               titleFontFamily="Sen"
               titleColor="rgb(255,255,255)"
-              backgroundColor={colors.secondary}
+              backgroundColor={colors.primary}
               borderRadius={25}
               onPress={handleLogin}
             />
@@ -93,7 +96,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
           <View style={styles.signUpLabelContainer}>
             <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
-            <Text style={{ ...styles.signUpLabel, color: colors.secondary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
+            <Text style={{ ...styles.signUpLabel, color: colors.primary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
           </View>
 
           <View style={styles.signUpLabelContainer}>
@@ -109,7 +112,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
             </Touchable>
           </View> */}
 
-          <View style={styles.loginBtnContainer}>
+          <View style={{ ...styles.loginBtnContainer, marginTop: 15 }}>
             <Touchable onPress={handleGooglePress}>
               <View style={styles.googleButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={GOOGLE} />
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     color: '#7C7C7C'
   },
   signUpLabelContainer: {
-    marginTop: 25,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'center'
   },
@@ -202,6 +205,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontFamily: 'Sen',
     lineHeight: 16
+  },
+  inputLabel: {
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 10,
+    color: '#7C7C7C'
   },
   facebookButton: {
     height: 52,

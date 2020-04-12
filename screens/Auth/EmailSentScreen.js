@@ -39,7 +39,6 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     padding: 25,
@@ -89,12 +88,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 25
+    width: '100%'
   },
   button: {
     width: '100%',
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     height: 52
   }
 });

@@ -88,7 +88,7 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
           </View>
         </View>
       </Content>
-    </View >
+    </View>
   )
 }
 
@@ -124,8 +124,6 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
   formContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
     width: '100%'
   },
   inputGroup: {
@@ -143,12 +141,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 25
+    width: '100%'
   },
   button: {
     width: '100%',
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     height: 52
   }
 });

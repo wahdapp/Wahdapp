@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Picker, ScrollView } from 'react-native';
+import { StyleSheet, Platform, View, Picker, ScrollView, Dimensions } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
@@ -101,8 +101,8 @@ export default function SignupScreen({ navigation: { navigate } }) {
             <View style={styles.signupBtnContainer}>
               <AnimatedButton
                 showLoading={loading}
-                width={150}
-                height={45}
+                width={Dimensions.get('window').width - 50}
+                height={50}
                 title={t('SIGNUP')}
                 titleFontSize={14}
                 titleFontFamily="Sen"
@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'left',
-    letterSpacing: 2.5
+    letterSpacing: 1.8,
+    color: colors.primary
   },
   formContainer: {
     paddingLeft: 25,
