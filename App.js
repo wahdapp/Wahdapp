@@ -101,7 +101,7 @@ export default function App(props) {
     return (
       <Root>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="EmailSent">
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />

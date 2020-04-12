@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, ScrollView, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Platform, View, Image, ScrollView, Dimensions, Animated } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
-import { Text, Touchable, BoldText } from 'components';
+import { Text, Touchable, BoldText, AnimatedBoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
-import { BISMILLAH, FACEBOOK, GOOGLE } from 'assets/images';
+import { FACEBOOK, GOOGLE } from 'assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { Easing } from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [springValue, setSpringValue] = useState(new Animated.Value(0.3));
   const { t } = useTranslation(['SIGN']);
+
+  const [opacity, setOpacity] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    animate();
+  }, []);
 
   async function handleLogin() {
     if (!email || !password) {
@@ -48,22 +56,37 @@ export default function LoginScreen({ navigation: { navigate } }) {
     await signInWithGoogle();
   }
 
+  function animate() {
+
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
         <View style={{ width: '100%', paddingHorizontal: 25, marginTop: 50, marginBottom: 25 }}>
-          <BoldText style={{ fontSize: 24, textAlign: 'left', color: colors.primary, letterSpacing: 1.8 }}>Welcome to Wahdapp</BoldText>
+          <AnimatedBoldText style={{
+            ...styles.headerText,
+            opacity: opacity,
+            transform: [{
+              scale: opacity.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.50, 1],
+              })
+            }]
+          }}>Welcome to Wahdapp</AnimatedBoldText>
         </View>
-        {/* <View style={styles.imageContainer}>
-          <Image
-            style={{ height: 150, width: '100%', resizeMode: 'contain' }}
-            source={BISMILLAH}
-          />
-        </View> */}
         <View style={styles.formContainer}>
           <Form>
             <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
+            <InputGroup floatingLabel rounded style={{
+              ...styles.inputGroup,
+            }}>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
               <Input value={email} onChangeText={setEmail} style={styles.input} />
             </InputGroup>
@@ -135,8 +158,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerText: {
-    fontSize: 18,
-    color: '#68A854',
+    fontSize: 24,
+    textAlign: 'left',
+    color: colors.primary,
+    letterSpacing: 1.8
   },
   container: {
     height: '100%',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as DefaultText } from 'react-native';
+import { Text as DefaultText, Animated } from 'react-native';
 
 export function Text(props) {
   return (
@@ -10,5 +10,17 @@ export function Text(props) {
 export function BoldText(props) {
   return (
     <DefaultText {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />
+  );
+}
+
+export function AnimatedText(props) {
+  return (
+    <Animated.Text {...props} style={[props.style, { fontFamily: 'Sen' }]} />
+  );
+}
+
+export function AnimatedBoldText(props) {
+  return (
+    <Animated.Text {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />
   );
 }
