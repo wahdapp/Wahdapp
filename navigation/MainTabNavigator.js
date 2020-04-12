@@ -10,7 +10,6 @@ import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
-import PrayersScreen from 'screens/PrayersScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
 import DonateWebview from 'screens/Profile/DonateWebview';
@@ -32,7 +31,7 @@ function HomeStack() {
       <Stack.Screen
         name="Filter"
         component={FilterScreen}
-        options={{ ...headerOptions, title: t('FILTER:HEADER'), headerBackTitle: t('BACK') }}
+        options={{ ...headerOptions, title: t('FILTER:HEADER'), headerBackTitle: ' ' }}
       />
     </Stack.Navigator>
   )
@@ -45,14 +44,6 @@ function MapStack() {
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER') }} />
       <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS') }} />
-    </Stack.Navigator>
-  )
-}
-
-function PrayersStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Prayers" component={PrayersScreen} />
     </Stack.Navigator>
   )
 }
@@ -135,7 +126,8 @@ function MainStack() {
         options={({ route }) => ({
           ...headerOptions,
           title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
-          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' }
+          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' },
+          headerBackTitle: ' '
         })} />
     </Stack.Navigator>
   )

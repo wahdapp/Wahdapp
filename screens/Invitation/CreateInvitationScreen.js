@@ -119,7 +119,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <Spinner
         visible={isLoading}
-        textContent={'Loading...'}
+        textContent={t('COMMON:LOADING')}
         textStyle={{ color: '#fff' }}
       />
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
@@ -212,7 +212,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <DatePicker
                 defaultDate={new Date()}
                 minimumDate={new Date()}
-                locale={"en"}
+                locale={i18n.language}
                 animationType={"fade"}
                 androidMode={"default"}
                 placeHolderText={moment(date).format('YYYY-MM-DD')}

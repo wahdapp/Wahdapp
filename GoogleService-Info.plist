@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp.apps.googleusercontent.com</string>
+	<string>119066836643-u8suoo91q2fo10ja0ar1aerhbpibb16m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>397539853913-rh5iuc360cq8imo46mfjgsc72g2ao40q.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.119066836643-u8suoo91q2fo10ja0ar1aerhbpibb16m</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCUGDIHnDwedzUlQHMlwvNtwWPRfI1n9Zo</string>
+	<string>AIzaSyD7-f-Xiah96iLt4ec-3JMgaqRAXD_Iv-w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>397539853913</string>
+	<string>119066836643</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pingcheng.jamaatapp</string>
+	<string>com.wahdapp.wahdapp</string>
 	<key>PROJECT_ID</key>
-	<string>jamaat-app-c75f3</string>
+	<string>wahdapp</string>
 	<key>STORAGE_BUCKET</key>
-	<string>jamaat-app-c75f3.appspot.com</string>
+	<string>wahdapp.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:397539853913:ios:1559b635b8e5d42a005348</string>
+	<string>1:119066836643:ios:8c02edfbc276ffef5cc916</string>
 	<key>DATABASE_URL</key>
-	<string>https://jamaat-app-c75f3.firebaseio.com</string>
+	<string>https://wahdapp.firebaseio.com</string>
 </dict>
 </plist>

@@ -17,7 +17,7 @@ export async function signInWithFacebook() {
   const appId = Constants.manifest.extra.facebook.appId;
   const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
 
-  await Facebook.initializeAsync(appId, 'JamaatApp');
+  await Facebook.initializeAsync(appId, 'Wahdapp');
 
   const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId, { permissions });
   console.log({ type, token })

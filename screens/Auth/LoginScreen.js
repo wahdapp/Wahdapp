@@ -52,7 +52,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
         <View style={{ width: '100%', paddingHorizontal: 25, marginTop: 50, marginBottom: 25 }}>
-          <BoldText style={{ fontSize: 24, textAlign: 'center', color: colors.primary }}>Welcome to JamaatApp</BoldText>
+          <BoldText style={{ fontSize: 24, textAlign: 'center', color: colors.primary }}>Welcome to Wahdapp</BoldText>
         </View>
         <View style={styles.imageContainer}>
           <Image

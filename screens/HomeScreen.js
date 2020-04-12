@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }) {
   const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
+  const [cursor, setCursor] = useState(0);
   const { t } = useTranslation(['HOME']);
 
   useEffect(() => {
@@ -54,6 +55,9 @@ export default function HomeScreen({ navigation }) {
     const prayersDoc = await db.collection('prayers')
       .where('geohash', '>=', range.lower)
       .where('geohash', '<=', range.upper)
+      // .orderBy('geohash')
+      // .startAt(cursor)
+      // .limit(5)
       .get();
 
     const prayers = [];
@@ -82,7 +86,11 @@ export default function HomeScreen({ navigation }) {
       const ids = inviters.map(i => i.id);
       const promises = inviters.map(i => i.get());
       const docs = await Promise.all(promises);
-      setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+      setNearbyPrayers(prev => [
+        ...prev,
+        ...prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] }))
+      ]);
+      // setCursor(prev => prev + 5);
     }
   }
 
@@ -111,6 +119,7 @@ export default function HomeScreen({ navigation }) {
                   <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
                 </View>
               )}
+              // onEndReached={fetchNearbyPrayers}
             />
           )
         }

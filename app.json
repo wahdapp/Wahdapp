@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Jamaatapp",
-    "slug": "jamaat-app",
+    "name": "Wahdapp",
+    "slug": "wahdapp",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -23,10 +23,10 @@
       "**/*"
     ],
     "android": {
-      "package": "com.pingcheng.jamaatapp",
+      "package": "com.wahdapp.wahdapp",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyAjQJ6y5HZ-pevNO5ZlAadfH4HOmhwP7_s"
+          "apiKey": "AIzaSyAuUE7J-mvqFLvcszNk0TsSyQZjzIhNYF0"
         },
         "googleSignIn": {
           "certificateHash": "1A4BE360A1113ADD822FC4A7336E2E19C2E97B69"
@@ -36,13 +36,13 @@
       "versionCode": 1
     },
     "ios": {
-      "bundleIdentifier": "com.pingcheng.jamaatapp",
+      "bundleIdentifier": "com.wahdapp.wahdapp",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "googleMapsApiKey": "AIzaSyCUGDIHnDwedzUlQHMlwvNtwWPRfI1n9Zo",
+        "googleMapsApiKey": "AIzaSyDQIxfeltscgRUBz2_CGjfs9ux7IotmOFo",
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.397539853913-phule5en6vrqnv4pdnmrn6cij6mlualp"
+          "reservedClientId": "com.googleusercontent.apps.119066836643-u8suoo91q2fo10ja0ar1aerhbpibb16m"
         }
       }
     },
@@ -51,8 +51,8 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "jamaatapp",
-            "project": "jamaatapp",
+            "organization": "wahdapp",
+            "project": "wahdapp",
             "authToken": "566589cc0a0c45639e094033d296f333f7280df58746423991001446e48f8973"
           }
         }
@@ -60,23 +60,23 @@
     },
     "extra": {
       "firebase": {
-        "apiKey": "AIzaSyDMceVnG02LkHECfd7LRudD9dfxfJ7K7n8",
-        "authDomain": "jamaat-app-c75f3.firebaseapp.com",
-        "databaseURL": "https://jamaat-app-c75f3.firebaseio.com",
-        "projectId": "jamaat-app-c75f3",
-        "storageBucket": "jamaat-app-c75f3.appspot.com",
-        "messagingSenderId": "397539853913",
-        "appId": "1:397539853913:web:e9d78eccbf1f86d4005348",
-        "measurementId": "G-7LNP0NF58K"
+        "apiKey": "AIzaSyAXU07h_kKi7FweLJgnXdG6HlGArIIuPu8",
+        "authDomain": "wahdapp.firebaseapp.com",
+        "databaseURL": "https://wahdapp.firebaseio.com",
+        "projectId": "wahdapp",
+        "storageBucket": "wahdapp.appspot.com",
+        "messagingSenderId": "119066836643",
+        "appId": "1:119066836643:web:414e4a7028119dfb5cc916",
+        "measurementId": "G-CE1119KS4L"
       },
       "facebook": {
         "appId": "208549550576320"
       },
       "google": {
-        "iosClientId": "397539853913-o8ma020o2ke11ehdko4op00b9gfp2s2g.apps.googleusercontent.com",
-        "androidClientId": "397539853913-rh5iuc360cq8imo46mfjgsc72g2ao40q.apps.googleusercontent.com",
-        "iosStandaloneAppClientId": "397539853913-bul1h4aiq73gmf2tle4rt3caa5uidr37.apps.googleusercontent.com",
-        "androidStandaloneAppClientId": "397539853913-0t61s7r1l1hlok6086advnuvh71ldis9.apps.googleusercontent.com"
+        "iosClientId": "119066836643-se9jbca5mb123rrg7evltsh29d7gr4es.apps.googleusercontent.com",
+        "androidClientId": "119066836643-5ahipih5r5kq0qk815l1n1d3vu077e80.apps.googleusercontent.com",
+        "iosStandaloneAppClientId": "119066836643-pjemtq4at38e7qfbudeahom8gq8gbp8n.apps.googleusercontent.com",
+        "androidStandaloneAppClientId": "119066836643-7kp32mg16gd1a0bfglhmgagiqh7vcqd0.apps.googleusercontent.com"
       }
     }
   }
