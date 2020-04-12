@@ -153,7 +153,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           </Left>
         </View>
         <View style={styles.participantsSection}>
-          <View style={styles.participantsRow}>
+          {user.gender === 'M' && <View style={styles.participantsRow}>
             <View>
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
             </View>
@@ -170,7 +170,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 </View>
               </Touchable>
             </View>
-          </View>
+          </View>}
           <View style={styles.participantsRow}>
             <View>
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
