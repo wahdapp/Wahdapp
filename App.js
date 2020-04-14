@@ -22,6 +22,7 @@ import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
 import ForgotPasswordScreen from 'screens/Auth/ForgotPasswordScreen';
 import EmailSentScreen from 'screens/Auth/EmailSentScreen';
+import PrivacyWebview from 'screens/Webviews/PrivacyWebview';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -106,6 +107,7 @@ export default function App(props) {
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />
             <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

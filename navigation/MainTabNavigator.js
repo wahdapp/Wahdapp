@@ -12,10 +12,11 @@ import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
-import DonateWebview from 'screens/Profile/DonateWebview';
-import ContactWebview from 'screens/Profile/ContactWebview';
-import AboutWebview from 'screens/Profile/AboutWebview';
-import FAQWebview from 'screens/Profile/FAQWebview';
+import DonateWebview from 'screens/Webviews/DonateWebview';
+import ContactWebview from 'screens/Webviews/ContactWebview';
+import AboutWebview from 'screens/Webviews/AboutWebview';
+import FAQWebview from 'screens/Webviews/FAQWebview';
+import PrivacyWebview from 'screens/Webviews/PrivacyWebview';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
@@ -26,7 +27,7 @@ const headerOptions = {
 }
 
 function HomeStack() {
-  const { t } = useTranslation(['TABS', 'HOME', 'FILTER', 'PRAYER_DETAILS', 'COMMON']);
+  const { t } = useTranslation(['HOME', 'FILTER']);
   
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -57,10 +58,6 @@ function ProfileStack() {
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ ...headerOptions, title: t('HEADER') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
-      <Stack.Screen name="Donate" component={DonateWebview} options={{ ...headerOptions, title: t('OPTIONS.DONATE') }} />
-      <Stack.Screen name="Contact" component={ContactWebview} options={{ ...headerOptions, title: '' }} />
-      <Stack.Screen name="About" component={AboutWebview} options={{ ...headerOptions, title: '' }} />
-      <Stack.Screen name="FAQ" component={FAQWebview} options={{ ...headerOptions, title: '' }} />
     </Stack.Navigator>
   )
 }
@@ -126,6 +123,11 @@ function MainStack() {
   return (
     <Stack.Navigator initialRouteName="Tabs">
       <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+      <Stack.Screen name="Donate" component={DonateWebview} options={{ ...headerOptions, title: t('OPTIONS.DONATE'), headerBackTitle: ' ' }} />
+      <Stack.Screen name="Contact" component={ContactWebview} options={{ title: '', headerBackTitle: ' ' }} />
+      <Stack.Screen name="About" component={AboutWebview} options={{ title: '', headerBackTitle: ' ' }} />
+      <Stack.Screen name="FAQ" component={FAQWebview} options={{ title: '', headerBackTitle: ' ' }} />
+      <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ' }} />
       <Stack.Screen
         name="PrayerDetail"
         component={PrayerDetailScreen}

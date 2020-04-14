@@ -15,7 +15,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [springValue, setSpringValue] = useState(new Animated.Value(0.3));
-  const { t } = useTranslation(['SIGN']);
+  const { t } = useTranslation(['SIGN', 'PROFILE']);
 
   const [opacity, setOpacity] = useState(new Animated.Value(0));
 
@@ -142,6 +142,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
                 <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('GOOGLE_LOGIN')}</Text>
               </View>
             </Touchable>
+          </View>
+
+          <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
+            <View style={{ textAlign: 'center' }}>
+              <Touchable onPress={() => navigate('Privacy')}>
+                <Text style={{ fontSize: 8, color: '#7F7F7F' }}>{t('PROFILE:OPTIONS.PRIVACY')}</Text>
+              </Touchable>
+            </View>
           </View>
 
         </View>
