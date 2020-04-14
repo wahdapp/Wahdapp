@@ -15,7 +15,7 @@ export function formatDay(t, date) {
   if (yesterday.isSame(date, 'day')) {
     return t('DAY.YESTERDAY');
   }
-  return date.format('DD MMM');
+  return date.format('MMM DD');
 }
 
 export function formatLanguage(language) {

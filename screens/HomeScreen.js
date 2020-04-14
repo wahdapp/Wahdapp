@@ -86,10 +86,7 @@ export default function HomeScreen({ navigation }) {
       const ids = inviters.map(i => i.id);
       const promises = inviters.map(i => i.get());
       const docs = await Promise.all(promises);
-      setNearbyPrayers(prev => [
-        ...prev,
-        ...prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] }))
-      ]);
+      setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
       // setCursor(prev => prev + 5);
     }
   }
