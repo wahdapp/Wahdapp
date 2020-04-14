@@ -13,6 +13,9 @@ import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
 import DonateWebview from 'screens/Profile/DonateWebview';
+import ContactWebview from 'screens/Profile/ContactWebview';
+import AboutWebview from 'screens/Profile/AboutWebview';
+import FAQWebview from 'screens/Profile/FAQWebview';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
@@ -55,6 +58,9 @@ function ProfileStack() {
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ ...headerOptions, title: t('HEADER') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
       <Stack.Screen name="Donate" component={DonateWebview} options={{ ...headerOptions, title: t('OPTIONS.DONATE') }} />
+      <Stack.Screen name="Contact" component={ContactWebview} options={{ ...headerOptions, title: '' }} />
+      <Stack.Screen name="About" component={AboutWebview} options={{ ...headerOptions, title: '' }} />
+      <Stack.Screen name="FAQ" component={FAQWebview} options={{ ...headerOptions, title: '' }} />
     </Stack.Navigator>
   )
 }

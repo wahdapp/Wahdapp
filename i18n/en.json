@@ -49,6 +49,9 @@
     "EMPTY": "No prayer invited so far :(",
     "LANGUAGE_HEADER": "Choose Language",
     "OPTIONS": {
+      "FAQ": "FAQ",
+      "ABOUT": "About",
+      "CONTACT": "Contact",
       "DONATE": "Donate",
       "LANGUAGE": "Language Preference",
       "LOGOUT": "Logout"

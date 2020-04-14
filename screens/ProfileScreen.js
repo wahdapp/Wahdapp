@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { View, AsyncStorage, Platform, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
+import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, BoldText, PrayerCard, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
@@ -69,12 +69,36 @@ export default function ProfileScreen({ navigation }) {
   function renderContent() {
     return (
       <View style={styles.panel}>
+        <Touchable onPress={() => navigation.navigate('About')}>
+          <ListItem icon onPress={() => navigation.navigate('About')}>
+            <Left>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-information-circle' : 'md-information-circle'} size={24} />
+            </Left>
+            <Body><Text>{t('OPTIONS.ABOUT')}</Text></Body>
+          </ListItem>
+        </Touchable>
+        <Touchable onPress={() => navigation.navigate('Contact')}>
+          <ListItem icon onPress={() => navigation.navigate('Contact')}>
+            <Left>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} size={24} />
+            </Left>
+            <Body><Text>{t('OPTIONS.CONTACT')}</Text></Body>
+          </ListItem>
+        </Touchable>
         <Touchable onPress={() => navigation.navigate('Donate')}>
           <ListItem icon onPress={() => navigation.navigate('Donate')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.DONATE')}</Text></Body>
+          </ListItem>
+        </Touchable>
+        <Touchable onPress={() => navigation.navigate('FAQ')}>
+          <ListItem icon onPress={() => navigation.navigate('FAQ')}>
+            <Left>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-help-circle' : 'md-help-circle'} size={24} />
+            </Left>
+            <Body><Text>{t('OPTIONS.FAQ')}</Text></Body>
           </ListItem>
         </Touchable>
         <Touchable onPress={() => navigation.navigate('Language')}>
@@ -152,7 +176,7 @@ export default function ProfileScreen({ navigation }) {
       </View>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[250, 0]}
+        snapPoints={[300, 0]}
         renderHeader={renderHeader}
         renderContent={renderContent}
         initialSnap={1}
