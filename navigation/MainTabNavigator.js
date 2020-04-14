@@ -11,6 +11,8 @@ import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import ProfileScreen from 'screens/ProfileScreen';
+import InvitedScreen from 'screens/Profile/InvitedScreen';
+import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
 import DonateWebview from 'screens/Webviews/DonateWebview';
 import ContactWebview from 'screens/Webviews/ContactWebview';
@@ -42,7 +44,7 @@ function HomeStack() {
 }
 
 function MapStack() {
-  const { t } = useTranslation(['INVITATION']);
+  const { t } = useTranslation(['INVITATION', 'PROFILE']);
   return (
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
@@ -57,6 +59,8 @@ function ProfileStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ ...headerOptions, title: t('HEADER') }} />
+      <Stack.Screen name="Invited" component={InvitedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_INVITED') }} />
+      <Stack.Screen name="Participated" component={ParticipatedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_PARTICIPATED') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
     </Stack.Navigator>
   )

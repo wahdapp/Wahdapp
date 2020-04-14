@@ -15,7 +15,7 @@ export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE']);
   const [isLoading, setIsLoading] = useState(true);
   const [invitedPrayersList, setInvitedPrayersList] = useState([]);
-  const [participatedLength, setParticipatedLength] = useState(0);
+  const [participatedList, setParticipatedList] = useState([]);
   const user = useSelector(state => state.userState);
   const bottomSheetRef = useRef(null);
 
@@ -40,20 +40,19 @@ export default function ProfileScreen({ navigation }) {
       .where('inviter', '==', db.doc('users/' + auth.currentUser.uid))
       .get();
 
-    const snap = await db.collection('prayers')
+    const participatedDoc = await db.collection('prayers')
       .where('participants', 'array-contains', db.doc('users/' + auth.currentUser.uid))
       .get();
 
-    const invitedPrayers = [];
-    invitedDoc.forEach(doc => {
-      invitedPrayers.push({ ...doc.data(), id: doc.id, inviterID: auth.currentUser.uid, inviter: user });
-    });
+    // const invitedPrayers = [];
+    // invitedDoc.forEach(doc => {
+    //   invitedPrayers.push({ ...doc.data(), id: doc.id, inviterID: auth.currentUser.uid, inviter: user });
+    // });
 
-    invitedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
+    // invitedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
 
-    setIsLoading(false);
-    setInvitedPrayersList(invitedPrayers);
-    setParticipatedLength(snap.size);
+    setInvitedPrayersList(invitedDoc);
+    setParticipatedList(participatedDoc);
   }
 
   function renderHeader() {
@@ -126,6 +125,24 @@ export default function ProfileScreen({ navigation }) {
     AsyncStorage.removeItem('prayersFilter');
   }
 
+  function handleInvitedPress() {
+    if (!invitedPrayersList.size) {
+      return null;
+    }
+    else {
+      navigation.navigate('Invited', { invitedPrayersList, inviterID: auth.currentUser.uid, inviter: user });
+    }
+  }
+
+  function handleParticipatedPress() {
+    if (!participatedList.size) {
+      return null;
+    }
+    else {
+      navigation.navigate('Invited', { participatedList, inviterID: auth.currentUser.uid, inviter: user });
+    }
+  }
+
   return (
     <>
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -140,38 +157,16 @@ export default function ProfileScreen({ navigation }) {
 
           <View style={styles.infoSection}>
             <View style={styles.infoContainer}>
-              <View style={styles.infoItem}>
-                <BoldText style={styles.infoNumber}>{invitedPrayersList.length}</BoldText>
+              <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
+                <BoldText style={styles.infoNumber}>{invitedPrayersList.size ? invitedPrayersList.size : 0}</BoldText>
                 <BoldText style={styles.infoLabel}>{t('PRAYERS_INVITED')}</BoldText>
-              </View>
-              <View style={styles.infoItem}>
-                <BoldText style={styles.infoNumber}>{participatedLength}</BoldText>
+              </Touchable>
+              <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
+                <BoldText style={styles.infoNumber}>{participatedList.size ? participatedList.size : 0}</BoldText>
                 <BoldText style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</BoldText>
-              </View>
+              </Touchable>
             </View>
           </View>
-        </View>
-        <View style={{ ...styles.prayerListWrapper, height: invitedPrayersList.length ? null : '100%' }}>
-          {isLoading
-            ? (
-              <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15 }}>
-                <ActivityIndicator color="#000" size="large" />
-              </View>
-            ) : (
-              <FlatList
-                style={{ height: '100%', paddingTop: 15 }}
-                data={invitedPrayersList}
-                renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
-                keyExtractor={item => item.id}
-                ListEmptyComponent={() => (
-                  <View style={styles.imageContainer}>
-                    <Image source={NOT_FOUND} style={styles.image} />
-                    <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
-                  </View>
-                )}
-              />
-            )
-          }
         </View>
       </View>
       <BottomSheet
