@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Picker, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Platform, View, Picker, ScrollView, Dimensions, TextInput } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { BoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
@@ -67,32 +67,20 @@ export default function SignupScreen({ navigation: { navigate } }) {
         <View style={styles.formContainer}>
           <Form>
             <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input style={styles.input} value={fullName} onChangeText={setFullName} />
-            </InputGroup>
+            <TextInput value={fullName} onChangeText={setFullName} style={styles.textInput} placeholder="Ahmad Ali" placeholderTextColor="#dedede" />
 
             <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input style={styles.input} value={email} onChangeText={setEmail} />
-            </InputGroup>
+            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
 
             <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input style={styles.input} value={password} onChangeText={setPassword} secureTextEntry={true} />
-            </InputGroup>
+            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
 
             <BoldText style={styles.inputLabel}>{t('CONFIRM')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input style={styles.input} value={confirm} onChangeText={setConfirm} secureTextEntry={true} />
-            </InputGroup>
+            <TextInput value={confirm} onChangeText={setConfirm} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
 
             <View style={{ marginTop: 25 }}>
               <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
-              <Picker style={{ width: '100%' }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
+              <Picker style={{ width: '100%', paddingHorizontal: 10 }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
                 <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
                 <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
               </Picker>
@@ -139,14 +127,13 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     width: '100%',
-    paddingLeft: 25,
-    paddingRight: 25
+    paddingHorizontal: 35
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'left',
-    letterSpacing: 1.8,
+    letterSpacing: 0.9,
     color: colors.primary
   },
   formContainer: {
@@ -163,7 +150,7 @@ const styles = StyleSheet.create({
   },
   signupBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150 },
   inputLabel: {
-    fontSize: 12,
+    fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
     color: '#7C7C7C'
@@ -173,11 +160,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center'
   },
-  input: {
-    fontSize: 12,
-    justifyContent: 'center',
-    marginHorizontal: 10,
+  textInput: {
+    marginBottom: 20,
+    paddingHorizontal: 10,
     fontFamily: 'Sen',
-    lineHeight: 16
+    borderWidth: 0,
+    letterSpacing: 1.8,
+    fontSize: 16,
+    paddingLeft: -10
   }
 });

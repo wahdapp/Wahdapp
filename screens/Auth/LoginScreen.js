@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Platform, View, Image, ScrollView, Dimensions, Animated, TextInput } from 'react-native';
-import { Form, Input, Toast, InputGroup, Card } from 'native-base';
+import { StyleSheet, View, Image, ScrollView, Dimensions, Animated, TextInput } from 'react-native';
+import { Form, Toast } from 'native-base';
 import { Text, Touchable, BoldText, AnimatedBoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
@@ -90,7 +90,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
           </Form>
           <View style={styles.forgotPwdContainer}>
             <Touchable onPress={() => navigate('ForgotPassword')}>
-              <Text styles={styles.forgotPwdText}>{t('FORGOT_PWD')}</Text>
+              <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('FORGOT_PWD')}</Text>
             </Touchable>
           </View>
           <View style={styles.loginBtnContainer}>
@@ -199,10 +199,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginTop: 10
   },
-  forgotPwdText: {
-    fontSize: 12,
-    color: '#7C7C7C'
-  },
   signUpLabelContainer: {
     marginTop: 10,
     flexDirection: 'row',
@@ -218,11 +214,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'blue'
   },
-  inputGroup: {
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    justifyContent: 'center'
-  },
   textInput: {
     marginBottom: 20,
     paddingHorizontal: 10,
@@ -232,15 +223,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: -10
   },
-  input: {
-    fontSize: 12,
-    justifyContent: 'center',
-    marginHorizontal: 10,
-    fontFamily: 'Sen',
-    lineHeight: 16
-  },
   inputLabel: {
-    fontSize: 12,
+    fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
     color: '#7C7C7C'

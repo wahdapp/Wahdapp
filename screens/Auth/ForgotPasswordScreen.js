@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Picker, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Platform, View, Image, TextInput } from 'react-native';
 import { Form, Input, Toast, InputGroup, Content, Button } from 'native-base';
 import { Text, BoldText } from 'components';
 import { auth } from 'firebaseDB';
@@ -71,10 +71,8 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
 
                   <View style={styles.formContainer}>
                     <Form>
-                      <InputGroup floatingLabel rounded style={styles.inputGroup}>
-                        <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-                        <Input style={styles.input} value={email} onChangeText={setEmail} />
-                      </InputGroup>
+                      <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+                      <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
                     </Form>
                   </View>
 
@@ -124,19 +122,23 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
   formContainer: {
-    width: '100%'
+    width: '100%',
+    marginBottom: 20
   },
-  inputGroup: {
-    marginBottom: 15,
+  inputLabel: {
+    fontSize: 10,
+    marginLeft: 10,
+    marginBottom: 10,
+    color: '#7C7C7C'
+  },
+  textInput: {
+    marginBottom: 20,
     paddingHorizontal: 10,
-    justifyContent: 'center'
-  },
-  input: {
-    fontSize: 12,
-    justifyContent: 'center',
-    marginHorizontal: 10,
     fontFamily: 'Sen',
-    lineHeight: 16
+    borderWidth: 0,
+    letterSpacing: 1.8,
+    fontSize: 16,
+    paddingLeft: -10
   },
   buttonContainer: {
     justifyContent: 'center',
