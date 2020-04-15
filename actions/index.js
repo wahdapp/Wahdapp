@@ -14,6 +14,13 @@ export function setUser(payload) {
   }
 };
 
+export function setFullName(payload) {
+  return {
+    type: actions.SET_FULL_NAME,
+    payload
+  }
+};
+
 export function setFilter(payload) {
   return {
     type: actions.SET_FILTER,

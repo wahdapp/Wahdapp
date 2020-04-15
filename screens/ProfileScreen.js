@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, BoldText, PrayerCard, Touchable } from 'components';
+import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
-import { MAN_AVATAR, WOMAN_AVATAR, NOT_FOUND } from 'assets/images';
-import moment from 'moment';
+import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { setFullName } from 'actions';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
 export default function ProfileScreen({ navigation }) {
-  const { t } = useTranslation(['PROFILE']);
-  const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
+  const [isEditingFullName, setIsEditingFullName] = useState(false);
   const [invitedPrayersList, setInvitedPrayersList] = useState([]);
   const [participatedList, setParticipatedList] = useState([]);
+  const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
+  const [currentFullName, setCurrentFullName] = useState(user.fullName);
   const bottomSheetRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -53,6 +55,14 @@ export default function ProfileScreen({ navigation }) {
 
     setInvitedPrayersList(invitedDoc);
     setParticipatedList(participatedDoc);
+  }
+
+  function updateFullName(e) {
+    if (currentFullName.length && currentFullName !== user.fullName) {
+      db.collection('users').doc(auth.currentUser.uid).set({ fullName: currentFullName }, { merge: true });
+      dispatch(setFullName(currentFullName));
+    }
+    setIsEditingFullName(false);
   }
 
   function renderHeader() {
@@ -145,7 +155,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={styles.profileHeader}>
           <View style={styles.profilePicContainer}>
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
@@ -168,7 +178,42 @@ export default function ProfileScreen({ navigation }) {
             </View>
           </View>
         </View>
-      </View>
+        <View style={styles.accountSection}>
+          <View style={styles.accountRow}>
+            <Text style={styles.label}>{t('SIGN:FULL_NAME')}</Text>
+            {isEditingFullName ? (
+              <TextInput
+                onBlur={updateFullName}
+                defaultValue={user.fullName}
+                value={currentFullName}
+                onChangeText={setCurrentFullName}
+                style={styles.textInput}
+                autoFocus={true}
+              />
+            ) : (
+                <View style={styles.fieldWrapper}>
+                  <Text style={styles.textField}>{user.fullName}</Text>
+                  <Touchable onPress={() => setIsEditingFullName(true)}>
+                    <Ionicons
+                      style={{ color: '#7F7F7F' }}
+                      name={Platform.OS === 'ios' ? 'ios-create' : 'md-create'}
+                      size={24}
+                    />
+                  </Touchable>
+                </View>
+              )}
+
+          </View>
+          <View style={styles.accountRow}>
+            <Text style={styles.label}>{t('SIGN:EMAIL')}</Text>
+            <Text style={styles.textField}>{user.email}</Text>
+          </View>
+          <View style={styles.accountRow}>
+            <Text style={styles.label}>{t('COMMON:GENDER.LABEL')}</Text>
+            <Text style={styles.textField}>{user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}</Text>
+          </View>
+        </View>
+      </ScrollView>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={[300, 0]}
@@ -272,4 +317,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000040',
     marginBottom: 10,
   },
+  accountSection: {
+    width: '100%',
+    paddingHorizontal: 10,
+    marginTop: 25,
+  },
+  accountRow: {
+    width: '100%',
+    marginBottom: 20
+  },
+  fieldWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  label: {
+    fontSize: 10,
+    marginLeft: 10,
+    marginBottom: 10,
+    color: '#7C7C7C',
+    color: colors.primary,
+    textTransform: 'uppercase'
+  },
+  textField: {
+    marginLeft: 10,
+    letterSpacing: 0.9,
+    fontSize: 14,
+    color: '#7F7F7F'
+  },
+  textInput: {
+    paddingHorizontal: 10,
+    fontFamily: 'Sen',
+    borderWidth: 0,
+    letterSpacing: 0.9,
+    fontSize: 14,
+    paddingLeft: -10
+  }
 })
