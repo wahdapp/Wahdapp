@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
@@ -9,6 +9,7 @@ import { setFullName } from 'actions';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 import colors from 'constants/Colors';
 
 export default function ProfileScreen({ navigation }) {
@@ -69,34 +70,45 @@ export default function ProfileScreen({ navigation }) {
   }
 
   function renderContent() {
+    let subpath = '';
+    switch(i18n.language) {
+      case 'zh_hant':
+        subpath = '/tw';
+        break;
+      case 'zh_hans':
+        subpath = '/cn';
+        break;
+      default: subpath = '';
+    }
+
     return (
       <View style={styles.panel}>
-        <Touchable onPress={() => navigation.navigate('About')}>
-          <ListItem icon onPress={() => navigation.navigate('About')}>
+        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/about`)}>
+          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/about`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-information-circle' : 'md-information-circle'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.ABOUT')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => navigation.navigate('Contact')}>
-          <ListItem icon onPress={() => navigation.navigate('Contact')}>
+        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/contact`)}>
+          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/contact`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.CONTACT')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => navigation.navigate('Donate')}>
-          <ListItem icon onPress={() => navigation.navigate('Donate')}>
+        <Touchable onPress={() => Linking.openURL('https://www.paypal.me/abdullahcheng')}>
+          <ListItem icon onPress={() => Linking.openURL('https://www.paypal.me/abdullahcheng')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.DONATE')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => navigation.navigate('FAQ')}>
-          <ListItem icon onPress={() => navigation.navigate('FAQ')}>
+        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/faq`)}>
+          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/faq`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-help-circle' : 'md-help-circle'} size={24} />
             </Left>

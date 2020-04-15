@@ -220,7 +220,6 @@ export default function MapScreen({ navigation }) {
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
         onRegionChangeComplete={handleDrag}
-        showsMyLocationButton={true}
       >
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
@@ -319,7 +318,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 60,
     position: 'absolute',
-    bottom: Platform.OS === 'android' ? 10 : 80,
+    bottom: 10,
     right: 10,
     height: 60,
     backgroundColor: colors.primary,
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 60,
     position: 'absolute',
-    bottom: Platform.OS === 'android' ? 10 : 80,
+    bottom: 10,
     right: 10,
     height: 60,
     backgroundColor: '#fff',

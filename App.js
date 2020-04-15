@@ -111,7 +111,6 @@ export default function App(props) {
             <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
             <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false, headerStyle }} />
-            <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ', headerStyle }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

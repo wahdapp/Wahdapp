@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, ScrollView, Dimensions, Animated, TextInput } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, Dimensions, Animated, TextInput, Linking } from 'react-native';
 import { Form, Toast } from 'native-base';
 import { Text, Touchable, BoldText, AnimatedBoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
@@ -137,7 +137,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
           <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
             <View style={{ textAlign: 'center' }}>
-              <Touchable onPress={() => navigate('Privacy')}>
+              <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/privacy`)}>
                 <Text style={{ fontSize: 8, color: '#7F7F7F' }}>{t('PROFILE:OPTIONS.PRIVACY')}</Text>
               </Touchable>
             </View>
