@@ -71,6 +71,9 @@ export default function App(props) {
       setIsAuthenticating(false);
       console.log({ user })
       setUserAuth(user);
+      if (!user.emailVerified) {
+        auth.signOff();
+      }
     });
   }
 
@@ -84,7 +87,6 @@ export default function App(props) {
 
   async function getLocationPermission() {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    console.log({ status })
     if (status !== 'granted') {
       alert("Please enable your location for the best experience!");
     }

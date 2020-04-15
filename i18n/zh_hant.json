@@ -21,7 +21,11 @@
     "DESCRIPTION": "說明",
     "ORGANIZER": "發起人",
     "PARTICIPANTS": "參加者",
-    "GUESTS": "來賓"
+    "GUESTS": "來賓",
+    "DELETE_PRAYER": "刪除邀請",
+    "DELETE_PRAYER_CONFIRM": "您確定要刪除此邀請？",
+    "NO": "否",
+    "YES": "是"
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "禮拜紀錄",

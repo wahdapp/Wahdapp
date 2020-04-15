@@ -21,7 +21,11 @@
     "DESCRIPTION": "说明",
     "ORGANIZER": "发起人",
     "PARTICIPANTS": "参加者",
-    "GUESTS": "来宾"
+    "GUESTS": "来宾",
+    "DELETE_PRAYER": "删除邀请",
+    "DELETE_PRAYER_CONFIRM": "您确定要删除此邀请？",
+    "NO": "否",
+    "YES": "是"
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "礼拜纪录",

@@ -21,7 +21,11 @@
     "DESCRIPTION": "Description",
     "ORGANIZER": "Organizer",
     "PARTICIPANTS": "Participants",
-    "GUESTS": "Guests"
+    "GUESTS": "Guests",
+    "DELETE_PRAYER": "Delete Invitation",
+    "DELETE_PRAYER_CONFIRM": "Are you sure to delete this invitation?",
+    "NO": "No",
+    "YES": "Yes"
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "History Prayers",

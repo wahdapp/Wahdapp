@@ -106,9 +106,9 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   function handleDeletePrayer() {
     Alert.alert(
-      'Delete Prayer',
-      'Are you sure to delete this prayer?',
-      [{ text: 'No' }, { text: 'Yes', onPress: deletePrayer }]
+      t('DELETE_PRAYER'),
+      t('DELETE_PRAYER_CONFIRM'),
+      [{ text: t('NO') }, { text: t('YES'), onPress: deletePrayer }]
     )
   }
 

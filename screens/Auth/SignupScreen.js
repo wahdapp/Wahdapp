@@ -44,10 +44,10 @@ export default function SignupScreen({ navigation: { navigate } }) {
       await auth.createUserWithEmailAndPassword(email.trim(), password);
       await createAccount(fullName.trim(), email.trim(), gender);
       await auth.currentUser.sendEmailVerification();
+      await auth.signOut();
       navigate('EmailSent');
     }
     catch (e) {
-      console.error({ e })
       setLoading(false);
       Toast.show({
         text: e.message,
