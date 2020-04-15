@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Platform, View, Image, ScrollView, Dimensions, Animated } from 'react-native';
+import { StyleSheet, Platform, View, Image, ScrollView, Dimensions, Animated, TextInput } from 'react-native';
 import { Form, Input, Toast, InputGroup, Card } from 'native-base';
 import { Text, Touchable, BoldText, AnimatedBoldText } from 'components';
 import AnimatedButton from 'components/AnimatedButton';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
-import { FACEBOOK, GOOGLE } from 'assets/images';
-import { Ionicons } from '@expo/vector-icons';
+import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
-import { Easing } from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -69,7 +67,8 @@ export default function LoginScreen({ navigation: { navigate } }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
       <ScrollView style={styles.container}>
-        <View style={{ width: '100%', paddingHorizontal: 25, marginTop: 50, marginBottom: 25 }}>
+      <Image style={{ width: '100%', height: 200, resizeMode: 'cover' }} source={QURAN} />
+        <View style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}>
           <AnimatedBoldText style={{
             ...styles.headerText,
             opacity: opacity,
@@ -79,23 +78,15 @@ export default function LoginScreen({ navigation: { navigate } }) {
                 outputRange: [0.50, 1],
               })
             }]
-          }}>Welcome to Wahdapp</AnimatedBoldText>
+          }}>Welcome on Wahdapp</AnimatedBoldText>
         </View>
         <View style={styles.formContainer}>
           <Form>
             <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <InputGroup floatingLabel rounded style={{
-              ...styles.inputGroup,
-            }}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input value={email} onChangeText={setEmail} style={styles.input} />
-            </InputGroup>
+            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
 
             <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-            <InputGroup floatingLabel rounded style={styles.inputGroup}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={25} color="#DDD" style={{ paddingLeft: 10 }} />
-              <Input value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
-            </InputGroup>
+            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
           </Form>
           <View style={styles.forgotPwdContainer}>
             <Touchable onPress={() => navigate('ForgotPassword')}>
@@ -166,10 +157,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     textAlign: 'left',
     color: colors.primary,
-    letterSpacing: 1.8
+    letterSpacing: 0.9
   },
   container: {
     height: '100%',
@@ -231,6 +222,15 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 10,
     justifyContent: 'center'
+  },
+  textInput: {
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    fontFamily: 'Sen',
+    borderWidth: 0,
+    letterSpacing: 1.8,
+    fontSize: 16,
+    paddingLeft: -10
   },
   input: {
     fontSize: 12,

@@ -20,3 +20,5 @@ export const NOT_FOUND = require('./not_found.png');
 
 export const FACEBOOK = require('./facebook.jpg');
 export const GOOGLE = require('./google.jpg');
+
+export const QURAN = require('./quran.jpg');
