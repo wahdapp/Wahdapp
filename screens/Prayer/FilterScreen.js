@@ -14,10 +14,12 @@ export default function FilterScreen({ route, navigation }) {
   const filter = useSelector(state => state.filterState);
   const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
   const [distance, setDistance] = useState(3);
+  const [defaultDistance, setDefaultDistance] = useState(3);
   const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
   const [minNum, setMinNum] = useState(user.gender === 'M' ? 0 : 2);
   const [minimumParticipants, setMinimumParticipants] = useState(minNum);
+  const [defaultMinimumParts, setDefaultMinimumParts] = useState(minNum);
   const { t } = useTranslation(['FILTER', 'COMMON']);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
@@ -27,7 +29,9 @@ export default function FilterScreen({ route, navigation }) {
     if (!isEmpty(filter)) {
       setSelectedPrayers(filter.selectedPrayers);
       setDistance(filter.distance);
+      setDefaultDistance(filter.distance);
       setMinimumParticipants(filter.minimumParticipants);
+      setDefaultMinimumParts(filter.minimumParticipants);
       setSameGender(filter.sameGender);
     }
   }, [filter]);
@@ -40,6 +44,7 @@ export default function FilterScreen({ route, navigation }) {
       else {
         setMinNum(2);
         setMinimumParticipants(2);
+        setDefaultMinimumParts(2);
       }
     }
   }, [sameGender]);
@@ -58,6 +63,7 @@ export default function FilterScreen({ route, navigation }) {
     setSelectedPrayers(prayerTypes);
     setDistance(3);
     setMinimumParticipants(minNum);
+    setDefaultMinimumParts(minNum);
     setSameGender(false)
   }
 
@@ -117,12 +123,12 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={1}
-              value={distance}
+              value={defaultDistance}
+              onValueChange={setDistance}
               step={1}
               maximumValue={30}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
-              onSlidingComplete={setDistance}
             />
           </Left>
         </View>
@@ -133,12 +139,12 @@ export default function FilterScreen({ route, navigation }) {
             <Slider
               style={{ width: '100%', height: 40, marginTop: 15 }}
               minimumValue={minNum}
-              value={minimumParticipants}
+              value={defaultMinimumParts}
+              onValueChange={setMinimumParticipants}
               step={1}
               maximumValue={30}
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#fff"
-              onSlidingComplete={setMinimumParticipants}
             />
           </Left>
         </View>

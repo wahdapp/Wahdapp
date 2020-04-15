@@ -36,6 +36,8 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Sentry from 'sentry-expo';
 
+const headerStyle = { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 };
+
 Sentry.init({
   dsn: 'https://1c85f06f0e814e3f862b9204f5bb07ba@o374179.ingest.sentry.io/5191762',
   enableInExpoDevelopment: false,
@@ -103,11 +105,11 @@ export default function App(props) {
       <Root>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN') }} />
-            <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ' }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle }} />
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
+            <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false, headerStyle }} />
+            <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ', headerStyle }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>
@@ -128,10 +130,6 @@ export default function App(props) {
 
 async function loadResourcesAsync() {
   await Promise.all([
-    Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
-    ]),
     Font.loadAsync({
       'Roboto': require('./assets/fonts/Sen-Regular.ttf'),
       'Roboto_medium': require('./assets/fonts/Sen-Bold.ttf'),

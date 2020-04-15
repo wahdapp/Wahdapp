@@ -4,6 +4,7 @@ import { View } from 'native-base';
 import { PrayerCard } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 export default function InvitedScreen({ navigation, route }) {
   const { t } = useTranslation(['PROFILE']);

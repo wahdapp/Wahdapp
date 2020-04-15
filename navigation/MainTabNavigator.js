@@ -128,10 +128,10 @@ function MainStack() {
     <Stack.Navigator initialRouteName="Tabs">
       <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
       <Stack.Screen name="Donate" component={DonateWebview} options={{ ...headerOptions, title: t('OPTIONS.DONATE'), headerBackTitle: ' ' }} />
-      <Stack.Screen name="Contact" component={ContactWebview} options={{ title: '', headerBackTitle: ' ' }} />
-      <Stack.Screen name="About" component={AboutWebview} options={{ title: '', headerBackTitle: ' ' }} />
-      <Stack.Screen name="FAQ" component={FAQWebview} options={{ title: '', headerBackTitle: ' ' }} />
-      <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ' }} />
+      <Stack.Screen name="Contact" component={ContactWebview} options={{ title: '', headerBackTitle: ' ', ...headerOptions }} />
+      <Stack.Screen name="About" component={AboutWebview} options={{ title: '', headerBackTitle: ' ', ...headerOptions }} />
+      <Stack.Screen name="FAQ" component={FAQWebview} options={{ title: '', headerBackTitle: ' ', ...headerOptions }} />
+      <Stack.Screen name="Privacy" component={PrivacyWebview} options={{ title: '', headerBackTitle: ' ', ...headerOptions }} />
       <Stack.Screen
         name="PrayerDetail"
         component={PrayerDetailScreen}

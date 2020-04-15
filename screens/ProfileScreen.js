@@ -322,6 +322,7 @@ const styles = StyleSheet.create({
   fieldWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingRight: 10
   },
   label: {
     fontSize: 10,
