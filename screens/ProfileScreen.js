@@ -46,13 +46,6 @@ export default function ProfileScreen({ navigation }) {
       .where('participants', 'array-contains', db.doc('users/' + auth.currentUser.uid))
       .get();
 
-    // const invitedPrayers = [];
-    // invitedDoc.forEach(doc => {
-    //   invitedPrayers.push({ ...doc.data(), id: doc.id, inviterID: auth.currentUser.uid, inviter: user });
-    // });
-
-    // invitedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
-
     setInvitedPrayersList(invitedDoc);
     setParticipatedList(participatedDoc);
   }

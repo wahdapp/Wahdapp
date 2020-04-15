@@ -7,7 +7,6 @@ export const ISHA = require('./isha.jpg');
 export const JANAZAH = require('./janazah.jpg');
 export const JUMUAH = require('./jumuah.jpg');
 
-export const MARKER = require('./marker.png');
 export const PIN = require('./pin.png');
 
 export const MAN_AVATAR = require('./man-avatar.png');
