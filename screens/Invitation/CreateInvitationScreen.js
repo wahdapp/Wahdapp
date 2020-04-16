@@ -1,14 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList } from 'react-native';
-import { View, Left, Right, Button, Toast, Textarea, DatePicker } from 'native-base';
-import { Text, BoldText, Touchable } from 'components';
+import { View, Left, Toast, Textarea, DatePicker } from 'native-base';
+import { Text, BoldText, Touchable, Loader } from 'components';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
 import { prayerTypes } from 'constants/prayers';
 import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
-import Spinner from 'react-native-loading-spinner-overlay';
 import colors from 'constants/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import i18n from '../../i18n';
@@ -109,7 +108,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
           text: e.message,
           textStyle: { fontSize: 12 },
           buttonText: 'OK',
-          type: 'danger'
+          type: 'danger',
+          duration: 3000
         });
       }
     }
@@ -117,11 +117,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Spinner
-        visible={isLoading}
-        textContent={t('COMMON:LOADING')}
-        textStyle={{ color: '#fff' }}
-      />
+      {isLoading && <Loader />}
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>

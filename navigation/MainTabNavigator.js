@@ -14,11 +14,6 @@ import ProfileScreen from 'screens/ProfileScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
 import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
-import DonateWebview from 'screens/Webviews/DonateWebview';
-import ContactWebview from 'screens/Webviews/ContactWebview';
-import AboutWebview from 'screens/Webviews/AboutWebview';
-import FAQWebview from 'screens/Webviews/FAQWebview';
-import PrivacyWebview from 'screens/Webviews/PrivacyWebview';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
@@ -49,7 +44,7 @@ function MapStack() {
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER') }} />
-      <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS') }} />
+      <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }} />
     </Stack.Navigator>
   )
 }

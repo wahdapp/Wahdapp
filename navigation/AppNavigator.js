@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage, View, ActivityIndicator } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { getLatLong } from '../helpers/geo';
 import { setLocation, setUser, setFilter, initializeFilter } from '../actions';
 import { db } from '../firebase';
+import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
-
 import MainTabNavigator from './MainTabNavigator';
 
 export default ({ user }) => {
@@ -53,20 +53,12 @@ export default ({ user }) => {
   }
 
   if (!userDataFetched) {
-    return <Loading />
+    return <Loader />
   }
 
   return (
     <NavigationContainer>
       <MainTabNavigator />
     </NavigationContainer>
-  )
-}
-
-function Loading() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator size="large" />
-    </View>
   )
 }

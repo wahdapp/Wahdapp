@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, Platform, ActivityIndicator, Image } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Platform, Image } from 'react-native';
 import { View } from 'native-base';
-import { PrayerCard, Text } from 'components';
+import { PrayerCard, Text, Spinner } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
@@ -97,7 +97,7 @@ export default function HomeScreen({ navigation }) {
         {isFetching
           ? (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator color="#000" size="large" />
+              <Spinner size="large" />
             </View>
           ) : (
             <FlatList

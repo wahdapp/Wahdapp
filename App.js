@@ -22,7 +22,6 @@ import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
 import ForgotPasswordScreen from 'screens/Auth/ForgotPasswordScreen';
 import EmailSentScreen from 'screens/Auth/EmailSentScreen';
-import PrivacyWebview from 'screens/Webviews/PrivacyWebview';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

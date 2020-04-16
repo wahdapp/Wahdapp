@@ -3,13 +3,12 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Dimensions, Image, FlatList, ScrollView, Alert } from 'react-native';
 import { View, Left, Right, Button } from 'native-base';
 import MapView, { Marker } from 'react-native-maps';
-import { Text, BoldText } from 'components';
+import { Text, BoldText, Loader } from 'components';
 import { PIN, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { useTranslation } from 'react-i18next';
 
 const ScreenHeight = Dimensions.get("window").height;
@@ -124,7 +123,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Spinner visible={isLoading} />
+      {isLoading && <Loader />}
       <MapView
         initialRegion={{
           latitudeDelta: 0.0922,

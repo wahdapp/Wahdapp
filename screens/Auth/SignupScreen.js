@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Picker, ScrollView, Dimensions, TextInput } from 'react-native';
-import { Form, Input, Toast, InputGroup, Card } from 'native-base';
-import { BoldText } from 'components';
-import AnimatedButton from 'components/AnimatedButton';
+import { StyleSheet, View, Picker, ScrollView, Dimensions, TextInput } from 'react-native';
+import { Form, Toast } from 'native-base';
+import { BoldText, Touchable, Text, Loader } from 'components';
 import { auth, createAccount } from 'firebaseDB';
-import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
@@ -24,7 +22,8 @@ export default function SignupScreen({ navigation: { navigate } }) {
         text: t('ERROR.1'),
         textStyle: { fontSize: 12 },
         buttonText: t('ERROR.3'),
-        type: "danger"
+        type: 'danger',
+        duration: 3000
       });
       return;
     }
@@ -34,7 +33,8 @@ export default function SignupScreen({ navigation: { navigate } }) {
         text: t('ERROR.2'),
         textStyle: { fontSize: 12 },
         buttonText: t('ERROR.3'),
-        type: "danger"
+        type: 'danger',
+        duration: 3000
       });
       return;
     }
@@ -53,10 +53,13 @@ export default function SignupScreen({ navigation: { navigate } }) {
         text: e.message,
         textStyle: { fontSize: 12 },
         buttonText: t('ERROR.3'),
-        type: "danger"
+        type: 'danger',
+        duration: 3000
       });
     }
   }
+
+  if (loading) return <Loader />
 
   return (
     <View style={styles.container}>
@@ -87,18 +90,12 @@ export default function SignupScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.signupBtnContainer}>
-              <AnimatedButton
-                showLoading={loading}
-                width={Dimensions.get('window').width - 50}
-                height={50}
-                title={t('SIGNUP')}
-                titleFontSize={14}
-                titleFontFamily="Sen"
-                titleColor="rgb(255,255,255)"
-                backgroundColor={colors.primary}
-                borderRadius={25}
+              <Touchable
+                style={styles.signupBtn}
                 onPress={handleSignup}
-              />
+              >
+                <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('SIGNUP')}</Text>
+              </Touchable>
             </View>
           </Form>
         </View>
@@ -146,9 +143,18 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 'auto',
     marginRight: 'auto',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '100%'
   },
-  signupBtn: { alignItems: 'center', justifyContent: 'center', minWidth: 150 },
+  signupBtn: {
+    height: 52,
+    width: '100%',
+    borderRadius: 33,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.primary
+  },
   inputLabel: {
     fontSize: 10,
     marginLeft: 10,

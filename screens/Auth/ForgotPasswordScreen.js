@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, TextInput } from 'react-native';
 import { Form, Input, Toast, InputGroup, Content, Button } from 'native-base';
-import { Text, BoldText } from 'components';
+import { Text, BoldText, Loader } from 'components';
 import { auth } from 'firebaseDB';
 import { Ionicons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -30,18 +30,15 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
         text: e.message,
         textStyle: { fontSize: 12 },
         buttonText: t('ERROR.3'),
-        type: 'danger'
+        type: 'danger',
+        duration: 3000
       });
     }
   }
 
   return (
     <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
-      <Spinner
-        visible={isSending}
-        textContent={t('COMMON:LOADING')}
-        textStyle={{ color: '#fff' }}
-      />
+      {isSending && <Loader />}
       <Content contentContainerStyle={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>

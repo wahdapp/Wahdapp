@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps';
 import {
   StyleSheet,
-  ActivityIndicator,
   Platform,
   Image,
   TouchableOpacity
 } from 'react-native';
-import { Text } from 'components';
+import { Text, Loader } from 'components';
 import { View, Button } from 'native-base';
 import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
@@ -189,11 +188,7 @@ export default function MapScreen({ navigation }) {
   }
 
   if (!userPosition) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
+    return <Loader />
   }
 
   return (
@@ -210,7 +205,6 @@ export default function MapScreen({ navigation }) {
         borderRadius={25}
         onPress={queryArea}
         containerStyle={{ position: 'absolute', top: 35, left: 0, right: 0, zIndex: 5 }}
-        activityIndicatorColor="#000"
       />
       <MapView
         provider="google"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Platform, ActivityIndicator } from 'react-native';
+import { StyleSheet, FlatList, Platform } from 'react-native';
 import { View } from 'native-base';
-import { PrayerCard } from 'components';
+import { PrayerCard, Spinner } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -29,7 +29,7 @@ export default function InvitedScreen({ navigation, route }) {
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.prayerListWrapper}>
         {isLoading
-          ? <ActivityIndicator size="large" />
+          ? <Spinner size="large" />
           :
           <FlatList
             style={{ height: '100%' }}

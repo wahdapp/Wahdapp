@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { Text, Touchable } from 'components';
+import { Text, Touchable, Loader } from 'components';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import { auth, db, createAccount } from 'firebaseDB';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { setUser, initializeFilter } from 'actions';
 import { useTranslation } from 'react-i18next';
 
@@ -34,11 +33,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Spinner
-        visible={isCreating}
-        textContent={t('COMMON:LOADING')}
-        textStyle={{ color: '#fff' }}
-      />
+      {isCreating && <Loader />}
       <Text style={styles.header}>{t('CHOOSE_GENDER')}</Text>
       <Touchable onPress={() => chooseGender('M')}>
         <ListItem onPress={() => chooseGender('M')}>
