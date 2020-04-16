@@ -26,7 +26,7 @@
       "package": "com.wahdapp.wahdapp",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyAuUE7J-mvqFLvcszNk0TsSyQZjzIhNYF0"
+          "apiKey": "AIzaSyDQIxfeltscgRUBz2_CGjfs9ux7IotmOFo"
         },
         "googleSignIn": {
           "certificateHash": "1A4BE360A1113ADD822FC4A7336E2E19C2E97B69"
@@ -40,7 +40,7 @@
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "googleMapsApiKey": "AIzaSyDQIxfeltscgRUBz2_CGjfs9ux7IotmOFo",
+        "googleMapsApiKey": "AIzaSyAuUE7J-mvqFLvcszNk0TsSyQZjzIhNYF0",
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.119066836643-u8suoo91q2fo10ja0ar1aerhbpibb16m"
         }
