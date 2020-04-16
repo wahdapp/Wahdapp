@@ -26,10 +26,10 @@
       "package": "com.wahdapp.wahdapp",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDQIxfeltscgRUBz2_CGjfs9ux7IotmOFo"
+          "apiKey": "AIzaSyAuUE7J-mvqFLvcszNk0TsSyQZjzIhNYF0"
         },
         "googleSignIn": {
-          "certificateHash": "1A4BE360A1113ADD822FC4A7336E2E19C2E97B69"
+          "certificateHash": "BF253AD7E203D361704FF85912024D4713848B63"
         }
       },
       "googleServicesFile": "./google-services.json",
@@ -40,9 +40,9 @@
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "googleMapsApiKey": "AIzaSyAuUE7J-mvqFLvcszNk0TsSyQZjzIhNYF0",
+        "googleMapsApiKey": "AIzaSyDQIxfeltscgRUBz2_CGjfs9ux7IotmOFo",
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.119066836643-u8suoo91q2fo10ja0ar1aerhbpibb16m"
+          "reservedClientId": "com.googleusercontent.apps.119066836643-pjemtq4at38e7qfbudeahom8gq8gbp8n"
         }
       }
     },
