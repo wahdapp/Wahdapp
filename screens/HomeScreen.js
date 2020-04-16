@@ -62,22 +62,23 @@ export default function HomeScreen({ navigation }) {
 
     const prayers = [];
 
-    prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
+    for (let i = 0; i < prayersDoc.length; i++) {
+      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = prayersDoc[i].data();
+      const totalParticipants = 1 + participants.length + male + female;
 
       if (
         isWithinBoundary(geohash, location, filter.distance) &&
         moment().isBefore(moment(scheduleTime)) && // filter by schedule
-        (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
+        totalParticipants >= filter.minimumParticipants && // filter participants number
         filter.selectedPrayers.includes(prayer) && // filter by prayer
         (
           (user.gender === gender) ||
           (user.gender === 'F' && !filter.sameGender)
         ) // filter by gender and sameGender preference
       ) {
-        prayers.push({ ...doc.data(), id: doc.id });
+        prayers.push({ ...prayersDoc[i].data(), id: prayersDoc[i].id });
       }
-    });
+    }
 
     prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
 

@@ -20,6 +20,32 @@ Loader.defaultProps = {
   height: 100
 }
 
+export function LoaderWithoutOverlay({ size }) {
+  let width, height;
+
+  if (size === 'small') {
+    width = height = 25;
+  }
+  else {
+    width = height = 50;
+  }
+
+  return (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <LottieView
+        source={require('assets/ripples.json')}
+        autoPlay
+        loop
+        style={{ width, height }}
+      />
+    </View>
+  )
+}
+
+LoaderWithoutOverlay.defaultProps = {
+  size: 'small'
+}
+
 export function Spinner({ size }) {
   let width, height;
 

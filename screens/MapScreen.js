@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import { Text, Loader } from 'components';
+import { Text, LoaderWithoutOverlay } from 'components';
 import { View, Button } from 'native-base';
 import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
@@ -147,8 +147,8 @@ export default function MapScreen({ navigation }) {
 
     const prayers = [];
 
-    prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, geohash, gender } = doc.data();
+    for (let i = 0; i < prayersDoc.length; i++) {
+      const { participants, guests: { male, female }, geohash, gender } = prayersDoc[i].data();
 
       if (
         isWithinBoundary(geohash, currentRegion, distance) &&
@@ -158,9 +158,9 @@ export default function MapScreen({ navigation }) {
           (user.gender === 'F' && !filter.sameGender)
         ) // filter by gender and sameGender preference
       ) {
-        prayers.push({ ...doc.data(), id: doc.id });
+        prayers.push({ ...prayersDoc[i].data(), id: prayersDoc[i].id });
       }
-    });
+    }
 
     if (prayers.length) {
       const inviters = prayers.map(p => p.inviter);
@@ -188,7 +188,11 @@ export default function MapScreen({ navigation }) {
   }
 
   if (!userPosition) {
-    return <Loader />
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <LoaderWithoutOverlay size="large" />
+    </View>
+    )
   }
 
   return (
