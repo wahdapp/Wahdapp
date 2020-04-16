@@ -62,8 +62,8 @@ export default function HomeScreen({ navigation }) {
 
     const prayers = [];
 
-    for (let i = 0; i < prayersDoc.length; i++) {
-      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = prayersDoc[i].data();
+    prayersDoc.forEach(doc => {
+      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
       const totalParticipants = 1 + participants.length + male + female;
 
       if (
@@ -76,9 +76,9 @@ export default function HomeScreen({ navigation }) {
           (user.gender === 'F' && !filter.sameGender)
         ) // filter by gender and sameGender preference
       ) {
-        prayers.push({ ...prayersDoc[i].data(), id: prayersDoc[i].id });
+        prayers.push({ ...doc.data(), id: doc.id });
       }
-    }
+    });
 
     prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
 
@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation }) {
                   <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
                 </View>
               )}
-              // onEndReached={fetchNearbyPrayers}
+            // onEndReached={fetchNearbyPrayers}
             />
           )
         }
