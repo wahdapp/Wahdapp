@@ -108,7 +108,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
           <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
             <View style={{ textAlign: 'center' }}>
-              <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/privacy`)}>
+              <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
                 <Text style={{ fontSize: 8, color: '#7F7F7F' }}>{t('PROFILE:OPTIONS.PRIVACY')}</Text>
               </Touchable>
             </View>
