@@ -105,7 +105,7 @@ function Tabs() {
         name="Notifications"
         component={QiblaStack}
         options={{
-          tabBarLabel: 'Qibla',
+          tabBarLabel: t('Qibla'),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} />
           )
