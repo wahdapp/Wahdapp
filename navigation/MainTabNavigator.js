@@ -10,6 +10,7 @@ import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
+import QiblaScreen from 'screens/QiblaScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
 import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
@@ -45,6 +46,14 @@ function MapStack() {
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER') }} />
       <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }} />
+    </Stack.Navigator>
+  )
+}
+
+function QiblaStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Qibla" component={QiblaScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -92,16 +101,16 @@ function Tabs() {
           )
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Notifications"
-        component={PrayersStack}
+        component={QiblaStack}
         options={{
-          tabBarLabel: t('NOTIFICATIONS'),
+          tabBarLabel: 'Qibla',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} />
           )
         }}
-      /> */}
+      />
       <Tab.Screen
         name="Profile"
         component={ProfileStack}
