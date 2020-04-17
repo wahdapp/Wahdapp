@@ -88,14 +88,14 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
           </View>
 
-          {/* <View style={styles.loginBtnContainer}>
+          <View style={styles.loginBtnContainer}>
             <Touchable onPress={handleFacebookPress}>
               <View style={styles.facebookButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
                 <Text style={{ fontSize: 10, color: '#ffffff' }}>{t('FACEBOOK_LOGIN')}</Text>
               </View>
             </Touchable>
-          </View> */}
+          </View>
 
           <View style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
             <Touchable onPress={handleGooglePress}>
