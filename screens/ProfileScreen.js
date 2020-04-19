@@ -92,7 +92,7 @@ export default function ProfileScreen({ navigation }) {
           </ListItem>
         </Touchable>
         <Touchable>
-          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/contact`)}>
+          <ListItem icon onPress={() => navigation.navigate('Contact')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} size={24} />
             </Left>

@@ -11,6 +11,7 @@ import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
 import QiblaScreen from 'screens/QiblaScreen';
+import ContactScreen from 'screens/ContactScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
 import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
@@ -66,6 +67,7 @@ function ProfileStack() {
       <Stack.Screen name="Invited" component={InvitedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_INVITED') }} />
       <Stack.Screen name="Participated" component={ParticipatedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_PARTICIPATED') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
+      <Stack.Screen name="Contact" component={ContactScreen} options={{ ...headerOptions, title: 'Contact' }} />
     </Stack.Navigator>
   )
 }
