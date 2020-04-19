@@ -10,7 +10,7 @@ export default function QiblaScreen() {
       <Webview
         startInLoadingState={true}
         renderLoading={() => (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <LoaderWithoutOverlay size="large" />
           </View>
         )}

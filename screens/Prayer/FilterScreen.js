@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
 import { View, Left, Button, CheckBox, Right } from 'native-base';
-import { Text, BoldText, Touchable } from 'components';
+import { Text, BoldText, Touchable, RoundButton } from 'components';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { prayerTypes } from 'constants/prayers';
 import { setFilter } from 'actions';
 import isEmpty from 'lodash/isEmpty';
@@ -101,16 +102,24 @@ export default function FilterScreen({ route, navigation }) {
               horizontal={true}
               data={prayerTypes}
               renderItem={({ item }) => (
-                <Touchable onPress={() => handlePrayerClick(item)}>
-                  <View style={{
-                    ...styles.prayerBtn,
+                <RoundButton
+                  onPress={() => handlePrayerClick(item)}
+                  style={{
                     borderWidth: selectedPrayers.includes(item) ? 0 : 2,
                     borderColor: selectedPrayers.includes(item) ? null : '#dedede',
-                    backgroundColor: selectedPrayers.includes(item) ? colors.primary : '#fff'
-                  }}>
-                    <Text style={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}>{PRAYERS[item]}</Text>
-                  </View>
-                </Touchable>
+                    width: null,
+                    minWidth: 80,
+                    paddingHorizontal: 20,
+                    height: 40,
+                    marginBottom: 15,
+                    marginRight: 10,
+                    borderRadius: 20
+                  }}
+                  colors={selectedPrayers.includes(item) ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                  textStyle={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}
+                >
+                  {PRAYERS[item]}
+                </RoundButton>
               )}
               keyExtractor={item => item}
             />
@@ -162,11 +171,9 @@ export default function FilterScreen({ route, navigation }) {
         )}
 
         <View style={{ marginTop: 20 }}>
-          <Touchable onPress={applyFilter}>
-            <View style={styles.applyBtn}>
-              <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('BUTTON')}</Text>
-            </View>
-          </Touchable>
+          <RoundButton onPress={applyFilter} style={{ marginBottom: 15 }}>
+            {t('BUTTON')}
+          </RoundButton>
         </View>
       </View>
     </ScrollView >
@@ -223,7 +230,7 @@ const styles = StyleSheet.create({
   applyBtn: {
     height: 52,
     width: '100%',
-    borderRadius: 33,
+    borderRadius: 26,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

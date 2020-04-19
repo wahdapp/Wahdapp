@@ -78,8 +78,8 @@ function Tabs() {
     <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{ showLabel: false }}
-      activeColor="#fff"
-      barStyle={{ backgroundColor: colors.primary }}
+      activeColor={colors.primary}
+      barStyle={{ backgroundColor: '#fff' }}
     >
       <Tab.Screen
         name="Home"
@@ -87,7 +87,7 @@ function Tabs() {
         options={{
           tabBarLabel: t('HOME'),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
+            <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
           )
         }}
       />
@@ -105,7 +105,7 @@ function Tabs() {
         name="Notifications"
         component={QiblaStack}
         options={{
-          tabBarLabel: t('Qibla'),
+          tabBarLabel: t('QIBLA'),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} />
           )
@@ -130,7 +130,7 @@ function MainStack() {
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
   return (
     <Stack.Navigator initialRouteName="Tabs">
-      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false, gestureDirection: 'horizontal' }} />
       <Stack.Screen
         name="PrayerDetail"
         component={PrayerDetailScreen}
@@ -138,7 +138,8 @@ function MainStack() {
           ...headerOptions,
           title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
           headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' },
-          headerBackTitle: ' '
+          headerBackTitle: ' ',
+          gestureDirection: 'horizontal'
         })} />
     </Stack.Navigator>
   )

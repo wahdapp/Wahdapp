@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, FlatList, Platform } from 'react-native';
 import { View } from 'native-base';
-import { PrayerCard, Text, Touchable } from 'components';
+import { PrayerCard, RoundButton } from 'components';
 import colors from 'constants/Colors';
 import { useTranslation } from 'react-i18next';
 
@@ -17,9 +17,9 @@ export default function MarkerPrayersScreen({ navigation, route }) {
   return (
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.prayerListWrapper}>
-        <Touchable style={styles.button} onPress={handleInvite}>
-          <Text style={styles.buttonText}>{t('INVITE_HERE')}</Text>
-        </Touchable>
+        <RoundButton onPress={handleInvite} style={{ marginBottom: 15 }}>
+          {t('INVITE_HERE')}
+        </RoundButton>
         <FlatList
           style={{ height: '100%' }}
           data={nearbyPrayers}
