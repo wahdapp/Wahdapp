@@ -71,7 +71,7 @@ export default function ProfileScreen({ navigation }) {
 
   function renderContent() {
     let subpath = '';
-    switch(i18n.language) {
+    switch (i18n.language) {
       case 'zh_hant':
         subpath = '/tw';
         break;
@@ -83,7 +83,7 @@ export default function ProfileScreen({ navigation }) {
 
     return (
       <View style={styles.panel}>
-        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/about`)}>
+        <Touchable>
           <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/about`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-information-circle' : 'md-information-circle'} size={24} />
@@ -91,7 +91,7 @@ export default function ProfileScreen({ navigation }) {
             <Body><Text>{t('OPTIONS.ABOUT')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/contact`)}>
+        <Touchable>
           <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/contact`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} size={24} />
@@ -99,7 +99,7 @@ export default function ProfileScreen({ navigation }) {
             <Body><Text>{t('OPTIONS.CONTACT')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => Linking.openURL('https://www.paypal.me/abdullahcheng')}>
+        <Touchable>
           <ListItem icon onPress={() => Linking.openURL('https://www.paypal.me/abdullahcheng')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'} size={24} />
@@ -107,7 +107,7 @@ export default function ProfileScreen({ navigation }) {
             <Body><Text>{t('OPTIONS.DONATE')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => Linking.openURL(`https://wahd.app${subpath}/faq`)}>
+        <Touchable>
           <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/faq`)}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-help-circle' : 'md-help-circle'} size={24} />
@@ -115,20 +115,12 @@ export default function ProfileScreen({ navigation }) {
             <Body><Text>{t('OPTIONS.FAQ')}</Text></Body>
           </ListItem>
         </Touchable>
-        <Touchable onPress={() => navigation.navigate('Language')}>
+        <Touchable>
           <ListItem icon onPress={() => navigation.navigate('Language')}>
             <Left>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-planet' : 'md-planet'} size={24} />
             </Left>
             <Body><Text>{t('OPTIONS.LANGUAGE')}</Text></Body>
-          </ListItem>
-        </Touchable>
-        <Touchable onPress={logout}>
-          <ListItem icon onPress={logout}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.LOGOUT')}</Text></Body>
           </ListItem>
         </Touchable>
       </View>
@@ -174,11 +166,11 @@ export default function ProfileScreen({ navigation }) {
             <View style={styles.infoContainer}>
               <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
                 <BoldText style={styles.infoNumber}>{invitedPrayersList.size ? invitedPrayersList.size : 0}</BoldText>
-                <BoldText style={styles.infoLabel}>{t('PRAYERS_INVITED')}</BoldText>
+                <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
               </Touchable>
               <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
                 <BoldText style={styles.infoNumber}>{participatedList.size ? participatedList.size : 0}</BoldText>
-                <BoldText style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</BoldText>
+                <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
               </Touchable>
             </View>
           </View>
@@ -218,10 +210,34 @@ export default function ProfileScreen({ navigation }) {
             <Text style={styles.textField}>{user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}</Text>
           </View>
         </View>
+
+        <View style={styles.sessionSection}>
+          <Touchable>
+            <ListItem style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text style={{ color: colors.primary, textAlign: 'center' }}>CHANGE PASSWORD</Text>
+              <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={24} />
+            </ListItem>
+          </Touchable>
+          <Touchable>
+            <ListItem onPress={logout} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text style={{ color: colors.primary, textAlign: 'center' }}>LOGOUT</Text>
+              <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
+            </ListItem>
+          </Touchable>
+        </View>
+
+        <View style={{ marginVertical: 15 }}>
+          <Touchable>
+          <Text style={styles.footerText}>Delete Account</Text>
+          </Touchable>
+          <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
+          <Text style={styles.footerText}>Privacy Policy</Text>
+          </Touchable>
+        </View>
       </ScrollView>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[300, 0]}
+        snapPoints={[280, 0]}
         renderHeader={renderHeader}
         renderContent={renderContent}
         initialSnap={1}
@@ -278,7 +294,7 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     textTransform: 'uppercase',
-    color: '#7C7C7C',
+    color: '#000',
     fontSize: 10,
     textAlign: 'center'
   },
@@ -287,19 +303,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     marginBottom: 250
-  },
-  imageContainer: {
-    width: '100%',
-  },
-  image: {
-    width: '100%',
-    resizeMode: 'contain',
-    height: 250
-  },
-  notFoundText: {
-    textAlign: 'center',
-    color: '#7C7C7C',
-    fontSize: 18,
   },
   panel: {
     backgroundColor: '#fff',
@@ -340,7 +343,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
-    color: '#7C7C7C',
+    color: '#000',
     color: colors.primary,
     textTransform: 'uppercase'
   },
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     letterSpacing: 0.9,
     fontSize: 14,
-    color: '#7F7F7F'
+    color: '#000'
   },
   textInput: {
     paddingHorizontal: 10,
@@ -357,5 +360,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.9,
     fontSize: 14,
     paddingLeft: -10
+  },
+  sessionSection: {
+    marginVertical: 25,
+    padding: 0
+  },
+  footerText: {
+    paddingVertical: 8,
+    color: '#7F7F7F',
+    fontSize: 12,
+    textAlign: 'center'
   }
 })
