@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Picker, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
-import { Form, Item, Input, Toast, InputGroup, Content, Button } from 'native-base';
-import { Text, BoldText } from 'components';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, Platform, View, Image } from 'react-native';
+import { Content } from 'native-base';
+import { Text, BoldText, RoundButton } from 'components';
 import { EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -25,9 +24,11 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button rounded block style={styles.button} onPress={() => navigate('Login')}>
-                <Text style={{ color: '#fff' }}>{t('BACK_TO_LOGIN')}</Text>
-              </Button>
+              <View style={{ width: '100%' }}>
+                <RoundButton onPress={() => navigate('Login')}>
+                  {t('BACK_TO_LOGIN')}
+                </RoundButton>
+              </View>
             </View>
 
           </View>

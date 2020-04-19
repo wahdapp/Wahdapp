@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Picker, ScrollView, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
 import { Form, Toast } from 'native-base';
-import { BoldText, Touchable, Text, Loader } from 'components';
+import { BoldText, Touchable, Text, Loader, RoundButton } from 'components';
 import { auth, createAccount } from 'firebaseDB';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -90,12 +90,9 @@ export default function SignupScreen({ navigation: { navigate } }) {
             </View>
 
             <View style={styles.signupBtnContainer}>
-              <Touchable
-                style={styles.signupBtn}
-                onPress={handleSignup}
-              >
-                <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('SIGNUP')}</Text>
-              </Touchable>
+              <RoundButton onPress={handleSignup}>
+                {t('SIGNUP')}
+              </RoundButton>
             </View>
           </Form>
         </View>

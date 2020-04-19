@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, TextInput } from 'react-native';
 import { Form, Input, Toast, InputGroup, Content, Button } from 'native-base';
-import { Text, BoldText, Loader } from 'components';
+import { Text, BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
-import { Ionicons } from '@expo/vector-icons';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { FORGOT, EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -74,9 +72,11 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
                   </View>
 
                   <View style={styles.buttonContainer}>
-                    <Button rounded block style={styles.button} onPress={sendResetEmail}>
-                      <Text style={{ color: '#fff' }}>{t('SUBMIT')}</Text>
-                    </Button>
+                    <View style={{ width: '100%' }}>
+                      <RoundButton onPress={sendResetEmail}>
+                        {t('SUBMIT')}
+                      </RoundButton>
+                    </View>
                   </View>
                 </>
               )}

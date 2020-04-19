@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
 import { Form, Toast } from 'native-base';
-import { Text, Touchable, BoldText, Loader } from 'components';
+import { Text, Touchable, BoldText, Loader, RoundButton } from 'components';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
@@ -71,12 +71,9 @@ export default function LoginScreen({ navigation: { navigate } }) {
             </Touchable>
           </View>
           <View style={{ ...styles.loginBtnContainer, width: '100%' }}>
-            <Touchable
-              style={styles.loginBtn}
-              onPress={handleLogin}
-            >
-              <Text style={{ fontSize: 14, letterSpacing: 1.8, color: '#ffffff' }}>{t('LOGIN')}</Text>
-            </Touchable>
+            <RoundButton onPress={handleLogin}>
+            {t('LOGIN')}
+            </RoundButton>
           </View>
 
           <View style={styles.signUpLabelContainer}>
@@ -88,7 +85,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
           </View>
 
-          <View style={styles.loginBtnContainer}>
+          <View style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
             <Touchable onPress={handleFacebookPress}>
               <View style={styles.facebookButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
