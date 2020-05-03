@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
-import { View, Left, Button, CheckBox, Right } from 'native-base';
-import { Text, BoldText, Touchable, RoundButton } from 'components';
+import { View, Left, CheckBox, Right } from 'native-base';
+import { Text, BoldText, RoundButton } from 'components';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { prayerTypes } from 'constants/prayers';
 import { setFilter } from 'actions';
 import isEmpty from 'lodash/isEmpty';

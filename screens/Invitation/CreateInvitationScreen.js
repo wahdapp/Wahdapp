@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList } from 'react-native';
 import { View, Left, Toast, Textarea, DatePicker } from 'native-base';
-import { Text, BoldText, Touchable, Loader } from 'components';
+import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
 import { prayerTypes } from 'constants/prayers';
@@ -127,16 +127,25 @@ export default function CreateInvitationScreen({ route, navigation }) {
               horizontal={true}
               data={prayerTypes}
               renderItem={({ item }) => (
-                <Touchable onPress={() => handlePrayerClick(item)}>
-                  <View style={{
-                    ...styles.prayerBtn,
+                <RoundButton
+                  onPress={() => handlePrayerClick(item)}
+                  style={{
                     borderWidth: selectedPrayer === item ? 0 : 2,
                     borderColor: selectedPrayer === item ? null : '#dedede',
-                    backgroundColor: selectedPrayer === item ? colors.primary : '#fff'
-                  }}>
-                    <Text style={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}>{PRAYERS[item]}</Text>
-                  </View>
-                </Touchable>
+                    backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
+                    width: null,
+                    minWidth: 80,
+                    paddingHorizontal: 20,
+                    height: 40,
+                    marginBottom: 15,
+                    marginRight: 10,
+                    borderRadius: 20
+                  }}
+                  colors={selectedPrayer === item ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                  textStyle={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}
+                >
+                  {PRAYERS[item]}
+                </RoundButton>
               )}
               keyExtractor={item => item}
             />
@@ -209,8 +218,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 defaultDate={new Date()}
                 minimumDate={new Date()}
                 locale={i18n.language}
-                animationType={"fade"}
-                androidMode={"default"}
+                animationType={'slide'}
+                androidMode={'default'}
                 placeHolderText={moment(date).format('YYYY-MM-DD')}
                 formatChosenDate={d => moment(d).format('YYYY-MM-DD')}
                 textStyle={{ color: '#fff', fontSize: 18, fontFamily: 'Sen' }}
@@ -225,7 +234,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <Left>
             <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-            <Touchable onPress={() => setIsTimePickerVisible(true)}>
+            <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%' }}>
               <View style={styles.timePickerBtn}>
                 <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
               </View>
@@ -343,17 +352,19 @@ const styles = StyleSheet.create({
   datePicker: {
     backgroundColor: colors.primary,
     borderRadius: 8,
-    minWidth: 170,
-    alignItems: 'center'
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50
   },
   timePickerBtn: {
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 170,
+    width: '100%',
     paddingHorizontal: 10,
     borderRadius: 8,
     backgroundColor: colors.primary,
-    height: 42
+    height: 50
   },
   operationBtn: {
     alignItems: 'center',
