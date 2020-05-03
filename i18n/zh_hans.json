@@ -39,6 +39,7 @@
     "PLACEHOLDER": "简短描述一下地点让大家比较容易找到",
     "DATE": "日期",
     "TIME": "时间",
+    "CHOOSE_DATE": "选择日期",
     "CHOOSE_TIME": "选择时间",
     "INVITE": "发出邀请",
     "INVITE_HERE": "在此处邀请",

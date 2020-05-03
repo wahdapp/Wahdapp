@@ -39,6 +39,7 @@
     "PLACEHOLDER": "Briefly describe the location so that people may find it easily",
     "DATE": "Date",
     "TIME": "Time",
+    "CHOOSE_DATE": "Choose Date",
     "CHOOSE_TIME": "Choose Time",
     "INVITE": "INVITE",
     "INVITE_HERE": "INVITE HERE",

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList } from 'react-native';
-import { View, Left, Toast, Textarea, DatePicker } from 'native-base';
+import { View, Left, Toast, Textarea } from 'native-base';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
@@ -21,6 +21,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [male, setMale] = useState(0);
   const [female, setFemale] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
   const user = useSelector(state => state.userState);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
@@ -36,7 +37,12 @@ export default function CreateInvitationScreen({ route, navigation }) {
     }
   }
 
-  function handlePickerConfirm(date) {
+  function handleDatePickerConfirm(date) {
+    setIsDatePickerVisible(false);
+    setDate(date);
+  }
+
+  function handleTimePickerConfirm(date) {
     setIsTimePickerVisible(false);
     setTime({ hour: moment(date).format('HH'), minute: moment(date).format('mm') });
   }
@@ -214,19 +220,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Left>
             <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
             <View style={styles.datePicker}>
-              <DatePicker
-                defaultDate={new Date()}
-                minimumDate={new Date()}
-                locale={i18n.language}
-                animationType={'slide'}
-                androidMode={'default'}
-                placeHolderText={moment(date).format('YYYY-MM-DD')}
-                formatChosenDate={d => moment(d).format('YYYY-MM-DD')}
-                textStyle={{ color: '#fff', fontSize: 18, fontFamily: 'Sen' }}
-                placeHolderTextStyle={{ color: '#fff' }}
-                onDateChange={setDate}
-                disabled={false}
-              />
+              <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
+                <View style={styles.timePickerBtn}>
+                  <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
+                </View>
+              </Touchable>
             </View>
           </Left>
         </View>
@@ -243,10 +241,21 @@ export default function CreateInvitationScreen({ route, navigation }) {
         </View>
 
         <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          locale={i18n.language}
+          onConfirm={handleDatePickerConfirm}
+          onCancel={() => setIsDatePickerVisible(false)}
+          headerTextIOS={t('CHOOSE_DATE')}
+          cancelTextIOS={t('CANCEL')}
+          confirmTextIOS={t('CONFIRM')}
+        />
+
+        <DateTimePickerModal
           isVisible={isTimePickerVisible}
           mode="time"
           locale={i18n.language}
-          onConfirm={handlePickerConfirm}
+          onConfirm={handleTimePickerConfirm}
           onCancel={() => setIsTimePickerVisible(false)}
           headerTextIOS={t('CHOOSE_TIME')}
           cancelTextIOS={t('CANCEL')}
