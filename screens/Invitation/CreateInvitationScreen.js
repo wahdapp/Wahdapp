@@ -10,6 +10,7 @@ import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { LinearGradient } from 'expo-linear-gradient';
 import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {
@@ -264,19 +265,25 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
           <Touchable
-            style={{
-              ...styles.inviteBtn,
-              backgroundColor: isComplete ? colors.primary : '#dedede',
-              borderColor: isComplete ? colors.primary : '#dedede',
-              borderWidth: isComplete ? 2 : 0,
-            }}
             disabled={!isComplete}
-            onPress={submit}>
-            <Text style={{
-              fontSize: 14,
-              letterSpacing: 1.8,
-              color: '#ffffff'
-            }}>{t('INVITE')}</Text>
+            onPress={submit}
+          >
+            <LinearGradient
+              style={{
+                ...styles.inviteBtn,
+                borderColor: isComplete ? colors.primary : '#dedede',
+                borderWidth: isComplete ? 2 : 0,
+              }}
+              colors={isComplete ? [colors.primary, colors.secondary] : ['#dedede', '#dedede']}
+              start={[0, 1]}
+              end={[1, 0]}
+            >
+              <Text style={{
+                fontSize: 14,
+                letterSpacing: 1.8,
+                color: '#ffffff'
+              }}>{t('INVITE')}</Text>
+            </LinearGradient>
           </Touchable>
         </View>
       </View>
@@ -349,14 +356,13 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   inviteBtn: {
-    height: 52,
-    width: '100%',
-    borderRadius: 33,
+    marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
-    backgroundColor: colors.primary
+    width: '100%',
+    height: 52,
+    borderRadius: 26,
   },
   datePicker: {
     backgroundColor: colors.primary,
