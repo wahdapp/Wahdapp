@@ -124,7 +124,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
     Alert.alert(
       t('DELETE_PRAYER'),
       t('DELETE_PRAYER_CONFIRM'),
-      [{ text: t('NO') }, { text: t('YES'), onPress: deletePrayer }]
+      [{ text: t('NO') }, { text: t('YES'), onPress: deletePrayer, style: 'destructive' }]
     )
   }
 

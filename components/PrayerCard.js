@@ -103,27 +103,27 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   card: {
-    borderRadius: 8
+    borderRadius: 22
   },
   imageWrapper: {
     height: 200,
     width: null,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
   },
   image: {
     resizeMode: 'cover',
     height: '100%',
     flex: 1,
     justifyContent: 'center',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
   },
   descriptionWrapper: {
     minHeight: 100,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     flexDirection: 'column',
     flex: 1,
     alignItems: 'flex-start'

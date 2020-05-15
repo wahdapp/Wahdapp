@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'native-base';
-import { PrayerCard, Text, Spinner } from 'components';
+import { PrayerCard, Text, Spinner, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
@@ -94,7 +95,13 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
+    <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
+      <View style={styles.header}>
+        <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
+        <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-funnel' : 'md-funnel'} size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
@@ -112,7 +119,6 @@ export default function HomeScreen({ navigation }) {
                 fetchNearbyPrayers().then(() => setIsRefreshing(false));
               }}
               refreshing={isRefreshing}
-              contentContainerStyle={nearbyPrayers.length ? {} : { height: '100%', justifyContent: 'center' }}
               ListEmptyComponent={() => (
                 <View style={styles.imageContainer}>
                   <Image source={NOT_FOUND} style={styles.image} />
@@ -124,11 +130,28 @@ export default function HomeScreen({ navigation }) {
           )
         }
       </View>
-    </View >
+    </LinearGradient >
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.OS === 'ios' ? 20 : 24,
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  header: {
+    marginTop: 10,
+    height: 52,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  titleStyle: {
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 25
+  },
   prayerListWrapper: {
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -137,11 +160,15 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    paddingTop: 15,
+    paddingBottom: 25
   },
   image: {
     width: '100%',
     resizeMode: 'contain',
-    height: 250
+    height: 250,
   },
   notFoundText: {
     textAlign: 'center',

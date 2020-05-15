@@ -22,7 +22,7 @@ import colors from 'constants/Colors';
 const Stack = createStackNavigator();
 const headerOptions = {
   headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
-  headerTitleStyle: { fontFamily: 'Sen', fontWeight: '200', fontSize: 20, color: '#d9d9d9' },
+  headerTitleStyle: { fontFamily: 'Sen-Bold', fontSize: 20, color: '#d9d9d9' },
 }
 
 function HomeStack() {
@@ -30,7 +30,7 @@ function HomeStack() {
   
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ ...headerOptions, title: t('HOME:HEADER') }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen
         name="Filter"
         component={FilterScreen}
