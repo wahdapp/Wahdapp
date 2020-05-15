@@ -22,7 +22,7 @@ import colors from 'constants/Colors';
 const Stack = createStackNavigator();
 const headerOptions = {
   headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
-  headerTitleStyle: { fontFamily: 'Sen', fontWeight: '200' },
+  headerTitleStyle: { fontFamily: 'Sen', fontWeight: '200', fontSize: 20, color: '#d9d9d9' },
 }
 
 function HomeStack() {

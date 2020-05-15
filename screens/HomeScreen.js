@@ -111,6 +111,7 @@ export default function HomeScreen({ navigation }) {
                 fetchNearbyPrayers().then(() => setIsRefreshing(false));
               }}
               refreshing={isRefreshing}
+              contentContainerStyle={nearbyPrayers.length ? {} : { height: '100%', justifyContent: 'center' }}
               ListEmptyComponent={() => (
                 <View style={styles.imageContainer}>
                   <Image source={NOT_FOUND} style={styles.image} />

@@ -10,27 +10,15 @@ export default function SignupScreen({ navigation: { navigate } }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
   const [gender, setGender] = useState('M');
 
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function handleSignup() {
-    if (!fullName.trim() || !email.trim() || !password.trim() || !confirm.trim()) {
+    if (!fullName.trim() || !email.trim() || !password.trim()) {
       Toast.show({
         text: t('ERROR.1'),
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
-      return;
-    }
-
-    if (password !== confirm) {
-      Toast.show({
-        text: t('ERROR.2'),
         textStyle: { fontSize: 12 },
         buttonText: t('ERROR.3'),
         type: 'danger',
@@ -77,9 +65,6 @@ export default function SignupScreen({ navigation: { navigate } }) {
 
             <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
             <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
-
-            <BoldText style={styles.inputLabel}>{t('CONFIRM')}</BoldText>
-            <TextInput value={confirm} onChangeText={setConfirm} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
 
             <View style={{ marginTop: 25 }}>
               <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>

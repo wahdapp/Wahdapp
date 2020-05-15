@@ -38,13 +38,15 @@ export default function MapScreen({ navigation }) {
 
   useEffect(() => {
     if (userPosition && mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: userPosition.latitude,
-        longitude: userPosition.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }, 800);
-      setCurrentRegion(userPosition);
+      setTimeout(() => {
+        mapRef.current.animateToRegion({
+          latitude: userPosition.latitude,
+          longitude: userPosition.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }, 800);
+        setCurrentRegion(userPosition);
+      }, 0);
     }
   }, [userPosition, mapRef]);
 
