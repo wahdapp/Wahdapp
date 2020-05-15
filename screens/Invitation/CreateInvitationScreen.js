@@ -128,17 +128,15 @@ export default function CreateInvitationScreen({ route, navigation }) {
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>{t('PRAYER')}</BoldText>
+            <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>
             <FlatList
-              style={{ width: '100%' }}
+              style={{ width: '100%', paddingTop: 5 }}
               horizontal={true}
               data={prayerTypes}
               renderItem={({ item }) => (
                 <RoundButton
                   onPress={() => handlePrayerClick(item)}
                   style={{
-                    borderWidth: selectedPrayer === item ? 0 : 2,
-                    borderColor: selectedPrayer === item ? null : '#dedede',
                     backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
                     width: null,
                     minWidth: 80,
@@ -267,6 +265,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Touchable
             disabled={!isComplete}
             onPress={submit}
+            style={styles.inviteTouchable}
           >
             <LinearGradient
               style={{
@@ -355,6 +354,17 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: 15
   },
+  inviteTouchable: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+
+    elevation: 8,
+  },
   inviteBtn: {
     marginBottom: 15,
     flexDirection: 'row',
@@ -370,7 +380,16 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50
+    height: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
   timePickerBtn: {
     justifyContent: 'center',
@@ -379,7 +398,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 8,
     backgroundColor: colors.primary,
-    height: 50
+    height: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
   operationBtn: {
     alignItems: 'center',
@@ -388,7 +416,16 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: colors.primary,
     borderRadius: 100,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
   operationText: {
     fontSize: 18,

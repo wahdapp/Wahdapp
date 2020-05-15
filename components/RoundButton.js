@@ -14,7 +14,7 @@ export default function RoundButton({
   ...props
 }) {
   return (
-    <Touchable {...props}>
+    <Touchable {...props} style={styles.touchableStyle}>
       <LinearGradient
         style={{ ...styles.button, width, height, borderRadius: height / 2, ...style }}
         colors={colors}
@@ -28,6 +28,17 @@ export default function RoundButton({
 }
 
 const styles = StyleSheet.create({
+  touchableStyle: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    
+    elevation: 8,
+  },
   button: {
     flexDirection: 'row',
     justifyContent: 'center',

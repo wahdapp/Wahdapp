@@ -95,17 +95,15 @@ export default function FilterScreen({ route, navigation }) {
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <Left>
-            <BoldText style={styles.sectionHeader}>{t('PRAYERS')}</BoldText>
+            <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYERS')}</BoldText>
             <FlatList
-              style={{ width: '100%' }}
+              style={{ width: '100%', paddingTop: 5 }}
               horizontal={true}
               data={prayerTypes}
               renderItem={({ item }) => (
                 <RoundButton
                   onPress={() => handlePrayerClick(item)}
                   style={{
-                    borderWidth: selectedPrayers.includes(item) ? 0 : 2,
-                    borderColor: selectedPrayers.includes(item) ? null : '#dedede',
                     width: null,
                     minWidth: 80,
                     paddingHorizontal: 20,
