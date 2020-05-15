@@ -1,15 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Dimensions, Image, FlatList, ScrollView, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  Image,
+  FlatList,
+  ScrollView,
+  Alert,
+  Linking,
+  Platform } from 'react-native';
 import { View, Left, Right, Button } from 'native-base';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import { Text, BoldText, Loader } from 'components';
-import { PIN, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth, db } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -30,12 +39,14 @@ function joinReducer(state, action) {
 
 export default function PrayerDetailScreen({ route, navigation }) {
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
-  const { geolocation, query, scheduleTime, participants, inviter, inviterID, description, guests, id } = route.params;
+  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+  const { geolocation, query, scheduleTime, participants, inviter, inviterID, description, guests, id, prayer } = route.params;
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
   const [originalParticipants, setOriginalParticipants] = useState(participants); // participants in pure form (Ref Object)
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const markerRef = useRef(null);
   const [joinState, joinDispatch] = useOptimisticReducer(joinReducer, {
     currentParticipants: [], // in formatted form
     isJoined: participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false
@@ -51,6 +62,12 @@ export default function PrayerDetailScreen({ route, navigation }) {
     getDistance();
     getParticipantsInfo();
   }, [location]);
+
+  function onRegionChangeComplete() {
+    if (markerRef && markerRef.current && markerRef.current.showCallout) {
+      markerRef.current.showCallout();
+    }
+  }
 
   async function getParticipantsInfo() {
     const ids = originalParticipants.map(p => p.id);
@@ -135,11 +152,16 @@ export default function PrayerDetailScreen({ route, navigation }) {
         style={{ width: '100%', height: ScreenHeight * 0.3 }}
         showsUserLocation={true}
         showsMyLocationButton={false}
+        onRegionChangeComplete={onRegionChangeComplete}
       >
-        <Marker coordinate={{ latitude: lat, longitude: lon }}>
-          <View>
-            <Image source={PIN} style={{ height: 35, width: 35 }} />
-          </View>
+        <Marker ref={markerRef} coordinate={{ latitude: lat, longitude: lon }}>
+          <Callout style={{ flex: 1, position: 'relative' }} onPress={() => openMaps(lat, lon, PRAYERS[route.params.prayer])}>
+            <View style={styles.callout}>
+              <Text style={styles.calloutText}>
+                Open in App
+              </Text>
+            </View>
+          </Callout>
         </Marker>
       </MapView>
       <ScrollView style={styles.sectionWrapper}>
@@ -239,6 +261,17 @@ const UserItem = ({ item }) => (
   </View>
 )
 
+function openMaps(lat, lng, prayer) {
+  const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+  const latLng = `${lat},${lng}`;
+  const url = Platform.select({
+    ios: `${scheme}${prayer}@${latLng}`,
+    android: `${scheme}${latLng}(${prayer})`
+  });
+  
+  Linking.openURL(url); 
+}
+
 const styles = StyleSheet.create({
   topHeader: {
     flexDirection: 'row',
@@ -291,5 +324,14 @@ const styles = StyleSheet.create({
     minWidth: 50,
     minHeight: 50,
     color: '#000'
-  }
+  },
+  callout: {
+    padding: 8,
+    borderRadius: 8
+  },
+  calloutText: {
+    fontFamily: 'Sen',
+    fontSize: 16,
+    color: colors.primary
+  },
 })
