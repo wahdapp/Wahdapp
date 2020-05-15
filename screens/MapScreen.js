@@ -118,6 +118,11 @@ export default function MapScreen({ navigation }) {
   function handleMarkerDrag(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
+    mapRef.current.animateToRegion({
+      ...coordinate,
+      latitudeDelta: currentZoom.latitudeDelta,
+      longitudeDelta: currentZoom.longitudeDelta,
+    });
   }
 
   function removeMarker() {
