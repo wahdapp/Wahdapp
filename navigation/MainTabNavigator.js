@@ -18,11 +18,12 @@ import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { Text } from 'components';
 
 const Stack = createStackNavigator();
 const headerOptions = {
   headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
-  headerTitleStyle: { fontFamily: 'Sen-Bold', fontSize: 20, color: '#d9d9d9' },
+  headerTitleStyle: { fontFamily: 'Sen-Bold', fontSize: 18, color: '#d9d9d9' },
 }
 
 function HomeStack() {
@@ -79,7 +80,6 @@ function Tabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ showLabel: false }}
       activeColor={colors.primary}
       barStyle={{ backgroundColor: '#fff' }}
     >
@@ -87,7 +87,7 @@ function Tabs() {
         name="Home"
         component={HomeStack}
         options={{
-          tabBarLabel: t('HOME'),
+          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('HOME')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
           )
@@ -97,13 +97,13 @@ function Tabs() {
         name="Map"
         component={MapStack}
         options={{
-          tabBarLabel: t('MAP'),
+          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('MAP')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
           )
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Notifications"
         component={QiblaStack}
         options={{
@@ -112,12 +112,12 @@ function Tabs() {
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} />
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStack}
         options={{
-          tabBarLabel: t('PROFILE'),
+          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('PROFILE')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
           )
