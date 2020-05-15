@@ -46,7 +46,11 @@ LoaderWithoutOverlay.defaultProps = {
   size: 'small'
 }
 
-export function Spinner({ size }) {
+export function Spinner({ size, type = 'default' }) {
+  let spinnerFile = require('assets/spinner.json');
+  if (type === 'white') {
+    spinnerFile = require('assets/white_spinner.json');
+  }
   let width, height;
 
   if (size === 'small') {
@@ -59,7 +63,7 @@ export function Spinner({ size }) {
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <LottieView
-        source={require('assets/spinner.json')}
+        source={spinnerFile}
         autoPlay
         loop
         style={{ width, height }}

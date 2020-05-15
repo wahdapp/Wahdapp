@@ -105,8 +105,8 @@ export default function HomeScreen({ navigation }) {
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Spinner size="large" />
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+              <Spinner size="large" type="white" />
             </View>
           ) : (
             <FlatList
