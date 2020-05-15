@@ -14,8 +14,8 @@ import {
   Text,
   AsyncStorage,
   Dimensions,
-  TouchableOpacity
 } from 'react-native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import LoginScreen from 'screens/Auth/LoginScreen';
@@ -117,14 +117,16 @@ export default function App(props) {
   }
 
   return (
-    <Root>
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <Provider store={store}>
-          <AppNavigator user={userAuth} />
-        </Provider>
-      </View>
-    </Root>
+    <ActionSheetProvider>
+      <Root>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <Provider store={store}>
+            <AppNavigator user={userAuth} />
+          </Provider>
+        </View>
+      </Root>
+    </ActionSheetProvider>
   );
 }
 

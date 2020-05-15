@@ -9,6 +9,7 @@ import { setFullName } from 'actions';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { ListItem, Body, Left } from 'native-base';
 import { useTranslation } from 'react-i18next';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import colors from 'constants/Colors';
 
@@ -20,23 +21,62 @@ export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
   const [currentFullName, setCurrentFullName] = useState(user.fullName);
-  const bottomSheetRef = useRef(null);
+  const { showActionSheetWithOptions } = useActionSheet();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 25, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={() => bottomSheetRef.current.snapTo(0)}>
+        <TouchableOpacity style={{ marginRight: 25, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={openActionSheet}>
           <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} />
         </TouchableOpacity>
       ),
     });
-  }, [navigation, bottomSheetRef]);
+  }, [navigation]);
 
   useEffect(() => {
     if (user) {
       getPastInfo();
     }
   }, [user]);
+
+  function openActionSheet() {
+    let subpath = '';
+    switch (i18n.language) {
+      case 'zh_hant':
+        subpath = '/tw';
+        break;
+      case 'zh_hans':
+        subpath = '/cn';
+        break;
+      default: subpath = '';
+    }
+    showActionSheetWithOptions({
+      options: [t('OPTIONS.ABOUT'), t('OPTIONS.CONTACT'), t('OPTIONS.DONATE'), t('OPTIONS.FAQ'), t('OPTIONS.LANGUAGE'), t('OPTIONS.CANCEL')],
+      title: '',
+      message: '',
+      cancelButtonIndex: 5,
+      destructiveButtonIndex: 5,
+      textStyle: { fontFamily: 'Sen', color: colors.primary }
+    }, index => {
+      switch (index) {
+        case 0:
+          Linking.openURL(`https://wahd.app${subpath}/about`)
+          break;
+        case 1:
+          navigation.navigate('Contact')
+          break;
+        case 2:
+          Linking.openURL('https://www.paypal.me/abdullahcheng')
+          break;
+        case 3:
+          Linking.openURL(`https://wahd.app${subpath}/faq`)
+          break;
+        case 4:
+          navigation.navigate('Language')
+          break;
+      }
+    });
+  }
 
   async function getPastInfo() {
     const invitedDoc = await db.collection('prayers')
@@ -57,74 +97,6 @@ export default function ProfileScreen({ navigation }) {
       dispatch(setFullName(currentFullName));
     }
     setIsEditingFullName(false);
-  }
-
-  function renderHeader() {
-    return (
-      <View style={styles.header}>
-        <View style={styles.panelHeader}>
-          <View style={styles.panelHandle} />
-        </View>
-      </View>
-    )
-  }
-
-  function renderContent() {
-    let subpath = '';
-    switch (i18n.language) {
-      case 'zh_hant':
-        subpath = '/tw';
-        break;
-      case 'zh_hans':
-        subpath = '/cn';
-        break;
-      default: subpath = '';
-    }
-
-    return (
-      <View style={styles.panel}>
-        <Touchable>
-          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/about`)}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-information-circle' : 'md-information-circle'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.ABOUT')}</Text></Body>
-          </ListItem>
-        </Touchable>
-        <Touchable>
-          <ListItem icon onPress={() => navigation.navigate('Contact')}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.CONTACT')}</Text></Body>
-          </ListItem>
-        </Touchable>
-        <Touchable>
-          <ListItem icon onPress={() => Linking.openURL('https://www.paypal.me/abdullahcheng')}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.DONATE')}</Text></Body>
-          </ListItem>
-        </Touchable>
-        <Touchable>
-          <ListItem icon onPress={() => Linking.openURL(`https://wahd.app${subpath}/faq`)}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-help-circle' : 'md-help-circle'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.FAQ')}</Text></Body>
-          </ListItem>
-        </Touchable>
-        <Touchable>
-          <ListItem icon onPress={() => navigation.navigate('Language')}>
-            <Left>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-planet' : 'md-planet'} size={24} />
-            </Left>
-            <Body><Text>{t('OPTIONS.LANGUAGE')}</Text></Body>
-          </ListItem>
-        </Touchable>
-      </View>
-    )
   }
 
   function logout() {
@@ -228,20 +200,13 @@ export default function ProfileScreen({ navigation }) {
 
         <View style={{ marginVertical: 15 }}>
           <Touchable>
-          <Text style={styles.footerText}>Delete Account</Text>
+            <Text style={styles.footerText}>Delete Account</Text>
           </Touchable>
           <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
-          <Text style={styles.footerText}>Privacy Policy</Text>
+            <Text style={styles.footerText}>Privacy Policy</Text>
           </Touchable>
         </View>
       </ScrollView>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={[280, 0]}
-        renderHeader={renderHeader}
-        renderContent={renderContent}
-        initialSnap={1}
-      />
     </>
   )
 }

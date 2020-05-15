@@ -60,7 +60,8 @@
       "CONTACT": "联络",
       "DONATE": "捐款",
       "LANGUAGE": "语言偏好",
-      "LOGOUT": "登出"
+      "LOGOUT": "登出",
+      "CANCEL": "取消"
     }
   },
   "TABS": {
