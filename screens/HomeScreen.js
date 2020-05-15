@@ -10,6 +10,7 @@ import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import colors from 'constants/Colors';
 
 export default function HomeScreen({ navigation }) {
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
@@ -29,7 +30,7 @@ export default function HomeScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-funnel' : 'md-funnel'} size={24} />
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-funnel' : 'md-funnel'} size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
     });

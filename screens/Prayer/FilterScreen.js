@@ -53,7 +53,7 @@ export default function FilterScreen({ route, navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={resetFilter} style={{ marginRight: 25 }}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} />
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
     });

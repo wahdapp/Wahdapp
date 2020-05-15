@@ -139,7 +139,7 @@ function MainStack() {
         options={({ route }) => ({
           ...headerOptions,
           title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
-          headerTitleStyle: { fontFamily: 'Sen', textTransform: 'capitalize' },
+          headerTitleStyle: [headerOptions.headerTitleStyle, { textTransform: 'capitalize' }],
           headerBackTitle: ' ',
           gestureDirection: 'horizontal'
         })} />
