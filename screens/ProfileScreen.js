@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
@@ -125,7 +126,12 @@ export default function ProfileScreen({ navigation }) {
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-        <View style={styles.profileHeader}>
+        <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
+          <View style={styles.screenHeader}>
+            <TouchableOpacity style={{ marginRight: 25 }} onPress={openActionSheet}>
+              <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
           <View style={styles.profilePicContainer}>
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
           </View>
@@ -133,18 +139,17 @@ export default function ProfileScreen({ navigation }) {
           <View style={styles.nameContainer}>
             <BoldText style={styles.nameText}>{user.fullName}</BoldText>
           </View>
-
-          <View style={styles.infoSection}>
-            <View style={styles.infoContainer}>
-              <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
-                <BoldText style={styles.infoNumber}>{invitedPrayersList.size ? invitedPrayersList.size : 0}</BoldText>
-                <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
-              </Touchable>
-              <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
-                <BoldText style={styles.infoNumber}>{participatedList.size ? participatedList.size : 0}</BoldText>
-                <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
-              </Touchable>
-            </View>
+        </LinearGradient>
+        <View style={[styles.infoSection, { marginTop: 0 }]}>
+          <View style={styles.infoContainer}>
+            <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
+              <BoldText style={styles.infoNumber}>{invitedPrayersList.size ? invitedPrayersList.size : 0}</BoldText>
+              <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
+            </Touchable>
+            <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
+              <BoldText style={styles.infoNumber}>{participatedList.size ? participatedList.size : 0}</BoldText>
+              <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
+            </Touchable>
           </View>
         </View>
         <View style={styles.accountSection}>
@@ -212,9 +217,24 @@ export default function ProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  screenHeader: {
+    marginTop: 10,
+    height: 52,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%'
+  },
+  titleStyle: {
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 25
+  },
   profileHeader: {
     alignItems: 'center',
-    paddingTop: 15
+    paddingTop: 15,
+    paddingBottom: 25,
+    width: '100%'
   },
   profilePicContainer: {
     alignItems: 'center'
@@ -225,7 +245,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 18,
-    color: colors.primary
+    color: '#fff'
   },
   infoSection: {
     marginTop: 25,
