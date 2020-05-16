@@ -128,7 +128,7 @@ export default function ProfileScreen({ navigation }) {
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.screenHeader}>
-            <TouchableOpacity style={{ marginRight: 25 }} onPress={openActionSheet}>
+            <TouchableOpacity style={{ marginRight: 25, paddingLeft: 25 }} onPress={openActionSheet}>
               <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} color="#fff" />
             </TouchableOpacity>
           </View>
