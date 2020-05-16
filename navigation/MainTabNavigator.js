@@ -1,5 +1,6 @@
 import React from 'react';
-import { Platform, Button } from 'react-native';
+import { Platform, Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
@@ -19,6 +20,7 @@ import LanguageScreen from 'screens/Profile/LanguageScreen';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import { Text } from 'components';
+import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 
 const Stack = createStackNavigator();
 const headerOptions = {
@@ -77,6 +79,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
   const { t } = useTranslation(['TABS', 'HOME', 'PROFILE', 'INVITATION', 'FILTER']);
+  const user = useSelector(state => state.userState);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -119,7 +123,7 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 10 }}>{t('PROFILE')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 24, height: 24 }} />
           )
         }}
       />
