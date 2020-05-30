@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,18 +9,83 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { BoldText, Text } from 'components';
+import * as Location from 'expo-location';
+import { BoldText, Text, LoaderWithoutOverlay } from 'components';
 import { PRAYER_TIME_BG } from 'assets/images';
 import colors from 'constants/Colors';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+import moment from 'moment';
+import isEmpty from 'lodash/isEmpty';
 
 export default function PrayerTimeScreen() {
-  const { t } = useTranslation(['COMMON']);
+  const { t } = useTranslation(['PRAYER_TIME', 'COMMON']);
+
+  const [isFetching, setIsFetching] = useState(true);
+  const [prayerTimes, setPrayerTimes] = useState({});
+  const [nextPrayer, setNextPrayer] = useState('');
+  const [startAfter, setStartAfter] = useState('');
+
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
+  useEffect(() => {
+    fetchPrayerTimes();
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    if (!isEmpty(prayerTimes)) {
+      interval = setInterval(() => {
+        const now = moment();
+        // Get the exact time of the next prayer
+        const nextPrayerTime = prayerTimes.timings[nextPrayer];
+        const nextInMoment = moment(nextPrayerTime, 'HH:mm');
+
+        // If prayer time switches
+        if (nextInMoment.isBefore(now)) {
+          setNextPrayer(findNextPrayer(prayers.timings));
+        }
+        else {
+          const duration = moment.duration(nextInMoment.diff(now));
+          const hours = parseInt(duration.asHours());
+          const minutes = parseInt(duration.asMinutes()) % 60;
+          const seconds = parseInt(duration.asSeconds()) % 60 % 60;
+  
+          setStartAfter(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+        }
+
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [prayerTimes]);
+
+  async function fetchPrayerTimes() {
+    try {
+      const position = await Location.getCurrentPositionAsync({});
+      const prayers = await getPrayerTimes(position.coords, 3);
+
+      setPrayerTimes(prayers);
+      setNextPrayer(findNextPrayer(prayers.timings));
+
+      setIsFetching(false);
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
+  if (isFetching) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <LoaderWithoutOverlay size="large" />
+      </View>
+    )
+  }
+
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView contentContainerStyle={{ paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
         <LinearGradient start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.container}>
             <ImageBackground style={{ width: '100%', height: 400, resizeMode: 'cover' }} source={PRAYER_TIME_BG}>
@@ -32,12 +97,12 @@ export default function PrayerTimeScreen() {
               </View>
 
               <View style={styles.currentPrayer}>
-                <BoldText style={styles.currentPrayerText}>Fajr</BoldText>
-                <BoldText style={styles.endTime}>Ends after 05:35</BoldText>
+                <BoldText style={styles.currentPrayerText}>{PRAYERS[nextPrayer.toLowerCase()]}</BoldText>
+                <BoldText style={styles.endTime}>{t('BEGINS_AFTER', { time: startAfter })}</BoldText>
               </View>
 
               <View style={styles.date}>
-                <BoldText style={styles.dateText}>24 Apr 2014 / 01-09-1439</BoldText>
+                <BoldText style={styles.dateText}>{prayerTimes.date.readable} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
               </View>
             </ImageBackground>
 
@@ -46,42 +111,42 @@ export default function PrayerTimeScreen() {
 
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.fajr}</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Fajr}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.tableRow}>
-                  <Text style={styles.prayerText}>Sunrise</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{t('SUNRISE')}</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Sunrise}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.dhuhr}</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Dhuhr}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.asr}</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Asr}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.maghrib}</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Maghrib}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.isha}</Text>
-                  <Text style={styles.prayerText}>00:00</Text>
+                  <Text style={styles.prayerText}>{prayerTimes.timings.Isha}</Text>
                 </View>
               </View>
             </View>
@@ -165,4 +230,46 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ddd'
   }
-})
+});
+
+/**
+ * 
+ * @param {Object} position geolocation of the user
+ * @param {Number} position.latitude
+ * @param {Number} position.longitude
+ */
+async function getPrayerTimes(position, method) {
+  try {
+    const { data } = await axios.get(`http://api.aladhan.com/v1/timings/${moment().format('DD-MM-YYYY')}?method=${method}&latitude=${position.latitude}&longitude=${position.longitude}`);
+
+    return data.data;
+  }
+  catch (e) {
+    console.log({ e })
+    throw e;
+  }
+}
+
+function findNextPrayer(timings) {
+  const now = moment();
+
+  if (now.isBefore(moment(timings.Fajr, 'HH:mm'))) {
+    return 'Fajr';
+  }
+  if (now.isBefore(moment(timings.Dhuhr, 'HH:mm'))) {
+    return 'Dhuhr';
+  }
+  if (now.isBefore(moment(timings.Asr, 'HH:mm'))) {
+    return 'Asr';
+  }
+  if (now.isBefore(moment(timings.Maghrib, 'HH:mm'))) {
+    return 'Maghrib';
+  }
+  if (now.isBefore(moment(timings.Isha, 'HH:mm'))) {
+    return 'Isha';
+  }
+}
+
+function pad(num) {
+  return ("00" + num).substr(-2, 2);
+}

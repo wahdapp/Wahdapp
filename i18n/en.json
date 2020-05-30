@@ -110,6 +110,24 @@
       "OK"
     ]
   },
+  "PRAYER_TIME": {
+    "SUNRISE": "Sunrise",
+    "BEGINS_AFTER": "Begins after {{time}}",
+    "METHODS": [
+      {
+        "id": "mwl",
+        "name": "Muslim World League"
+      },
+      {
+        "id": "uaq",
+        "name": "Umm Al-Qura University"
+      },
+      {
+        "id": "isona",
+        "name": "Islamic Society of North America"
+      }
+    ]
+  },
   "COMMON": {
     "PRAYERS": {
       "fajr": "Fajr",

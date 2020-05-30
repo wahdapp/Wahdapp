@@ -110,6 +110,10 @@
       "好"
     ]
   },
+  "PRAYER_TIME": {
+    "SUNRISE": "日出",
+    "BEGINS_AFTER": "在 {{time}} 后进入"
+  },
   "COMMON": {
     "PRAYERS": {
       "fajr": "晨礼",
