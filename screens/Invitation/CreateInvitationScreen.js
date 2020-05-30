@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, ScrollView, FlatList } from 'react-native';
-import { View, Left, Toast, Textarea } from 'native-base';
+import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
+import { Toast } from 'native-base';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
 import { db, auth, GeoPoint } from 'firebaseDB';
@@ -127,40 +127,36 @@ export default function CreateInvitationScreen({ route, navigation }) {
       {isLoading && <Loader />}
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>
-            <FlatList
-              style={{ width: '100%', paddingTop: 5 }}
-              horizontal={true}
-              data={prayerTypes}
-              renderItem={({ item }) => (
-                <RoundButton
-                  onPress={() => handlePrayerClick(item)}
-                  style={{
-                    backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
-                    width: null,
-                    minWidth: 80,
-                    paddingHorizontal: 20,
-                    height: 40,
-                    marginBottom: 15,
-                    marginRight: 10,
-                    borderRadius: 20
-                  }}
-                  colors={selectedPrayer === item ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
-                  textStyle={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}
-                >
-                  {PRAYERS[item]}
-                </RoundButton>
-              )}
-              keyExtractor={item => item}
-            />
-          </Left>
+          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>
+          <FlatList
+            style={{ width: '100%', paddingTop: 5 }}
+            horizontal={true}
+            data={prayerTypes}
+            renderItem={({ item }) => (
+              <RoundButton
+                onPress={() => handlePrayerClick(item)}
+                style={{
+                  backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
+                  width: null,
+                  minWidth: 80,
+                  paddingHorizontal: 20,
+                  height: 40,
+                  marginBottom: 15,
+                  marginRight: 10,
+                  borderRadius: 20
+                }}
+                colors={selectedPrayer === item ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                textStyle={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}
+              >
+                {PRAYERS[item]}
+              </RoundButton>
+            )}
+            keyExtractor={item => item}
+          />
         </View>
 
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
-          </Left>
+          <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
         </View>
         <View style={styles.participantsSection}>
           {user.gender === 'M' && <View style={styles.participantsRow}>
@@ -202,41 +198,36 @@ export default function CreateInvitationScreen({ route, navigation }) {
         </View>
 
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
-            <Textarea
-              value={description}
-              onChangeText={setDescription}
-              style={{ width: '100%', borderBottomWidth: 1, borderColor: '#dedede', fontFamily: 'Sen', paddingVertical: 10, paddingLeft: 0 }}
-              placeholderTextColor="#dedede"
-              placeholder={t('PLACEHOLDER')}
-              rowSpan={4}
-            />
-          </Left>
+          <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
+          <TextInput
+            multiline={true}
+            numberOfLines={6}
+            onChangeText={setDescription}
+            value={description}
+            style={styles.textArea}
+            placeholderTextColor="#dedede"
+            placeholder={t('PLACEHOLDER')}
+          />
         </View>
 
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
-            <View style={styles.datePicker}>
-              <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
-                <View style={styles.timePickerBtn}>
-                  <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
-                </View>
-              </Touchable>
-            </View>
-          </Left>
-        </View>
-
-        <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-            <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%' }}>
+          <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
+          <View style={styles.datePicker}>
+            <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
               <View style={styles.timePickerBtn}>
-                <Text style={{ fontSize: 18, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+                <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
               </View>
             </Touchable>
-          </Left>
+          </View>
+        </View>
+
+        <View style={styles.detailSection}>
+          <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
+          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%' }}>
+            <View style={styles.timePickerBtn}>
+              <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+            </View>
+          </Touchable>
         </View>
 
         <DateTimePickerModal
@@ -319,8 +310,6 @@ const styles = StyleSheet.create({
   },
   detailSection: {
     padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   participantsSection: {
     paddingHorizontal: 15,
@@ -340,7 +329,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   sectionHeader: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 10,
     color: '#7C7C7C',
   },
@@ -430,5 +419,17 @@ const styles = StyleSheet.create({
   operationText: {
     fontSize: 18,
     color: '#fff'
+  },
+  textArea: {
+    width: '100%',
+    borderBottomWidth: 1,
+    borderColor: '#dedede',
+    fontFamily: 'Sen',
+    paddingVertical: 10,
+    paddingLeft: 0,
+    textAlignVertical: 'top',
+    height: 150,
+    justifyContent: 'flex-start',
+    fontSize: 12
   }
 })

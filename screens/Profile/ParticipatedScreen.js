@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Platform } from 'react-native';
-import { View } from 'native-base';
+import { StyleSheet, FlatList, Platform, View } from 'react-native';
 import { PrayerCard, Spinner } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';

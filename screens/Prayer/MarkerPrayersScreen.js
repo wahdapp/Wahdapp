@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Platform } from 'react-native';
-import { View } from 'native-base';
+import { StyleSheet, FlatList, Platform, View } from 'react-native';
 import { PrayerCard, RoundButton } from 'components';
 import colors from 'constants/Colors';
 import { useTranslation } from 'react-i18next';

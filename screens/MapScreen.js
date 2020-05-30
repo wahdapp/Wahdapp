@@ -5,10 +5,11 @@ import {
   StyleSheet,
   Platform,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  View,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { Text, LoaderWithoutOverlay } from 'components';
-import { View, Button } from 'native-base';
 import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import moment from 'moment';
 import { db } from 'firebaseDB';
@@ -228,9 +229,20 @@ export default function MapScreen({ navigation }) {
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
             <View style={{ alignItems: 'center' }}>
-              <Button rounded style={{ backgroundColor: '#fff', paddingHorizontal: 10, justifyContent: 'center', minWidth: 100 }}>
-                <Text>{t('CONFIRM')}</Text>
-              </Button>
+              <TouchableWithoutFeedback>
+                <View
+                  style={{
+                    backgroundColor: '#fff',
+                    padding: 10,
+                    alignItems: 'center',
+                    minWidth: 100,
+                    minHeight: 30,
+                    borderRadius: 25
+                  }}
+                >
+                  <Text>{t('CONFIRM')}</Text>
+                </View>
+              </TouchableWithoutFeedback>
               <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
             </View>
           </Marker>

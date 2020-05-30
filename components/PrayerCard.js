@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { Text } from './Text';
-import { View, Card, CardItem, Left, Body, Right } from 'native-base';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -10,7 +9,6 @@ import { calculateDistance, formatDistance } from 'helpers/geo';
 import { formatDay } from 'helpers/dateFormat';
 import Touchable from './Touchable';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 
 export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');
@@ -50,29 +48,25 @@ export default function PrayerCard({ navigate, ...props }) {
   return (
     <View style={styles.cardWrapper}>
       <Touchable onPress={handleCardPress}>
-        <Card style={styles.card} pointerEvents="none">
-          <CardItem cardBody={true} style={styles.imageWrapper}>
+        <View style={styles.card} pointerEvents="none">
+          <View style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />
-          </CardItem>
-          <CardItem bordered style={styles.descriptionWrapper}>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-              <Left>
+          </View>
+          <View style={styles.descriptionWrapper}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                 <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
-              </Left>
-              <Right>
                 <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
-              </Right>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Left><Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text></Left>
-              <Right><Text style={styles.invited}>{formatDay(t, moment(scheduleTime))}</Text></Right>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+              <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text>
+              <Text style={styles.invited}>{formatDay(t, moment(scheduleTime))}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-              <Left><Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text></Left>
-              {distance && <Right><Text>{formatDistance(distance, t)}</Text></Right>}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
+              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text>
+              {distance && <Text>{formatDistance(distance, t)}</Text>}
             </View>
-          </CardItem>
-        </Card>
+          </View>
+        </View>
       </Touchable>
     </View>
   )
@@ -103,7 +97,9 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   card: {
-    borderRadius: 22
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(204, 207, 240, 0.6)',
   },
   imageWrapper: {
     height: 200,
@@ -114,6 +110,7 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
     height: '100%',
+    width: '100%',
     flex: 1,
     justifyContent: 'center',
     borderTopLeftRadius: 20,
@@ -122,6 +119,7 @@ const styles = StyleSheet.create({
   descriptionWrapper: {
     minHeight: 100,
     paddingHorizontal: 15,
+    paddingVertical: 10,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     flexDirection: 'column',

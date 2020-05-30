@@ -8,8 +8,10 @@ import {
   ScrollView,
   Alert,
   Linking,
-  Platform } from 'react-native';
-import { View, Left, Right, Button } from 'native-base';
+  Platform,
+  View,
+  TouchableWithoutFeedback
+} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Text, BoldText, Loader } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
@@ -165,84 +167,74 @@ export default function PrayerDetailScreen({ route, navigation }) {
         </Marker>
       </MapView>
       <ScrollView style={styles.sectionWrapper}>
-        <View style={styles.detailSection}>
-          <Left>
+        <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+          <View>
             <BoldText style={styles.sectionHeader}>{`${moment(scheduleTime).format('MMM DD')}\n${moment(scheduleTime).format('hh:mm A')}`}</BoldText>
             <Text style={styles.sectionSubHeader}>{formatDistance(distance, t)}</Text>
-          </Left>
-          <Right>
-            {auth.currentUser.uid === inviterID ? (
-              <Button rounded
-                style={{ width: 100, justifyContent: 'center', backgroundColor: '#c4302b' }}
-                onPress={handleDeletePrayer}
-              >
+          </View>
+
+          {auth.currentUser.uid === inviterID ? (
+            <TouchableWithoutFeedback onPress={handleDeletePrayer}>
+              <View style={[styles.button, { backgroundColor: '#c4302b' }]}>
                 <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
-              </Button>
-            ) : isExpired ? (
-              <Button rounded disabled
-                style={{ width: 100, justifyContent: 'center' }}
-              >
-                <Text style={{ color: '#fff' }}>ENDED</Text>
-              </Button>
-            ) : (
-                  <Button rounded success
-                    bordered={!isJoined}
-                    style={{ width: 100, justifyContent: 'center', borderColor: '#7C7C7C' }}
-                    onPress={handleJoin}
-                  >
-                    <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
-                  </Button>
-                )}
-          </Right>
-        </View>
-
-        <View style={styles.line} />
-
-        <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
-            <Text style={styles.sectionSubHeader}>{description}</Text>
-          </Left>
-        </View>
-
-        <View style={styles.line} />
-
-        <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('ORGANIZER')}</BoldText>
-            <View style={styles.userList}>
-              <UserItem item={inviter} />
+              </View>
+            </TouchableWithoutFeedback>
+          ) : isExpired ? (
+            <View style={[styles.button, { backgroundColor: '#ddd' }]}>
+              <Text style={{ color: '#fff' }}>ENDED</Text>
             </View>
-          </Left>
+          ) : (
+                <TouchableWithoutFeedback onPress={handleJoin}>
+                  <View style={[styles.button, {
+                    backgroundColor: isJoined ? colors.primary : '#fff',
+                    borderWidth: isJoined ? 0 : 1,
+                    borderColor: '#7C7C7C'
+                  }]}>
+                    <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              )}
+        </View>
+
+        <View style={styles.line} />
+
+        <View style={styles.detailSection}>
+          <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
+          <Text style={styles.sectionSubHeader}>{description}</Text>
+        </View>
+
+        <View style={styles.line} />
+
+        <View style={styles.detailSection}>
+          <BoldText style={styles.sectionHeader}>{t('ORGANIZER')}</BoldText>
+          <View style={styles.userList}>
+            <UserItem item={inviter} />
+          </View>
         </View>
 
         {currentParticipants.length > 0 && (
           <View style={styles.detailSection}>
-            <Left>
-              <BoldText style={styles.sectionHeader}>{t('PARTICIPANTS')} ({currentParticipants.length})</BoldText>
-              <FlatList
-                style={{ width: "100%" }}
-                horizontal={true}
-                data={currentParticipants}
-                renderItem={({ item }) => <UserItem item={item} />}
-                keyExtractor={item => item.id}
-              />
-            </Left>
+            <BoldText style={styles.sectionHeader}>{t('PARTICIPANTS')} ({currentParticipants.length})</BoldText>
+            <FlatList
+              style={{ width: "100%" }}
+              horizontal={true}
+              data={currentParticipants}
+              renderItem={({ item }) => <UserItem item={item} />}
+              keyExtractor={item => item.id}
+            />
           </View>
         )}
 
         {(guests.male > 0 || guests.female > 0) && (
           <View style={styles.detailSection}>
-            <Left>
-              <BoldText style={styles.sectionHeader}>{t('GUESTS')} ({guests.male + guests.female})</BoldText>
-              <FlatList
-                style={{ width: "100%" }}
-                horizontal={true}
-                data={[...new Array(guests.male).fill('M'), ...new Array(guests.female).fill('F')]}
-                renderItem={({ item }) => <UserItem item={{ gender: item, fullName: 'Guest' }} />}
-                keyExtractor={item => item.id}
-              />
-            </Left>
+            <BoldText style={styles.sectionHeader}>{t('GUESTS')} ({guests.male + guests.female})</BoldText>
+            <FlatList
+              style={{ width: "100%" }}
+              horizontal={true}
+              data={[...new Array(guests.male).fill('M'), ...new Array(guests.female).fill('F')]}
+              renderItem={({ item }) => <UserItem item={{ gender: item, fullName: 'Guest' }} />}
+              keyExtractor={item => item.id}
+            />
           </View>
         )}
       </ScrollView>
@@ -268,8 +260,8 @@ function openMaps(lat, lng, prayer) {
     ios: `${scheme}${prayer}@${latLng}`,
     android: `${scheme}${latLng}(${prayer})`
   });
-  
-  Linking.openURL(url); 
+
+  Linking.openURL(url);
 }
 
 const styles = StyleSheet.create({
@@ -294,8 +286,6 @@ const styles = StyleSheet.create({
   },
   detailSection: {
     padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   sectionHeader: {
     fontSize: 14,
@@ -334,4 +324,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.primary
   },
+  button: {
+    minWidth: 120,
+    height: 50,
+    paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25
+  }
 })

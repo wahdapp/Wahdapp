@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
-import { Form, Toast } from 'native-base';
+import { Toast } from 'native-base';
 import { Text, Touchable, BoldText, Loader, RoundButton } from 'components';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
@@ -58,13 +58,11 @@ export default function LoginScreen({ navigation: { navigate } }) {
           <BoldText style={styles.headerText}>Welcome on Wahdapp</BoldText>
         </View>
         <View style={styles.formContainer}>
-          <Form>
-            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+          <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
 
-            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
-          </Form>
+          <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
+          <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
           <View style={styles.forgotPwdContainer}>
             <Touchable onPress={() => navigate('ForgotPassword')}>
               <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('FORGOT_PWD')}</Text>
@@ -72,7 +70,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
           </View>
           <View style={{ ...styles.loginBtnContainer, width: '100%' }}>
             <RoundButton onPress={handleLogin}>
-            {t('LOGIN')}
+              {t('LOGIN')}
             </RoundButton>
           </View>
 
@@ -213,7 +211,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    backgroundColor: '#3b5998'
+    backgroundColor: '#3b5998',
+    borderWidth: 0.3,
+    shadowOpacity: 0.45,
+    shadowRadius: 3,
+    shadowColor: '#000',
+    shadowOffset: { height: 0, width: 0 },
   },
   googleButton: {
     height: 52,
@@ -225,8 +228,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#fff',
     borderColor: '#7F7F7F',
-    borderWidth: 0.7,
-    shadowOpacity: 0.65,
+    borderWidth: 0.3,
+    shadowOpacity: 0.45,
     shadowRadius: 3,
     shadowColor: '#000',
     shadowOffset: { height: 0, width: 0 },

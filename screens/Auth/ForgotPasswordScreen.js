@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, TextInput } from 'react-native';
-import { Form, Input, Toast, InputGroup, Content, Button } from 'native-base';
+import { Toast, Content } from 'native-base';
 import { Text, BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
 import { FORGOT, EMAIL_SENT } from 'assets/images';
@@ -52,9 +52,11 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                  <Button rounded block style={styles.button} onPress={() => navigate('Login')}>
-                    <Text style={{ color: '#fff' }}>{t('BACK_TO_LOGIN')}</Text>
-                  </Button>
+                  <View style={{ width: '100%' }}>
+                    <RoundButton onPress={sendResetEmail}>
+                      {t('BACK_TO_LOGIN')}
+                    </RoundButton>
+                  </View>
                 </View>
               </>
             ) : (
@@ -65,10 +67,8 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
                   </View>
 
                   <View style={styles.formContainer}>
-                    <Form>
-                      <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-                      <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
-                    </Form>
+                    <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+                    <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
                   </View>
 
                   <View style={styles.buttonContainer}>

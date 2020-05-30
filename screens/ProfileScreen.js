@@ -7,8 +7,7 @@ import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import { setFullName } from 'actions';
-import BottomSheet from 'reanimated-bottom-sheet';
-import { ListItem, Body, Left } from 'native-base';
+import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
@@ -234,7 +233,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 25,
-    width: '100%'
+    width: '100%',
+    borderBottomLeftRadius: 80,
+    borderBottomRightRadius: 80,
+    marginBottom: 20
   },
   profilePicContainer: {
     alignItems: 'center'
@@ -255,11 +257,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingVertical: 15
+    paddingBottom: 15
   },
   infoItem: {
     width: 120,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
-import { Form, Toast } from 'native-base';
+import { Toast } from 'native-base';
 import { BoldText, Touchable, Text, Loader, RoundButton } from 'components';
 import { auth, createAccount } from 'firebaseDB';
 import { useTranslation } from 'react-i18next';
@@ -56,30 +56,28 @@ export default function SignupScreen({ navigation: { navigate } }) {
           <BoldText style={styles.title}>{t('CREATE_ACCOUNT')}</BoldText>
         </View>
         <View style={styles.formContainer}>
-          <Form>
-            <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
-            <TextInput value={fullName} onChangeText={setFullName} style={styles.textInput} placeholder="Ahmad Ali" placeholderTextColor="#dedede" />
+          <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
+          <TextInput value={fullName} onChangeText={setFullName} style={styles.textInput} placeholder="Ahmad Ali" placeholderTextColor="#dedede" />
 
-            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+          <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
 
-            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
+          <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
+          <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
 
-            <View style={{ marginTop: 25 }}>
-              <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
-              <Picker style={{ width: '100%', paddingHorizontal: 10 }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
-                <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
-                <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
-              </Picker>
-            </View>
+          <View style={{ marginTop: 25 }}>
+            <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
+            <Picker style={{ width: '100%', paddingHorizontal: 10 }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
+              <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
+              <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
+            </Picker>
+          </View>
 
-            <View style={styles.signupBtnContainer}>
-              <RoundButton onPress={handleSignup}>
-                {t('SIGNUP')}
-              </RoundButton>
-            </View>
-          </Form>
+          <View style={styles.signupBtnContainer}>
+            <RoundButton onPress={handleSignup}>
+              {t('SIGNUP')}
+            </RoundButton>
+          </View>
         </View>
       </ScrollView>
     </View>

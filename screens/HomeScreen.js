@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, Platform, Image } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { View } from 'native-base';
 import { PrayerCard, Text, Spinner, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   header: {
-    marginTop: 10,
+    marginVertical: 10,
     height: 52,
     flexDirection: 'row',
     justifyContent: 'space-between',
