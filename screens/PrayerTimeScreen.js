@@ -8,7 +8,6 @@ import {
   ImageBackground
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { BoldText, Text, LoaderWithoutOverlay } from 'components';
 import { PRAYER_TIME_BG } from 'assets/images';
@@ -25,6 +24,7 @@ export default function PrayerTimeScreen() {
   const [prayerTimes, setPrayerTimes] = useState({});
   const [nextPrayer, setNextPrayer] = useState('');
   const [startAfter, setStartAfter] = useState('');
+  const [isNextDay, setIsNextDay] = useState(false);
 
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
@@ -39,18 +39,22 @@ export default function PrayerTimeScreen() {
         const now = moment();
         // Get the exact time of the next prayer
         const nextPrayerTime = prayerTimes.timings[nextPrayer];
-        const nextInMoment = moment(nextPrayerTime, 'HH:mm');
+        const fetchDay = moment();
+        if (isNextDay) {
+          fetchDay.add(1, 'day');
+        }
+        const nextInMoment = moment(`${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`, 'YYYY-MM-DD HH:mm');
 
         // If prayer time switches
         if (nextInMoment.isBefore(now)) {
-          setNextPrayer(findNextPrayer(prayers.timings));
+          setNextPrayer(findNextPrayer(prayerTimes.timings));
         }
         else {
           const duration = moment.duration(nextInMoment.diff(now));
           const hours = parseInt(duration.asHours());
           const minutes = parseInt(duration.asMinutes()) % 60;
           const seconds = parseInt(duration.asSeconds()) % 60 % 60;
-  
+
           setStartAfter(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
         }
 
@@ -65,10 +69,24 @@ export default function PrayerTimeScreen() {
       const position = await Location.getCurrentPositionAsync({});
       const prayers = await getPrayerTimes(position.coords, 3);
 
-      setPrayerTimes(prayers);
-      setNextPrayer(findNextPrayer(prayers.timings));
+      const next = findNextPrayer(prayers.timings);
+      const now = moment();
 
-      setIsFetching(false);
+      // If it's already after Isha BUT still before 00:00, get the prayer times for the next day
+      if (next === 'Fajr' && moment(prayers.timings.Isha, 'HH:mm').isBefore(now) && now.isBefore(moment('23:59', 'HH:mm'))) {
+        setIsNextDay(true);
+        setNextPrayer('Fajr');
+
+        const nextDayPrayers = await getPrayerTimes(position.coords, 3, true);
+        setPrayerTimes(nextDayPrayers);
+        setIsFetching(false);
+      }
+      else {
+        setNextPrayer(findNextPrayer(prayers.timings));
+        setPrayerTimes(prayers);
+
+        setIsFetching(false);
+      }
     }
     catch (e) {
       throw e;
@@ -85,15 +103,12 @@ export default function PrayerTimeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <ScrollView contentContainerStyle={{ paddingTop: Platform.OS === 'ios' ? 20 : 24 }}>
+      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         <LinearGradient start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.container}>
             <ImageBackground style={{ width: '100%', height: 400, resizeMode: 'cover' }} source={PRAYER_TIME_BG}>
               <View style={styles.header}>
-                <BoldText style={styles.titleStyle}>Muslim World League</BoldText>
-                <TouchableOpacity style={{ marginRight: 25, paddingTop: 7 }}>
-                  <Ionicons name={Platform.OS === 'ios' ? 'ios-cog' : 'md-cog'} size={24} color="#fff" />
-                </TouchableOpacity>
+                <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
               </View>
 
               <View style={styles.currentPrayer}>
@@ -237,10 +252,17 @@ const styles = StyleSheet.create({
  * @param {Object} position geolocation of the user
  * @param {Number} position.latitude
  * @param {Number} position.longitude
+ * @param {Number} method Calculation method
+ * @param {Boolean} isNextDay Whether the current time is after Isha or not. If the current time is already after Isha, then fetch the pray times for the next day.
  */
-async function getPrayerTimes(position, method) {
+async function getPrayerTimes(position, method, isNextDay) {
   try {
-    const { data } = await axios.get(`http://api.aladhan.com/v1/timings/${moment().format('DD-MM-YYYY')}?method=${method}&latitude=${position.latitude}&longitude=${position.longitude}`);
+    let now = moment();
+    if (isNextDay) {
+      now.add(1, 'day');
+    }
+
+    const { data } = await axios.get(`http://api.aladhan.com/v1/timings/${now.format('DD-MM-YYYY')}?method=${method}&latitude=${position.latitude}&longitude=${position.longitude}`);
 
     return data.data;
   }
@@ -268,6 +290,7 @@ function findNextPrayer(timings) {
   if (now.isBefore(moment(timings.Isha, 'HH:mm'))) {
     return 'Isha';
   }
+  return 'Fajr';
 }
 
 function pad(num) {

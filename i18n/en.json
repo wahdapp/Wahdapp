@@ -70,6 +70,7 @@
   "TABS": {
     "HOME": "Home",
     "MAP": "Map",
+    "PRAYER_TIMES": "Prayer Times",
     "QIBLA": "Qibla",
     "PROFILE": "Profile",
     "BACK": "Back"
@@ -111,22 +112,9 @@
     ]
   },
   "PRAYER_TIME": {
+    "HEADER": "Prayer Times",
     "SUNRISE": "Sunrise",
-    "BEGINS_AFTER": "Begins after {{time}}",
-    "METHODS": [
-      {
-        "id": "mwl",
-        "name": "Muslim World League"
-      },
-      {
-        "id": "uaq",
-        "name": "Umm Al-Qura University"
-      },
-      {
-        "id": "isona",
-        "name": "Islamic Society of North America"
-      }
-    ]
+    "BEGINS_AFTER": "Begins after {{time}}"
   },
   "COMMON": {
     "PRAYERS": {

@@ -100,7 +100,7 @@ function Tabs() {
         name="Home"
         component={HomeStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('HOME')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('HOME')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
           )
@@ -110,7 +110,7 @@ function Tabs() {
         name="Map"
         component={MapStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('MAP')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('MAP')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
           )
@@ -120,7 +120,7 @@ function Tabs() {
         name="PrayerTime"
         component={PrayerTimeStack}
         options={{
-          tabBarLabel: 'Prayer Times',
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
           )
@@ -140,7 +140,7 @@ function Tabs() {
         name="Profile"
         component={ProfileStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 10 }}>{t('PROFILE')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('PROFILE')}</Text>,
           tabBarIcon: ({ focused }) => (
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 24, height: 24 }} />
           )

@@ -234,8 +234,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 25,
     width: '100%',
-    borderBottomLeftRadius: 80,
-    borderBottomRightRadius: 80,
     marginBottom: 20
   },
   profilePicContainer: {

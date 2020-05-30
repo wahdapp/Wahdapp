@@ -70,6 +70,7 @@
   "TABS": {
     "HOME": "首頁",
     "MAP": "地圖",
+    "PRAYER_TIMES": "禮拜時間",
     "QIBLA": "朝拜方向",
     "PROFILE": "個人",
     "BACK": "返回"
@@ -111,6 +112,7 @@
     ]
   },
   "PRAYER_TIME": {
+    "HEADER": "禮拜時間",
     "SUNRISE": "日出",
     "BEGINS_AFTER": "在 {{time}} 後進入"
   },
