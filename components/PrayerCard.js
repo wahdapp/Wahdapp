@@ -9,6 +9,7 @@ import { calculateDistance, formatDistance } from 'helpers/geo';
 import { formatDay } from 'helpers/dateFormat';
 import Touchable from './Touchable';
 import { useTranslation } from 'react-i18next';
+import SkeletonContent from 'react-native-skeleton-content';
 
 export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');
@@ -54,8 +55,8 @@ export default function PrayerCard({ navigate, ...props }) {
           </View>
           <View style={styles.descriptionWrapper}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
-                <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
+              <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
+              <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text>
@@ -138,5 +139,68 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#7C7C7C',
     textAlignVertical: 'bottom'
+  }
+});
+
+export function SkeletonCard() {
+  return (
+    <View style={styles.cardWrapper}>
+      <View style={[styles.card, { backgroundColor: '#fff', height: 350 }]} pointerEvents="none">
+        <View style={{
+          backgroundColor: '#E1E9EE',
+          width: '100%',
+          height: 200,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20
+        }} />
+
+        <SkeletonContent
+          layout={[
+            {
+              width: 80,
+              height: 30,
+            },
+            {
+              width: 140,
+              height: 30,
+            },
+          ]}
+          containerStyle={style.first}
+          isLoading={true}>
+        </SkeletonContent>
+
+        <SkeletonContent
+          layout={[
+            {
+              width: 220,
+              height: 20,
+              marginBottom: 6
+            },
+            {
+              width: 180,
+              height: 20,
+            },
+          ]}
+          containerStyle={{ paddingBottom: 20, paddingLeft: 20 }}
+          isLoading={true}>
+        </SkeletonContent>
+      </View>
+    </View>
+  )
+}
+
+const style = StyleSheet.create({
+  image: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  first: {
+    width: '100%',
+    padding: 20,
+    paddingBottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 6
   }
 })

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { PrayerCard, Text, Spinner, BoldText } from 'components';
+import { PrayerCard, SkeletonCard, Text, Spinner, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
@@ -104,9 +104,7 @@ export default function HomeScreen({ navigation }) {
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-              <Spinner size="large" type="white" />
-            </View>
+            <SkeletonCard />
           ) : (
             <FlatList
               style={{ height: '100%' }}

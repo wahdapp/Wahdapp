@@ -54,7 +54,6 @@ export default function PrayerDetailScreen({ route, navigation }) {
     isJoined: participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false
   });
   const { isJoined, currentParticipants } = joinState;
-  console.log({ isJoined, currentParticipants })
   const lat = geolocation.latitude;
   const lon = geolocation.longitude;
 
