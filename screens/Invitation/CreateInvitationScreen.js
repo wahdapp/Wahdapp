@@ -212,13 +212,13 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
-          <View style={styles.datePicker}>
-            <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
+          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
+            <View style={styles.datePicker}>
               <View style={styles.timePickerBtn}>
                 <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
               </View>
-            </Touchable>
-          </View>
+            </View>
+          </Touchable>
         </View>
 
         <View style={styles.detailSection}>
