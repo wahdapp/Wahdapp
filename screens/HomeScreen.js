@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     flex: 1,
-    backgroundColor: '#fff'
   },
   header: {
     marginVertical: 10,

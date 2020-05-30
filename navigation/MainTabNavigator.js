@@ -17,6 +17,7 @@ import ProfileScreen from 'screens/ProfileScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
 import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
+import PrayerTimeScreen from 'screens/PrayerTimeScreen';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import { Text } from 'components';
@@ -50,6 +51,14 @@ function MapStack() {
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER'), headerBackTitle: ' ' }} />
       <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }} />
+    </Stack.Navigator>
+  )
+}
+
+function PrayerTimeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="PrayerTime" component={PrayerTimeScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -104,6 +113,16 @@ function Tabs() {
           tabBarLabel: <Text style={{ fontSize: 10 }}>{t('MAP')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="PrayerTime"
+        component={PrayerTimeStack}
+        options={{
+          tabBarLabel: 'Prayer Times',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
           )
         }}
       />

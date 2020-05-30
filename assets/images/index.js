@@ -21,3 +21,4 @@ export const FACEBOOK = require('./facebook.jpg');
 export const GOOGLE = require('./google.jpg');
 
 export const QURAN = require('./quran.jpg');
+export const PRAYER_TIME_BG = require('./prayer_time_bg.jpg');
