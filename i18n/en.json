@@ -53,6 +53,9 @@
     "PRAYERS_PARTICIPATED": "PRAYERS\nPARTICIPATED",
     "EMPTY": "No prayer invited so far :(",
     "LANGUAGE_HEADER": "Choose Language",
+    "CHANGE_PASSWORD": "Change Password",
+    "LOGOUT": "Logout",
+    "DELETE_ACCOUNT": "Delete Account",
     "OPTIONS": {
       "PRIVACY": "Privacy Policy",
       "FAQ": "FAQ",

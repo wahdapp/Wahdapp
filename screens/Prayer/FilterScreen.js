@@ -139,21 +139,23 @@ export default function FilterScreen({ route, navigation }) {
           </Left>
         </View>
 
-        <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('MIN_PARTICIPANTS')}{`(>= ${minimumParticipants} ${minimumParticipants > 1 ? t('PEOPLE') : t('PERSON')})`}</BoldText>
-            <Slider
-              style={{ width: '100%', height: 40, marginTop: 15 }}
-              minimumValue={minNum}
-              value={defaultMinimumParts}
-              onValueChange={setMinimumParticipants}
-              step={1}
-              maximumValue={30}
-              minimumTrackTintColor="#000"
-              maximumTrackTintColor="#fff"
-            />
-          </Left>
-        </View>
+        {user.gender === 'F' && (
+          <View style={styles.detailSection}>
+            <Left>
+              <BoldText style={styles.sectionHeader}>{t('MIN_PARTICIPANTS')}{`(>= ${minimumParticipants} ${minimumParticipants > 1 ? t('PEOPLE') : t('PERSON')})`}</BoldText>
+              <Slider
+                style={{ width: '100%', height: 40, marginTop: 15 }}
+                minimumValue={minNum}
+                value={defaultMinimumParts}
+                onValueChange={setMinimumParticipants}
+                step={1}
+                maximumValue={30}
+                minimumTrackTintColor="#000"
+                maximumTrackTintColor="#fff"
+              />
+            </Left>
+          </View>
+        )}
 
         {user.gender === 'F' && (
           <View style={styles.detailSection}>

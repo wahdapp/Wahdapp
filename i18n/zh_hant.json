@@ -53,6 +53,9 @@
     "PRAYERS_PARTICIPATED": "參加次數",
     "EMPTY": "目前尚未邀請過禮拜 :(",
     "LANGUAGE_HEADER": "選擇語言",
+    "CHANGE_PASSWORD": "更改密碼",
+    "LOGOUT": "登出",
+    "DELETE_ACCOUNT": "刪除帳號",
     "OPTIONS": {
       "PRIVACY": "隱私政策",
       "FAQ": "常見問答",

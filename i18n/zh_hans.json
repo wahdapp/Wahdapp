@@ -53,6 +53,9 @@
     "PRAYERS_PARTICIPATED": "参加次数",
     "EMPTY": "目前尚未邀请过礼拜 :(",
     "LANGUAGE_HEADER": "选择语言",
+    "CHANGE_PASSWORD": "更改密码",
+    "LOGOUT": "登出",
+    "DELETE_ACCOUNT": "删除帐号",
     "OPTIONS": {
       "PRIVACY": "隐私政策",
       "FAQ": "常见问答",

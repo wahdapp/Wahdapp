@@ -190,13 +190,13 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.sessionSection}>
           <Touchable>
             <ListItem style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ color: colors.primary, textAlign: 'center' }}>CHANGE PASSWORD</Text>
+              <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('CHANGE_PASSWORD')}</Text>
               <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={24} />
             </ListItem>
           </Touchable>
           <Touchable>
             <ListItem onPress={logout} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ color: colors.primary, textAlign: 'center' }}>LOGOUT</Text>
+              <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('LOGOUT')}</Text>
               <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
             </ListItem>
           </Touchable>
@@ -204,10 +204,10 @@ export default function ProfileScreen({ navigation }) {
 
         <View style={{ marginVertical: 15 }}>
           <Touchable>
-            <Text style={styles.footerText}>Delete Account</Text>
+            <Text style={styles.footerText}>{t('DELETE_ACCOUNT')}</Text>
           </Touchable>
           <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
-            <Text style={styles.footerText}>Privacy Policy</Text>
+            <Text style={styles.footerText}>{t('OPTIONS.PRIVACY')}</Text>
           </Touchable>
         </View>
       </ScrollView>

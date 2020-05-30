@@ -66,11 +66,11 @@ function ProfileStack() {
   const { t } = useTranslation(['PROFILE']);
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false, title: t('PROFILE:HEADER') }} />
       <Stack.Screen name="Invited" component={InvitedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_INVITED') }} />
       <Stack.Screen name="Participated" component={ParticipatedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_PARTICIPATED') }} />
       <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER') }} />
-      <Stack.Screen name="Contact" component={ContactScreen} options={{ ...headerOptions, title: 'Contact' }} />
+      <Stack.Screen name="Contact" component={ContactScreen} options={{ ...headerOptions, title: t('PROFILE:OPTIONS.CONTACT') }} />
     </Stack.Navigator>
   )
 }
