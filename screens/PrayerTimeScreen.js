@@ -69,6 +69,8 @@ export default function PrayerTimeScreen() {
       const position = await Location.getCurrentPositionAsync({});
       const prayers = await getPrayerTimes(position.coords, 3);
 
+      console.log(prayers)
+
       const next = findNextPrayer(prayers.timings);
       const now = moment();
 
@@ -117,7 +119,7 @@ export default function PrayerTimeScreen() {
               </View>
 
               <View style={styles.date}>
-                <BoldText style={styles.dateText}>{prayerTimes.date.readable} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
+                <BoldText style={styles.dateText}>{moment(prayerTimes.date.gregorian.date, prayerTimes.date.gregorian.format).format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
               </View>
             </ImageBackground>
 

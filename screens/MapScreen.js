@@ -47,7 +47,7 @@ export default function MapScreen({ navigation }) {
           longitudeDelta: 0.0421,
         }, 800);
         setCurrentRegion(userPosition);
-      }, 0);
+      }, 100);
     }
   }, [userPosition, mapRef]);
 
