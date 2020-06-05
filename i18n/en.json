@@ -71,7 +71,7 @@
     "HOME": "Home",
     "MAP": "Map",
     "PRAYER_TIMES": "Prayer Times",
-    "QIBLA": "Qibla",
+    "NOTIFICATION": "Notification",
     "PROFILE": "Profile",
     "BACK": "Back"
   },
@@ -110,6 +110,23 @@
       "Two passwords do not match",
       "OK"
     ]
+  },
+  "NOTIFICATIONS": {
+    "TIME_DIFF": {
+      "MIN_AGO": "{{count}} min ago",
+      "MIN_AGO_plural": "{{count}} min ago",
+      "HOUR_AGO": "{{count}} hr ago",
+      "HOUR_AGO_plural": "{{count}} hr ago",
+      "DAY_AGO": "{{count}} day ago",
+      "DAY_AGO_plural": "{{count}} days ago",
+      "MONTH_AGO": "{{count}} month ago",
+      "MONTH_AGO_plural": "{{count}} months ago",
+      "YEAR_AGO": "{{count}} year ago",
+      "YEAR_AGO_plural": "{{count}} years ago"
+    },
+    "TYPES": {
+      "JOIN": "{{user}} is joining to your {{prayer}} prayer."
+    }
   },
   "PRAYER_TIME": {
     "HEADER": "Prayer Times",

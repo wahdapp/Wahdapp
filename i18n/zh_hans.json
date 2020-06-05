@@ -71,7 +71,7 @@
     "HOME": "首页",
     "MAP": "地图",
     "PRAYER_TIMES": "礼拜时间",
-    "QIBLA": "朝拜方向",
+    "NOTIFICATION": "通知",
     "PROFILE": "个人",
     "BACK": "返回"
   },
@@ -110,6 +110,23 @@
       "两个密码不符",
       "好"
     ]
+  },
+  "NOTIFICATIONS": {
+    "TIME_DIFF": {
+      "MIN_AGO": "{{count}}分前",
+      "MIN_AGO_plural": "{{count}}分前",
+      "HOUR_AGO": "{{count}}小時前",
+      "HOUR_AGO_plural": "{{count}}小時前",
+      "DAY_AGO": "{{count}}天前",
+      "DAY_AGO_plural": "{{count}}天前",
+      "MONTH_AGO": "{{count}}月前",
+      "MONTH_AGO_plural": "{{count}}月前",
+      "YEAR_AGO": "{{count}}年前",
+      "YEAR_AGO_plural": "{{count}}年前"
+    },
+    "TYPES": {
+      "JOIN": "{{user}}将参加您邀请的{{prayer}}。"
+    }
   },
   "PRAYER_TIME": {
     "HEADER": "礼拜时间",

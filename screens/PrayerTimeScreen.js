@@ -119,7 +119,7 @@ export default function PrayerTimeScreen() {
               </View>
 
               <View style={styles.date}>
-                <BoldText style={styles.dateText}>{moment(prayerTimes.date.gregorian.date, prayerTimes.date.gregorian.format).format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
+                <BoldText style={styles.dateText}>{moment().format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
               </View>
             </ImageBackground>
 

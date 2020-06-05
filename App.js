@@ -37,11 +37,11 @@ import * as Sentry from 'sentry-expo';
 
 const headerStyle = { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 };
 
-Sentry.init({
-  dsn: 'https://1c85f06f0e814e3f862b9204f5bb07ba@o374179.ingest.sentry.io/5191762',
-  enableInExpoDevelopment: false,
-  debug: true
-});
+// Sentry.init({
+//   dsn: 'https://1c85f06f0e814e3f862b9204f5bb07ba@o374179.ingest.sentry.io/5191762',
+//   enableInExpoDevelopment: false,
+//   debug: true
+// });
 
 /* Firebase bug */
 global.crypto = require("@firebase/firestore");

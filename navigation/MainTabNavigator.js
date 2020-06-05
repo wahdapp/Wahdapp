@@ -11,7 +11,7 @@ import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
 import MapScreen from 'screens/MapScreen';
 import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
-import QiblaScreen from 'screens/QiblaScreen';
+import NotificationScreen from 'screens/NotificationScreen';
 import ContactScreen from 'screens/ContactScreen';
 import ProfileScreen from 'screens/ProfileScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
@@ -31,7 +31,7 @@ const headerOptions = {
 
 function HomeStack() {
   const { t } = useTranslation(['HOME', 'FILTER']);
-  
+
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
@@ -63,10 +63,10 @@ function PrayerTimeStack() {
   )
 }
 
-function QiblaStack() {
+function NotificationStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Qibla" component={QiblaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Notification" component={NotificationScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -95,6 +95,7 @@ function Tabs() {
       initialRouteName="Home"
       activeColor={colors.primary}
       barStyle={{ backgroundColor: '#fff' }}
+      tabBarPosition="bottom"
     >
       <Tab.Screen
         name="Home"
@@ -103,6 +104,16 @@ function Tabs() {
           tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('HOME')}</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="PrayerTime"
+        component={PrayerTimeStack}
+        options={{
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
           )
         }}
       />
@@ -117,25 +128,15 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="PrayerTime"
-        component={PrayerTimeStack}
+        name="Notification"
+        component={NotificationStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 10, marginTop: 5 }}>{t('NOTIFICATION')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
           )
         }}
       />
-      {/* <Tab.Screen
-        name="Notifications"
-        component={QiblaStack}
-        options={{
-          tabBarLabel: t('QIBLA'),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} />
-          )
-        }}
-      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStack}
