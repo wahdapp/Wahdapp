@@ -25,6 +25,7 @@ export default function PrayerTimeScreen() {
   const [nextPrayer, setNextPrayer] = useState('');
   const [startAfter, setStartAfter] = useState('');
   const [isNextDay, setIsNextDay] = useState(false);
+  const [isFetchError, setIsFetchError] = useState(false);
 
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
@@ -91,8 +92,18 @@ export default function PrayerTimeScreen() {
       }
     }
     catch (e) {
+      setIsFetchError(true);
       throw e;
     }
+  }
+
+  // A network problem occurred while fetching the latest prayer
+  if (isFetchError) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+        <Text style={{ color: colors.primary, paddingHorizontal: 25, textAlign: 'center' }}>A problem occurred while getting the latest prayer times. Please try again later :(</Text>
+      </View>
+    )
   }
 
   if (isFetching) {
