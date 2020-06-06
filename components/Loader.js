@@ -2,6 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import AnimatedLoader from 'react-native-animated-loader';
 import LottieView from 'lottie-react-native';
+import { Text } from './Text';
+import colors from 'constants/Colors';
 
 export function Loader({ width, height }) {
   return (
@@ -20,7 +22,7 @@ Loader.defaultProps = {
   height: 70
 }
 
-export function LoaderWithoutOverlay({ size }) {
+export function LoaderWithoutOverlay({ size, text = '' }) {
   let width, height;
 
   if (size === 'small') {
@@ -37,7 +39,9 @@ export function LoaderWithoutOverlay({ size }) {
         autoPlay
         loop
         style={{ width, height }}
+        speed={2}
       />
+      {text && <Text style={{ marginTop: 20, color: colors.primary, fontSize: 12 }}>{text}</Text>}
     </View>
   )
 }

@@ -131,7 +131,8 @@
   "PRAYER_TIME": {
     "HEADER": "Prayer Times",
     "SUNRISE": "Sunrise",
-    "BEGINS_AFTER": "Begins after {{time}}"
+    "BEGINS_AFTER": "Begins after {{time}}",
+    "GETTING_LATEST": "Getting latest prayer times..."
   },
   "COMMON": {
     "PRAYERS": {

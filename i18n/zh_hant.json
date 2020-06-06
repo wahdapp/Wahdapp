@@ -131,7 +131,8 @@
   "PRAYER_TIME": {
     "HEADER": "禮拜時間",
     "SUNRISE": "日出",
-    "BEGINS_AFTER": "在 {{time}} 後進入"
+    "BEGINS_AFTER": "在 {{time}} 後進入",
+    "GETTING_LATEST": "正在取得最新禮拜時間..."
   },
   "COMMON": {
     "PRAYERS": {

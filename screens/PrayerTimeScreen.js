@@ -98,7 +98,7 @@ export default function PrayerTimeScreen() {
   if (isFetching) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <LoaderWithoutOverlay size="large" />
+        <LoaderWithoutOverlay size="large" text={t('GETTING_LATEST')} />
       </View>
     )
   }

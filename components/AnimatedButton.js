@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, Animated, View, Text } from 'react-native';
-import { Spinner } from 'components';
+import { Spinner } from './Loader';
 
 export default function AnimatedButton(props) {
   const [loadingValue, setLoadingValue] = useState({
