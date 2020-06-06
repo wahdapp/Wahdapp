@@ -152,7 +152,7 @@ const cardStyle = StyleSheet.create({
     flexWrap: 'wrap',
   },
   text: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 17
   },
   timeContainer: {
@@ -162,7 +162,7 @@ const cardStyle = StyleSheet.create({
   time: {
     color: colors.primary,
     opacity: 0.5,
-    fontSize: 12,
+    fontSize: 10,
     textAlign: 'right',
     marginBottom: 10
   }
