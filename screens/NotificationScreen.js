@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, FlatList, TouchableWithoutFeedback, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, BoldText } from 'components';
@@ -9,32 +9,29 @@ import { formatAgo } from 'helpers/dateFormat';
 import { useTranslation } from 'react-i18next';
 
 export default function NotificationScreen({ navigation }) {
+  const [isRefreshing, setIsRefreshing] = useState(false);
   return (
     <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>Notifications</BoldText>
       </View>
       <View style={{ ...styles.notificationListWrapper, height: notifMock.length ? null : '100%' }}>
-        {notifMock.map(not => (
-          <Card {...not} key={not.id} />
-        ))}
-        {/* <FlatList
+        <FlatList
           style={{ height: '100%' }}
           data={notifMock}
-          renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} query={query} />}
+          renderItem={({ item }) => <Card {...item} key={item.id} />}
           keyExtractor={item => item.id}
           onRefresh={() => {
-            setIsRefreshing(true)
-            fetchNearbyPrayers().then(() => setIsRefreshing(false));
+            setIsRefreshing(true);
           }}
           refreshing={isRefreshing}
           ListEmptyComponent={() => (
             <View style={styles.imageContainer}>
-              <Image source={NOT_FOUND} style={styles.image} />
-              <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
+              <Image source={BALLOON} style={styles.image} />
+              <Text style={styles.notFoundText}>You have no notification yet!</Text>
             </View>
           )}
-        /> */}
+        />
       </View>
     </LinearGradient >
   )
@@ -82,6 +79,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 10
   },
+  imageContainer: {
+    width: '100%',
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    paddingTop: 15,
+    paddingBottom: 25,
+    paddingHorizontal: 10
+  },
+  image: {
+    width: '100%',
+    resizeMode: 'contain',
+    height: 250,
+  },
+  notFoundText: {
+    textAlign: 'center',
+    color: '#7C7C7C',
+    fontSize: 18,
+  }
 });
 
 function Card({ id, type, user, prayer, gender, timestamp }) {
