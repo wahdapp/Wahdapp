@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Vibration } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { getLatLong } from '../helpers/geo';
-import { setLocation, setUser, setFilter, initializeFilter } from '../actions';
+import {
+  setLocation,
+  setUser,
+  setFilter,
+  initializeFilter,
+  addNotification,
+  setNotificationRedirect
+} from '../actions';
 import { db } from '../firebase';
 import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
+import { Notifications } from 'expo';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -16,6 +24,13 @@ export default ({ user }) => {
 
   useEffect(() => {
     init();
+
+    const listener = Notifications.addListener(handleNotification);
+
+    return () => {
+      // unsubscribe listener
+      listener.remove();
+    }
   }, []);
 
   async function init() {
@@ -29,6 +44,8 @@ export default ({ user }) => {
       setUserDataFetched(true);
       dispatch(setUser(doc.data()));
       initFilter(doc.data());
+
+      const token = await Notifications.getExpoPushTokenAsync();
     }
     else {
       // The user just signed in with OAuth
@@ -46,6 +63,22 @@ export default ({ user }) => {
       // initialize according to user's gender
       dispatch(initializeFilter(userData.gender));
     }
+  }
+
+  function handleNotification(notification) {
+    Vibration.vibrate();
+    dispatch(addNotification(notification.data));
+
+    // App is open and foregrounded
+    if (notification.origin === 'received') {
+
+    }
+    else if (notification.origin === 'selected') {
+      // redirect to notification screen
+      dispatch(setNotificationRedirect(true));
+    }
+
+    console.log({ notification })
   }
 
   if (isFirstOAuth) {

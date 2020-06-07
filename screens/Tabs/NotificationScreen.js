@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, FlatList, TouchableWithoutFeedback, Platform, Image, View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,9 +8,34 @@ import { BALLOON, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import colors from 'constants/Colors';
 import { formatAgo } from 'helpers/dateFormat';
 import { useTranslation } from 'react-i18next';
+import { setIsNewNotification } from 'actions';
 
 export default function NotificationScreen({ navigation }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const notificationState = useSelector(state => state.notificationState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      checkIsNew();
+    });
+
+    return () => {
+      checkIsNew();
+      unsubscribe();
+    }
+  }, [navigation]);
+
+  useEffect(() => {
+    console.log({ notificationState })
+  }, [notificationState]);
+
+  const checkIsNew = useCallback(() => {
+    if (notificationState.isNew) {
+      dispatch(setIsNewNotification(false));
+    }
+  }, [notificationState.isNew]);
+
   return (
     <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
       <View style={styles.header}>
@@ -18,7 +44,7 @@ export default function NotificationScreen({ navigation }) {
       <View style={{ ...styles.notificationListWrapper, height: notifMock.length ? null : '100%' }}>
         <FlatList
           style={{ height: '100%' }}
-          data={notifMock}
+          data={notificationState.notifications}
           renderItem={({ item }) => <Card {...item} key={item.id} />}
           keyExtractor={item => item.id}
           onRefresh={() => {

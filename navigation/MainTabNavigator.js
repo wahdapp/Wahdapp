@@ -1,23 +1,29 @@
 import React from 'react';
-import { Platform, Image } from 'react-native';
+import { Platform, Image, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import TabBarIcon from 'components/TabBarIcon';
-import HomeScreen from 'screens/HomeScreen';
+
+// Prayer
 import PrayerDetailScreen from 'screens/Prayer/PrayerDetailScreen';
 import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
-import MapScreen from 'screens/MapScreen';
-import CreateInvitationScreen from 'screens/Invitation/CreateInvitationScreen';
-import NotificationScreen from 'screens/NotificationScreen';
-import ContactScreen from 'screens/ContactScreen';
-import ProfileScreen from 'screens/ProfileScreen';
+import CreateInvitationScreen from 'screens/Prayer/CreateInvitationScreen';
+
+// Profile
+import ContactScreen from 'screens/Profile/ContactScreen';
 import InvitedScreen from 'screens/Profile/InvitedScreen';
 import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
 import LanguageScreen from 'screens/Profile/LanguageScreen';
-import PrayerTimeScreen from 'screens/PrayerTimeScreen';
+
+// Tabs
+import HomeScreen from 'screens/Tabs/HomeScreen';
+import MapScreen from 'screens/Tabs/MapScreen';
+import NotificationScreen from 'screens/Tabs/NotificationScreen';
+import ProfileScreen from 'screens/Tabs/ProfileScreen';
+import PrayerTimeScreen from 'screens/Tabs/PrayerTimeScreen';
+
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import { Text } from 'components';
@@ -89,6 +95,7 @@ const Tab = createMaterialBottomTabNavigator();
 function Tabs() {
   const { t } = useTranslation(['TABS', 'HOME', 'PROFILE', 'INVITATION', 'FILTER']);
   const user = useSelector(state => state.userState);
+  const { isNew } = useSelector(state => state.notificationState);
 
   return (
     <Tab.Navigator
@@ -133,7 +140,10 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('NOTIFICATION')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
+            <View style={{ position: 'relative' }}>
+              {isNew && <View style={{ backgroundColor: 'red', height: 6, width: 6, zIndex: 10, position: 'absolute', borderRadius: '50%', right: 0, top: 0 }} />}
+              <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
+            </View>
           )
         }}
       />
@@ -142,7 +152,7 @@ function Tabs() {
         component={ProfileStack}
         options={{
           tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PROFILE')}</Text>,
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 24, height: 24 }} />
           )
         }}

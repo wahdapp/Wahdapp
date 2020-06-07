@@ -64,6 +64,7 @@ export default function App(props) {
 
   useEffect(() => {
     getLocationPermission();
+    getNotificationPermission();
     authenticateUser();
     initLanguage();
   }, []);
@@ -92,6 +93,10 @@ export default function App(props) {
     if (status !== 'granted') {
       alert("Please enable your location for the best experience!");
     }
+  }
+
+  async function getNotificationPermission() {
+    await Permissions.askAsync(Permissions.NOTIFICATIONS);
   }
 
   if (!isLoadingComplete && !props.skipLoadingScreen || isAuthenticating) {

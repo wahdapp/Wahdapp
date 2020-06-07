@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PrayerCard, SkeletonCard, Text, BoldText } from 'components';
@@ -11,6 +11,7 @@ import moment from 'moment';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { setNotificationRedirect } from 'actions';
 
 export default function HomeScreen({ navigation }) {
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
@@ -19,8 +20,17 @@ export default function HomeScreen({ navigation }) {
   const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
+  const { redirect } = useSelector(state => state.notificationState);
   const [cursor, setCursor] = useState(0);
   const { t } = useTranslation(['HOME']);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (redirect) {
+      navigation.navigate('Notification');
+      dispatch(setNotificationRedirect(false));
+    }
+  }, [redirect]);
 
   useEffect(() => {
     query();
