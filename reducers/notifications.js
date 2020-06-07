@@ -9,7 +9,7 @@ import {
 const INITIAL_STATE = {
   notifications: [], // notification data
   isNew: false, // red dot indicator
-  redirect: false // if should redirect to notification screen
+  redirect: '' // which screen it should redirect to
 };
 
 function notificationsReducer(state = INITIAL_STATE, action) {

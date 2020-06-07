@@ -75,7 +75,7 @@ export default ({ user }) => {
     }
     else if (notification.origin === 'selected') {
       // redirect to notification screen
-      dispatch(setNotificationRedirect(true));
+      dispatch(setNotificationRedirect('Notification'));
     }
 
     console.log({ notification })

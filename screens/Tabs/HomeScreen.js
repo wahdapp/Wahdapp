@@ -27,8 +27,8 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     if (redirect) {
-      navigation.navigate('Notification');
-      dispatch(setNotificationRedirect(false));
+      navigation.navigate(redirect);
+      dispatch(setNotificationRedirect(''));
     }
   }, [redirect]);
 
