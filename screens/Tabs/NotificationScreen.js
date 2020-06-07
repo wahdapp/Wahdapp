@@ -33,6 +33,7 @@ export default function NotificationScreen({ navigation }) {
   const checkIsNew = useCallback(() => {
     if (notificationState.isNew) {
       dispatch(setIsNewNotification(false));
+      Notifications.setBadgeNumberAsync(0);
     }
   }, [notificationState.isNew]);
 

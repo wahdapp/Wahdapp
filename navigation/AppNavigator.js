@@ -71,7 +71,7 @@ export default ({ user }) => {
 
     // App is open and foregrounded
     if (notification.origin === 'received') {
-
+      Notifications.setBadgeNumberAsync(0);
     }
     else if (notification.origin === 'selected') {
       // redirect to notification screen
