@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, FlatList, TouchableWithoutFeedback, Platform, Image, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Notifications } from 'expo';
 import { Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { BALLOON, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
@@ -16,26 +17,15 @@ export default function NotificationScreen({ navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      checkIsNew();
+    const unsubscribe = navigation.addListener('blur', () => {
+      dispatch(setIsNewNotification(false));
+      Notifications.setBadgeNumberAsync(0);
     });
 
     return () => {
-      checkIsNew();
       unsubscribe();
     }
   }, [navigation]);
-
-  useEffect(() => {
-    console.log({ notificationState })
-  }, [notificationState]);
-
-  const checkIsNew = useCallback(() => {
-    if (notificationState.isNew) {
-      dispatch(setIsNewNotification(false));
-      Notifications.setBadgeNumberAsync(0);
-    }
-  }, [notificationState.isNew]);
 
   return (
     <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>

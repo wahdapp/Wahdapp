@@ -46,6 +46,7 @@ export default ({ user }) => {
       initFilter(doc.data());
 
       const token = await Notifications.getExpoPushTokenAsync();
+      console.log({ token })
     }
     else {
       // The user just signed in with OAuth
