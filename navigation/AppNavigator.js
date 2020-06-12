@@ -11,7 +11,7 @@ import {
   addNotification,
   setNotificationRedirect
 } from '../actions';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
@@ -47,6 +47,7 @@ export default ({ user }) => {
 
       const token = await Notifications.getExpoPushTokenAsync();
       console.log({ token })
+      console.log({ currentUser: auth.currentUser })
     }
     else {
       // The user just signed in with OAuth

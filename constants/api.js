@@ -1,0 +1,1 @@
+export const API_DOMAIN = __DEV__ ? 'http://127.0.0.1:5000': '';

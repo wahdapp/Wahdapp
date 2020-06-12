@@ -14,7 +14,8 @@ module.exports = function(api) {
             helpers: './helpers',
             reducers: './reducers',
             screens: './screens',
-            actions: './actions'
+            actions: './actions',
+            services: './services'
           },
         },
       ],

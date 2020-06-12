@@ -31,6 +31,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
       setLoading(true);
       await auth.createUserWithEmailAndPassword(email.trim(), password);
       await createAccount(fullName.trim(), email.trim(), gender);
+      await auth.useDeviceLanguage();
       await auth.currentUser.sendEmailVerification();
       await auth.signOut();
       navigate('EmailSent');
