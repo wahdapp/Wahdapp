@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { LinearGradient } from 'expo-linear-gradient';
+import { createPrayer } from 'services/prayer';
 import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {
@@ -83,34 +84,24 @@ export default function CreateInvitationScreen({ route, navigation }) {
       const { latitude, longitude, removeMarker } = route.params;
 
       const payload = {
-        scheduleTime: formattedSchedule,
-        // timestamp: now.format(),
-        prayer: selectedPrayer,
+        schedule_time: formattedSchedule,
+        selected_prayer: selectedPrayer,
         description,
         lat: latitude,
         lng: longitude,
-        // geolocation: new GeoPoint(latitude, longitude),
-        // inviter: db.doc('users/' + auth.currentUser.uid),
-        // participants: [],
-        // geohash: geohash.encode(latitude, longitude),
         guests: {
           male,
           female
         },
-        // gender: user.gender
       }
 
-      console.log(payload)
+      const id = await createPrayer(payload);
 
-      // const docRef = await db.collection('prayers').add(payload);
+      setIsLoading(false);
+      removeMarker();
 
-      // const { id } = docRef;
-
-      // setIsLoading(false);
-      // removeMarker();
-
-      // navigation.goBack();
-      // navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
+      navigation.goBack();
+      navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
     }
     catch (e) {
       setIsLoading(false);

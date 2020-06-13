@@ -12,7 +12,7 @@ export async function queryPrayer(payload) {
     }
     );
 
-    return data;
+    return data.data;
   }
   catch (e) {
     throw e;
