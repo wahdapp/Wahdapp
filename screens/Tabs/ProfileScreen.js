@@ -12,10 +12,13 @@ import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import colors from 'constants/Colors';
+import { getInvitedAmount, getParticipatedAmount } from 'services/prayer';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
+  const [invitedAmount, setInvitedAmount] = useState(0);
+  const [participatedAmount, setParticipatedAmount] = useState(0);
   const [invitedPrayersList, setInvitedPrayersList] = useState([]);
   const [participatedList, setParticipatedList] = useState([]);
   const dispatch = useDispatch();
@@ -81,16 +84,13 @@ export default function ProfileScreen({ navigation }) {
   }
 
   async function getPastInfo() {
-    const invitedDoc = await db.collection('prayers')
-      .where('inviter', '==', db.doc('users/' + auth.currentUser.uid))
-      .get();
+    const invited = await getInvitedAmount(auth.currentUser.uid);
+    const participated = await getParticipatedAmount(auth.currentUser.uid);
 
-    const participatedDoc = await db.collection('prayers')
-      .where('participants', 'array-contains', db.doc('users/' + auth.currentUser.uid))
-      .get();
+    console.log({ invited, participated })
 
-    setInvitedPrayersList(invitedDoc);
-    setParticipatedList(participatedDoc);
+    setInvitedAmount(invited.amount);
+    setParticipatedAmount(participated.amount);
   }
 
   function updateFullName(e) {
@@ -144,11 +144,11 @@ export default function ProfileScreen({ navigation }) {
         <View style={[styles.infoSection, { marginTop: 0 }]}>
           <View style={styles.infoContainer}>
             <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
-              <BoldText style={styles.infoNumber}>{invitedPrayersList.size ? invitedPrayersList.size : 0}</BoldText>
+              <BoldText style={styles.infoNumber}>{invitedAmount}</BoldText>
               <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
             </Touchable>
             <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
-              <BoldText style={styles.infoNumber}>{participatedList.size ? participatedList.size : 0}</BoldText>
+              <BoldText style={styles.infoNumber}>{participatedAmount}</BoldText>
               <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
             </Touchable>
           </View>

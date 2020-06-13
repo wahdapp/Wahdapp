@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PrayerCard, SkeletonCard, Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +33,7 @@ export default function HomeScreen({ navigation }) {
   }, [redirect]);
 
   useEffect(() => {
+    console.log({ filter })
     query();
   }, [filter, location]);
 
@@ -46,7 +47,7 @@ export default function HomeScreen({ navigation }) {
     });
   }, [navigation]);
 
-  function query() {
+  async function query() {
     if (!isEmpty(filter) && !isEmpty(location)) {
       console.log({ filter })
       setIsRefreshing(true);
@@ -59,48 +60,46 @@ export default function HomeScreen({ navigation }) {
   }
 
   async function fetchNearbyPrayers() {
-    console.log({ distance: filter.distance })
-    const { latitude, longitude } = location;
-    const range = getGeohashRange(latitude, longitude, filter.distance);
-    console.log({ range })
-    const prayersDoc = await db.collection('prayers')
-      .where('geohash', '>=', range.lower)
-      .where('geohash', '<=', range.upper)
-      // .orderBy('geohash')
-      // .startAt(cursor)
-      // .limit(5)
-      .get();
+    console.log({ filter })
+    // console.log({ distance: filter.distance })
+    // const { latitude, longitude } = location;
+    // const range = getGeohashRange(latitude, longitude, filter.distance);
+    // console.log({ range })
+    // const prayersDoc = await db.collection('prayers')
+    //   .where('geohash', '>=', range.lower)
+    //   .where('geohash', '<=', range.upper)
+    //   .get();
 
-    const prayers = [];
+    // const prayers = [];
 
-    prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
-      const totalParticipants = 1 + participants.length + male + female;
+    // prayersDoc.forEach(doc => {
+    //   const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
+    //   const totalParticipants = 1 + participants.length + male + female;
 
-      if (
-        isWithinBoundary(geohash, location, filter.distance) &&
-        moment().isBefore(moment(scheduleTime)) && // filter by schedule
-        totalParticipants >= filter.minimumParticipants && // filter participants number
-        filter.selectedPrayers.includes(prayer) && // filter by prayer
-        (
-          (user.gender === gender) ||
-          (user.gender === 'F' && !filter.sameGender)
-        ) // filter by gender and sameGender preference
-      ) {
-        prayers.push({ ...doc.data(), id: doc.id });
-      }
-    });
+    //   if (
+    //     isWithinBoundary(geohash, location, filter.distance) &&
+    //     moment().isBefore(moment(scheduleTime)) && // filter by schedule
+    //     totalParticipants >= filter.minimumParticipants && // filter participants number
+    //     filter.selectedPrayers.includes(prayer) && // filter by prayer
+    //     (
+    //       (user.gender === gender) ||
+    //       (user.gender === 'F' && !filter.sameGender)
+    //     ) // filter by gender and sameGender preference
+    //   ) {
+    //     prayers.push({ ...doc.data(), id: doc.id });
+    //   }
+    // });
 
-    prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
+    // prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
 
-    if (prayers.length) {
-      const inviters = prayers.map(p => p.inviter);
-      const ids = inviters.map(i => i.id);
-      const promises = inviters.map(i => i.get());
-      const docs = await Promise.all(promises);
-      setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
-      // setCursor(prev => prev + 5);
-    }
+    // if (prayers.length) {
+    //   const inviters = prayers.map(p => p.inviter);
+    //   const ids = inviters.map(i => i.id);
+    //   const promises = inviters.map(i => i.get());
+    //   const docs = await Promise.all(promises);
+    //   setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+    //   // setCursor(prev => prev + 5);
+    // }
   }
 
   return (

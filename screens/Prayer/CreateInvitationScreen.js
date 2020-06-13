@@ -101,7 +101,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
       removeMarker();
 
       navigation.goBack();
-      navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
+      // navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
     }
     catch (e) {
       setIsLoading(false);
