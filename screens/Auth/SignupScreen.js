@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
 import { Toast } from 'native-base';
 import { BoldText, Touchable, Text, Loader, RoundButton } from 'components';
-import { auth, createAccount } from 'firebaseDB';
+import { auth } from 'firebaseDB';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { createUser } from 'services/user';
 
 export default function SignupScreen({ navigation: { navigate } }) {
   const [fullName, setFullName] = useState('');
@@ -30,21 +31,40 @@ export default function SignupScreen({ navigation: { navigate } }) {
     try {
       setLoading(true);
       await auth.createUserWithEmailAndPassword(email.trim(), password);
-      await createAccount(fullName.trim(), email.trim(), gender);
+      await createUser({
+        uid: auth.currentUser.uid,
+        full_name: fullName.trim(),
+        email: email.trim(),
+        gender
+      });
+      
       await auth.useDeviceLanguage();
       await auth.currentUser.sendEmailVerification();
       await auth.signOut();
+      setLoading(false);
       navigate('EmailSent');
     }
     catch (e) {
+      console.log(e);
       setLoading(false);
-      Toast.show({
-        text: e.message,
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
+      if (e.message) {
+        Toast.show({
+          text: e.message,
+          textStyle: { fontSize: 12 },
+          buttonText: t('ERROR.3'),
+          type: 'danger',
+          duration: 3000
+        });
+      }
+      else if (typeof e === 'string') {
+        Toast.show({
+          text: e,
+          textStyle: { fontSize: 12 },
+          buttonText: t('ERROR.3'),
+          type: 'danger',
+          duration: 3000
+        });
+      }
     }
   }
 
@@ -109,7 +129,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
     textAlign: 'left',
     letterSpacing: 0.9,
     color: colors.primary

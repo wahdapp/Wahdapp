@@ -74,9 +74,6 @@ export default function App(props) {
       setIsAuthenticating(false);
       console.log({ user })
       setUserAuth(user);
-      if (user && !user.emailVerified) {
-        auth.signOff();
-      }
     });
   }
 

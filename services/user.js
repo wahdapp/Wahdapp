@@ -2,14 +2,9 @@ import { API_DOMAIN } from 'constants/api';
 import { auth } from 'firebaseDB';
 import axios from 'axios';
 
-const config = {
-  headers: {
-    Authorization: `Token ${auth.stsTokenManager.accessToken}`
-  }
-}
-
 export async function createUser(payload) {
   try {
+    console.log(`${API_DOMAIN}/user`)
     const { data } = await axios.post(`${API_DOMAIN}/user`, payload);
 
     return data;
@@ -21,9 +16,14 @@ export async function createUser(payload) {
 
 export async function getUserInfo(user_id) {
   try {
-    const { data } = await axios.get(`${API_DOMAIN}/user?user_id=${user_id}`, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get(`${API_DOMAIN}/user?user_id=${user_id}`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
 
-    return data;
+    return data.data;
   }
   catch (e) {
     throw e;
@@ -32,7 +32,12 @@ export async function getUserInfo(user_id) {
 
 export async function updateFilterPreference(payload) {
   try {
-    const { data } = await axios.patch(`${API_DOMAIN}/user/filter`, payload, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.patch(`${API_DOMAIN}/user/filter`, payload, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
 
     return data;
   }
@@ -43,7 +48,12 @@ export async function updateFilterPreference(payload) {
 
 export async function updateUser(payload) {
   try {
-    const { data } = await axios.patch(`${API_DOMAIN}/user`, payload, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.patch(`${API_DOMAIN}/user`, payload, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
 
     return data;
   }
@@ -54,7 +64,12 @@ export async function updateUser(payload) {
 
 export async function deleteUser(payload) {
   try {
-    const { data } = await axios.delete(`${API_DOMAIN}/user`, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.delete(`${API_DOMAIN}/user`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
 
     return data;
   }

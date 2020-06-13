@@ -84,29 +84,33 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
       const payload = {
         scheduleTime: formattedSchedule,
-        timestamp: now.format(),
+        // timestamp: now.format(),
         prayer: selectedPrayer,
         description,
-        geolocation: new GeoPoint(latitude, longitude),
-        inviter: db.doc('users/' + auth.currentUser.uid),
-        participants: [],
-        geohash: geohash.encode(latitude, longitude),
+        lat: latitude,
+        lng: longitude,
+        // geolocation: new GeoPoint(latitude, longitude),
+        // inviter: db.doc('users/' + auth.currentUser.uid),
+        // participants: [],
+        // geohash: geohash.encode(latitude, longitude),
         guests: {
           male,
           female
         },
-        gender: user.gender
+        // gender: user.gender
       }
 
-      const docRef = await db.collection('prayers').add(payload);
+      console.log(payload)
 
-      const { id } = docRef;
+      // const docRef = await db.collection('prayers').add(payload);
 
-      setIsLoading(false);
-      removeMarker();
+      // const { id } = docRef;
 
-      navigation.goBack();
-      navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
+      // setIsLoading(false);
+      // removeMarker();
+
+      // navigation.goBack();
+      // navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
     }
     catch (e) {
       setIsLoading(false);
@@ -124,7 +128,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>

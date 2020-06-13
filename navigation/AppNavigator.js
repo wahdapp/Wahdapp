@@ -11,11 +11,12 @@ import {
   addNotification,
   setNotificationRedirect
 } from '../actions';
-import { db, auth } from '../firebase';
+import { auth } from '../firebase';
 import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
+import { getUserInfo } from 'services/user';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -38,34 +39,36 @@ export default ({ user }) => {
     const location = await getLatLong();
     dispatch(setLocation(location));
 
-    const doc = await db.collection('users').doc(user.uid).get();
-    if (doc.exists) {
+    const userInfo = await getUserInfo(user.uid);
+
+    try {
       setIsFirstOAuth(false);
       setUserDataFetched(true);
-      dispatch(setUser(doc.data()));
-      initFilter(doc.data());
+      dispatch(setUser(userInfo));
+      // TODO: fetch filter preference from server
+      // initFilter(doc.data());
 
       const token = await Notifications.getExpoPushTokenAsync();
       console.log({ token })
       console.log({ currentUser: auth.currentUser })
     }
-    else {
+    catch (e) {
       // The user just signed in with OAuth
       // Let the user choose his/her gender then create a new document into the database 
       setIsFirstOAuth(true);
     }
   }
 
-  async function initFilter(userData) {
-    const prayersFilter = await AsyncStorage.getItem('prayersFilter');
-    if (prayersFilter) {
-      dispatch(setFilter(JSON.parse(prayersFilter)));
-    }
-    else {
-      // initialize according to user's gender
-      dispatch(initializeFilter(userData.gender));
-    }
-  }
+  // async function initFilter(userData) {
+  //   const prayersFilter = await AsyncStorage.getItem('prayersFilter');
+  //   if (prayersFilter) {
+  //     dispatch(setFilter(JSON.parse(prayersFilter)));
+  //   }
+  //   else {
+  //     // initialize according to user's gender
+  //     dispatch(initializeFilter(userData.gender));
+  //   }
+  // }
 
   function handleNotification(notification) {
     Vibration.vibrate();

@@ -2,15 +2,15 @@ import { API_DOMAIN } from 'constants/api';
 import { auth } from 'firebaseDB';
 import axios from 'axios';
 
-const config = {
-  headers: {
-    Authorization: `Token ${auth.stsTokenManager.accessToken}`
-  }
-}
-
 export async function queryPrayer(payload) {
   try {
-    const { data } = await axios.post(`${API_DOMAIN}/prayer/query`, payload, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/prayer/query`, payload, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    }
+    );
 
     return data;
   }
@@ -21,7 +21,13 @@ export async function queryPrayer(payload) {
 
 export async function createPrayer(payload) {
   try {
-    const { data } = await axios.post(`${API_DOMAIN}/prayer`, payload, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/prayer`, payload, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    }
+    );
 
     return data.data;
   }
@@ -32,7 +38,13 @@ export async function createPrayer(payload) {
 
 export async function joinPrayer(id) {
   try {
-    const { data } = await axios.post(`${API_DOMAIN}/prayer/join?id=${id}`, config);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/prayer/join?id=${id}`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    }
+    );
 
     return data;
   }

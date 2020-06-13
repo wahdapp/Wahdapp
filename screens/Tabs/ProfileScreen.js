@@ -20,8 +20,10 @@ export default function ProfileScreen({ navigation }) {
   const [participatedList, setParticipatedList] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
-  const [currentFullName, setCurrentFullName] = useState(user.fullName);
+  const [currentFullName, setCurrentFullName] = useState(user.full_name);
   const { showActionSheetWithOptions } = useActionSheet();
+
+  console.log({ user })
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -92,7 +94,7 @@ export default function ProfileScreen({ navigation }) {
   }
 
   function updateFullName(e) {
-    if (currentFullName.length && currentFullName !== user.fullName) {
+    if (currentFullName.length && currentFullName !== user.full_name) {
       db.collection('users').doc(auth.currentUser.uid).set({ fullName: currentFullName }, { merge: true });
       dispatch(setFullName(currentFullName));
     }
@@ -136,7 +138,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
           <View style={styles.nameContainer}>
-            <BoldText style={styles.nameText}>{user.fullName}</BoldText>
+            <BoldText style={styles.nameText}>{user.full_name}</BoldText>
           </View>
         </LinearGradient>
         <View style={[styles.infoSection, { marginTop: 0 }]}>
@@ -157,7 +159,7 @@ export default function ProfileScreen({ navigation }) {
             {isEditingFullName ? (
               <TextInput
                 onBlur={updateFullName}
-                defaultValue={user.fullName}
+                defaultValue={user.full_name}
                 value={currentFullName}
                 onChangeText={setCurrentFullName}
                 style={styles.textInput}
@@ -165,7 +167,7 @@ export default function ProfileScreen({ navigation }) {
               />
             ) : (
                 <View style={styles.fieldWrapper}>
-                  <Text style={styles.textField}>{user.fullName}</Text>
+                  <Text style={styles.textField}>{user.full_name}</Text>
                   <Touchable onPress={() => setIsEditingFullName(true)}>
                     <Ionicons
                       style={{ color: '#7F7F7F' }}

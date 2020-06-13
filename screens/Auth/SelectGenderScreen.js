@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { Text, Touchable, Loader } from 'components';
 import { ListItem, Radio, Right, Left } from 'native-base';
-import { auth, db, createAccount } from 'firebaseDB';
+import { auth } from 'firebaseDB';
 import { setUser, initializeFilter } from 'actions';
 import { useTranslation } from 'react-i18next';
 
@@ -21,7 +21,12 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
       gender,
     }
 
-    await createAccount(user.fullName, user.email, user.gender);
+    await createUser({
+      uid: auth.currentUser.uid,
+      full_name: fullName.trim(),
+      email: email.trim(),
+      gender
+    });
 
     dispatch(setUser(user));
     dispatch(initializeFilter(gender));
