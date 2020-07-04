@@ -198,7 +198,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         <View style={styles.line} />
 
         <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
+          <BoldText style={styles.sectionHeader} selectable={true}>{t('DESCRIPTION')}</BoldText>
           <Text style={styles.sectionSubHeader}>{description}</Text>
         </View>
 

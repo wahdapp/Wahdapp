@@ -30,6 +30,22 @@ export async function getUserInfo(user_id) {
   }
 }
 
+export async function getFilterPreference() {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get(`${API_DOMAIN}/user/filter`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data.data;
+  }
+  catch (e) {
+    throw e;
+  }
+}
+
 export async function updateFilterPreference(payload) {
   try {
     const token = await auth.currentUser.getIdToken();

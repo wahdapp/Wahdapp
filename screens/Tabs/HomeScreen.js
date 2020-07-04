@@ -4,24 +4,26 @@ import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View, AsyncSto
 import { LinearGradient } from 'expo-linear-gradient';
 import { PrayerCard, SkeletonCard, Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
-import { db } from 'firebaseDB';
 import isEmpty from 'lodash/isEmpty';
 import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
-import moment from 'moment';
+import { queryFeed } from 'services/prayer';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import { setNotificationRedirect } from 'actions';
 
+const PAGE_SIZE = 10;
+
 export default function HomeScreen({ navigation }) {
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const filter = useSelector(state => state.filterState);
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
+  const filter = useSelector(state => state.filterState);
   const { redirect } = useSelector(state => state.notificationState);
-  const [cursor, setCursor] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const { t } = useTranslation(['HOME']);
   const dispatch = useDispatch();
 
@@ -33,7 +35,6 @@ export default function HomeScreen({ navigation }) {
   }, [redirect]);
 
   useEffect(() => {
-    console.log({ filter })
     query();
   }, [filter, location]);
 
@@ -48,58 +49,52 @@ export default function HomeScreen({ navigation }) {
   }, [navigation]);
 
   async function query() {
-    if (!isEmpty(filter) && !isEmpty(location)) {
-      console.log({ filter })
+    if (!isEmpty(location)) {
       setIsRefreshing(true);
       // fetch nearby prayers according to filter preference
-      fetchNearbyPrayers().then(() => {
-        setIsFetching(false);
-        setIsRefreshing(false);
-      });
+      await fetchNearbyPrayers(true);
+
+      setIsFetching(false);
+      setIsRefreshing(false);
     }
   }
 
-  async function fetchNearbyPrayers() {
-    console.log({ filter })
-    // console.log({ distance: filter.distance })
-    // const { latitude, longitude } = location;
-    // const range = getGeohashRange(latitude, longitude, filter.distance);
-    // console.log({ range })
-    // const prayersDoc = await db.collection('prayers')
-    //   .where('geohash', '>=', range.lower)
-    //   .where('geohash', '<=', range.upper)
-    //   .get();
+  async function fetchNearbyPrayers(refresh = false) {
+    try {
+      const list = await queryFeed({
+        lng: location.longitude,
+        lat: location.latitude,
+        pageSize: PAGE_SIZE,
+        pageNumber: refresh ? 1 : currentPage
+      });
 
-    // const prayers = [];
+      console.log({ list })
 
-    // prayersDoc.forEach(doc => {
-    //   const { participants, guests: { male, female }, scheduleTime, prayer, geohash, gender } = doc.data();
-    //   const totalParticipants = 1 + participants.length + male + female;
+      // Stop fetching more
+      if (list.length < PAGE_SIZE) {
+        setHasMore(false);
+      }
+      // if scrolling to the end
+      else if (!refresh) {
+        setHasMore(true);
+        setCurrentPage(prev => prev + 1);
+      }
+      // if refreshing or modified filter preference
+      else {
+        setHasMore(true);
+      }
 
-    //   if (
-    //     isWithinBoundary(geohash, location, filter.distance) &&
-    //     moment().isBefore(moment(scheduleTime)) && // filter by schedule
-    //     totalParticipants >= filter.minimumParticipants && // filter participants number
-    //     filter.selectedPrayers.includes(prayer) && // filter by prayer
-    //     (
-    //       (user.gender === gender) ||
-    //       (user.gender === 'F' && !filter.sameGender)
-    //     ) // filter by gender and sameGender preference
-    //   ) {
-    //     prayers.push({ ...doc.data(), id: doc.id });
-    //   }
-    // });
-
-    // prayers.sort((a, b) => moment(a.scheduleTime).diff(moment(b.scheduleTime)));
-
-    // if (prayers.length) {
-    //   const inviters = prayers.map(p => p.inviter);
-    //   const ids = inviters.map(i => i.id);
-    //   const promises = inviters.map(i => i.get());
-    //   const docs = await Promise.all(promises);
-    //   setNearbyPrayers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
-    //   // setCursor(prev => prev + 5);
-    // }
+      if (refresh) {
+        setNearbyPrayers(list);
+        setCurrentPage(1);
+      }
+      else {
+        setNearbyPrayers(prev => [...prev, ...list]);
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -117,12 +112,13 @@ export default function HomeScreen({ navigation }) {
           ) : (
             <FlatList
               style={{ height: '100%' }}
+              contentContainerStyle={{ paddingBottom: 60 }}
               data={nearbyPrayers}
               renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} query={query} />}
               keyExtractor={item => item.id}
               onRefresh={() => {
-                setIsRefreshing(true)
-                fetchNearbyPrayers().then(() => setIsRefreshing(false));
+                setIsRefreshing(true);
+                fetchNearbyPrayers(true).then(() => setIsRefreshing(false));
               }}
               refreshing={isRefreshing}
               ListEmptyComponent={() => (
@@ -131,7 +127,7 @@ export default function HomeScreen({ navigation }) {
                   <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
                 </View>
               )}
-            // onEndReached={fetchNearbyPrayers}
+              onEndReached={hasMore ? fetchNearbyPrayers : null}
             />
           )
         }

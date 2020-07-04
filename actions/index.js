@@ -35,6 +35,13 @@ export function initializeFilter(gender) {
   }
 };
 
+export function setSortBy(payload) {
+  return {
+    type: actions.SET_SORT_BY,
+    payload
+  }
+};
+
 export function setNotifications(payload) {
   return {
     type: actions.SET_NOTIFICATIONS,

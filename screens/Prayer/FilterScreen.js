@@ -5,36 +5,30 @@ import { View, Left, CheckBox, Right } from 'native-base';
 import { Text, BoldText, RoundButton } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
-import { setFilter } from 'actions';
+import { setSortBy } from 'actions';
 import isEmpty from 'lodash/isEmpty';
 import { useTranslation } from 'react-i18next';
+import { getFilterPreference, updateFilterPreference } from 'services/user';
 import colors from 'constants/Colors';
 
 export default function FilterScreen({ route, navigation }) {
-  const filter = useSelector(state => state.filterState);
-  const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
-  const [distance, setDistance] = useState(3);
-  const [defaultDistance, setDefaultDistance] = useState(3);
-  const [sameGender, setSameGender] = useState(false);
   const user = useSelector(state => state.userState);
+  const filterState = useSelector(state => state.filterState);
+  const dispatch = useDispatch();
+
+  const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
+  const [sameGender, setSameGender] = useState(false);
   const [minNum, setMinNum] = useState(user.gender === 'M' ? 0 : 2);
   const [minimumParticipants, setMinimumParticipants] = useState(minNum);
   const [defaultMinimumParts, setDefaultMinimumParts] = useState(minNum);
+  const [selectedSort, setSelectedSort] = useState(filterState.sortBy);
   const { t } = useTranslation(['FILTER', 'COMMON']);
+
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (!isEmpty(filter)) {
-      setSelectedPrayers(filter.selectedPrayers);
-      setDistance(filter.distance);
-      setDefaultDistance(filter.distance);
-      setMinimumParticipants(filter.minimumParticipants);
-      setDefaultMinimumParts(filter.minimumParticipants);
-      setSameGender(filter.sameGender);
-    }
-  }, [filter]);
+    fetchFilterPreference();
+  }, []);
 
   useEffect(() => {
     if (user.gender === 'F') {
@@ -59,23 +53,38 @@ export default function FilterScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  async function fetchFilterPreference() {
+    try {
+      const preference = await getFilterPreference();
+
+      setMinimumParticipants(preference.minimum_participants);
+      setDefaultMinimumParts(preference.minimum_participants);
+      setSameGender(preference.same_gender);
+      setSelectedPrayers(preference.selected_prayers);
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+
   function resetFilter() {
     setSelectedPrayers(prayerTypes);
-    setDistance(3);
     setMinimumParticipants(minNum);
     setDefaultMinimumParts(minNum);
-    setSameGender(false)
+    setSameGender(false);
+    setSelectedSort('distance');
   }
 
   async function applyFilter() {
-    const prayersFilter = {
-      selectedPrayers,
-      distance,
-      minimumParticipants,
-      sameGender
-    };
-    await AsyncStorage.setItem('prayersFilter', JSON.stringify(prayersFilter));
-    dispatch(setFilter(prayersFilter));
+
+    await updateFilterPreference({
+      selected_prayers: selectedPrayers,
+      minimum_participants: minimumParticipants,
+      same_gender: sameGender
+    });
+
+    await AsyncStorage.setItem('prayersFilter', JSON.stringify({ sortBy: selectedSort }));
+    dispatch(setSortBy(selectedSort));
 
     navigation.goBack();
   }
@@ -94,54 +103,68 @@ export default function FilterScreen({ route, navigation }) {
 
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYERS')}</BoldText>
-            <FlatList
-              style={{ width: '100%', paddingTop: 5 }}
-              horizontal={true}
-              data={prayerTypes}
-              renderItem={({ item }) => (
-                <RoundButton
-                  onPress={() => handlePrayerClick(item)}
-                  style={{
-                    width: null,
-                    minWidth: 80,
-                    paddingHorizontal: 20,
-                    height: 40,
-                    marginBottom: 15,
-                    marginRight: 10,
-                    borderRadius: 20
-                  }}
-                  colors={selectedPrayers.includes(item) ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
-                  textStyle={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}
-                >
-                  {PRAYERS[item]}
-                </RoundButton>
-              )}
-              keyExtractor={item => item}
-            />
-          </Left>
+          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>Sort By</BoldText>
+          <ScrollView
+            style={{ width: '100%', paddingTop: 5 }}
+            horizontal={true}
+          >
+            <RoundButton
+              onPress={() => setSelectedSort('distance')}
+              style={styles.btnStyle}
+              colors={selectedSort === 'distance' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              textStyle={{ textTransform: 'capitalize', color: selectedSort === 'distance' ? '#fff' : '#dedede' }}
+            >
+              Distance
+            </RoundButton>
+            <RoundButton
+              onPress={() => setSelectedSort('participants')}
+              style={styles.btnStyle}
+              colors={selectedSort === 'participants' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              textStyle={{ textTransform: 'capitalize', color: selectedSort === 'participants' ? '#fff' : '#dedede' }}
+            >
+              Participants
+            </RoundButton>
+            <RoundButton
+              onPress={() => setSelectedSort('time')}
+              style={styles.btnStyle}
+              colors={selectedSort === 'time' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              textStyle={{ textTransform: 'capitalize', color: selectedSort === 'time' ? '#fff' : '#dedede' }}
+            >
+              Time
+            </RoundButton>
+          </ScrollView>
         </View>
-
         <View style={styles.detailSection}>
-          <Left>
-            <BoldText style={styles.sectionHeader}>{t('DISTANCE')} {`(< ${distance} km)`}</BoldText>
-            <Slider
-              style={{ width: '100%', height: 40, marginTop: 15 }}
-              minimumValue={1}
-              value={defaultDistance}
-              onValueChange={setDistance}
-              step={1}
-              maximumValue={30}
-              minimumTrackTintColor="#000"
-              maximumTrackTintColor="#fff"
-            />
-          </Left>
+          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYERS')}</BoldText>
+          <FlatList
+            style={{ width: '100%', paddingTop: 5 }}
+            horizontal={true}
+            data={prayerTypes}
+            renderItem={({ item }) => (
+              <RoundButton
+                onPress={() => handlePrayerClick(item)}
+                style={{
+                  width: null,
+                  minWidth: 80,
+                  paddingHorizontal: 20,
+                  height: 40,
+                  marginBottom: 15,
+                  marginRight: 10,
+                  borderRadius: 20
+                }}
+                colors={selectedPrayers.includes(item) ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                textStyle={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}
+              >
+                {PRAYERS[item]}
+              </RoundButton>
+            )}
+            keyExtractor={item => item}
+          />
         </View>
 
         {user.gender === 'F' && (
           <View style={styles.detailSection}>
-            <Left>
+            <View>
               <BoldText style={styles.sectionHeader}>{t('MIN_PARTICIPANTS')}{`(>= ${minimumParticipants} ${minimumParticipants > 1 ? t('PEOPLE') : t('PERSON')})`}</BoldText>
               <Slider
                 style={{ width: '100%', height: 40, marginTop: 15 }}
@@ -153,19 +176,19 @@ export default function FilterScreen({ route, navigation }) {
                 minimumTrackTintColor="#000"
                 maximumTrackTintColor="#fff"
               />
-            </Left>
+            </View>
           </View>
         )}
 
         {user.gender === 'F' && (
-          <View style={styles.detailSection}>
-            <Left>
+          <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+            <View style={{ width: '60%' }}>
               <BoldText style={styles.sectionHeader}>{t('SAME_GENDER')}</BoldText>
               <Text style={styles.sectionSubHeader}>{t('CHECKBOX_DESC')}</Text>
-            </Left>
-            <Right>
+            </View>
+            <View>
               <CheckBox checked={sameGender} onPress={() => setSameGender(prev => !prev)} color={colors.primary} />
-            </Right>
+            </View>
           </View>
         )}
 
@@ -191,15 +214,14 @@ const styles = StyleSheet.create({
     color: '#7C7C7C',
     textTransform: 'capitalize'
   },
-  prayerBtn: {
-    borderRadius: 25,
+  btnStyle: {
+    width: null,
     minWidth: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 20,
     height: 40,
     marginBottom: 15,
-    marginRight: 10
+    marginRight: 10,
+    borderRadius: 20
   },
   line: {
     height: 1,
@@ -208,8 +230,6 @@ const styles = StyleSheet.create({
   },
   detailSection: {
     padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   sectionHeader: {
     fontSize: 14,

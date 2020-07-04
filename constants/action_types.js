@@ -7,6 +7,7 @@ export const SET_FULL_NAME = "SET_FULL_NAME";
 export const SET_FILTER = "SET_FILTER";
 
 export const INITIALIZE_FILTER = "INITIALIZE_FILTER";
+export const SET_SORT_BY = "SET_SORT_BY";
 
 export const SET_NOTIFICATIONS = "SET_NOTIFICATIONS";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";

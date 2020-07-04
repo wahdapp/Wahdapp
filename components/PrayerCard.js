@@ -15,9 +15,9 @@ export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');
   const [distance, setDistance] = useState(null);
   const location = useSelector(state => state.locationState);
-  const { prayer, scheduleTime, geolocation, participants, inviter, guests } = props;
-  const lat = geolocation.latitude;
-  const lon = geolocation.longitude;
+  const { guests_male, guests_female, inviter, participants, prayer, schedule_time } = props;
+  // const lat = geolocation.latitude;
+  // const lon = geolocation.longitude;
 
   const PRAYERS = t('PRAYERS', { returnObjects: true });
 
@@ -26,7 +26,8 @@ export default function PrayerCard({ navigate, ...props }) {
   }, [location]);
 
   async function getDistance() {
-    setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
+    setDistance(0);
+    // setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
   }
 
   function getBackgroundImg() {
@@ -56,41 +57,21 @@ export default function PrayerCard({ navigate, ...props }) {
           <View style={styles.descriptionWrapper}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
-              <Text style={styles.scheduleTitle}>{moment(scheduleTime).format('hh:mm A')}</Text>
+              <Text style={styles.scheduleTitle}>{moment(schedule_time).format('hh:mm A')}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-              <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.fullName })}</Text>
-              <Text style={styles.invited}>{formatDay(t, moment(scheduleTime))}</Text>
+              <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.full_name })}</Text>
+              <Text style={styles.invited}>{formatDay(t, moment(schedule_time))}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
-              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests.male + guests.female })}</Text>
-              {distance && <Text>{formatDistance(distance, t)}</Text>}
+              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: participants.length + guests_male + guests_female })}</Text>
+              {distance ? <Text>{formatDistance(distance, t)}</Text> : <></>}
             </View>
           </View>
         </View>
       </Touchable>
     </View>
   )
-}
-
-PrayerCard.propTypes = {
-  scheduleTime: PropTypes.string.isRequired,
-  timestamp: PropTypes.string.isRequired,
-  prayer: PropTypes.string.isRequired,
-  geohash: PropTypes.string.isRequired,
-  inviter: PropTypes.any.isRequired,
-  inviterID: PropTypes.string.isRequired,
-  geolocation: PropTypes.any.isRequired
-}
-
-PrayerCard.defaultProps = {
-  scheduleTime: 1585292895784,
-  prayer: 'isha',
-  lat: 0,
-  lon: 0,
-  id: 'abc',
-  inviter: {},
-  participants: []
 }
 
 const styles = StyleSheet.create({
@@ -106,7 +87,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: null,
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    borderTopRightRadius: 20,
   },
   image: {
     resizeMode: 'cover',
@@ -125,7 +106,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     flexDirection: 'column',
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    backgroundColor: '#fff'
   },
   descriptionTitle: {
     textTransform: 'capitalize',

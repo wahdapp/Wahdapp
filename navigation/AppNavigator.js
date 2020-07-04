@@ -39,14 +39,14 @@ export default ({ user }) => {
     const location = await getLatLong();
     dispatch(setLocation(location));
 
+    await initFilter();
+
     const userInfo = await getUserInfo(user.uid);
 
     try {
       setIsFirstOAuth(false);
       setUserDataFetched(true);
       dispatch(setUser(userInfo));
-      // TODO: fetch filter preference from server
-      // initFilter(doc.data());
 
       const token = await Notifications.getExpoPushTokenAsync();
       console.log({ token })
@@ -59,16 +59,12 @@ export default ({ user }) => {
     }
   }
 
-  // async function initFilter(userData) {
-  //   const prayersFilter = await AsyncStorage.getItem('prayersFilter');
-  //   if (prayersFilter) {
-  //     dispatch(setFilter(JSON.parse(prayersFilter)));
-  //   }
-  //   else {
-  //     // initialize according to user's gender
-  //     dispatch(initializeFilter(userData.gender));
-  //   }
-  // }
+  async function initFilter() {
+    const prayersFilter = await AsyncStorage.getItem('prayersFilter');
+    if (prayersFilter) {
+      dispatch(setFilter(JSON.parse(prayersFilter)));
+    }
+  }
 
   function handleNotification(notification) {
     Vibration.vibrate();

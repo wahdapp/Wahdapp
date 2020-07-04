@@ -1,19 +1,17 @@
-import { SET_FILTER, INITIALIZE_FILTER } from '../constants/action_types';
-import { prayerTypes } from 'constants/prayers';
+import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '../constants/action_types';
 
 const INITIAL_STATE = {
-  selectedPrayers: prayerTypes,
-  distance: 3,
-  minimumParticipants: 0,
-  sameGender: false
+  sortBy: 'distance'
 };
 
-function filterReducer(state = {}, action) {
+function filterReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SET_FILTER:
       return action.payload;
     case INITIALIZE_FILTER:
-      return { ...INITIAL_STATE, minimumParticipants: action.payload === 'M' ? 0 : 2 };
+      return INITIAL_STATE;
+    case SET_SORT_BY:
+      return { ...state, sortBy: action.payload };
     default: return state;
   }
 }
