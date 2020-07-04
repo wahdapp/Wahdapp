@@ -101,11 +101,12 @@ export default function FilterScreen({ route, navigation }) {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
 
-      <View style={{ padding: 20, height: '100%', width: '100%' }}>
+      <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('SORTBY')}</BoldText>
           <ScrollView
-            style={{ width: '100%', paddingTop: 5 }}
+            style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
+            contentContainerStyle={{ paddingRight: 45 }}
             horizontal={true}
           >
             <RoundButton
@@ -137,7 +138,8 @@ export default function FilterScreen({ route, navigation }) {
         <View style={styles.detailSection}>
           <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYERS')}</BoldText>
           <FlatList
-            style={{ width: '100%', paddingTop: 5 }}
+            style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
+            contentContainerStyle={{ paddingRight: 45 }}
             horizontal={true}
             data={prayerTypes}
             renderItem={({ item }) => (
@@ -167,7 +169,7 @@ export default function FilterScreen({ route, navigation }) {
             <View>
               <BoldText style={styles.sectionHeader}>{t('MIN_PARTICIPANTS')}{`(>= ${minimumParticipants} ${minimumParticipants > 1 ? t('PEOPLE') : t('PERSON')})`}</BoldText>
               <Slider
-                style={{ width: '100%', height: 40, marginTop: 15 }}
+                style={{ width: '100%', height: 40, marginTop: 15, marginLeft: 25 }}
                 minimumValue={minNum}
                 value={defaultMinimumParts}
                 onValueChange={setMinimumParticipants}
@@ -181,7 +183,7 @@ export default function FilterScreen({ route, navigation }) {
         )}
 
         {user.gender === 'F' && (
-          <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+          <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between', paddingRight: 25 }]}>
             <View style={{ width: '60%' }}>
               <BoldText style={styles.sectionHeader}>{t('SAME_GENDER')}</BoldText>
               <Text style={styles.sectionSubHeader}>{t('CHECKBOX_DESC')}</Text>
@@ -192,7 +194,7 @@ export default function FilterScreen({ route, navigation }) {
           </View>
         )}
 
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
           <RoundButton onPress={applyFilter} style={{ marginBottom: 15 }}>
             {t('BUTTON')}
           </RoundButton>
@@ -229,9 +231,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd'
   },
   detailSection: {
-    padding: 15,
+    paddingVertical: 15,
   },
   sectionHeader: {
+    paddingLeft: 25,
     fontSize: 14,
     marginBottom: 10,
     color: '#7C7C7C'
@@ -239,6 +242,7 @@ const styles = StyleSheet.create({
   sectionSubHeader: {
     fontSize: 12,
     color: '#7C7C7C',
+    paddingLeft: 25
   },
   prayerList: {
     flexDirection: 'row',
