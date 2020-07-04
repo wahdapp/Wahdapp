@@ -119,12 +119,13 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-      {/* {isLoading && <Loader />} */}
-      <View style={{ padding: 20, height: '100%', width: '100%' }}>
+      {isLoading && <Loader />}
+      <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>
           <FlatList
-            style={{ width: '100%', paddingTop: 5 }}
+            style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
+            contentContainerStyle={{ paddingRight: 45 }}
             horizontal={true}
             data={prayerTypes}
             renderItem={({ item }) => (
@@ -192,8 +193,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
           </View>
         </View>
 
-        <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('DESCRIPTION')}</BoldText>
+        <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
+          <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>{t('DESCRIPTION')}</BoldText>
           <TextInput
             multiline={true}
             numberOfLines={6}
@@ -207,7 +208,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
-          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%' }}>
+          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25 }}>
             <View style={styles.datePicker}>
               <View style={styles.timePickerBtn}>
                 <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
@@ -218,7 +219,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%' }}>
+          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25 }}>
             <View style={styles.timePickerBtn}>
               <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
             </View>
@@ -247,7 +248,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           confirmTextIOS={t('CONFIRM')}
         />
 
-        <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
+        <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
           <Touchable
             disabled={!isComplete}
             onPress={submit}
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20
+    paddingVertical: 20
   },
   header: {
     fontSize: 18,
@@ -304,10 +305,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd'
   },
   detailSection: {
-    padding: 15,
+    paddingVertical: 15,
   },
   participantsSection: {
-    paddingHorizontal: 15,
+    paddingRight: 15,
   },
   participantsRow: {
     width: '100%',
@@ -324,11 +325,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   sectionHeader: {
+    paddingLeft: 25,
     fontSize: 14,
     marginBottom: 10,
     color: '#7C7C7C',
   },
   sectionSubHeader: {
+    paddingLeft: 25,
     fontSize: 14,
     color: '#7C7C7C',
   },
@@ -425,6 +428,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     height: 150,
     justifyContent: 'flex-start',
-    fontSize: 12
+    fontSize: 12,
   }
 })
