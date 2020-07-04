@@ -13,12 +13,12 @@ export default function InvitedScreen({ navigation }) {
 
   useEffect(() => {
     fetchList();
-    setIsLoading(false);
   }, []);
 
   async function fetchList() {
     const res = await getInvitedList(auth.currentUser.uid);
     setList(res);
+    setIsLoading(false);
   }
 
   return (
