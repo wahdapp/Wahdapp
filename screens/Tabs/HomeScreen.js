@@ -15,17 +15,18 @@ import { setNotificationRedirect } from 'actions';
 const PAGE_SIZE = 10;
 
 export default function HomeScreen({ navigation }) {
-  const [nearbyPrayers, setNearbyPrayers] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { t } = useTranslation(['HOME']);
   const location = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
   const filter = useSelector(state => state.filterState);
+  const dispatch = useDispatch();
+
+  const [nearbyPrayers, setNearbyPrayers] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { redirect } = useSelector(state => state.notificationState);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { t } = useTranslation(['HOME']);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (redirect) {

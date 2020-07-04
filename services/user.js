@@ -93,3 +93,21 @@ export async function deleteUser(payload) {
     throw e;
   }
 }
+
+export async function registerToken(token) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/registerToken`, {
+      token
+    }, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data;
+  }
+  catch (e) {
+    throw e;
+  }
+}

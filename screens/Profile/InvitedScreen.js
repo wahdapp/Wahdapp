@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Platform, View } from 'react-native';
-import { PrayerCard, SkeletonCard, Spinner } from 'components';
+import { StyleSheet, FlatList, Platform, View, Image } from 'react-native';
+import { PrayerCard, SkeletonCard, Text } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
+import { auth } from 'firebaseDB';
+import { getInvitedList } from 'services/prayer';
 
-export default function InvitedScreen({ navigation, route }) {
+export default function InvitedScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE']);
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const { invitedPrayersList, inviterID, inviter } = route.params;
-    const invitedPrayers = [];
-
-    invitedPrayersList.forEach(doc => {
-      invitedPrayers.push({ ...doc.data(), id: doc.id, inviterID, inviter });
-    });
-
-    invitedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
-
-    setList(invitedPrayers);
+    fetchList();
     setIsLoading(false);
   }, []);
+
+  async function fetchList() {
+    const res = await getInvitedList(auth.currentUser.uid);
+    setList(res);
+  }
 
   return (
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>

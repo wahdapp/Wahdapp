@@ -85,10 +85,42 @@ export async function getInvitedAmount(id) {
   }
 }
 
+export async function getInvitedList(id) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get(`${API_DOMAIN}/prayer/invitations?user_id=${id}`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data.data;
+  }
+  catch (e) {
+    throw e;
+  }
+}
+
 export async function getParticipatedAmount(id) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get(`${API_DOMAIN}/prayer/participated/amount?user_id=${id}`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data.data;
+  }
+  catch (e) {
+    throw e;
+  }
+}
+
+export async function getParticipatedList(id) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get(`${API_DOMAIN}/prayer/participated?user_id=${id}`, {
       headers: {
         Authorization: `Token ${token}`
       }

@@ -7,16 +7,14 @@ import {
   setLocation,
   setUser,
   setFilter,
-  initializeFilter,
   addNotification,
   setNotificationRedirect
 } from '../actions';
-import { auth } from '../firebase';
 import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
-import { getUserInfo } from 'services/user';
+import { getUserInfo, registerToken } from 'services/user';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -49,8 +47,7 @@ export default ({ user }) => {
       dispatch(setUser(userInfo));
 
       const token = await Notifications.getExpoPushTokenAsync();
-      console.log({ token })
-      console.log({ currentUser: auth.currentUser })
+      await registerToken(token);
     }
     catch (e) {
       // The user just signed in with OAuth

@@ -19,8 +19,6 @@ export default function ProfileScreen({ navigation }) {
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const [invitedAmount, setInvitedAmount] = useState(0);
   const [participatedAmount, setParticipatedAmount] = useState(0);
-  const [invitedPrayersList, setInvitedPrayersList] = useState([]);
-  const [participatedList, setParticipatedList] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
@@ -87,8 +85,6 @@ export default function ProfileScreen({ navigation }) {
     const invited = await getInvitedAmount(auth.currentUser.uid);
     const participated = await getParticipatedAmount(auth.currentUser.uid);
 
-    console.log({ invited, participated })
-
     setInvitedAmount(invited.amount);
     setParticipatedAmount(participated.amount);
   }
@@ -107,20 +103,20 @@ export default function ProfileScreen({ navigation }) {
   }
 
   function handleInvitedPress() {
-    if (!invitedPrayersList.size) {
+    if (!invitedAmount) {
       return null;
     }
     else {
-      navigation.navigate('Invited', { invitedPrayersList, inviterID: auth.currentUser.uid, inviter: user });
+      navigation.navigate('Invited');
     }
   }
 
   function handleParticipatedPress() {
-    if (!participatedList.size) {
+    if (!participatedAmount) {
       return null;
     }
     else {
-      navigation.navigate('Invited', { participatedList, inviterID: auth.currentUser.uid, inviter: user });
+      navigation.navigate('Participated');
     }
   }
 

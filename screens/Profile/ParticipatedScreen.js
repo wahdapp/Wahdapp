@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Platform, View } from 'react-native';
-import { PrayerCard, SkeletonCard, Spinner } from 'components';
+import { StyleSheet, FlatList, Platform, View, Image } from 'react-native';
+import { PrayerCard, SkeletonCard, Text } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import { auth } from 'firebaseDB';
+import { getParticipatedList } from 'services/prayer';
 
 export default function InvitedScreen({ navigation, route }) {
   const { t } = useTranslation(['PROFILE']);
@@ -10,18 +12,14 @@ export default function InvitedScreen({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const { participatedList, inviterID, inviter } = route.params;
-    const participatedPrayers = [];
-
-    participatedList.forEach(doc => {
-      participatedPrayers.push({ ...doc.data(), id: doc.id, inviterID, inviter });
-    });
-
-    participatedPrayers.sort((a, b) => moment(b.timestamp).diff(moment(a.timestamp)));
-
-    setList(participatedPrayers);
+    fetchList();
     setIsLoading(false);
   }, []);
+
+  async function fetchList() {
+    const res = await getParticipatedList(auth.currentUser.uid);
+    setList(res);
+  }
 
   return (
     <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>

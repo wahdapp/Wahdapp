@@ -6,6 +6,8 @@ import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { Notifications } from 'expo';
+import { registerToken } from 'services/user';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const [email, setEmail] = useState('');
@@ -27,6 +29,10 @@ export default function LoginScreen({ navigation: { navigate } }) {
     try {
       setLoading(true);
       await auth.signInWithEmailAndPassword(email, password);
+
+      // Register push token
+      const token = await Notifications.getExpoPushTokenAsync();
+      await registerToken(token);
     }
     catch (e) {
       setLoading(false);
