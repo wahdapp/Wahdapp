@@ -6,7 +6,10 @@
   "FILTER": {
     "HEADER": "筛选",
     "PRAYERS": "礼拜",
+    "SORTBY": "排序方式",
     "DISTANCE": "距离",
+    "PARTICIPANTS": "参加人数",
+    "TIME": "时间",
     "MIN_PARTICIPANTS": "最低人数 ",
     "PERSON": "人",
     "PEOPLE": "人",

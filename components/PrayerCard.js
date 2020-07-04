@@ -80,8 +80,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 22,
-    borderWidth: 1,
-    borderColor: 'rgba(204, 207, 240, 0.6)',
+    borderWidth: 0,
   },
   imageWrapper: {
     height: 200,

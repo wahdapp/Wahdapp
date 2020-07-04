@@ -103,7 +103,7 @@ export default function FilterScreen({ route, navigation }) {
 
       <View style={{ padding: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
-          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>Sort By</BoldText>
+          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('SORTBY')}</BoldText>
           <ScrollView
             style={{ width: '100%', paddingTop: 5 }}
             horizontal={true}
@@ -114,7 +114,7 @@ export default function FilterScreen({ route, navigation }) {
               colors={selectedSort === 'distance' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'distance' ? '#fff' : '#dedede' }}
             >
-              Distance
+              {t('DISTANCE')}
             </RoundButton>
             <RoundButton
               onPress={() => setSelectedSort('participants')}
@@ -122,7 +122,7 @@ export default function FilterScreen({ route, navigation }) {
               colors={selectedSort === 'participants' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'participants' ? '#fff' : '#dedede' }}
             >
-              Participants
+              {t('PARTICIPANTS')}
             </RoundButton>
             <RoundButton
               onPress={() => setSelectedSort('time')}
@@ -130,7 +130,7 @@ export default function FilterScreen({ route, navigation }) {
               colors={selectedSort === 'time' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'time' ? '#fff' : '#dedede' }}
             >
-              Time
+              {t('TIME')}
             </RoundButton>
           </ScrollView>
         </View>

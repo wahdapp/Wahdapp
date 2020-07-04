@@ -6,7 +6,10 @@
   "FILTER": {
     "HEADER": "Filter",
     "PRAYERS": "Prayers",
+    "SORTBY": "Sort By",
     "DISTANCE": "Distance",
+    "PARTICIPANTS": "Participants",
+    "TIME": "Time",
     "MIN_PARTICIPANTS": "Minimum Participants\n",
     "PERSON": "person",
     "PEOPLE": "people",

@@ -6,7 +6,10 @@
   "FILTER": {
     "HEADER": "篩選",
     "PRAYERS": "禮拜",
+    "SORTBY": "排序方式",
     "DISTANCE": "距離",
+    "PARTICIPANTS": "參加人數",
+    "TIME": "時間",
     "MIN_PARTICIPANTS": "最低人數 ",
     "PERSON": "人",
     "PEOPLE": "人",
