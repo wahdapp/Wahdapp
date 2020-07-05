@@ -62,7 +62,7 @@ export default function PrayerCard({ navigate, ...props }) {
               <Text style={styles.invited}>{formatDay(t, moment(schedule_time))}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
-              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: participants.length + guests_male + guests_female })}</Text>
+              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests_male + guests_female })}</Text>
               {distance ? <Text>{formatDistance(distance, t)}</Text> : <></>}
             </View>
           </View>

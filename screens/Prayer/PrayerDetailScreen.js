@@ -83,9 +83,6 @@ export default function PrayerDetailScreen({ route, navigation }) {
         optimistic: {
           callback: async () => {
             await joinPrayer(auth.currentUser.uid);
-            // const payload = [...originalParticipants, db.doc('users/' + auth.currentUser.uid)];
-            // await db.collection('prayers').doc(id).set({ participants: payload }, { merge: true });
-            // setOriginalParticipants(payload);
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
@@ -122,14 +119,19 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   async function _deletePrayer() {
     setIsLoading(true);
+    try {
 
-    await deletePrayer(id);
+      await deletePrayer(id);
 
-    setIsLoading(false);
-    navigation.goBack();
-    
-    if (query) {
-      query();
+      setIsLoading(false);
+      navigation.goBack();
+
+      if (query) {
+        query();
+      }
+    }
+    catch (e) {
+      setIsLoading(false);
     }
   }
 
