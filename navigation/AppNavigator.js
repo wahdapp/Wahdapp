@@ -14,7 +14,7 @@ import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
-import { getUserInfo, registerToken } from 'services/user';
+import { getUserInfo } from 'services/user';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -45,9 +45,6 @@ export default ({ user }) => {
       setIsFirstOAuth(false);
       setUserDataFetched(true);
       dispatch(setUser(userInfo));
-
-      const token = await Notifications.getExpoPushTokenAsync();
-      await registerToken(token);
     }
     catch (e) {
       // The user just signed in with OAuth

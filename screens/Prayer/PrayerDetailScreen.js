@@ -17,10 +17,11 @@ import { Text, BoldText, Loader } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
-import { auth, db } from 'firebaseDB';
+import { auth } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
+import { deletePrayer, joinPrayer } from 'services/prayer';
 
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -42,27 +43,27 @@ function joinReducer(state, action) {
 export default function PrayerDetailScreen({ route, navigation }) {
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
-  const { geolocation, query, scheduleTime, participants, inviter, inviterID, description, guests, id, prayer } = route.params;
-  const location = useSelector(state => state.locationState);
+  const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location, id, description } = route.params;
+  const locationState = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
-  const [originalParticipants, setOriginalParticipants] = useState(participants); // participants in pure form (Ref Object)
+
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const markerRef = useRef(null);
+
   const [joinState, joinDispatch] = useOptimisticReducer(joinReducer, {
-    currentParticipants: [], // in formatted form
+    currentParticipants: participants, // in formatted form
     isJoined: participants.map(p => p.id).includes(auth.currentUser.uid) ? true : false
   });
-  const { isJoined, currentParticipants } = joinState;
-  const lat = geolocation.latitude;
-  const lon = geolocation.longitude;
 
-  const isExpired = useMemo(() => moment(scheduleTime).isBefore(moment()), [scheduleTime]);
+  const { isJoined, currentParticipants } = joinState;
+  const { lat, lng } = location;
+
+  const isExpired = useMemo(() => moment(schedule_time).isBefore(moment()), [schedule_time]);
 
   useEffect(() => {
     getDistance();
-    getParticipantsInfo();
-  }, [location]);
+  }, [locationState]);
 
   function onRegionChangeComplete() {
     if (markerRef && markerRef.current && markerRef.current.showCallout) {
@@ -70,19 +71,8 @@ export default function PrayerDetailScreen({ route, navigation }) {
     }
   }
 
-  async function getParticipantsInfo() {
-    const ids = originalParticipants.map(p => p.id);
-    const promises = originalParticipants.map(p => p.get());
-    const docs = await Promise.all(promises);
-
-    joinDispatch({
-      type: 'SET_PARTICIPANTS',
-      payload: ids.map((id, i) => ({ ...docs[i].data(), id }))
-    });
-  }
-
   async function getDistance() {
-    setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
+    setDistance(calculateDistance({ lat, lon: lng }, { lat: locationState.latitude, lon: locationState.longitude }));
   }
 
   async function handleJoin() {
@@ -92,9 +82,10 @@ export default function PrayerDetailScreen({ route, navigation }) {
         type: 'JOIN',
         optimistic: {
           callback: async () => {
-            const payload = [...originalParticipants, db.doc('users/' + auth.currentUser.uid)];
-            await db.collection('prayers').doc(id).set({ participants: payload }, { merge: true });
-            setOriginalParticipants(payload);
+            await joinPrayer(auth.currentUser.uid);
+            // const payload = [...originalParticipants, db.doc('users/' + auth.currentUser.uid)];
+            // await db.collection('prayers').doc(id).set({ participants: payload }, { merge: true });
+            // setOriginalParticipants(payload);
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
@@ -109,7 +100,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         type: 'CANCEL',
         optimistic: {
           callback: async () => {
-            await db.collection('prayers').doc(id).set({ participants: originalParticipants.filter(p => p.id !== auth.currentUser.uid) }, { merge: true });
+            await joinPrayer(auth.currentUser.uid);
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
@@ -125,15 +116,18 @@ export default function PrayerDetailScreen({ route, navigation }) {
     Alert.alert(
       t('DELETE_PRAYER'),
       t('DELETE_PRAYER_CONFIRM'),
-      [{ text: t('NO') }, { text: t('YES'), onPress: deletePrayer, style: 'destructive' }]
+      [{ text: t('NO') }, { text: t('YES'), onPress: _deletePrayer, style: 'destructive' }]
     )
   }
 
-  async function deletePrayer() {
+  async function _deletePrayer() {
     setIsLoading(true);
-    await db.collection('prayers').doc(id).delete();
+
+    await deletePrayer(id);
+
     setIsLoading(false);
     navigation.goBack();
+    
     if (query) {
       query();
     }
@@ -147,7 +141,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
           latitude: lat,
-          longitude: lon
+          longitude: lng
         }}
         provider="google"
         style={{ width: '100%', height: ScreenHeight * 0.3 }}
@@ -155,8 +149,8 @@ export default function PrayerDetailScreen({ route, navigation }) {
         showsMyLocationButton={false}
         onRegionChangeComplete={onRegionChangeComplete}
       >
-        <Marker ref={markerRef} coordinate={{ latitude: lat, longitude: lon }}>
-          <Callout style={{ flex: 1, position: 'relative' }} onPress={() => openMaps(lat, lon, PRAYERS[route.params.prayer])}>
+        <Marker ref={markerRef} coordinate={{ latitude: lat, longitude: lng }}>
+          <Callout style={{ flex: 1, position: 'relative' }} onPress={() => openMaps(lat, lng, PRAYERS[prayer])}>
             <View style={styles.callout}>
               <Text style={styles.calloutText}>
                 Open in App
@@ -168,11 +162,11 @@ export default function PrayerDetailScreen({ route, navigation }) {
       <ScrollView style={styles.sectionWrapper}>
         <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>
           <View>
-            <BoldText style={styles.sectionHeader}>{`${moment(scheduleTime).format('MMM DD')}\n${moment(scheduleTime).format('hh:mm A')}`}</BoldText>
+            <BoldText style={styles.sectionHeader}>{`${moment(schedule_time).format('MMM DD')}\n${moment(schedule_time).format('hh:mm A')}`}</BoldText>
             <Text style={styles.sectionSubHeader}>{formatDistance(distance, t)}</Text>
           </View>
 
-          {auth.currentUser.uid === inviterID ? (
+          {auth.currentUser.uid === inviter.id ? (
             <TouchableWithoutFeedback onPress={handleDeletePrayer}>
               <View style={[styles.button, { backgroundColor: '#c4302b' }]}>
                 <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
@@ -224,14 +218,14 @@ export default function PrayerDetailScreen({ route, navigation }) {
           </View>
         )}
 
-        {(guests.male > 0 || guests.female > 0) && (
+        {(guests_male > 0 || guests_female > 0) && (
           <View style={styles.detailSection}>
-            <BoldText style={styles.sectionHeader}>{t('GUESTS')} ({guests.male + guests.female})</BoldText>
+            <BoldText style={styles.sectionHeader}>{t('GUESTS')} ({guests_male + guests_female})</BoldText>
             <FlatList
               style={{ width: "100%" }}
               horizontal={true}
-              data={[...new Array(guests.male).fill('M'), ...new Array(guests.female).fill('F')]}
-              renderItem={({ item }) => <UserItem item={{ gender: item, fullName: 'Guest' }} />}
+              data={[...new Array(guests_male).fill('M'), ...new Array(guests_female).fill('F')]}
+              renderItem={({ item }) => <UserItem item={{ gender: item, full_name: 'Guest' }} />}
               keyExtractor={item => item.id}
             />
           </View>
@@ -247,7 +241,7 @@ const UserItem = ({ item }) => (
       <Image source={item.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 50, height: 50 }} />
     </View>
     <View style={{ alignItems: 'center' }}>
-      <Text style={styles.userName}>{item.fullName}</Text>
+      <Text style={styles.userName}>{item.full_name}</Text>
     </View>
   </View>
 )

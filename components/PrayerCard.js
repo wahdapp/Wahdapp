@@ -14,10 +14,9 @@ import SkeletonContent from 'react-native-skeleton-content';
 export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');
   const [distance, setDistance] = useState(null);
-  const location = useSelector(state => state.locationState);
-  const { guests_male, guests_female, inviter, participants, prayer, schedule_time } = props;
-  // const lat = geolocation.latitude;
-  // const lon = geolocation.longitude;
+  const locationState = useSelector(state => state.locationState);
+  const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location } = props;
+  const { lat, lng } = location;
 
   const PRAYERS = t('PRAYERS', { returnObjects: true });
 
@@ -26,8 +25,7 @@ export default function PrayerCard({ navigate, ...props }) {
   }, [location]);
 
   async function getDistance() {
-    setDistance(0);
-    // setDistance(calculateDistance({ lat, lon }, { lat: location.latitude, lon: location.longitude }));
+    setDistance(calculateDistance({ lat, lon: lng }, { lat: locationState.latitude, lon: locationState.longitude }));
   }
 
   function getBackgroundImg() {

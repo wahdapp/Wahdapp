@@ -53,6 +53,22 @@ export async function createPrayer(payload) {
   }
 }
 
+export async function deletePrayer(id) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.delete(`${API_DOMAIN}/prayer?id=${id}`, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data;
+  }
+  catch (e) {
+    throw e;
+  }
+}
+
 export async function joinPrayer(id) {
   try {
     const token = await auth.currentUser.getIdToken();
