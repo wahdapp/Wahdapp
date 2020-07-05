@@ -19,6 +19,8 @@ import { PIN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
 import colors from 'constants/Colors';
+import geohash from 'ngeohash';
+import { queryMap } from 'services/prayer';
 
 export default function MapScreen({ navigation }) {
   const { t } = useTranslation(['INVITATION']);
@@ -140,57 +142,35 @@ export default function MapScreen({ navigation }) {
 
   async function queryArea() {
     setIsQuerying(true);
-    await fetchNearbyPrayers();
-    setIsQuerying(false);
-  }
 
-  async function fetchNearbyPrayers() {
-    let distance = 2; // set default to 2 kilometers
-    const { latitude, longitude } = currentRegion;
-    const range = getGeohashRange(latitude, longitude, distance);
-    const prayersDoc = await db.collection('prayers')
-      .where('geohash', '>=', range.lower)
-      .where('geohash', '<=', range.upper)
-      .get();
-
-    const prayers = [];
-
-    prayersDoc.forEach(doc => {
-      const { participants, guests: { male, female }, geohash, gender } = doc.data();
-      if (
-        isWithinBoundary(geohash, currentRegion, distance) &&
-        (1 + participants.length + male + female) >= filter.minimumParticipants && // filter participants number
-        (
-          (user.gender === gender) ||
-          (user.gender === 'F' && !filter.sameGender)
-        ) // filter by gender and sameGender preference
-      ) {
-        prayers.push({ ...doc.data(), id: doc.id });
-      }
-    });
-
-    if (prayers.length) {
-      const inviters = prayers.map(p => p.inviter);
-      const ids = inviters.map(i => i.id);
-      const promises = inviters.map(i => i.get());
-      const docs = await Promise.all(promises);
-      setNearbyMarkers(prayers.map((p, i) => ({ ...p, inviter: docs[i].data(), inviterID: ids[i] })));
+    try {
+      const list = await queryMap({ lat: currentRegion.latitude, lng: currentRegion.longitude });
+      console.log({ list })
+      setNearbyMarkers(list);
 
       // Gather all unique geohashes to prevent multiple markers on the same spot
       const geohashes = [];
       const filtered = [];
-      for (let prayer of prayers) {
-        if (!geohashes.includes(prayer.geohash)) {
-          geohashes.push(prayer.geohash);
-          filtered.push(prayer);
+      for (let prayer of list) {
+        const hash = geohash.encode(prayer.location.lat, prayer.location.lng);
+
+        if (!geohashes.includes(hash)) {
+          geohashes.push(hash);
+          filtered.push({ ...prayer, geohash: hash });
         }
       }
+
       setFilteredNearbyMarkers(filtered);
+
+      setIsQuerying(false);
+    }
+    catch (e) {
+      setIsQuerying(false);
     }
   }
 
   function handleMarkerPress(marker) {
-    const nearbyPrayers = nearbyMarkers.filter(item => item.geohash === marker.geohash);
+    const nearbyPrayers = nearbyMarkers.filter(item => geohash.encode(item.location.lat, item.location.lng) === marker.geohash);
     navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });
   }
 
@@ -249,15 +229,15 @@ export default function MapScreen({ navigation }) {
         )}
         {filteredNearbyMarkers.length > 0 && (
           filteredNearbyMarkers.map((marker, i) => (
-            moment().isBefore(moment(marker.scheduleTime)) ? (
+            moment().isBefore(moment(marker.schedule_time)) ? (
               <Marker
-                coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+                coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
                 onPress={() => handleMarkerPress(marker)}
                 key={i}
               />
             ) : (
                 <Dot
-                  coordinate={{ latitude: marker.geolocation.latitude, longitude: marker.geolocation.longitude }}
+                  coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
                   onPress={() => handleMarkerPress(marker)}
                   key={i}
                 />

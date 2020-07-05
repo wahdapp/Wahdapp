@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Platform, View, Image } from 'react-native';
+import { StyleSheet, FlatList, View, Image } from 'react-native';
 import { PrayerCard, SkeletonCard, Text } from 'components';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
@@ -22,13 +22,13 @@ export default function InvitedScreen({ navigation, route }) {
   }
 
   return (
-    <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: '#eee' }}>
       <View style={styles.prayerListWrapper}>
         {isLoading
           ? <SkeletonCard />
           :
           <FlatList
-            style={{ height: '100%' }}
+            style={{ height: '100%', paddingTop: 25 }}
             data={list}
             renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
             keyExtractor={item => item.id}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
-import { View, Left, CheckBox, Right } from 'native-base';
-import { Text, BoldText, RoundButton } from 'components';
+import { View, CheckBox } from 'native-base';
+import { Text, BoldText, RoundButton, Loader } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { setSortBy } from 'actions';
@@ -22,6 +22,7 @@ export default function FilterScreen({ route, navigation }) {
   const [minimumParticipants, setMinimumParticipants] = useState(minNum);
   const [defaultMinimumParts, setDefaultMinimumParts] = useState(minNum);
   const [selectedSort, setSelectedSort] = useState(filterState.sortBy);
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['FILTER', 'COMMON']);
 
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
@@ -76,6 +77,7 @@ export default function FilterScreen({ route, navigation }) {
   }
 
   async function applyFilter() {
+    setIsLoading(true);
 
     await updateFilterPreference({
       selected_prayers: selectedPrayers,
@@ -85,6 +87,7 @@ export default function FilterScreen({ route, navigation }) {
 
     await AsyncStorage.setItem('prayersFilter', JSON.stringify({ sortBy: selectedSort }));
     dispatch(setSortBy(selectedSort));
+    setIsLoading(false);
 
     navigation.goBack();
   }
@@ -100,7 +103,7 @@ export default function FilterScreen({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-
+      {isLoading && <Loader />}
       <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
           <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('SORTBY')}</BoldText>

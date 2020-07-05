@@ -3,8 +3,23 @@ import { auth } from 'firebaseDB';
 import axios from 'axios';
 import moment from 'moment';
 
-export async function queryFeed({ lng, lat, timestamp = moment().format(), sortBy = 'distance', pageSize = 10, pageNumber = 1 }) {
+export async function queryFeed({ lng, lat, timestamp = moment().format(), sortType = 'distance', pageSize = 10, pageNumber = 1 }) {
   try {
+    let sortBy;
+
+    switch (sortType) {
+      case 'distance':
+        sortBy = 'distance';
+        break;
+      case 'participants':
+        sortBy = 'count';
+        break;
+      case 'time':
+        sortBy = 'time';
+        break;
+      default: sortBy = sortType;
+    }
+    
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get(`${API_DOMAIN}/prayer/feed?lng=${lng}&lat=${lat}&timestamp=${encodeURIComponent(timestamp)}&sortBy=${sortBy}&pageSize=${pageSize}&pageNumber=${pageNumber}`, {
       headers: {

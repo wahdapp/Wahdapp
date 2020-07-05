@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList, Platform, View } from 'react-native';
 import { PrayerCard, RoundButton } from 'components';
-import colors from 'constants/Colors';
 import { useTranslation } from 'react-i18next';
 
 export default function MarkerPrayersScreen({ navigation, route }) {
@@ -9,24 +8,27 @@ export default function MarkerPrayersScreen({ navigation, route }) {
   const { t } = useTranslation(['INVITATION']);
 
   function handleInvite() {
-    const { geolocation } = nearbyPrayers[0];
-    handleConfirm({ latitude: geolocation.latitude, longitude: geolocation.longitude });
+    const { location } = nearbyPrayers[0];
+    handleConfirm({ latitude: location.lat, longitude: location.lng });
   }
 
   return (
-    <View style={{ paddingTop: Platform.OS === 'ios' ? 20 : 24, flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: '#eee' }}>
       <View style={styles.prayerListWrapper}>
-        <RoundButton onPress={handleInvite} style={{ marginBottom: 15 }}>
-          {t('INVITE_HERE')}
-        </RoundButton>
         <FlatList
-          style={{ height: '100%' }}
+          style={{ height: '100%', paddingTop: 25 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
           data={nearbyPrayers}
           renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
           keyExtractor={item => item.id}
         />
       </View>
-    </View >
+      <View style={styles.buttonWrapper}>
+        <RoundButton onPress={handleInvite}>
+          {t('INVITE_HERE')}
+        </RoundButton>
+      </View>
+    </View>
   )
 }
 
@@ -35,23 +37,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginBottom: 10,
-    height: '100%'
+    marginBottom: 25,
+    height: '100%',
   },
-  button: {
-    height: 52,
-    width: '100%',
-    borderRadius: 33,
-    flexDirection: 'row',
+  buttonWrapper: {
+    position: 'absolute',
+    bottom: 25,
+    zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
-    backgroundColor: colors.primary
-
-  },
-  buttonText: {
-    fontSize: 14,
-    letterSpacing: 1.8,
-    color: '#ffffff',
+    width: '100%'
   }
 })

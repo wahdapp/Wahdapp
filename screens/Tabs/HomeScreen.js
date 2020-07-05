@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View, AsyncStorage } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PrayerCard, SkeletonCard, Text, BoldText } from 'components';
 import { Ionicons } from '@expo/vector-icons';
 import isEmpty from 'lodash/isEmpty';
-import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
 import { queryFeed } from 'services/prayer';
 import { NOT_FOUND } from 'assets/images';
 import { useTranslation } from 'react-i18next';
@@ -66,7 +65,8 @@ export default function HomeScreen({ navigation }) {
         lng: location.longitude,
         lat: location.latitude,
         pageSize: PAGE_SIZE,
-        pageNumber: refresh ? 1 : currentPage
+        pageNumber: refresh ? 1 : currentPage,
+        sortType: filter.sortBy
       });
 
       console.log({ list })

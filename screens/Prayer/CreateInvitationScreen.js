@@ -62,7 +62,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
       if (operator === '+') {
         setFemale(prev => prev + 1);
       }
-      else if (male > 0) {
+      else if (female > 0) {
         setFemale(prev => prev - 1);
       }
     }
@@ -100,8 +100,23 @@ export default function CreateInvitationScreen({ route, navigation }) {
       setIsLoading(false);
       removeMarker();
 
+      const params = {
+        schedule_time: payload.schedule_time,
+        prayer: payload.selected_prayer,
+        description: payload.description,
+        location: {
+          lat: payload.lat,
+          lng: payload.lng
+        },
+        guests_male: payload.guests.male,
+        guests_female: payload.guests.female,
+        inviter: user,
+        participants: [],
+        id
+      }
+
       navigation.goBack();
-      // navigation.navigate('PrayerDetail', { ...payload, id, inviterID: auth.currentUser.uid, inviter: user });
+      navigation.navigate('PrayerDetail', params);
     }
     catch (e) {
       setIsLoading(false);
