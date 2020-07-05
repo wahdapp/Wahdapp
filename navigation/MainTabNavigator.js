@@ -115,16 +115,6 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="PrayerTime"
-        component={PrayerTimeStack}
-        options={{
-          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
-          )
-        }}
-      />
-      <Tab.Screen
         name="Map"
         component={MapStack}
         options={{
@@ -135,6 +125,16 @@ function Tabs() {
         }}
       />
       <Tab.Screen
+        name="PrayerTime"
+        component={PrayerTimeStack}
+        options={{
+          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
+          )
+        }}
+      />
+      {/* <Tab.Screen
         name="Notification"
         component={NotificationStack}
         options={{
@@ -146,7 +146,7 @@ function Tabs() {
             </View>
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStack}

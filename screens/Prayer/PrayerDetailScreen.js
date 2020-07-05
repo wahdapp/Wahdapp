@@ -31,8 +31,6 @@ function joinReducer(state, action) {
       return { isJoined: true, currentParticipants: [...state.currentParticipants, action.payload] };
     case 'CANCEL':
       return { isJoined: false, currentParticipants: state.currentParticipants.filter(p => p.id !== action.id) };
-    case 'SET_PARTICIPANTS':
-      return { ...state, currentParticipants: action.payload };
     case 'FALLBACK':
       return action.payload;
     default:
