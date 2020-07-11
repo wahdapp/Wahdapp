@@ -39,9 +39,8 @@ export default ({ user }) => {
 
     await initFilter();
 
-    const userInfo = await getUserInfo(user.uid);
-
     try {
+      const userInfo = await getUserInfo(user.uid);
       setIsFirstOAuth(false);
       setUserDataFetched(true);
       dispatch(setUser(userInfo));

@@ -12,10 +12,11 @@ export default function RoundButton({
   height = 52,
   colors = [Colors.primary, Colors.secondary],
   textStyle = {},
+  touchableStyle = {},
   ...props
 }) {
   return (
-    <Touchable {...props} style={styles.touchableStyle}>
+    <Touchable {...props} style={{ ...styles.touchableStyle, ...touchableStyle }}>
       <LinearGradient
         style={{ ...styles.button, width, height, borderRadius: height / 2, ...style }}
         colors={colors}
@@ -37,13 +38,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
-    
     elevation: 8,
   },
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   text: {
     fontSize: 14,

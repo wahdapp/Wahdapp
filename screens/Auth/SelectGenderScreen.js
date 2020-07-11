@@ -6,6 +6,7 @@ import { ListItem, Radio, Right, Left } from 'native-base';
 import { auth } from 'firebaseDB';
 import { setUser, initializeFilter } from 'actions';
 import { useTranslation } from 'react-i18next';
+import { createUser } from 'services/user';
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   const [isCreating, setIsCreating] = useState(false);
@@ -16,16 +17,14 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
     setIsCreating(true);
 
     const user = {
-      fullName: auth.currentUser.displayName,
+      full_name: auth.currentUser.displayName,
       email: auth.currentUser.email,
       gender,
     }
 
     await createUser({
       uid: auth.currentUser.uid,
-      full_name: fullName.trim(),
-      email: email.trim(),
-      gender
+      ...user
     });
 
     dispatch(setUser(user));

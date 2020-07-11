@@ -24,7 +24,7 @@ export default function MarkerPrayersScreen({ navigation, route }) {
         />
       </View>
       <View style={styles.buttonWrapper}>
-        <RoundButton onPress={handleInvite}>
+        <RoundButton onPress={handleInvite} style={{ maxWidth: 350 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
           {t('INVITE_HERE')}
         </RoundButton>
       </View>

@@ -5,7 +5,8 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  Dimensions
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
@@ -116,7 +117,7 @@ export default function PrayerTimeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
+      <ScrollView>
         <LinearGradient start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.container}>
             <ImageBackground style={{ width: '100%', height: 400, resizeMode: 'cover' }} source={PRAYER_TIME_BG}>
@@ -189,7 +190,7 @@ export default function PrayerTimeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: Dimensions.get('window').height,
     width: '100%',
   },
   header: {
