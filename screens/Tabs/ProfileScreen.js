@@ -11,6 +11,7 @@ import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
+import * as Animatable from 'react-native-animatable';
 import colors from 'constants/Colors';
 import { getInvitedAmount, getParticipatedAmount } from 'services/prayer';
 
@@ -129,28 +130,36 @@ export default function ProfileScreen({ navigation }) {
               <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} color="#fff" />
             </TouchableOpacity>
           </View>
-          <View style={styles.profilePicContainer}>
-            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
-          </View>
 
-          <View style={styles.nameContainer}>
+          <Animatable.View animation="bounceIn" delay={300} style={styles.profilePicContainer}>
+            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
+          </Animatable.View>
+
+          <Animatable.View animation="bounceIn" delay={600} style={styles.nameContainer}>
             <BoldText style={styles.nameText}>{user.full_name}</BoldText>
-          </View>
+          </Animatable.View>
+
         </LinearGradient>
+
         <View style={[styles.infoSection, { marginTop: 0 }]}>
           <View style={styles.infoContainer}>
-            <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
-              <BoldText style={styles.infoNumber}>{invitedAmount}</BoldText>
-              <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
-            </Touchable>
-            <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
-              <BoldText style={styles.infoNumber}>{participatedAmount}</BoldText>
-              <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
-            </Touchable>
+            <Animatable.View animation="bounceIn" delay={900}>
+              <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
+                <BoldText style={styles.infoNumber}>{invitedAmount}</BoldText>
+                <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
+              </Touchable>
+            </Animatable.View>
+
+            <Animatable.View animation="bounceIn" delay={1200}>
+              <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
+                <BoldText style={styles.infoNumber}>{participatedAmount}</BoldText>
+                <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
+              </Touchable>
+            </Animatable.View>
           </View>
         </View>
         <View style={styles.accountSection}>
-          <View style={styles.accountRow}>
+          <Animatable.View animation="fadeInRight" delay={1700} style={styles.accountRow}>
             <Text style={styles.label}>{t('SIGN:FULL_NAME')}</Text>
             {isEditingFullName ? (
               <TextInput
@@ -174,15 +183,17 @@ export default function ProfileScreen({ navigation }) {
                 </View>
               )}
 
-          </View>
-          <View style={styles.accountRow}>
+          </Animatable.View>
+
+          <Animatable.View animation="fadeInRight" delay={1950} style={styles.accountRow}>
             <Text style={styles.label}>{t('SIGN:EMAIL')}</Text>
             <Text style={styles.textField}>{user.email}</Text>
-          </View>
-          <View style={styles.accountRow}>
+          </Animatable.View>
+
+          <Animatable.View animation="fadeInRight" delay={2200} style={styles.accountRow}>
             <Text style={styles.label}>{t('COMMON:GENDER.LABEL')}</Text>
             <Text style={styles.textField}>{user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}</Text>
-          </View>
+          </Animatable.View>
         </View>
 
         <View style={styles.sessionSection}>

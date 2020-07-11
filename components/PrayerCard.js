@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Animated } from 'react-native';
 import { Text } from './Text';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { formatDay } from 'helpers/dateFormat';
 import Touchable from './Touchable';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
+import { SCALE } from 'helpers/animation';
 
 export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');
-  const [distance, setDistance] = useState(null);
   const locationState = useSelector(state => state.locationState);
+
   const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location } = props;
   const { lat, lng } = location;
+
+  const [distance, setDistance] = useState(null);
+  const [scaleInAnimated] = useState(new Animated.Value(0));
 
   const PRAYERS = t('PRAYERS', { returnObjects: true });
 
@@ -47,8 +50,12 @@ export default function PrayerCard({ navigate, ...props }) {
 
   return (
     <View style={styles.cardWrapper}>
-      <Touchable onPress={handleCardPress}>
-        <View style={styles.card} pointerEvents="none">
+      <Touchable
+        onPress={handleCardPress}
+        onPressIn={() => { SCALE.pressInAnimation(scaleInAnimated); }}
+        onPressOut={() => { SCALE.pressOutAnimation(scaleInAnimated); }}
+      >
+        <Animated.View style={{ ...styles.card, ...SCALE.getScaleTransformationStyle(scaleInAnimated) }} pointerEvents="none">
           <View style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />
           </View>
@@ -66,7 +73,7 @@ export default function PrayerCard({ navigate, ...props }) {
               {distance ? <Text>{formatDistance(distance, t)}</Text> : <></>}
             </View>
           </View>
-        </View>
+        </Animated.View>
       </Touchable>
     </View>
   )

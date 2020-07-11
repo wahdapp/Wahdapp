@@ -5,6 +5,7 @@ import { Text, Touchable, BoldText, Loader, RoundButton } from 'components';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import * as Animatable from 'react-native-animatable';
 import colors from 'constants/Colors';
 import { Notifications } from 'expo';
 import { registerToken } from 'services/user';
@@ -57,28 +58,34 @@ export default function LoginScreen({ navigation: { navigate } }) {
   if (loading) return <Loader />
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView style={styles.container}>
         <Image style={{ width: '100%', height: 200, resizeMode: 'cover' }} source={QURAN} />
-        <View style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}>
-          <BoldText style={styles.headerText}>Welcome on Wahdapp</BoldText>
-        </View>
+        <Animatable.View animation="fadeInUp" style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}>
+          <BoldText style={styles.headerText}>Welcome to Wahdapp</BoldText>
+        </Animatable.View>
         <View style={styles.formContainer}>
-          <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-          <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          <Animatable.View animation="fadeInUp" delay={300}>
+            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          </Animatable.View>
 
-          <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-          <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
-          <View style={styles.forgotPwdContainer}>
+          <Animatable.View animation="fadeInUp" delay={600}>
+            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
+            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
+          </Animatable.View>
+
+          <Animatable.View animation="fadeInUp" delay={900} style={styles.forgotPwdContainer}>
             <Touchable onPress={() => navigate('ForgotPassword')}>
               <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('FORGOT_PWD')}</Text>
             </Touchable>
-          </View>
-          <View style={{ ...styles.loginBtnContainer, width: '100%' }}>
+          </Animatable.View>
+
+          <Animatable.View animation="fadeInUp" delay={1200} style={{ ...styles.loginBtnContainer, width: '100%' }}>
             <RoundButton onPress={handleLogin}>
               {t('LOGIN')}
             </RoundButton>
-          </View>
+          </Animatable.View>
 
           <View style={styles.signUpLabelContainer}>
             <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
@@ -89,23 +96,23 @@ export default function LoginScreen({ navigation: { navigate } }) {
             <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
           </View>
 
-          <View style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
+          <Animatable.View animation="bounceIn" delay={2000} style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
             <Touchable onPress={handleFacebookPress}>
               <View style={styles.facebookButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
                 <Text style={{ fontSize: 10, color: '#ffffff' }}>{t('FACEBOOK_LOGIN')}</Text>
               </View>
             </Touchable>
-          </View>
+          </Animatable.View>
 
-          <View style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
+          <Animatable.View animation="bounceIn" delay={2300} style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
             <Touchable onPress={handleGooglePress}>
               <View style={styles.googleButton}>
                 <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={GOOGLE} />
                 <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('GOOGLE_LOGIN')}</Text>
               </View>
             </Touchable>
-          </View>
+          </Animatable.View>
 
           <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
             <View style={{ textAlign: 'center' }}>

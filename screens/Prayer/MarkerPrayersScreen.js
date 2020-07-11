@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, FlatList, Platform, View } from 'react-native';
 import { PrayerCard, RoundButton } from 'components';
 import { useTranslation } from 'react-i18next';
+import * as Animatable from 'react-native-animatable';
 
 export default function MarkerPrayersScreen({ navigation, route }) {
   const { nearbyPrayers, handleConfirm } = route.params;
@@ -23,11 +24,11 @@ export default function MarkerPrayersScreen({ navigation, route }) {
           keyExtractor={item => item.id}
         />
       </View>
-      <View style={styles.buttonWrapper}>
+      <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
         <RoundButton onPress={handleInvite} style={{ maxWidth: 350 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
           {t('INVITE_HERE')}
         </RoundButton>
-      </View>
+      </Animatable.View>
     </View>
   )
 }

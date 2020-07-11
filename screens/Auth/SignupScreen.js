@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
 import { Toast } from 'native-base';
-import { BoldText, Touchable, Text, Loader, RoundButton } from 'components';
+import { BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
+import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import { createUser } from 'services/user';
@@ -37,7 +38,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
         email: email.trim(),
         gender
       });
-      
+
       await auth.useDeviceLanguage();
       await auth.currentUser.sendEmailVerification();
       await auth.signOut();
@@ -73,32 +74,38 @@ export default function SignupScreen({ navigation: { navigate } }) {
   return (
     <View style={styles.container}>
       <ScrollView style={{ width: '100%', height: '100%' }}>
-        <View style={styles.titleContainer}>
+        <Animatable.View animation="fadeInUp" style={styles.titleContainer}>
           <BoldText style={styles.title}>{t('CREATE_ACCOUNT')}</BoldText>
-        </View>
+        </Animatable.View>
         <View style={styles.formContainer}>
-          <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
-          <TextInput value={fullName} onChangeText={setFullName} style={styles.textInput} placeholder="Ahmad Ali" placeholderTextColor="#dedede" />
+          <Animatable.View animation="fadeInUp" delay={250}>
+            <BoldText style={styles.inputLabel}>{t('FULL_NAME')}</BoldText>
+            <TextInput value={fullName} onChangeText={setFullName} style={styles.textInput} placeholder="Ahmad Ali" placeholderTextColor="#dedede" />
+          </Animatable.View>
 
-          <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-          <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          <Animatable.View animation="fadeInUp" delay={500}>
+            <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+          </Animatable.View>
 
-          <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-          <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
+          <Animatable.View animation="fadeInUp" delay={750}>
+            <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
+            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
+          </Animatable.View>
 
-          <View style={{ marginTop: 25 }}>
+          <Animatable.View animation="fadeInUp" delay={1000} style={{ marginTop: 25 }}>
             <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
             <Picker style={{ width: '100%', paddingHorizontal: 10 }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
               <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
               <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
             </Picker>
-          </View>
+          </Animatable.View>
 
-          <View style={styles.signupBtnContainer}>
+          <Animatable.View animation="bounceIn" delay={1800} style={styles.signupBtnContainer}>
             <RoundButton onPress={handleSignup}>
               {t('SIGNUP')}
             </RoundButton>
-          </View>
+          </Animatable.View>
         </View>
       </ScrollView>
     </View>

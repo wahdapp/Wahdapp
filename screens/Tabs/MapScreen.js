@@ -10,9 +10,8 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import { Text, LoaderWithoutOverlay } from 'components';
-import { getGeohashRange, isWithinBoundary } from 'helpers/geo';
+import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
-import { db } from 'firebaseDB';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import { PIN } from 'assets/images';
@@ -208,11 +207,13 @@ export default function MapScreen({ navigation }) {
       >
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', minWidth: 150 }}>
               <TouchableWithoutFeedback>
-                <View
+                <Animatable.View
+                  animation="rubberBand"
+                  iterationCount="infinite"
                   style={{
-                    backgroundColor: '#fff',
+                    backgroundColor: colors.primary,
                     padding: 10,
                     alignItems: 'center',
                     minWidth: 100,
@@ -220,8 +221,8 @@ export default function MapScreen({ navigation }) {
                     borderRadius: 25
                   }}
                 >
-                  <Text>{t('CONFIRM')}</Text>
-                </View>
+                  <Text style={{ color: '#fff' }}>{t('CONFIRM')}</Text>
+                </Animatable.View>
               </TouchableWithoutFeedback>
               <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
             </View>
