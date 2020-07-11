@@ -6,7 +6,7 @@ import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images'
 import moment from 'moment';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { formatDay } from 'helpers/dateFormat';
-import Touchable from './Touchable';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
 import { SCALE } from 'helpers/animation';
@@ -50,7 +50,7 @@ export default function PrayerCard({ navigate, ...props }) {
 
   return (
     <View style={styles.cardWrapper}>
-      <Touchable
+      <TouchableWithoutFeedback
         onPress={handleCardPress}
         onPressIn={() => { SCALE.pressInAnimation(scaleInAnimated); }}
         onPressOut={() => { SCALE.pressOutAnimation(scaleInAnimated); }}
@@ -74,7 +74,7 @@ export default function PrayerCard({ navigate, ...props }) {
             </View>
           </View>
         </Animated.View>
-      </Touchable>
+      </TouchableWithoutFeedback>
     </View>
   )
 }

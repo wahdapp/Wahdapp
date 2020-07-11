@@ -58,8 +58,11 @@ export default function FilterScreen({ route, navigation }) {
     try {
       const preference = await getFilterPreference();
 
-      setMinimumParticipants(preference.minimum_participants);
-      setDefaultMinimumParts(preference.minimum_participants);
+      if (user.gender === 'F' && preference.same_gender) {
+        setMinimumParticipants(preference.minimum_participants);
+        setDefaultMinimumParts(preference.minimum_participants);
+      }
+      
       setSameGender(preference.same_gender);
       setSelectedPrayers(preference.selected_prayers);
     }
