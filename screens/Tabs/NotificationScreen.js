@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Notifications } from 'expo';
 import { Text, BoldText } from 'components';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { BALLOON, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
 import colors from 'constants/Colors';
 import { formatAgo } from 'helpers/dateFormat';
@@ -137,7 +137,7 @@ function Card({ id, type, user, prayer, gender, timestamp }) {
         <View style={cardStyle.timeContainer}>
           <Text style={cardStyle.time}>{formatAgo(t, timestamp)}</Text>
           <View style={{ alignItems: 'flex-end' }}>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-dropright-circle' : 'md-arrow-dropright-circle'} size={24} color="#dd4f4f" />
+            <FontAwesome name="angle-right" size={24} color="#dd4f4f" />
           </View>
         </View>
       </View>

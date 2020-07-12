@@ -16,7 +16,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
@@ -142,8 +142,7 @@ async function loadResourcesAsync() {
       'Roboto_medium': require('./assets/fonts/Sen-Bold.ttf'),
       'Sen': require('./assets/fonts/Sen-Regular.ttf'),
       'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
+      ...FontAwesome.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/Sen-Regular.ttf'),

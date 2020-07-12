@@ -110,7 +110,7 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('HOME')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name={Platform.OS === 'ios' ? `ios-home` : 'md-home'} />
+            <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name="home" />
           )
         }}
       />
@@ -120,7 +120,7 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('MAP')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-pin` : 'md-pin'} />
+            <TabBarIcon focused={focused} name="globe" />
           )
         }}
       />
@@ -130,7 +130,7 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-moon' : 'md-moon'} />
+            <TabBarIcon focused={focused} name="clock-o" />
           )
         }}
       />
@@ -142,7 +142,7 @@ function Tabs() {
           tabBarIcon: ({ focused }) => (
             <View style={{ position: 'relative' }}>
               {isNew && <View style={{ backgroundColor: 'red', height: 6, width: 6, zIndex: 10, position: 'absolute', borderRadius: '50%', right: 0, top: 0 }} />}
-              <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'} />
+              <TabBarIcon focused={focused} name="bell" />
             </View>
           )
         }}

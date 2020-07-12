@@ -3,10 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
 import { View, CheckBox } from 'native-base';
 import { Text, BoldText, RoundButton, Loader } from 'components';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { setSortBy } from 'actions';
-import isEmpty from 'lodash/isEmpty';
 import { useTranslation } from 'react-i18next';
 import { getFilterPreference, updateFilterPreference } from 'services/user';
 import colors from 'constants/Colors';
@@ -48,7 +47,7 @@ export default function FilterScreen({ route, navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={resetFilter} style={{ marginRight: 25 }}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-refresh' : 'md-refresh'} size={24} color={colors.primary} />
+          <FontAwesome name="refresh" size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
     });

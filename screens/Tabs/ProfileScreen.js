@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
@@ -31,7 +31,7 @@ export default function ProfileScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={{ marginRight: 25, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={openActionSheet}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} />
+          <FontAwesome name="ellipsis-v" size={24} />
         </TouchableOpacity>
       ),
     });
@@ -127,7 +127,7 @@ export default function ProfileScreen({ navigation }) {
         <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.screenHeader}>
             <TouchableOpacity style={{ marginRight: 25, paddingLeft: 25 }} onPress={openActionSheet}>
-              <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={24} color="#fff" />
+              <FontAwesome name="ellipsis-v" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
 
@@ -174,9 +174,9 @@ export default function ProfileScreen({ navigation }) {
                 <View style={styles.fieldWrapper}>
                   <Text style={styles.textField}>{user.full_name}</Text>
                   <Touchable onPress={() => setIsEditingFullName(true)}>
-                    <Ionicons
+                    <FontAwesome
                       style={{ color: '#7F7F7F' }}
-                      name={Platform.OS === 'ios' ? 'ios-create' : 'md-create'}
+                      name="edit"
                       size={24}
                     />
                   </Touchable>
@@ -200,13 +200,13 @@ export default function ProfileScreen({ navigation }) {
           <Touchable>
             <ListItem style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('CHANGE_PASSWORD')}</Text>
-              <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} size={24} />
+              <FontAwesome style={{ marginLeft: 10, color: colors.primary }} name="lock" size={24} />
             </ListItem>
           </Touchable>
           <Touchable>
             <ListItem onPress={logout} style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('LOGOUT')}</Text>
-              <Ionicons style={{ marginLeft: 10, color: colors.primary }} name={Platform.OS === 'ios' ? 'ios-log-out' : 'md-log-out'} size={24} />
+              <FontAwesome style={{ marginLeft: 10, color: colors.primary }} name="sign-out" size={24} />
             </ListItem>
           </Touchable>
         </View>
