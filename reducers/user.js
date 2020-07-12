@@ -1,6 +1,12 @@
-import { SET_USER, SET_FULL_NAME } from '../constants/action_types';
+import { SET_USER, SET_FULL_NAME, ADD_INVITED_AMOUNT } from '../constants/action_types';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  full_name: '',
+  email: '',
+  gender: 'M',
+  invitedAmount: 0,
+  participatedAmount: 0
+};
 
 function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -8,6 +14,8 @@ function userReducer(state = INITIAL_STATE, action) {
       return action.payload;
     case SET_FULL_NAME:
       return { ...state, fullName: action.payload };
+    case ADD_INVITED_AMOUNT:
+      return { ...state, invitedAmount: state.invitedAmount + 1 };
     default: return state;
   }
 }

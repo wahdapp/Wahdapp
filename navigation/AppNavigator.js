@@ -15,6 +15,7 @@ import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
 import { getUserInfo } from 'services/user';
+import { getInvitedAmount, getParticipatedAmount } from 'services/prayer';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -40,10 +41,16 @@ export default ({ user }) => {
     await initFilter();
 
     try {
+      // Get user general info
       const userInfo = await getUserInfo(user.uid);
+
+      // Get total invited & participated prayers amount
+      const invited = await getInvitedAmount(user.uid);
+      const participated = await getParticipatedAmount(user.uid);
+
       setIsFirstOAuth(false);
       setUserDataFetched(true);
-      dispatch(setUser(userInfo));
+      dispatch(setUser({ ...userInfo, invitedAmount: invited.amount, participatedAmount: participated.amount }));
     }
     catch (e) {
       // The user just signed in with OAuth

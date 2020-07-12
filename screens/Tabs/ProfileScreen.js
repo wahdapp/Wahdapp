@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,13 +13,10 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from 'constants/Colors';
-import { getInvitedAmount, getParticipatedAmount } from 'services/prayer';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
-  const [invitedAmount, setInvitedAmount] = useState(0);
-  const [participatedAmount, setParticipatedAmount] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
@@ -36,12 +33,6 @@ export default function ProfileScreen({ navigation }) {
       ),
     });
   }, [navigation]);
-
-  useEffect(() => {
-    if (user) {
-      getPastInfo();
-    }
-  }, [user]);
 
   function openActionSheet() {
     let subpath = '';
@@ -82,14 +73,6 @@ export default function ProfileScreen({ navigation }) {
     });
   }
 
-  async function getPastInfo() {
-    const invited = await getInvitedAmount(auth.currentUser.uid);
-    const participated = await getParticipatedAmount(auth.currentUser.uid);
-
-    setInvitedAmount(invited.amount);
-    setParticipatedAmount(participated.amount);
-  }
-
   function updateFullName(e) {
     if (currentFullName.length && currentFullName !== user.full_name) {
       db.collection('users').doc(auth.currentUser.uid).set({ fullName: currentFullName }, { merge: true });
@@ -104,7 +87,7 @@ export default function ProfileScreen({ navigation }) {
   }
 
   function handleInvitedPress() {
-    if (!invitedAmount) {
+    if (!user.invitedAmount) {
       return null;
     }
     else {
@@ -145,14 +128,14 @@ export default function ProfileScreen({ navigation }) {
           <View style={styles.infoContainer}>
             <Animatable.View animation="bounceIn" delay={900}>
               <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
-                <BoldText style={styles.infoNumber}>{invitedAmount}</BoldText>
+                <BoldText style={styles.infoNumber}>{user.invitedAmount}</BoldText>
                 <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
               </Touchable>
             </Animatable.View>
 
             <Animatable.View animation="bounceIn" delay={1200}>
               <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
-                <BoldText style={styles.infoNumber}>{participatedAmount}</BoldText>
+                <BoldText style={styles.infoNumber}>{user.participatedAmount}</BoldText>
                 <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
               </Touchable>
             </Animatable.View>

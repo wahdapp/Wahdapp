@@ -1,21 +1,22 @@
 import React, { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
 import { Toast } from 'native-base';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
-import { db, auth, GeoPoint } from 'firebaseDB';
 import { prayerTypes } from 'constants/prayers';
-import geohash from 'ngeohash';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { LinearGradient } from 'expo-linear-gradient';
 import { createPrayer } from 'services/prayer';
+import { addInvitedAmount } from 'actions';
 import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
+  const dispatch = useDispatch();
+
   const [selectedPrayer, setSelectedPrayer] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
@@ -114,6 +115,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
         participants: [],
         id
       }
+
+      dispatch(addInvitedAmount());
 
       navigation.goBack();
       navigation.navigate('PrayerDetail', params);

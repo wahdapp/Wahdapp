@@ -14,6 +14,10 @@ export function setUser(payload) {
   }
 };
 
+export function addInvitedAmount() {
+  return { type: actions.ADD_INVITED_AMOUNT };
+};
+
 export function setFullName(payload) {
   return {
     type: actions.SET_FULL_NAME,
