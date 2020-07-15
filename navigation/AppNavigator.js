@@ -53,6 +53,7 @@ export default ({ user }) => {
       dispatch(setUser({ ...userInfo, invitedAmount: invited.amount, participatedAmount: participated.amount }));
     }
     catch (e) {
+      console.log(e)
       // The user just signed in with OAuth
       // Let the user choose his/her gender then create a new document into the database 
       setIsFirstOAuth(true);

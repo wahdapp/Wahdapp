@@ -51,7 +51,8 @@ export default function ProfileScreen({ navigation }) {
       message: '',
       cancelButtonIndex: 5,
       destructiveButtonIndex: 5,
-      textStyle: { fontFamily: 'Sen', color: colors.primary }
+      textStyle: { fontFamily: 'Sen', color: colors.primary },
+      destructiveColor: colors.error
     }, index => {
       switch (index) {
         case 0:

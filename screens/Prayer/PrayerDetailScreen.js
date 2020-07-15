@@ -109,8 +109,8 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   function handleDeletePrayer() {
     Alert.alert(
-      t('DELETE_PRAYER'),
-      t('DELETE_PRAYER_CONFIRM'),
+      t('CANCEL_PRAYER'),
+      t('CANCEL_PRAYER_CONFIRM'),
       [{ text: t('NO') }, { text: t('YES'), onPress: _deletePrayer, style: 'destructive' }]
     )
   }
@@ -168,13 +168,13 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
           {auth.currentUser.uid === inviter.id ? (
             <TouchableWithoutFeedback onPress={handleDeletePrayer}>
-              <View style={[styles.button, { backgroundColor: '#c4302b' }]}>
-                <Text style={{ color: '#fff' }}>{t('DELETE')}</Text>
+              <View style={[styles.button, { backgroundColor: colors.error }]}>
+                <Text style={{ color: '#fff' }}>{t('CANCEL')}</Text>
               </View>
             </TouchableWithoutFeedback>
           ) : isExpired ? (
             <View style={[styles.button, { backgroundColor: '#ddd' }]}>
-              <Text style={{ color: '#fff' }}>ENDED</Text>
+              <Text style={{ color: '#fff' }}>{t('ENDED')}</Text>
             </View>
           ) : (
                 <TouchableWithoutFeedback onPress={handleJoin}>

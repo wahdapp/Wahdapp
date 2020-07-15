@@ -190,7 +190,7 @@ export default function PrayerTimeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get('window').height,
+    minHeight: Dimensions.get('window').height,
     width: '100%',
   },
   header: {
