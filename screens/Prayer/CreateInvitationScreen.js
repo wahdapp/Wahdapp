@@ -250,7 +250,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
           <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome name="clock" size={18} color={colors.primary} />
+              <FontAwesome name="clock-o" size={18} color={colors.primary} />
               <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
             </View>
             <View>

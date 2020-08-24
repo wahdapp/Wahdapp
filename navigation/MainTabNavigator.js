@@ -55,7 +55,7 @@ function MapStack() {
   return (
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: t('HEADER'), headerBackTitle: ' ' }} />
+      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: '', headerBackTitle: ' ' }} />
       <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }} />
     </Stack.Navigator>
   )
@@ -108,7 +108,7 @@ function Tabs() {
         name="Home"
         component={HomeStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('HOME')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name="home" />
           )
@@ -118,7 +118,7 @@ function Tabs() {
         name="Map"
         component={MapStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('MAP')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="globe" />
           )
@@ -128,7 +128,7 @@ function Tabs() {
         name="PrayerTime"
         component={PrayerTimeStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PRAYER_TIMES')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="clock-o" />
           )
@@ -151,7 +151,7 @@ function Tabs() {
         name="Profile"
         component={ProfileStack}
         options={{
-          tabBarLabel: <Text style={{ fontSize: 8, marginTop: 5 }}>{t('PROFILE')}</Text>,
+          tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: () => (
             <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 24, height: 24 }} />
           )
