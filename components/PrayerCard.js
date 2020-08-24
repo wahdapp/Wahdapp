@@ -81,11 +81,21 @@ export default function PrayerCard({ navigate, ...props }) {
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    marginBottom: 20
+    marginBottom: 20,
+    width: '100%'
   },
   card: {
+    padding: 15,
     borderRadius: 22,
     borderWidth: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 14
   },
   imageWrapper: {
     height: 200,
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
 export function SkeletonCard() {
   return (
     <View style={styles.cardWrapper}>
-      <View style={[styles.card, { backgroundColor: '#fff', height: 350 }]} pointerEvents="none">
+      <View style={[styles.card, { backgroundColor: '#fff', height: 350, padding: 0 }]} pointerEvents="none">
         <View style={{
           backgroundColor: '#E1E9EE',
           width: '100%',

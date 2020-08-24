@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
   prayerListWrapper: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
     marginBottom: 25,
     height: '100%',
   },

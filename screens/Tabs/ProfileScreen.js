@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
-import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from 'assets/images';
 import { setFullName } from 'actions';
 import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
@@ -108,7 +108,7 @@ export default function ProfileScreen({ navigation }) {
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-        <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
+        <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.primary, colors.primary]}>
           <View style={styles.screenHeader}>
             <TouchableOpacity style={{ marginRight: 25, paddingLeft: 25 }} onPress={openActionSheet}>
               <FontAwesome name="ellipsis-v" size={24} color="#fff" />
@@ -124,6 +124,8 @@ export default function ProfileScreen({ navigation }) {
           </Animatable.View>
 
         </LinearGradient>
+
+        <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
 
         <View style={[styles.infoSection, { marginTop: 0 }]}>
           <View style={styles.infoContainer}>
@@ -217,17 +219,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%'
   },
-  titleStyle: {
-    fontSize: 20,
-    color: '#fff',
-    marginLeft: 25
-  },
   profileHeader: {
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 25,
-    width: '100%',
-    marginBottom: 20
+    width: '100%'
   },
   profilePicContainer: {
     alignItems: 'center'

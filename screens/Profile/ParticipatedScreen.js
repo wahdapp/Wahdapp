@@ -25,7 +25,7 @@ export default function InvitedScreen({ navigation, route }) {
     <View style={{ flex: 1, backgroundColor: '#eee' }}>
       <View style={styles.prayerListWrapper}>
         {isLoading
-          ? <SkeletonCard />
+          ? <View style={{ paddingTop: 25 }}><SkeletonCard /></View>
           :
           <FlatList
             style={{ height: '100%', paddingTop: 25 }}
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   prayerListWrapper: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
     marginBottom: 10,
     height: '100%'
   },

@@ -16,7 +16,6 @@ const PAGE_SIZE = 10;
 export default function HomeScreen({ navigation }) {
   const { t } = useTranslation(['HOME']);
   const location = useSelector(state => state.locationState);
-  const user = useSelector(state => state.userState);
   const filter = useSelector(state => state.filterState);
   const dispatch = useDispatch();
 
@@ -109,7 +108,7 @@ export default function HomeScreen({ navigation }) {
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
-            <SkeletonCard />
+            <View style={{ padding: 15 }}><SkeletonCard /></View>
           ) : (
             <FlatList
               style={{ height: '100%' }}
@@ -157,7 +156,6 @@ const styles = StyleSheet.create({
   prayerListWrapper: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
     marginBottom: 10
   },
   imageContainer: {
@@ -166,7 +164,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 15,
     paddingBottom: 25,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 14
   },
   image: {
     width: '100%',
