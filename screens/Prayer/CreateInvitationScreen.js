@@ -4,6 +4,7 @@ import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native'
 import { Toast } from 'native-base';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
+import { FontAwesome } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -179,13 +180,17 @@ export default function CreateInvitationScreen({ route, navigation }) {
             </View>
             <View style={styles.counter}>
               <Touchable onPress={() => handleOperation('M', '-')}>
-                <View style={styles.operationBtn}>
+                <View style={[styles.operationBtn, { left: 60, paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
-              <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{male}</Text>
+
+              <View style={styles.numberBtn}>
+                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{male}</Text>
+              </View>
+
               <Touchable onPress={() => handleOperation('M', '+')}>
-                <View style={styles.operationBtn}>
+                <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
                   <Text style={styles.operationText}>+</Text>
                 </View>
               </Touchable>
@@ -196,14 +201,18 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Touchable onPress={() => handleOperation('F', '-')}>
-                <View style={styles.operationBtn}>
+            <Touchable onPress={() => handleOperation('F', '-')}>
+                <View style={[styles.operationBtn, { left: 60, paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
-              <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{female}</Text>
+
+              <View style={styles.numberBtn}>
+                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{female}</Text>
+              </View>
+
               <Touchable onPress={() => handleOperation('F', '+')}>
-                <View style={styles.operationBtn}>
+                <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
                   <Text style={styles.operationText}>+</Text>
                 </View>
               </Touchable>
@@ -226,20 +235,26 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
-          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25 }}>
-            <View style={styles.datePicker}>
-              <View style={styles.timePickerBtn}>
-                <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{moment(date).format('YYYY-MM-DD')}</Text>
-              </View>
+          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FontAwesome name="calendar" size={18} color={colors.primary} />
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{moment(date).format('YYYY-MM-DD')}</Text>
+            </View>
+            <View>
+              <FontAwesome name="chevron-right" size={18} color="#7C7C7C" />
             </View>
           </Touchable>
         </View>
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25 }}>
-            <View style={styles.timePickerBtn}>
-              <Text style={{ fontSize: 16, paddingHorizontal: 5, color: '#fff' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FontAwesome name="clock" size={18} color={colors.primary} />
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+            </View>
+            <View>
+              <FontAwesome name="chevron-right" size={18} color="#7C7C7C" />
             </View>
           </Touchable>
         </View>
@@ -337,7 +352,8 @@ const styles = StyleSheet.create({
   },
   counter: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
   },
   numberText: {
     marginHorizontal: 10
@@ -414,14 +430,13 @@ const styles = StyleSheet.create({
 
     elevation: 8,
   },
-  operationBtn: {
+  numberBtn: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 45,
     height: 45,
-    backgroundColor: colors.primary,
+    backgroundColor: '#fff',
     borderRadius: 100,
-    marginHorizontal: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -429,11 +444,22 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
-
     elevation: 8,
+    position: 'relative',
+    zIndex: 3,
+    left: 30
+  },
+  operationBtn: {
+    justifyContent: 'center',
+    width: 65,
+    height: 45,
+    backgroundColor: colors.primary,
+    borderRadius: 100,
+    position: 'relative',
+    zIndex: 2
   },
   operationText: {
-    fontSize: 18,
+    fontSize: 26,
     color: '#fff'
   },
   textArea: {
