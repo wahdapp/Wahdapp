@@ -7378,6 +7378,13 @@ react-native-skeleton-content@^1.0.13:
     expo-linear-gradient "^8.0.0"
     lodash "^4.17.14"
 
+react-native-snackbar-component@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar-component/-/react-native-snackbar-component-1.1.10.tgz#6b648db35d85c111356ad108061d802945105308"
+  integrity sha512-GdQXatex09gLF3rUOL4gqWmicgxGeegDjye9PM1SaIfM9nGTVOo8QWUsJGANO1Cwy7NuY1v2O7RD81TnXjVagQ==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"

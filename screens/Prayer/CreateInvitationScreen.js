@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
-import { Toast } from 'native-base';
+import { SnackbarContext } from 'contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
 import { FontAwesome } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
+  const { setErrorMessage } = useContext(SnackbarContext);
   const dispatch = useDispatch();
 
   const [selectedPrayer, setSelectedPrayer] = useState('');
@@ -125,13 +126,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
     catch (e) {
       setIsLoading(false);
       if (e.message) {
-        Toast.show({
-          text: e.message,
-          textStyle: { fontSize: 12 },
-          buttonText: 'OK',
-          type: 'danger',
-          duration: 3000
-        });
+        setErrorMessage(e.message);
       }
     }
   }

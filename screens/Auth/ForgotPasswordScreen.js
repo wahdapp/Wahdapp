@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, Platform, View, Image, TextInput } from 'react-native';
-import { Toast, Content } from 'native-base';
+import React, { useState, useContext } from 'react';
+import { StyleSheet, Platform, View, Image, TextInput, ScrollView } from 'react-native';
+import { SnackbarContext } from 'contexts/snackbar';
 import { Text, BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
 import { FORGOT, EMAIL_SENT } from 'assets/images';
@@ -8,10 +8,12 @@ import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }) {
+  const { t } = useTranslation(['SIGN', 'COMMON']);
+  const { setErrorMessage } = useContext(SnackbarContext);
+
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [email, setEmail] = useState('');
-  const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function sendResetEmail() {
     try {
@@ -24,22 +26,16 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
     }
     catch (e) {
       setIsSending(false);
-      Toast.show({
-        text: e.message,
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
+      setErrorMessage(e.message);
     }
   }
 
   return (
     <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
       {isSending && <Loader />}
-      <Content contentContainerStyle={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+      <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
-          <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <View>
             <View style={styles.imageContainer}>
               <Image source={isSent ? EMAIL_SENT : FORGOT} style={styles.image} />
             </View>
@@ -82,7 +78,7 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
               )}
           </View>
         </View>
-      </Content>
+      </ScrollView>
     </View>
   )
 }
@@ -95,7 +91,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   imageContainer: {
-    width: '100%',
     paddingLeft: 25,
     paddingRight: 25
   },

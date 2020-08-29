@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, View, Image } from 'react-native';
-import { Content } from 'native-base';
+import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
 import { Text, BoldText, RoundButton } from 'components';
 import { EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
@@ -11,9 +10,9 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
 
   return (
     <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
-      <Content contentContainerStyle={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+      <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
-          <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <View>
             <View style={styles.imageContainer}>
               <Image source={EMAIL_SENT} style={styles.image} />
             </View>
@@ -30,10 +29,9 @@ export default function EmailSentScreen({ navigation: { navigate } }) {
                 </RoundButton>
               </View>
             </View>
-
           </View>
         </View>
-      </Content>
+      </ScrollView>
     </View>
   )
 }
@@ -46,7 +44,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   imageContainer: {
-    width: '100%',
     paddingLeft: 25,
     paddingRight: 25
   },
@@ -68,23 +65,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#7C7C7C',
     marginTop: 25
-  },
-  formContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-    width: '100%'
-  },
-  inputGroup: {
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    justifyContent: 'center'
-  },
-  input: {
-    fontSize: 12,
-    justifyContent: 'center',
-    marginHorizontal: 10,
-    fontFamily: 'Sen',
-    lineHeight: 16
   },
   buttonContainer: {
     justifyContent: 'center',

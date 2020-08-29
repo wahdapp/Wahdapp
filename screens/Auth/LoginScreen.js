@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
-import { Toast } from 'native-base';
+import { SnackbarContext } from 'contexts/snackbar';
 import { Text, Touchable, BoldText, Loader, RoundButton } from 'components';
 import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
@@ -11,20 +11,24 @@ import { Notifications } from 'expo';
 import { registerToken } from 'services/user';
 
 export default function LoginScreen({ navigation: { navigate } }) {
+  const { t } = useTranslation(['SIGN', 'PROFILE']);
+  const { setErrorMessage } = useContext(SnackbarContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation(['SIGN', 'PROFILE']);
+
+  function displayError(message) {
+    setErrorMessage(message);
+
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 3000);
+  }
 
   async function handleLogin() {
     if (!email || !password) {
-      Toast.show({
-        text: t('ERROR.0'),
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
+      displayError(t('ERROR.0'));
       return;
     }
     try {
@@ -37,13 +41,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
     }
     catch (e) {
       setLoading(false);
-      Toast.show({
-        text: e.message,
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
+      displayError(e.message);
     }
   }
 

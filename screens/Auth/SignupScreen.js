@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
-import { Toast } from 'native-base';
+import { SnackbarContext } from 'contexts/snackbar';
 import { BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
 import * as Animatable from 'react-native-animatable';
@@ -9,23 +9,18 @@ import colors from 'constants/Colors';
 import { createUser } from 'services/user';
 
 export default function SignupScreen({ navigation: { navigate } }) {
+  const { t } = useTranslation(['SIGN', 'COMMON']);
+  const { setErrorMessage } = useContext(SnackbarContext);
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('M');
-
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function handleSignup() {
     if (!fullName.trim() || !email.trim() || !password.trim()) {
-      Toast.show({
-        text: t('ERROR.1'),
-        textStyle: { fontSize: 12 },
-        buttonText: t('ERROR.3'),
-        type: 'danger',
-        duration: 3000
-      });
+      setErrorMessage(t('ERROR.1'));
       return;
     }
 
@@ -46,25 +41,12 @@ export default function SignupScreen({ navigation: { navigate } }) {
       navigate('EmailSent');
     }
     catch (e) {
-      console.log(e);
       setLoading(false);
       if (e.message) {
-        Toast.show({
-          text: e.message,
-          textStyle: { fontSize: 12 },
-          buttonText: t('ERROR.3'),
-          type: 'danger',
-          duration: 3000
-        });
+        setErrorMessage(e.message);
       }
       else if (typeof e === 'string') {
-        Toast.show({
-          text: e,
-          textStyle: { fontSize: 12 },
-          buttonText: t('ERROR.3'),
-          type: 'danger',
-          duration: 3000
-        });
+        setErrorMessage(e);
       }
     }
   }

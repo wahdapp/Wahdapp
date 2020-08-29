@@ -14,6 +14,7 @@ import {
   AsyncStorage,
   Dimensions,
 } from 'react-native';
+import { SnackbarProvider } from 'contexts/snackbar';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -107,30 +108,34 @@ export default function App(props) {
 
   if (!userAuth || !userAuth.emailVerified) {
     return (
-      <Root>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle }} />
-            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
-            <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false, headerStyle }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Root>
+      <SnackbarProvider>
+        <Root>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle }} />
+              <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
+              <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false, headerStyle }} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Root>
+      </SnackbarProvider>
     )
   }
 
   return (
-    <ActionSheetProvider>
-      <Root>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <Provider store={store}>
-            <AppNavigator user={userAuth} />
-          </Provider>
-        </View>
-      </Root>
-    </ActionSheetProvider>
+    <SnackbarProvider>
+      <ActionSheetProvider>
+        <Root>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <Provider store={store}>
+              <AppNavigator user={userAuth} />
+            </Provider>
+          </View>
+        </Root>
+      </ActionSheetProvider>
+    </SnackbarProvider>
   );
 }
 

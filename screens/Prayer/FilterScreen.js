@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Platform, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
-import { View, CheckBox } from 'native-base';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
+import { CheckBox } from 'native-base';
 import { Text, BoldText, RoundButton, Loader } from 'components';
 import { FontAwesome } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';

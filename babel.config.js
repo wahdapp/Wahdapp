@@ -15,7 +15,8 @@ module.exports = function(api) {
             reducers: './reducers',
             screens: './screens',
             actions: './actions',
-            services: './services'
+            services: './services',
+            contexts: './contexts'
           },
         },
       ],
