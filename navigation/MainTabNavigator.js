@@ -10,6 +10,7 @@ import PrayerDetailScreen from 'screens/Prayer/PrayerDetailScreen';
 import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
 import FilterScreen from 'screens/Prayer/FilterScreen';
 import CreateInvitationScreen from 'screens/Prayer/CreateInvitationScreen';
+import ReportPrayerScreen from 'screens/Prayer/ReportPrayerScreen';
 
 // Profile
 import ContactScreen from 'screens/Profile/ContactScreen';
@@ -175,6 +176,16 @@ function MainStack() {
           title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
           headerTitleStyle: [headerOptions.headerTitleStyle, { textTransform: 'capitalize' }],
           headerBackTitle: ' ',
+          gestureDirection: 'horizontal'
+        })} />
+      
+      <Stack.Screen
+        name="ReportPrayer"
+        component={ReportPrayerScreen}
+        options={() => ({
+          ...headerOptions,
+          title: '',
+          headerTitleStyle: [headerOptions.headerTitleStyle, { textTransform: 'capitalize' }],
           gestureDirection: 'horizontal'
         })} />
     </Stack.Navigator>

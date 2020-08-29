@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, AsyncStorage, Platform, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
+import { View, AsyncStorage, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
@@ -22,12 +22,10 @@ export default function ProfileScreen({ navigation }) {
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
   const { showActionSheetWithOptions } = useActionSheet();
 
-  console.log({ user })
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 25, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={openActionSheet}>
+        <TouchableOpacity style={{ marginRight: 10, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={openActionSheet}>
           <Feather name="menu" size={24} />
         </TouchableOpacity>
       ),
@@ -110,7 +108,7 @@ export default function ProfileScreen({ navigation }) {
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.primary, colors.primary]}>
           <View style={styles.screenHeader}>
-            <TouchableOpacity style={{ marginRight: 25, paddingLeft: 25 }} onPress={openActionSheet}>
+            <TouchableOpacity style={{ marginRight: 15, paddingLeft: 25 }} onPress={openActionSheet}>
               <Feather name="menu" size={24} color="#fff" />
             </TouchableOpacity>
           </View>

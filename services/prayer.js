@@ -163,3 +163,24 @@ export async function getParticipatedList(id) {
     throw e;
   }
 }
+
+export async function reportPrayer(prayerID, category, description) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/report`, {
+      prayer_id: prayerID,
+      category,
+      description
+    },
+    {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    return data.data;
+  }
+  catch (e) {
+    throw e;
+  }
+}

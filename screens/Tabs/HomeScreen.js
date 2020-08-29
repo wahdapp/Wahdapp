@@ -40,7 +40,7 @@ export default function HomeScreen({ navigation }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
+        <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
           <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
@@ -101,7 +101,7 @@ export default function HomeScreen({ navigation }) {
     <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
-        <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
+        <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
           <Feather name="sliders" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -122,9 +122,11 @@ export default function HomeScreen({ navigation }) {
               }}
               refreshing={isRefreshing}
               ListEmptyComponent={() => (
-                <View style={styles.imageContainer}>
-                  <Image source={NOT_FOUND} style={styles.image} />
-                  <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
+                <View style={{ padding: 15 }}>
+                  <View style={styles.imageContainer}>
+                    <Image source={NOT_FOUND} style={styles.image} />
+                    <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
+                  </View>
                 </View>
               )}
               onEndReached={hasMore ? fetchNearbyPrayers : null}
@@ -159,7 +161,6 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   imageContainer: {
-    width: '100%',
     borderRadius: 25,
     backgroundColor: '#fff',
     paddingTop: 15,

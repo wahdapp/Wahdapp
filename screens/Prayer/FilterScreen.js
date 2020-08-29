@@ -46,7 +46,7 @@ export default function FilterScreen({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={resetFilter} style={{ marginRight: 25 }}>
+        <TouchableOpacity onPress={resetFilter} style={{ marginRight: 15 }}>
           <Feather name="refresh-cw" size={24} color={colors.primary} />
         </TouchableOpacity>
       ),

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import {
   StyleSheet,
@@ -10,8 +10,10 @@ import {
   Linking,
   Platform,
   View,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Text, BoldText, Loader } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
@@ -20,6 +22,7 @@ import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
 import { useTranslation } from 'react-i18next';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import colors from 'constants/Colors';
 import { deletePrayer, joinPrayer } from 'services/prayer';
 
@@ -40,10 +43,12 @@ function joinReducer(state, action) {
 
 export default function PrayerDetailScreen({ route, navigation }) {
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
-  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
-  const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location, id, description } = route.params;
+  const { showActionSheetWithOptions } = useActionSheet();
   const locationState = useSelector(state => state.locationState);
   const user = useSelector(state => state.userState);
+
+  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+  const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location, id, description } = route.params;
 
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +67,16 @@ export default function PrayerDetailScreen({ route, navigation }) {
   useEffect(() => {
     getDistance();
   }, [locationState]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={openActionSheet} style={{ marginRight: 15 }}>
+          <Feather name="more-vertical" size={24} color="#000" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   function onRegionChangeComplete() {
     if (markerRef && markerRef.current && markerRef.current.showCallout) {
@@ -131,6 +146,24 @@ export default function PrayerDetailScreen({ route, navigation }) {
     catch (e) {
       setIsLoading(false);
     }
+  }
+
+  function openActionSheet() {
+    showActionSheetWithOptions({
+      options: ['Report', 'Cancel'],
+      title: '',
+      message: '',
+      cancelButtonIndex: 1,
+      destructiveButtonIndex: 0,
+      textStyle: { fontFamily: 'Sen' },
+      destructiveColor: colors.error
+    }, index => {
+      switch (index) {
+        case 0:
+          navigation.navigate('ReportPrayer', { prayerID: id });
+          break;
+      }
+    });
   }
 
   return (
@@ -324,5 +357,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25
-  }
-})
+  },
+});
