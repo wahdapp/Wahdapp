@@ -130,7 +130,7 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="clock-o" />
+            <TabBarIcon focused={focused} name="moon" />
           )
         }}
       />

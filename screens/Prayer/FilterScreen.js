@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
 import { CheckBox } from 'native-base';
 import { Text, BoldText, RoundButton, Loader } from 'components';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { setSortBy } from 'actions';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +47,7 @@ export default function FilterScreen({ route, navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={resetFilter} style={{ marginRight: 25 }}>
-          <FontAwesome name="refresh" size={24} color={colors.primary} />
+          <Feather name="refresh-cw" size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
     });

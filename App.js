@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { SnackbarProvider } from 'contexts/snackbar';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import LoginScreen from 'screens/Auth/LoginScreen';
 import SignupScreen from 'screens/Auth/SignupScreen';
@@ -146,7 +146,7 @@ async function loadResourcesAsync() {
       'Roboto_medium': require('./assets/fonts/Sen-Bold.ttf'),
       'Sen': require('./assets/fonts/Sen-Regular.ttf'),
       'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
-      ...FontAwesome.font,
+      ...Feather.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/Sen-Regular.ttf'),

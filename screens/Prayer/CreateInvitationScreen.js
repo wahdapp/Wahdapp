@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native'
 import { SnackbarContext } from 'contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
 import moment from 'moment';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { useTranslation } from 'react-i18next';
 import colors from 'constants/Colors';
@@ -232,11 +232,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
           <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome name="calendar" size={18} color={colors.primary} />
+              <Feather name="calendar" size={18} color={colors.primary} />
               <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{moment(date).format('YYYY-MM-DD')}</Text>
             </View>
             <View>
-              <FontAwesome name="chevron-right" size={18} color="#7C7C7C" />
+              <Feather name="chevron-right" size={18} color="#7C7C7C" />
             </View>
           </Touchable>
         </View>
@@ -245,11 +245,11 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
           <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome name="clock-o" size={18} color={colors.primary} />
+              <Feather name="clock" size={18} color={colors.primary} />
               <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
             </View>
             <View>
-              <FontAwesome name="chevron-right" size={18} color="#7C7C7C" />
+              <Feather name="chevron-right" size={18} color="#7C7C7C" />
             </View>
           </Touchable>
         </View>

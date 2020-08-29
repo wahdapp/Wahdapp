@@ -13,7 +13,7 @@ import { Text, LoaderWithoutOverlay } from 'components';
 import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 import * as Location from 'expo-location';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { PIN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
@@ -251,14 +251,14 @@ export default function MapScreen({ navigation }) {
           style={styles.removeMarkerBtn}
           onPress={removeMarker}
         >
-          <FontAwesome name="close" size={30} color="#7C7C7C" />
+          <Feather name="x" size={30} color="#7C7C7C" />
         </TouchableOpacity>
       ) : (
           <TouchableOpacity
             style={styles.floatingBtn}
             onPress={handleFloatBtnClick}
           >
-            <FontAwesome name="map-marker" size={30} color="#ffffff" />
+            <Feather name="map-pin" size={30} color="#ffffff" />
           </TouchableOpacity>
         )
       }

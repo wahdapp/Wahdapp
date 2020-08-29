@@ -1,13 +1,13 @@
 import React from 'react';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
 
 export default function TabBarIcon(props) {
   return (
-    <FontAwesome
+    <Feather
       name={props.name}
-      size={26}
+      size={24}
       style={{ marginBottom: -3 }}
       color={props.focused ? Colors.primary : Colors.tabIconDefault}
     />

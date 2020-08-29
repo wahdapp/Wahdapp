@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PrayerCard, SkeletonCard, Text, BoldText } from 'components';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import isEmpty from 'lodash/isEmpty';
 import { queryFeed } from 'services/prayer';
 import { NOT_FOUND } from 'assets/images';
@@ -41,7 +41,7 @@ export default function HomeScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
-          <FontAwesome name="sliders" size={24} color={colors.primary} />
+          <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       ),
     });
@@ -102,7 +102,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
         <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
-          <FontAwesome name="sliders" size={24} color="#fff" />
+          <Feather name="sliders" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
