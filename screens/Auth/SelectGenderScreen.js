@@ -6,12 +6,18 @@ import { ListItem, Radio, Right, Left } from 'native-base';
 import { auth } from 'firebaseDB';
 import { setUser, initializeFilter } from 'actions';
 import { useTranslation } from 'react-i18next';
-import { createUser } from 'services/user';
+import { createUser, registerToken } from 'services/user';
+import { Notifications } from 'expo';
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   const [isCreating, setIsCreating] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation(['SIGN', 'COMMON']);
+
+  async function registerPushToken() {
+    const token = await Notifications.getExpoPushTokenAsync();
+    await registerToken(token);
+}
 
   async function chooseGender(gender) {
     setIsCreating(true);
@@ -33,6 +39,8 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
 
     setIsFirstOAuth(false);
     setUserDataFetched(true);
+
+    await registerPushToken();
   }
 
   return (

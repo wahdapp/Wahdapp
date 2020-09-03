@@ -26,6 +26,11 @@ export default function LoginScreen({ navigation: { navigate } }) {
     }, 3000);
   }
 
+  async function registerPushToken() {
+      const token = await Notifications.getExpoPushTokenAsync();
+      await registerToken(token);
+  }
+
   async function handleLogin() {
     if (!email || !password) {
       displayError(t('ERROR.0'));
@@ -35,9 +40,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
       setLoading(true);
       await auth.signInWithEmailAndPassword(email, password);
 
-      // Register push token
-      const token = await Notifications.getExpoPushTokenAsync();
-      await registerToken(token);
+      registerPushToken();
     }
     catch (e) {
       setLoading(false);
@@ -47,10 +50,12 @@ export default function LoginScreen({ navigation: { navigate } }) {
 
   async function handleFacebookPress() {
     await signInWithFacebook();
+    await registerPushToken();
   }
 
   async function handleGooglePress() {
     await signInWithGoogle();
+    await registerPushToken();
   }
 
   if (loading) return <Loader />

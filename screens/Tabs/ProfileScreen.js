@@ -15,6 +15,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from 'constants/Colors';
+import { updateUserName } from 'services/user';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
@@ -88,7 +89,7 @@ export default function ProfileScreen({ navigation }) {
 
   function updateFullName(e) {
     if (currentFullName.length && currentFullName !== user.full_name) {
-      db.collection('users').doc(auth.currentUser.uid).set({ fullName: currentFullName }, { merge: true });
+      updateUserName(currentFullName);
       dispatch(setFullName(currentFullName));
     }
     setIsEditingFullName(false);

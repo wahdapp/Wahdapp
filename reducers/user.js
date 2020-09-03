@@ -13,7 +13,7 @@ function userReducer(state = INITIAL_STATE, action) {
     case SET_USER:
       return action.payload;
     case SET_FULL_NAME:
-      return { ...state, fullName: action.payload };
+      return { ...state, full_name: action.payload };
     case ADD_INVITED_AMOUNT:
       return { ...state, invitedAmount: state.invitedAmount + 1 };
     default: return state;

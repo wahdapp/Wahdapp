@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export async function createUser(payload) {
   try {
-    console.log(`${API_DOMAIN}/user`)
     const { data } = await axios.post(`${API_DOMAIN}/user`, payload);
 
     return data;
@@ -62,10 +61,10 @@ export async function updateFilterPreference(payload) {
   }
 }
 
-export async function updateUser(payload) {
+export async function updateUserName(name) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.patch(`${API_DOMAIN}/user`, payload, {
+    const { data } = await axios.patch(`${API_DOMAIN}/user?full_name=${name}`, {}, {
       headers: {
         Authorization: `Token ${token}`
       }
@@ -94,11 +93,11 @@ export async function deleteUser(payload) {
   }
 }
 
-export async function registerToken(token) {
+export async function registerToken(deviceToken) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.post(`${API_DOMAIN}/registerToken`, {
-      token
+      token: deviceToken
     }, {
       headers: {
         Authorization: `Token ${token}`
