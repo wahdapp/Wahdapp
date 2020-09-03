@@ -13,14 +13,13 @@ export const GeoPoint = firebase.firestore.GeoPoint;
 export const auth = firebase.auth();
 
 export async function signInWithFacebook() {
-  console.log(Constants.manifest.extra)
   const appId = Constants.manifest.extra.facebook.appId;
   const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
 
   await Facebook.initializeAsync(appId, 'Wahdapp');
 
   const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId, { permissions });
-  console.log({ type, token })
+
   switch (type) {
     case 'success': {
       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state

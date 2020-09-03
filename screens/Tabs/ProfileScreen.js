@@ -1,7 +1,9 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SnackbarContext } from 'contexts/snackbar';
+import SnackBar from 'react-native-snackbar-component';
 import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
 import { auth, db } from 'firebaseDB';
@@ -16,11 +18,23 @@ import colors from 'constants/Colors';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
-  const [isEditingFullName, setIsEditingFullName] = useState(false);
-  const dispatch = useDispatch();
   const user = useSelector(state => state.userState);
+  const dispatch = useDispatch();
+
+  const [isEditingFullName, setIsEditingFullName] = useState(false);
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
+  const [passwordEmailSent, setPasswordEmailSent] = useState(false);
+  const [emailSentMessage, setEmailSentMessage] = useState('');
   const { showActionSheetWithOptions } = useActionSheet();
+  const { setErrorMessage } = useContext(SnackbarContext);
+
+  useEffect(() => {
+    if (emailSentMessage.length) {
+      setTimeout(() => {
+        setEmailSentMessage('');
+      }, emailSentMessage.length > 30 ? 5000 : 3000)
+    }
+  }, [emailSentMessage]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -103,6 +117,19 @@ export default function ProfileScreen({ navigation }) {
     }
   }
 
+  async function handleChangePassword() {
+    if (!passwordEmailSent) {
+      try {
+        setPasswordEmailSent(true);
+        await auth.sendPasswordResetEmail(user.email);
+        setEmailSentMessage('An email has been sent to your inbox.');
+      }
+      catch (e) {
+        setErrorMessage('An error occurred. Please try again later.');
+      }
+    }
+  }
+
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -182,7 +209,7 @@ export default function ProfileScreen({ navigation }) {
 
         <View style={styles.sessionSection}>
           <Touchable>
-            <ListItem style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <ListItem onPress={handleChangePassword} style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('CHANGE_PASSWORD')}</Text>
               <Feather style={{ marginLeft: 10, color: colors.primary }} name="lock" size={24} />
             </ListItem>
@@ -196,14 +223,23 @@ export default function ProfileScreen({ navigation }) {
         </View>
 
         <View style={{ marginVertical: 15 }}>
-          <Touchable>
+          {/* <Touchable>
             <Text style={styles.footerText}>{t('DELETE_ACCOUNT')}</Text>
-          </Touchable>
+          </Touchable> */}
           <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
             <Text style={styles.footerText}>{t('OPTIONS.PRIVACY')}</Text>
           </Touchable>
         </View>
       </ScrollView>
+
+      <SnackBar
+        visible={!!emailSentMessage.length}
+        textMessage={emailSentMessage}
+        backgroundColor={colors.primary}
+        actionText="OK"
+        actionHandler={() => setEmailSentMessage('')}
+        accentColor="#fff"
+      />
     </>
   )
 }

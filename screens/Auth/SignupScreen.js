@@ -5,8 +5,10 @@ import { BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 import colors from 'constants/Colors';
 import { createUser } from 'services/user';
+import { convertLanguageCode } from 'helpers/languageCode';
 
 export default function SignupScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN', 'COMMON']);
@@ -34,7 +36,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
         gender
       });
 
-      await auth.useDeviceLanguage();
+      auth.languageCode = convertLanguageCode(i18n.language);
       await auth.currentUser.sendEmailVerification();
       await auth.signOut();
       setLoading(false);

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/zh-tw';
 import 'moment/locale/zh-cn';
+import { auth } from 'firebaseDB';
 
 export function formatDay(t, date) {
   const today = moment();
@@ -22,15 +23,19 @@ export function formatLanguage(language) {
   switch (language) {
     case 'en':
       moment.locale('en');
+      auth.languageCode = 'en';
       break;
     case 'zh_hant':
       moment.locale('zh-tw');
+      auth.languageCode ='zh-TW';
       break;
     case 'zh_hans':
       moment.locale('zh-cn');
+      auth.languageCode = 'zh-CN';
       break;
     default:
       moment.locale('en');
+      auth.languageCode = 'en';
   }
 }
 
