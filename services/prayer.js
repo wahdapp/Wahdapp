@@ -87,7 +87,7 @@ export async function deletePrayer(id) {
 export async function joinPrayer(id) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.post(`${API_DOMAIN}/prayer/join?id=${id}`, {
+    const { data } = await axios.get(`${API_DOMAIN}/prayer/join?id=${id}`, {
       headers: {
         Authorization: `Token ${token}`
       }

@@ -95,7 +95,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         type: 'JOIN',
         optimistic: {
           callback: async () => {
-            await joinPrayer(auth.currentUser.uid);
+            await joinPrayer(id);
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
@@ -110,7 +110,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
         type: 'CANCEL',
         optimistic: {
           callback: async () => {
-            await joinPrayer(auth.currentUser.uid);
+            await joinPrayer(id);
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
@@ -217,7 +217,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
                   <View style={[styles.button, {
                     backgroundColor: isJoined ? colors.primary : '#fff',
                     borderWidth: isJoined ? 0 : 1,
-                    borderColor: '#7C7C7C'
+                    borderColor: '#ddd'
                   }]}>
                     <Text style={{ color: isJoined ? '#fff' : '#7C7C7C' }}>{isJoined ? t('JOINED') : t('JOIN')}</Text>
                   </View>
