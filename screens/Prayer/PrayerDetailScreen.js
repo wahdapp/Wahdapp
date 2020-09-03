@@ -150,16 +150,19 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   function openActionSheet() {
     showActionSheetWithOptions({
-      options: ['Report', 'Cancel'],
+      options: ['View on Google Maps', 'Report', 'Cancel'],
       title: '',
       message: '',
-      cancelButtonIndex: 1,
-      destructiveButtonIndex: 0,
-      textStyle: { fontFamily: 'Sen' },
+      cancelButtonIndex: 2,
+      destructiveButtonIndex: 1,
+      textStyle: { fontFamily: 'Sen', color: colors.primary },
       destructiveColor: colors.error
     }, index => {
       switch (index) {
         case 0:
+          Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
+          break;
+        case 1:
           navigation.navigate('ReportPrayer', { prayerID: id });
           break;
       }
