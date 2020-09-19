@@ -25,7 +25,7 @@ export default function InvitedScreen({ navigation, route }) {
     <View style={{ flex: 1, backgroundColor: '#eee' }}>
       <View style={styles.prayerListWrapper}>
         {isLoading
-          ? <View style={{ paddingTop: 25, paddingHorizontal: 15 }}><SkeletonCard /></View>
+          ? <View style={{ paddingTop: 25, paddingHorizontal: 25 }}><SkeletonCard /></View>
           :
           <FlatList
             style={{ height: '100%', paddingTop: 25 }}
