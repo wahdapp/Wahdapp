@@ -142,7 +142,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
           <Animatable.View animation="bounceIn" delay={300} style={styles.profilePicContainer}>
-            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 75, height: 75 }} />
+            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 60, height: 60 }} />
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={600} style={styles.nameContainer}>

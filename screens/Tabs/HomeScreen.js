@@ -98,11 +98,11 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <LinearGradient style={styles.container} start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
         <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
-          <Feather name="sliders" size={24} color="#fff" />
+          <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
@@ -134,7 +134,7 @@ export default function HomeScreen({ navigation }) {
           )
         }
       </View>
-    </LinearGradient>
+    </View>
   )
 }
 
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     flex: 1,
+    backgroundColor: '#F6F6F6'
   },
   header: {
     marginVertical: 10,
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: 20,
-    color: '#fff',
+    color: colors.primary,
     marginLeft: 25
   },
   prayerListWrapper: {
