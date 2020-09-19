@@ -5,9 +5,9 @@ import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import { languages } from 'constants/languages';
 import { formatLanguage } from 'helpers/dateFormat';
-import moment from 'moment';
-import 'moment/locale/zh-tw';
-import 'moment/locale/zh-cn';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-tw';
+import 'dayjs/locale/zh-cn';
 
 function LanguageScreen({ navigation }) {
   async function handleSelectLanguage(lng) {

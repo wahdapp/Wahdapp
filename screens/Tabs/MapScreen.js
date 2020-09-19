@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Text, LoaderWithoutOverlay } from 'components';
 import * as Animatable from 'react-native-animatable';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
 import { PIN } from 'assets/images';
@@ -230,7 +230,7 @@ export default function MapScreen({ navigation }) {
         )}
         {filteredNearbyMarkers.length > 0 && (
           filteredNearbyMarkers.map((marker, i) => (
-            moment().isBefore(moment(marker.schedule_time)) ? (
+            dayjs().isBefore(dayjs(marker.schedule_time)) ? (
               <Marker
                 coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
                 onPress={() => handleMarkerPress(marker)}

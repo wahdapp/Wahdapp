@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
 import { SnackbarContext } from 'contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +49,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
   function handleTimePickerConfirm(date) {
     setIsTimePickerVisible(false);
-    setTime({ hour: moment(date).format('HH'), minute: moment(date).format('mm') });
+    setTime({ hour: dayjs(date).format('HH'), minute: dayjs(date).format('mm') });
   }
 
   function handleOperation(gender, operator) {
@@ -75,9 +75,9 @@ export default function CreateInvitationScreen({ route, navigation }) {
     try {
       setIsLoading(true);
       // validate date time
-      const now = moment();
-      const formattedDate = moment(date).format('YYYY-DD-MM');
-      const schedule = moment(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-DD-MM HH:mm');
+      const now = dayjs();
+      const formattedDate = dayjs(date).format('YYYY-DD-MM');
+      const schedule = dayjs(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-DD-MM HH:mm');
       const formattedSchedule = schedule.format();
 
       if (now > schedule) {
@@ -233,7 +233,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name="calendar" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{moment(date).format('YYYY-MM-DD')}</Text>
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{dayjs(date).format('YYYY-MM-DD')}</Text>
             </View>
             <View>
               <Feather name="chevron-right" size={18} color="#7C7C7C" />
@@ -246,7 +246,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name="clock" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? moment(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? dayjs(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
             </View>
             <View>
               <Feather name="chevron-right" size={18} color="#7C7C7C" />

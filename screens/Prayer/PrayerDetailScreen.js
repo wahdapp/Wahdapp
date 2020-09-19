@@ -17,7 +17,7 @@ import { Feather } from '@expo/vector-icons';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Text, BoldText, Loader } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
@@ -62,7 +62,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
   const { isJoined, currentParticipants } = joinState;
   const { lat, lng } = location;
 
-  const isExpired = useMemo(() => moment(schedule_time).isBefore(moment()), [schedule_time]);
+  const isExpired = useMemo(() => dayjs(schedule_time).isBefore(dayjs()), [schedule_time]);
 
   useEffect(() => {
     getDistance();
@@ -198,7 +198,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
       <ScrollView style={styles.sectionWrapper}>
         <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>
           <View>
-            <BoldText style={styles.sectionHeader}>{`${moment(schedule_time).format('MMM DD')}\n${moment(schedule_time).format('hh:mm A')}`}</BoldText>
+            <BoldText style={styles.sectionHeader}>{`${dayjs(schedule_time).format('MMM DD')}\n${dayjs(schedule_time).format('hh:mm A')}`}</BoldText>
             <Text style={styles.sectionSubHeader}>{formatDistance(distance, t)}</Text>
           </View>
 

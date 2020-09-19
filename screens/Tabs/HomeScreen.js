@@ -37,16 +37,6 @@ export default function HomeScreen({ navigation }) {
     query();
   }, [filter, location]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
-          <Feather name="sliders" size={24} color={colors.primary} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   async function query() {
     if (!isEmpty(location)) {
       setIsRefreshing(true);
@@ -101,14 +91,14 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
-        <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
+        <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}>
           <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
         {isFetching
           ? (
-            <View style={{ padding: 15 }}><SkeletonCard /></View>
+            <View style={{ paddingVertical: 15, paddingHorizontal: 25 }}><SkeletonCard /></View>
           ) : (
             <FlatList
               style={{ height: '100%' }}

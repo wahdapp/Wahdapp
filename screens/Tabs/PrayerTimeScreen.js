@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   ScrollView,
-  TouchableOpacity,
   ImageBackground,
   Dimensions
 } from 'react-native';
@@ -15,8 +13,11 @@ import { PRAYER_TIME_BG } from 'assets/images';
 import colors from 'constants/Colors';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
+import durationPlugin from 'dayjs/plugin/duration';
+
+dayjs.extend(durationPlugin);
 
 export default function PrayerTimeScreen() {
   const { t } = useTranslation(['PRAYER_TIME', 'COMMON']);
@@ -38,21 +39,22 @@ export default function PrayerTimeScreen() {
     let interval;
     if (!isEmpty(prayerTimes)) {
       interval = setInterval(() => {
-        const now = moment();
+        const now = dayjs();
         // Get the exact time of the next prayer
         const nextPrayerTime = prayerTimes.timings[nextPrayer];
-        const fetchDay = moment();
+        let fetchDay = dayjs();
         if (isNextDay) {
-          fetchDay.add(1, 'day');
+          fetchDay = fetchDay.add(1, 'day');
         }
-        const nextInMoment = moment(`${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`, 'YYYY-MM-DD HH:mm');
+        const nextInMoment = dayjs(`${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`, 'YYYY-MM-DD HH:mm');
 
         // If prayer time switches
         if (nextInMoment.isBefore(now)) {
           setNextPrayer(findNextPrayer(prayerTimes.timings));
         }
         else {
-          const duration = moment.duration(nextInMoment.diff(now));
+          console.log('else')
+          const duration = dayjs.duration(nextInMoment.diff(now));
           const hours = parseInt(duration.asHours());
           const minutes = parseInt(duration.asMinutes()) % 60;
           const seconds = parseInt(duration.asSeconds()) % 60 % 60;
@@ -74,10 +76,10 @@ export default function PrayerTimeScreen() {
       console.log(prayers)
 
       const next = findNextPrayer(prayers.timings);
-      const now = moment();
+      const now = dayjs();
 
       // If it's already after Isha BUT still before 00:00, get the prayer times for the next day
-      if (next === 'Fajr' && moment(prayers.timings.Isha, 'HH:mm').isBefore(now) && now.isBefore(moment('23:59', 'HH:mm'))) {
+      if (next === 'Fajr' && dayjs(prayers.timings.Isha, 'HH:mm').isBefore(now) && now.isBefore(dayjs('23:59', 'HH:mm'))) {
         setIsNextDay(true);
         setNextPrayer('Fajr');
 
@@ -86,7 +88,7 @@ export default function PrayerTimeScreen() {
         setIsFetching(false);
       }
       else {
-        setNextPrayer(findNextPrayer(prayers.timings));
+        setNextPrayer(next);
         setPrayerTimes(prayers);
 
         setIsFetching(false);
@@ -131,7 +133,7 @@ export default function PrayerTimeScreen() {
               </View>
 
               <View style={styles.date}>
-                <BoldText style={styles.dateText}>{moment().format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
+                <BoldText style={styles.dateText}>{dayjs().format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
               </View>
             </ImageBackground>
 
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
  */
 async function getPrayerTimes(position, method, isNextDay) {
   try {
-    let now = moment();
+    let now = dayjs();
     if (isNextDay) {
       now.add(1, 'day');
     }
@@ -287,21 +289,21 @@ async function getPrayerTimes(position, method, isNextDay) {
 }
 
 function findNextPrayer(timings) {
-  const now = moment();
+  const now = dayjs().format('HH:mm');
 
-  if (now.isBefore(moment(timings.Fajr, 'HH:mm'))) {
+  if (now < timings.Fajr) {
     return 'Fajr';
   }
-  if (now.isBefore(moment(timings.Dhuhr, 'HH:mm'))) {
+  if (now < timings.Dhuhr) {
     return 'Dhuhr';
   }
-  if (now.isBefore(moment(timings.Asr, 'HH:mm'))) {
+  if (now < timings.Asr) {
     return 'Asr';
   }
-  if (now.isBefore(moment(timings.Maghrib, 'HH:mm'))) {
+  if (now < timings.Maghrib) {
     return 'Maghrib';
   }
-  if (now.isBefore(moment(timings.Isha, 'HH:mm'))) {
+  if (now < timings.Isha) {
     return 'Isha';
   }
   return 'Fajr';

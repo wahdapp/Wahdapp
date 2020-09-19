@@ -37,16 +37,6 @@ export default function ProfileScreen({ navigation }) {
     }
   }, [emailSentMessage]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 10, width: 24, height: 24, alignItems: 'center', justifyContent: 'center' }} onPress={openActionSheet}>
-          <Feather name="menu" size={24} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   function openActionSheet() {
     let subpath = '';
     switch (i18n.language) {
@@ -136,7 +126,7 @@ export default function ProfileScreen({ navigation }) {
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.primary, colors.primary]}>
           <View style={styles.screenHeader}>
-            <TouchableOpacity style={{ marginRight: 15, paddingLeft: 25 }} onPress={openActionSheet}>
+            <TouchableOpacity style={{ marginRight: 20 }} onPress={openActionSheet}>
               <Feather name="menu" size={24} color="#fff" />
             </TouchableOpacity>
           </View>

@@ -1,9 +1,9 @@
 import { API_DOMAIN } from 'constants/api';
 import { auth } from 'firebaseDB';
 import axios from 'axios';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
-export async function queryFeed({ lng, lat, timestamp = moment().format(), sortType = 'distance', pageSize = 10, pageNumber = 1 }) {
+export async function queryFeed({ lng, lat, timestamp = dayjs().format(), sortType = 'distance', pageSize = 10, pageNumber = 1 }) {
   try {
     let sortBy;
 

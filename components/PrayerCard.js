@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Image, View, Animated } from 'react-native';
 import { Text } from './Text';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { formatDay } from 'helpers/dateFormat';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -62,15 +62,15 @@ export default function PrayerCard({ navigate, ...props }) {
           <View style={styles.descriptionWrapper}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <Text style={styles.descriptionTitle}>{PRAYERS[prayer]}</Text>
-              <Text style={styles.scheduleTitle}>{moment(schedule_time).format('hh:mm A')}</Text>
+              <Text style={styles.scheduleTitle}>{dayjs(schedule_time).format('hh:mm A')}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.full_name })}</Text>
-              <Text style={styles.invited}>{formatDay(t, moment(schedule_time))}</Text>
+              <Text style={styles.invited}>{formatDay(t, dayjs(schedule_time))}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
-              <Text>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests_male + guests_female })}</Text>
-              {distance ? <Text>{formatDistance(distance, t)}</Text> : <></>}
+              <Text style={{ fontSize: 12 }}>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests_male + guests_female })}</Text>
+              {distance ? <Text style={{ fontSize: 12 }}>{formatDistance(distance, t)}</Text> : null}
             </View>
           </View>
         </Animated.View>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   card: {
-    padding: 15,
+    padding: 25,
     borderRadius: 22,
     borderWidth: 0,
     shadowColor: "#000",
@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
   },
   descriptionTitle: {
     textTransform: 'capitalize',
-    fontSize: 24,
+    fontSize: 22,
   },
   scheduleTitle: {
     textTransform: 'uppercase',
-    fontSize: 24,
+    fontSize: 22,
   },
   invited: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#7C7C7C',
     textAlignVertical: 'bottom'
   }
