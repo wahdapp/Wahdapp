@@ -1,1 +1,1 @@
-export const API_DOMAIN = __DEV__ ? 'http://382e547857ea.ngrok.io' : '';
+export const API_DOMAIN = __DEV__ ? 'http://7aa051ce893a.ngrok.io' : '';

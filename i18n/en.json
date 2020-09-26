@@ -156,7 +156,8 @@
     "GENDER": {
       "LABEL": "Gender",
       "MALE": "Male",
-      "FEMALE": "Female"
+      "FEMALE": "Female",
+      "CONFIRM": "Confirm"
     },
     "LOADING": "Loading...",
     "DAY": {

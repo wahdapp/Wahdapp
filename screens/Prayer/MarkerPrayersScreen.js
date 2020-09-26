@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Platform, View } from 'react-native';
+import { StyleSheet, FlatList, View } from 'react-native';
 import { PrayerCard, RoundButton } from 'components';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
@@ -25,7 +25,7 @@ export default function MarkerPrayersScreen({ navigation, route }) {
         />
       </View>
       <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
-        <RoundButton onPress={handleInvite} style={{ maxWidth: 350 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+        <RoundButton onPress={handleInvite} style={{ maxWidth: 300 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
           {t('INVITE_HERE')}
         </RoundButton>
       </Animatable.View>

@@ -10,7 +10,6 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  Text,
   AsyncStorage,
   Dimensions,
 } from 'react-native';

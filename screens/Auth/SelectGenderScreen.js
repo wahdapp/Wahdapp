@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { Text, Touchable, Loader } from 'components';
-import { ListItem, Radio, Right, Left } from 'native-base';
+import { BoldText, RoundButton, Loader, GenderBox } from 'components';
 import { auth } from 'firebaseDB';
 import { setUser, initializeFilter } from 'actions';
 import { useTranslation } from 'react-i18next';
 import { createUser, registerToken } from 'services/user';
 import { Notifications } from 'expo';
+import * as Animatable from 'react-native-animatable';
+import colors from 'constants/Colors';
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   const [isCreating, setIsCreating] = useState(false);
+  const [gender, setGender] = useState('');
   const dispatch = useDispatch();
   const { t } = useTranslation(['SIGN', 'COMMON']);
 
   async function registerPushToken() {
     const token = await Notifications.getExpoPushTokenAsync();
     await registerToken(token);
-}
+  }
 
-  async function chooseGender(gender) {
+  async function chooseGender() {
     setIsCreating(true);
 
     const user = {
@@ -44,29 +46,23 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: '#F6F6F6' }}>
       {isCreating && <Loader />}
-      <Text style={styles.header}>{t('CHOOSE_GENDER')}</Text>
-      <Touchable onPress={() => chooseGender('M')}>
-        <ListItem onPress={() => chooseGender('M')}>
-          <Left>
-            <Text>{t('COMMON:GENDER.MALE')}</Text>
-          </Left>
-          <Right>
-            <Radio />
-          </Right>
-        </ListItem>
-      </Touchable>
-      <Touchable onPress={() => chooseGender('F')}>
-        <ListItem onPress={() => chooseGender('F')}>
-          <Left>
-            <Text>{t('COMMON:GENDER.FEMALE')}</Text>
-          </Left>
-          <Right>
-            <Radio />
-          </Right>
-        </ListItem>
-      </Touchable>
+      <BoldText style={styles.header}>{t('CHOOSE_GENDER')}</BoldText>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <GenderBox label={t('COMMON:GENDER.MALE')} gender="M" onPress={() => setGender('M')} isSelected={gender === 'M'} />
+        <GenderBox label={t('COMMON:GENDER.FEMALE')} gender="F" onPress={() => setGender('F')} isSelected={gender === 'F'} />
+      </View>
+
+      {gender.length && (
+        <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
+          <RoundButton onPress={chooseGender} style={{ maxWidth: 300 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+            {t('COMMON:GENDER.CONFIRM')}
+          </RoundButton>
+        </Animatable.View>
+      )}
+
     </View>
   )
 }
@@ -77,6 +73,15 @@ const styles = StyleSheet.create({
     marginVertical: 25,
     letterSpacing: 1.8,
     padding: 25,
+    color: colors.primary
+  },
+  buttonWrapper: {
+    position: 'absolute',
+    bottom: 25,
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
   }
 })
 

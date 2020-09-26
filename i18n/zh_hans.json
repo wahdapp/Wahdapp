@@ -156,7 +156,8 @@
     "GENDER": {
       "LABEL": "性别",
       "MALE": "男性",
-      "FEMALE": "女性"
+      "FEMALE": "女性",
+      "CONFIRM": "确认"
     },
     "LOADING": "载入中...",
     "DAY": {

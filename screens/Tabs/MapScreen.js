@@ -224,27 +224,20 @@ export default function MapScreen({ navigation }) {
                   <Text style={{ color: '#fff' }}>{t('CONFIRM')}</Text>
                 </Animatable.View>
               </TouchableWithoutFeedback>
-              <Image source={PIN} style={{ height: 35, width: 35, marginTop: 15 }} />
+              <Image source={PIN} style={{ height: 50, width: 50, marginTop: 15 }} />
             </View>
           </Marker>
         )}
         {filteredNearbyMarkers.length > 0 && (
           filteredNearbyMarkers.map((marker, i) => (
-            dayjs().isBefore(dayjs(marker.schedule_time)) ? (
-              <Marker
-                coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
-                onPress={() => handleMarkerPress(marker)}
-                key={i}
-              />
-            ) : (
-                <Dot
-                  coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
-                  onPress={() => handleMarkerPress(marker)}
-                  key={i}
-                />
-              )
-          ))
-        )}
+            <Dot
+              coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
+              onPress={() => handleMarkerPress(marker)}
+              key={i}
+              color={dayjs().isBefore(dayjs(marker.schedule_time)) ? colors.primary : '#ddd'}
+            />
+          )
+          ))}
       </MapView>
       {selectedLocation ? (
         <TouchableOpacity
@@ -349,10 +342,10 @@ const styles = StyleSheet.create({
   }
 })
 
-function Dot({ coordinate, onPress }) {
+function Dot({ coordinate, onPress, color = colors.primary }) {
   return (
     <Marker coordinate={coordinate} onPress={onPress}>
-      <View style={styles.dot} />
+      <View style={{ ...styles.dot, backgroundColor: color }} />
     </Marker>
   )
 }

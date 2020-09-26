@@ -16,7 +16,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Text, BoldText, Loader } from 'components';
-import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { MAN_AVATAR, WOMAN_AVATAR, PIN } from 'assets/images';
 import dayjs from 'dayjs';
 import { calculateDistance, formatDistance } from 'helpers/geo';
 import { auth } from 'firebaseDB';
@@ -193,6 +193,7 @@ export default function PrayerDetailScreen({ route, navigation }) {
               </Text>
             </View>
           </Callout>
+          <Image source={PIN} style={{ height: 50, width: 50, marginTop: -45 }} />
         </Marker>
       </MapView>
       <ScrollView style={styles.sectionWrapper}>

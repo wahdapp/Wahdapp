@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Picker, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, ScrollView, TextInput, Image } from 'react-native';
 import { SnackbarContext } from 'contexts/snackbar';
-import { BoldText, Loader, RoundButton } from 'components';
+import { BoldText, Loader, RoundButton, GenderBox } from 'components';
 import { auth } from 'firebaseDB';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ export default function SignupScreen({ navigation: { navigate } }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [gender, setGender] = useState('M');
+  const [gender, setGender] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSignup() {
@@ -77,12 +77,13 @@ export default function SignupScreen({ navigation: { navigate } }) {
             <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
           </Animatable.View>
 
-          <Animatable.View animation="fadeInUp" delay={1000} style={{ marginTop: 25 }}>
+          <Animatable.View animation="fadeInUp" delay={1000}>
             <BoldText style={styles.inputLabel}>{t('COMMON:GENDER.LABEL')}</BoldText>
-            <Picker style={{ width: '100%', paddingHorizontal: 10 }} itemStyle={{ height: 100 }} selectedValue={gender} onValueChange={item => setGender(item)}>
-              <Picker.Item label={t('COMMON:GENDER.MALE')} value="M" />
-              <Picker.Item label={t('COMMON:GENDER.FEMALE')} value="F" />
-            </Picker>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <GenderBox label={t('COMMON:GENDER.MALE')} gender="M" onPress={() => setGender('M')} isSelected={gender === 'M'} />
+              <GenderBox label={t('COMMON:GENDER.FEMALE')} gender="F" onPress={() => setGender('F')} isSelected={gender === 'F'} />
+            </View>
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={1800} style={styles.signupBtnContainer}>
@@ -100,8 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 20,
-    paddingBottom: 40
+    paddingTop: 20
   },
   signupContainer: {
     justifyContent: 'center',
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.65,
     shadowRadius: 5,
     shadowColor: '#000',
-    shadowOffset: { height: 0, width: 0 },
+    shadowOffset: { height: 0, width: 0 }
   },
   titleContainer: {
     width: '100%',
@@ -131,11 +131,12 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   signupBtnContainer: {
-    marginTop: 25,
+    marginTop: 45,
     marginLeft: 'auto',
     marginRight: 'auto',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    paddingBottom: 40
   },
   signupBtn: {
     height: 52,
