@@ -47,7 +47,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#F6F6F6' }}>
-      {/* {isCreating && <Loader />} */}
+      {isCreating && <Loader />}
       <BoldText style={styles.header}>{t('CHOOSE_GENDER')}</BoldText>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
@@ -55,7 +55,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
         <GenderBox label={t('COMMON:GENDER.FEMALE')} gender="F" onPress={() => setGender('F')} isSelected={gender === 'F'} />
       </View>
 
-      {gender.length && (
+      {gender.length > 0 && (
         <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
           <RoundButton onPress={chooseGender} style={{ maxWidth: 300 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
             {t('COMMON:GENDER.CONFIRM')}
