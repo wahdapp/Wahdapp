@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
 import { PIN } from 'assets/images';
+import GoogleMapsTheme from 'constants/google-maps-theme';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
 import colors from 'constants/Colors';
@@ -204,6 +205,7 @@ export default function MapScreen({ navigation }) {
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
         onRegionChangeComplete={handleDrag}
+        customMapStyle={GoogleMapsTheme}
       >
         {selectedLocation && (
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
@@ -311,7 +313,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     height: 60,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     borderRadius: 100,
   },
   removeMarkerBtn: {

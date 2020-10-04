@@ -47,7 +47,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#F6F6F6' }}>
-      {isCreating && <Loader />}
+      {/* {isCreating && <Loader />} */}
       <BoldText style={styles.header}>{t('CHOOSE_GENDER')}</BoldText>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
