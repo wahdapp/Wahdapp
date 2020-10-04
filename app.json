@@ -11,11 +11,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -33,7 +28,16 @@
         }
       },
       "googleServicesFile": "./google-services.json",
-      "versionCode": 1
+      "versionCode": 1,
+      "splash": {
+        "ldpi": "./assets/images/splash_screens/android/ldpi/splash.png",
+        "mdpi": "./assets/images/splash_screens/android/mdpi/splash.png",
+        "hdpi": "./assets/images/splash_screens/android/hdpi/splash.png",
+        "xdpi": "./assets/images/splash_screens/android/xdpi/splash.png",
+        "xxdpi": "./assets/images/splash_screens/android/xxdpi/splash.png",
+        "xxxdpi": "./assets/images/splash_screens/android/xxxdpi/splash.png",
+        "resizeMode": "cover"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.wahdapp.wahdapp",
@@ -44,6 +48,10 @@
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.119066836643-pjemtq4at38e7qfbudeahom8gq8gbp8n"
         }
+      },
+      "splash": {
+        "image": "./assets/images/splash_screens/ios/splash.png",
+        "resizeMode": "cover"
       }
     },
     "hooks": {

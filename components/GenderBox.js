@@ -7,7 +7,7 @@ import colors from 'constants/Colors';
 const GenderBox = ({ isSelected, onPress, gender, label }) => {
   return (
     <Touchable onPress={onPress}>
-      <View style={{ ...styles.container, backgroundColor: isSelected ? colors.primary : '#dedede' }}>
+      <View style={{ ...styles.container, borderColor: colors.primary, borderWidth: isSelected ? 3 : 0 }}>
         <View style={styles.circle}>
           <Image source={gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 50, height: 50 }} />
         </View>
@@ -23,7 +23,17 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    
+    elevation: 5,
   },
   circle: {
     width: 80,
@@ -37,7 +47,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    marginTop: 10
+    marginTop: 10,
+    color: '#444'
   }
 });
 

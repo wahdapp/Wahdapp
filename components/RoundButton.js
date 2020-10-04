@@ -4,27 +4,26 @@ import Touchable from './Touchable';
 import { Text } from './Text';
 import Colors from 'constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
 
 export default function RoundButton({
   children,
   style = {},
   width = '100%',
   height = 52,
-  colors = [Colors.primary, Colors.secondary],
+  backgroundColor = Colors.primary,
   textStyle = {},
   touchableStyle = {},
   ...props
 }) {
   return (
     <Touchable {...props} style={{ ...styles.touchableStyle, ...touchableStyle }}>
-      <LinearGradient
+      <View
         style={{ ...styles.button, width, height, borderRadius: height / 2, ...style }}
-        colors={colors}
-        start={[0, 1]}
-        end={[1, 0]}
+        backgroundColor={backgroundColor}
       >
         <Text style={{ ...styles.text, ...textStyle }}>{children}</Text>
-      </LinearGradient>
+      </View>
     </Touchable>
   )
 }
@@ -43,7 +42,8 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    color: Colors.secondary
   },
   text: {
     fontSize: 14,

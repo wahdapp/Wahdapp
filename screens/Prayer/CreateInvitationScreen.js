@@ -155,7 +155,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
                   marginRight: 10,
                   borderRadius: 20
                 }}
-                colors={selectedPrayer === item ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                backgroundColor={selectedPrayer === item ? colors.primary : '#fff'}
                 textStyle={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}
               >
                 {PRAYERS[item]}
@@ -246,7 +246,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name="clock" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? dayjs(`${time.hour}:${time.minute}`, 'HH:mm').format('HH:mm') : t('CHOOSE_TIME')}</Text>
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? `${time.hour}:${time.minute}` : t('CHOOSE_TIME')}</Text>
             </View>
             <View>
               <Feather name="chevron-right" size={18} color="#7C7C7C" />
@@ -282,22 +282,20 @@ export default function CreateInvitationScreen({ route, navigation }) {
             onPress={submit}
             style={styles.inviteTouchable}
           >
-            <LinearGradient
+            <View
               style={{
                 ...styles.inviteBtn,
+                backgroundColor: colors.primary,
                 borderColor: isComplete ? colors.primary : '#dedede',
                 borderWidth: isComplete ? 2 : 0,
               }}
-              colors={isComplete ? [colors.primary, colors.secondary] : ['#dedede', '#dedede']}
-              start={[0, 1]}
-              end={[1, 0]}
             >
               <Text style={{
                 fontSize: 14,
                 letterSpacing: 1.8,
                 color: '#ffffff'
               }}>{t('INVITE')}</Text>
-            </LinearGradient>
+            </View>
           </Touchable>
         </View>
       </View>

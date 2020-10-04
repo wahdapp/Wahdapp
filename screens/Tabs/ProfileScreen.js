@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,7 +6,7 @@ import { SnackbarContext } from 'contexts/snackbar';
 import SnackBar from 'react-native-snackbar-component';
 import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from 'components';
-import { auth, db } from 'firebaseDB';
+import { auth } from 'firebaseDB';
 import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from 'assets/images';
 import { setFullName } from 'actions';
 import { ListItem } from 'native-base';

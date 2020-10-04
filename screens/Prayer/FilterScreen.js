@@ -117,7 +117,7 @@ export default function FilterScreen({ route, navigation }) {
             <RoundButton
               onPress={() => setSelectedSort('distance')}
               style={styles.btnStyle}
-              colors={selectedSort === 'distance' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              backgroundColor={selectedSort === 'distance' ? colors.primary : '#fff'}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'distance' ? '#fff' : '#dedede' }}
             >
               {t('DISTANCE')}
@@ -125,7 +125,7 @@ export default function FilterScreen({ route, navigation }) {
             <RoundButton
               onPress={() => setSelectedSort('participants')}
               style={styles.btnStyle}
-              colors={selectedSort === 'participants' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              backgroundColor={selectedSort === 'participants' ? colors.primary : '#fff'}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'participants' ? '#fff' : '#dedede' }}
             >
               {t('PARTICIPANTS')}
@@ -133,7 +133,7 @@ export default function FilterScreen({ route, navigation }) {
             <RoundButton
               onPress={() => setSelectedSort('time')}
               style={styles.btnStyle}
-              colors={selectedSort === 'time' ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+              backgroundColor={selectedSort === 'time' ? colors.primary : '#fff'}
               textStyle={{ textTransform: 'capitalize', color: selectedSort === 'time' ? '#fff' : '#dedede' }}
             >
               {t('TIME')}
@@ -159,7 +159,7 @@ export default function FilterScreen({ route, navigation }) {
                   marginRight: 10,
                   borderRadius: 20
                 }}
-                colors={selectedPrayers.includes(item) ? [colors.primary, colors.secondary] : ['#fff', '#fff']}
+                backgroundColor={selectedPrayers.includes(item) ? colors.primary : '#fff'}
                 textStyle={{ textTransform: 'capitalize', color: selectedPrayers.includes(item) ? '#fff' : '#dedede' }}
               >
                 {PRAYERS[item]}

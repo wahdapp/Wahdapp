@@ -47,13 +47,11 @@ export default function PrayerTimeScreen() {
           fetchDay = fetchDay.add(1, 'day');
         }
         const nextInMoment = dayjs(`${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`, 'YYYY-MM-DD HH:mm');
-
         // If prayer time switches
         if (nextInMoment.isBefore(now)) {
           setNextPrayer(findNextPrayer(prayerTimes.timings));
         }
         else {
-          console.log('else')
           const duration = dayjs.duration(nextInMoment.diff(now));
           const hours = parseInt(duration.asHours());
           const minutes = parseInt(duration.asMinutes()) % 60;
@@ -79,7 +77,7 @@ export default function PrayerTimeScreen() {
       const now = dayjs();
 
       // If it's already after Isha BUT still before 00:00, get the prayer times for the next day
-      if (next === 'Fajr' && dayjs(prayers.timings.Isha, 'HH:mm').isBefore(now) && now.isBefore(dayjs('23:59', 'HH:mm'))) {
+      if (next === 'Fajr' && prayers.timings.Isha < now.format('HH:mm') && now.format('HH:mm') < '23:59') {
         setIsNextDay(true);
         setNextPrayer('Fajr');
 
