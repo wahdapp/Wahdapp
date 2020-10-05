@@ -5,7 +5,12 @@ import LottieView from 'lottie-react-native';
 import { Text } from './Text';
 import colors from '@/constants/colors';
 
-export function Loader({ width, height }) {
+type LoaderProps = {
+  width?: number;
+  height?: number;
+};
+
+export function Loader({ width = 70, height = 70 }: LoaderProps) {
   return (
     <AnimatedLoader
       visible={true}
@@ -14,21 +19,20 @@ export function Loader({ width, height }) {
       animationStyle={{ width, height }}
       speed={2}
     />
-  )
+  );
 }
 
-Loader.defaultProps = {
-  width: 70,
-  height: 70
-}
+type LoaderWithoutOverlayProps = {
+  size?: string;
+  text?: string;
+};
 
-export function LoaderWithoutOverlay({ size = 'small', text = '' }) {
+export function LoaderWithoutOverlay({ size = 'small', text = '' }: LoaderWithoutOverlayProps) {
   let width, height;
 
   if (size === 'small') {
     width = height = 25;
-  }
-  else {
+  } else {
     width = height = 50;
   }
 
@@ -41,12 +45,19 @@ export function LoaderWithoutOverlay({ size = 'small', text = '' }) {
         style={{ width, height }}
         speed={2}
       />
-      {text ? <Text style={{ marginTop: 20, color: colors.primary, fontSize: 12 }}>{text}</Text> : null}
+      {text ? (
+        <Text style={{ marginTop: 20, color: colors.primary, fontSize: 12 }}>{text}</Text>
+      ) : null}
     </View>
-  )
+  );
 }
 
-export function Spinner({ size, type = 'default' }) {
+type SpinnerProps = {
+  size?: string;
+  type?: string;
+};
+
+export function Spinner({ size = 'small', type = 'default' }: SpinnerProps) {
   let spinnerFile = require('@/assets/spinner.json');
   if (type === 'white') {
     spinnerFile = require('@/assets/white_spinner.json');
@@ -55,23 +66,13 @@ export function Spinner({ size, type = 'default' }) {
 
   if (size === 'small') {
     width = height = 20;
-  }
-  else {
+  } else {
     width = height = 45;
   }
 
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <LottieView
-        source={spinnerFile}
-        autoPlay
-        loop
-        style={{ width, height }}
-      />
+      <LottieView source={spinnerFile} autoPlay loop style={{ width, height }} />
     </View>
-  )
-}
-
-Spinner.defaultProps = {
-  size: 'small'
+  );
 }

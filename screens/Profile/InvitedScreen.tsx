@@ -5,9 +5,16 @@ import { NOT_FOUND } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import { auth } from '@/firebase';
 import { getInvitedList } from '@/services/prayer';
-import { Prayer } from '@/types';
+import { Prayer, RootStackParamList } from '@/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export default function InvitedScreen({ navigation }) {
+type InvitedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Invited'>;
+
+type Props = {
+  navigation: InvitedScreenNavigationProp;
+};
+
+export default function InvitedScreen({ navigation }: Props) {
   const { t } = useTranslation(['PROFILE']);
   const [list, setList] = useState<Prayer[]>([]);
   const [isLoading, setIsLoading] = useState(true);

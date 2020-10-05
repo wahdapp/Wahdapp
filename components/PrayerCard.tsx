@@ -10,12 +10,23 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
 import { SCALE } from '@/helpers/animation';
+import { Prayer } from '@/types';
 
-export default function PrayerCard({ navigate, ...props }) {
+type Props = Prayer & { navigate: any };
+
+export default function PrayerCard({ navigate, ...props }: Props) {
   const { t } = useTranslation('COMMON');
-  const locationState = useSelector(state => state.locationState);
+  const locationState = useSelector((state) => state.locationState);
 
-  const { guests_male, guests_female, inviter, participants, prayer, schedule_time, location } = props;
+  const {
+    guests_male,
+    guests_female,
+    inviter,
+    participants,
+    prayer,
+    schedule_time,
+    location,
+  } = props;
   const { lat, lng } = location;
 
   const [distance, setDistance] = useState(null);
@@ -28,19 +39,32 @@ export default function PrayerCard({ navigate, ...props }) {
   }, [location]);
 
   async function getDistance() {
-    setDistance(calculateDistance({ lat, lon: lng }, { lat: locationState.latitude, lon: locationState.longitude }));
+    setDistance(
+      calculateDistance(
+        { lat, lon: lng },
+        { lat: locationState.latitude, lon: locationState.longitude }
+      )
+    );
   }
 
   function getBackgroundImg() {
     switch (prayer) {
-      case 'fajr': return FAJR;
-      case 'dhuhr': return DHUHR;
-      case 'asr': return ASR;
-      case 'maghrib': return MAGHRIB;
-      case 'isha': return ISHA;
-      case 'janazah': return JANAZAH;
-      case 'jumuah': return JUMUAH;
-      default: return MAGHRIB;
+      case 'fajr':
+        return FAJR;
+      case 'dhuhr':
+        return DHUHR;
+      case 'asr':
+        return ASR;
+      case 'maghrib':
+        return MAGHRIB;
+      case 'isha':
+        return ISHA;
+      case 'janazah':
+        return JANAZAH;
+      case 'jumuah':
+        return JUMUAH;
+      default:
+        return MAGHRIB;
     }
   }
 
@@ -52,10 +76,17 @@ export default function PrayerCard({ navigate, ...props }) {
     <View style={styles.cardWrapper}>
       <TouchableWithoutFeedback
         onPress={handleCardPress}
-        onPressIn={() => { SCALE.pressInAnimation(scaleInAnimated); }}
-        onPressOut={() => { SCALE.pressOutAnimation(scaleInAnimated); }}
+        onPressIn={() => {
+          SCALE.pressInAnimation(scaleInAnimated);
+        }}
+        onPressOut={() => {
+          SCALE.pressOutAnimation(scaleInAnimated);
+        }}
       >
-        <Animated.View style={{ ...styles.card, ...SCALE.getScaleTransformationStyle(scaleInAnimated) }} pointerEvents="none">
+        <Animated.View
+          style={{ ...styles.card, ...SCALE.getScaleTransformationStyle(scaleInAnimated) }}
+          pointerEvents="none"
+        >
           <View style={styles.imageWrapper}>
             <Image source={getBackgroundImg()} style={styles.image} />
           </View>
@@ -65,30 +96,45 @@ export default function PrayerCard({ navigate, ...props }) {
               <Text style={styles.scheduleTitle}>{dayjs(schedule_time).format('hh:mm A')}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-              <Text style={styles.invited}>{t('PRAYER_CARD.INVITED', { name: inviter.full_name })}</Text>
-              <Text style={styles.invited}>{formatDay(t, dayjs(schedule_time))}</Text>
+              <Text style={styles.invited}>
+                {t('PRAYER_CARD.INVITED', { name: inviter.full_name })}
+              </Text>
+              <Text style={styles.invited}>{formatDay(t, schedule_time)}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 10 }}>
-              <Text style={{ fontSize: 12 }}>{t('PRAYER_CARD.PARTICIPATING', { num: 1 + participants.length + guests_male + guests_female })}</Text>
-              {distance ? <Text style={{ fontSize: 12 }}>{formatDistance(distance, t)}</Text> : null}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+                marginVertical: 10,
+              }}
+            >
+              <Text style={{ fontSize: 12 }}>
+                {t('PRAYER_CARD.PARTICIPATING', {
+                  num: 1 + participants.length + guests_male + guests_female,
+                })}
+              </Text>
+              {distance ? (
+                <Text style={{ fontSize: 12 }}>{formatDistance(distance, t)}</Text>
+              ) : null}
             </View>
           </View>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   cardWrapper: {
     marginBottom: 20,
-    width: '100%'
+    width: '100%',
   },
   card: {
     padding: 25,
     borderRadius: 22,
     borderWidth: 0,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 7,
@@ -110,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    borderTopRightRadius: 20,
   },
   descriptionWrapper: {
     minHeight: 100,
@@ -121,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     alignItems: 'flex-start',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   descriptionTitle: {
     textTransform: 'capitalize',
@@ -134,21 +180,26 @@ const styles = StyleSheet.create({
   invited: {
     fontSize: 12,
     color: '#7C7C7C',
-    textAlignVertical: 'bottom'
-  }
+    textAlignVertical: 'bottom',
+  },
 });
 
 export function SkeletonCard() {
   return (
     <View style={styles.cardWrapper}>
-      <View style={[styles.card, { backgroundColor: '#fff', height: 350, padding: 0 }]} pointerEvents="none">
-        <View style={{
-          backgroundColor: '#E1E9EE',
-          width: '100%',
-          height: 200,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20
-        }} />
+      <View
+        style={[styles.card, { backgroundColor: '#fff', height: 350, padding: 0 }]}
+        pointerEvents="none"
+      >
+        <View
+          style={{
+            backgroundColor: '#E1E9EE',
+            width: '100%',
+            height: 200,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
+        />
 
         <SkeletonContent
           layout={[
@@ -162,15 +213,15 @@ export function SkeletonCard() {
             },
           ]}
           containerStyle={style.first}
-          isLoading={true}>
-        </SkeletonContent>
+          isLoading={true}
+        ></SkeletonContent>
 
         <SkeletonContent
           layout={[
             {
               width: 220,
               height: 20,
-              marginBottom: 6
+              marginBottom: 6,
             },
             {
               width: 180,
@@ -178,18 +229,18 @@ export function SkeletonCard() {
             },
           ]}
           containerStyle={{ paddingBottom: 20, paddingLeft: 20 }}
-          isLoading={true}>
-        </SkeletonContent>
+          isLoading={true}
+        ></SkeletonContent>
       </View>
     </View>
-  )
+  );
 }
 
 const style = StyleSheet.create({
   image: {
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   first: {
     width: '100%',
@@ -197,6 +248,6 @@ const style = StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 6
-  }
-})
+    marginBottom: 6,
+  },
+});
