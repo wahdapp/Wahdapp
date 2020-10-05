@@ -25,7 +25,7 @@ export default function MarkerPrayersScreen({ navigation, route }) {
         />
       </View>
       <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
-        <RoundButton onPress={handleInvite} style={{ maxWidth: 300 }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+        <RoundButton onPress={handleInvite} style={{ width: '100%' }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
           {t('INVITE_HERE')}
         </RoundButton>
       </Animatable.View>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    paddingHorizontal: 35
   }
 })

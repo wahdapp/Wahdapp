@@ -174,8 +174,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Touchable onPress={() => handleOperation('M', '-')}>
-                <View style={[styles.operationBtn, { left: 60, paddingLeft: 8 }]}>
+              <Touchable onPress={() => handleOperation('M', '-')} style={{ position: 'relative', left: 60 }}>
+                <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
@@ -196,8 +196,8 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Touchable onPress={() => handleOperation('F', '-')}>
-                <View style={[styles.operationBtn, { left: 60, paddingLeft: 8 }]}>
+              <Touchable onPress={() => handleOperation('F', '-')} style={{ position: 'relative', left: 60 }}>
+                <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
