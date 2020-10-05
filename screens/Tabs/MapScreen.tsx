@@ -21,7 +21,9 @@ import colors from '@/constants/colors';
 import geohash from 'ngeohash';
 import { queryMap } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { FilteredMapQuery, PrayerQuery, RootStackParamList } from '@/types';
+import { Prayer, RootStackParamList } from '@/types';
+
+type FilteredMapQuery = Prayer & { geohash: string };
 
 type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Map'>;
 
@@ -36,7 +38,7 @@ export default function MapScreen({ navigation }: Props) {
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
   const [userPosition, setUserPosition] = useState(null);
   const [isQuerying, setIsQuerying] = useState(false);
-  const [nearbyMarkers, setNearbyMarkers] = useState<PrayerQuery[]>([]);
+  const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
   const filter = useSelector((state) => state.filterState);
   const user = useSelector((state) => state.userState);

@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  Dimensions
-} from 'react-native';
+import { View, StyleSheet, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { BoldText, Text, LoaderWithoutOverlay } from '@/components';
@@ -17,19 +11,56 @@ import dayjs from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
 import durationPlugin from 'dayjs/plugin/duration';
 
+type Prayers = {
+  fajr: string;
+  dhuhr: string;
+  asr: string;
+  maghrib: string;
+  isha: string;
+  jumuah: string;
+  janazah: string;
+};
+
+type Timings = {
+  Asr: string;
+  Dhuhr: string;
+  Fajr: string;
+  Imsak: string;
+  Isha: string;
+  Maghrib: string;
+  Midnight: string;
+  Sunrise: string;
+  Sunset: string;
+};
+
+type PrayerTimes = {
+  timings: Timings;
+  date: {
+    hijri: {
+      date: string;
+      day: string;
+      designation: { abbreviated: string; expanded: string };
+      format: string;
+      month: { number: number; en: string; ar: string };
+      weekday: { en: string; ar: string };
+      year: string;
+    };
+  };
+};
+
 dayjs.extend(durationPlugin);
 
 export default function PrayerTimeScreen() {
   const { t } = useTranslation(['PRAYER_TIME', 'COMMON']);
 
   const [isFetching, setIsFetching] = useState(true);
-  const [prayerTimes, setPrayerTimes] = useState({});
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimes>(null);
   const [nextPrayer, setNextPrayer] = useState('');
   const [startAfter, setStartAfter] = useState('');
   const [isNextDay, setIsNextDay] = useState(false);
   const [isFetchError, setIsFetchError] = useState(false);
 
-  const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
+  const PRAYERS: Prayers = t('COMMON:PRAYERS', { returnObjects: true });
 
   useEffect(() => {
     fetchPrayerTimes();
@@ -46,20 +77,21 @@ export default function PrayerTimeScreen() {
         if (isNextDay) {
           fetchDay = fetchDay.add(1, 'day');
         }
-        const nextInMoment = dayjs(`${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`, 'YYYY-MM-DD HH:mm');
+        const nextInMoment = dayjs(
+          `${fetchDay.format('YYYY-MM-DD')} ${nextPrayerTime}`,
+          'YYYY-MM-DD HH:mm'
+        );
         // If prayer time switches
         if (nextInMoment.isBefore(now)) {
           setNextPrayer(findNextPrayer(prayerTimes.timings));
-        }
-        else {
+        } else {
           const duration = dayjs.duration(nextInMoment.diff(now));
-          const hours = parseInt(duration.asHours());
-          const minutes = parseInt(duration.asMinutes()) % 60;
-          const seconds = parseInt(duration.asSeconds()) % 60 % 60;
+          const hours = duration.asHours();
+          const minutes = duration.asMinutes() % 60;
+          const seconds = (duration.asSeconds() % 60) % 60;
 
           setStartAfter(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
         }
-
       }, 1000);
     }
 
@@ -69,30 +101,32 @@ export default function PrayerTimeScreen() {
   async function fetchPrayerTimes() {
     try {
       const position = await Location.getCurrentPositionAsync({});
-      const prayers = await getPrayerTimes(position.coords, 3);
+      const prayers = await getPrayerTimes(position.coords, 3, false);
 
-      console.log(prayers)
+      console.log(prayers);
 
       const next = findNextPrayer(prayers.timings);
       const now = dayjs();
 
       // If it's already after Isha BUT still before 00:00, get the prayer times for the next day
-      if (next === 'Fajr' && prayers.timings.Isha < now.format('HH:mm') && now.format('HH:mm') < '23:59') {
+      if (
+        next === 'Fajr' &&
+        prayers.timings.Isha < now.format('HH:mm') &&
+        now.format('HH:mm') < '23:59'
+      ) {
         setIsNextDay(true);
         setNextPrayer('Fajr');
 
         const nextDayPrayers = await getPrayerTimes(position.coords, 3, true);
         setPrayerTimes(nextDayPrayers);
         setIsFetching(false);
-      }
-      else {
+      } else {
         setNextPrayer(next);
         setPrayerTimes(prayers);
 
         setIsFetching(false);
       }
-    }
-    catch (e) {
+    } catch (e) {
       setIsFetchError(true);
       throw e;
     }
@@ -101,10 +135,14 @@ export default function PrayerTimeScreen() {
   // A network problem occurred while fetching the latest prayer
   if (isFetchError) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-        <Text style={{ color: colors.primary, paddingHorizontal: 25, textAlign: 'center' }}>A problem occurred while getting the latest prayer times. Please try again later :(</Text>
+      <View
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}
+      >
+        <Text style={{ color: colors.primary, paddingHorizontal: 25, textAlign: 'center' }}>
+          A problem occurred while getting the latest prayer times. Please try again later :(
+        </Text>
       </View>
-    )
+    );
   }
 
   if (isFetching) {
@@ -112,7 +150,7 @@ export default function PrayerTimeScreen() {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <LoaderWithoutOverlay size="large" text={t('GETTING_LATEST')} />
       </View>
-    )
+    );
   }
 
   return (
@@ -120,24 +158,34 @@ export default function PrayerTimeScreen() {
       <ScrollView>
         <LinearGradient start={[1, 1]} end={[-1, -1]} colors={[colors.secondary, colors.primary]}>
           <View style={styles.container}>
-            <ImageBackground style={{ width: '100%', height: 400, resizeMode: 'cover' }} source={PRAYER_TIME_BG}>
+            <ImageBackground
+              style={{ width: '100%', height: 400 }}
+              imageStyle={{ resizeMode: 'cover' }}
+              source={PRAYER_TIME_BG}
+            >
               <View style={styles.header}>
                 <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
               </View>
 
               <View style={styles.currentPrayer}>
-                <BoldText style={styles.currentPrayerText}>{PRAYERS[nextPrayer.toLowerCase()]}</BoldText>
-                <BoldText style={styles.endTime}>{t('BEGINS_AFTER', { time: startAfter })}</BoldText>
+                <BoldText style={styles.currentPrayerText}>
+                  {PRAYERS[nextPrayer.toLowerCase()]}
+                </BoldText>
+                <BoldText style={styles.endTime}>
+                  {t('BEGINS_AFTER', { time: startAfter })}
+                </BoldText>
               </View>
 
               <View style={styles.date}>
-                <BoldText style={styles.dateText}>{dayjs().format('MMM DD YYYY')} / {prayerTimes.date.hijri.day} {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}</BoldText>
+                <BoldText style={styles.dateText}>
+                  {dayjs().format('MMM DD YYYY')} / {prayerTimes.date.hijri.day}{' '}
+                  {prayerTimes.date.hijri.month.en} {prayerTimes.date.hijri.year}
+                </BoldText>
               </View>
             </ImageBackground>
 
             <View style={styles.prayerTimesContainer}>
               <View style={styles.tableContainer}>
-
                 <View style={styles.tableRow}>
                   <Text style={styles.prayerText}>{PRAYERS.fajr}</Text>
                   <Text style={styles.prayerText}>{prayerTimes.timings.Fajr}</Text>
@@ -179,13 +227,11 @@ export default function PrayerTimeScreen() {
                 </View>
               </View>
             </View>
-
           </View>
         </LinearGradient>
-
       </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -198,12 +244,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleStyle: {
     fontSize: 20,
     color: '#fff',
-    marginLeft: 25
+    marginLeft: 25,
   },
   currentPrayer: {
     position: 'absolute',
@@ -212,17 +258,17 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   currentPrayerText: {
     color: '#fff',
     fontSize: 48,
-    letterSpacing: 1.7
+    letterSpacing: 1.7,
   },
   endTime: {
     color: '#fff',
     fontSize: 12,
-    marginTop: 10
+    marginTop: 10,
   },
   date: {
     position: 'absolute',
@@ -230,7 +276,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 80,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   dateText: {
     color: '#fff',
@@ -238,12 +284,12 @@ const styles = StyleSheet.create({
   },
   prayerTimesContainer: {
     paddingHorizontal: 20,
-    top: -45
+    top: -45,
   },
   tableContainer: {
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    borderRadius: 25
+    borderRadius: 25,
   },
   tableRow: {
     flexDirection: 'row',
@@ -252,17 +298,17 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   prayerText: {
-    color: '#7a7a7a'
+    color: '#7a7a7a',
   },
   line: {
     height: 1,
     width: '100%',
-    backgroundColor: '#ddd'
-  }
+    backgroundColor: '#ddd',
+  },
 });
 
 /**
- * 
+ *
  * @param {Object} position geolocation of the user
  * @param {Number} position.latitude
  * @param {Number} position.longitude
@@ -271,22 +317,25 @@ const styles = StyleSheet.create({
  */
 async function getPrayerTimes(position, method, isNextDay) {
   try {
-    let now = dayjs();
+    const now = dayjs();
     if (isNextDay) {
       now.add(1, 'day');
     }
 
-    const { data } = await axios.get(`http://api.aladhan.com/v1/timings/${now.format('DD-MM-YYYY')}?method=${method}&latitude=${position.latitude}&longitude=${position.longitude}`);
+    const { data } = await axios.get(
+      `http://api.aladhan.com/v1/timings/${now.format('DD-MM-YYYY')}?method=${method}&latitude=${
+        position.latitude
+      }&longitude=${position.longitude}`
+    );
 
     return data.data;
-  }
-  catch (e) {
-    console.log({ e })
+  } catch (e) {
+    console.log({ e });
     throw e;
   }
 }
 
-function findNextPrayer(timings) {
+function findNextPrayer(timings: Timings) {
   const now = dayjs().format('HH:mm');
 
   if (now < timings.Fajr) {
@@ -308,5 +357,5 @@ function findNextPrayer(timings) {
 }
 
 function pad(num) {
-  return ("00" + num).substr(-2, 2);
+  return ('00' + num).substr(-2, 2);
 }

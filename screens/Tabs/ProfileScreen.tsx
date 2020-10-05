@@ -1,8 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, AsyncStorage, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
+import {
+  View,
+  AsyncStorage,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  Linking,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SnackbarContext } from '@/contexts/snackbar';
+import { useSnackbar } from '@/contexts/snackbar';
 import SnackBar from 'react-native-snackbar-component';
 import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from '@/components';
@@ -16,10 +25,18 @@ import i18n from 'i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { updateUserName } from '@/services/user';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/types';
 
-export default function ProfileScreen({ navigation }) {
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
+
+type Props = {
+  navigation: ProfileScreenNavigationProp;
+};
+
+export default function ProfileScreen({ navigation }: Props) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
-  const user = useSelector(state => state.userState);
+  const user = useSelector((state) => state.userState);
   const dispatch = useDispatch();
 
   const [isEditingFullName, setIsEditingFullName] = useState(false);
@@ -27,13 +44,16 @@ export default function ProfileScreen({ navigation }) {
   const [passwordEmailSent, setPasswordEmailSent] = useState(false);
   const [emailSentMessage, setEmailSentMessage] = useState('');
   const { showActionSheetWithOptions } = useActionSheet();
-  const { setErrorMessage } = useContext(SnackbarContext);
+  const [, setErrorMessage] = useSnackbar();
 
   useEffect(() => {
     if (emailSentMessage.length) {
-      setTimeout(() => {
-        setEmailSentMessage('');
-      }, emailSentMessage.length > 30 ? 5000 : 3000)
+      setTimeout(
+        () => {
+          setEmailSentMessage('');
+        },
+        emailSentMessage.length > 30 ? 5000 : 3000
+      );
     }
   }, [emailSentMessage]);
 
@@ -46,35 +66,46 @@ export default function ProfileScreen({ navigation }) {
       case 'zh_hans':
         subpath = '/cn';
         break;
-      default: subpath = '';
+      default:
+        subpath = '';
     }
-    showActionSheetWithOptions({
-      options: [t('OPTIONS.ABOUT'), t('OPTIONS.CONTACT'), t('OPTIONS.DONATE'), t('OPTIONS.FAQ'), t('OPTIONS.LANGUAGE'), t('OPTIONS.CANCEL')],
-      title: '',
-      message: '',
-      cancelButtonIndex: 5,
-      destructiveButtonIndex: 5,
-      textStyle: { fontFamily: 'Sen', color: colors.primary },
-      destructiveColor: colors.error
-    }, index => {
-      switch (index) {
-        case 0:
-          Linking.openURL(`https://wahd.app${subpath}/about`)
-          break;
-        case 1:
-          navigation.navigate('Contact')
-          break;
-        case 2:
-          Linking.openURL('https://www.paypal.me/abdullahcheng')
-          break;
-        case 3:
-          Linking.openURL(`https://wahd.app${subpath}/faq`)
-          break;
-        case 4:
-          navigation.navigate('Language')
-          break;
+    showActionSheetWithOptions(
+      {
+        options: [
+          t('OPTIONS.ABOUT'),
+          t('OPTIONS.CONTACT'),
+          t('OPTIONS.DONATE'),
+          t('OPTIONS.FAQ'),
+          t('OPTIONS.LANGUAGE'),
+          t('OPTIONS.CANCEL'),
+        ],
+        title: '',
+        message: '',
+        cancelButtonIndex: 5,
+        destructiveButtonIndex: 5,
+        textStyle: { fontFamily: 'Sen', color: colors.primary },
+        destructiveColor: colors.error,
+      },
+      (index) => {
+        switch (index) {
+          case 0:
+            Linking.openURL(`https://wahd.app${subpath}/about`);
+            break;
+          case 1:
+            navigation.navigate('Contact');
+            break;
+          case 2:
+            Linking.openURL('https://www.paypal.me/abdullahcheng');
+            break;
+          case 3:
+            Linking.openURL(`https://wahd.app${subpath}/faq`);
+            break;
+          case 4:
+            navigation.navigate('Language');
+            break;
+        }
       }
-    });
+    );
   }
 
   function updateFullName(e) {
@@ -93,17 +124,15 @@ export default function ProfileScreen({ navigation }) {
   function handleInvitedPress() {
     if (!user.invitedAmount) {
       return null;
-    }
-    else {
+    } else {
       navigation.navigate('Invited');
     }
   }
 
   function handleParticipatedPress() {
-    if (!participatedAmount) {
+    if (!user.participatedAmount) {
       return null;
-    }
-    else {
+    } else {
       navigation.navigate('Participated');
     }
   }
@@ -114,8 +143,7 @@ export default function ProfileScreen({ navigation }) {
         setPasswordEmailSent(true);
         await auth.sendPasswordResetEmail(user.email);
         setEmailSentMessage('An email has been sent to your inbox.');
-      }
-      catch (e) {
+      } catch (e) {
         setErrorMessage('An error occurred. Please try again later.');
       }
     }
@@ -124,7 +152,12 @@ export default function ProfileScreen({ navigation }) {
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-        <LinearGradient style={styles.profileHeader} start={[1, 1]} end={[-1, -1]} colors={[colors.primary, colors.primary]}>
+        <LinearGradient
+          style={styles.profileHeader}
+          start={[1, 1]}
+          end={[-1, -1]}
+          colors={[colors.primary, colors.primary]}
+        >
           <View style={styles.screenHeader}>
             <TouchableOpacity style={{ marginRight: 20 }} onPress={openActionSheet}>
               <Feather name="menu" size={24} color="#fff" />
@@ -132,13 +165,15 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
           <Animatable.View animation="bounceIn" delay={300} style={styles.profilePicContainer}>
-            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 60, height: 60 }} />
+            <Image
+              source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR}
+              style={{ width: 60, height: 60 }}
+            />
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={600} style={styles.nameContainer}>
             <BoldText style={styles.nameText}>{user.full_name}</BoldText>
           </Animatable.View>
-
         </LinearGradient>
 
         <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
@@ -173,18 +208,13 @@ export default function ProfileScreen({ navigation }) {
                 autoFocus={true}
               />
             ) : (
-                <View style={styles.fieldWrapper}>
-                  <Text style={styles.textField}>{user.full_name}</Text>
-                  <Touchable onPress={() => setIsEditingFullName(true)}>
-                    <Feather
-                      style={{ color: '#7F7F7F' }}
-                      name="edit-2"
-                      size={24}
-                    />
-                  </Touchable>
-                </View>
-              )}
-
+              <View style={styles.fieldWrapper}>
+                <Text style={styles.textField}>{user.full_name}</Text>
+                <Touchable onPress={() => setIsEditingFullName(true)}>
+                  <Feather style={{ color: '#7F7F7F' }} name="edit-2" size={24} />
+                </Touchable>
+              </View>
+            )}
           </Animatable.View>
 
           <Animatable.View animation="fadeInRight" delay={1950} style={styles.accountRow}>
@@ -194,20 +224,33 @@ export default function ProfileScreen({ navigation }) {
 
           <Animatable.View animation="fadeInRight" delay={2200} style={styles.accountRow}>
             <Text style={styles.label}>{t('COMMON:GENDER.LABEL')}</Text>
-            <Text style={styles.textField}>{user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}</Text>
+            <Text style={styles.textField}>
+              {user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}
+            </Text>
           </Animatable.View>
         </View>
 
         <View style={styles.sessionSection}>
           <Touchable>
-            <ListItem onPress={handleChangePassword} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('CHANGE_PASSWORD')}</Text>
+            <ListItem
+              onPress={handleChangePassword}
+              style={{ flexDirection: 'row', justifyContent: 'center' }}
+            >
+              <Text
+                style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}
+              >
+                {t('CHANGE_PASSWORD')}
+              </Text>
               <Feather style={{ marginLeft: 10, color: colors.primary }} name="lock" size={24} />
             </ListItem>
           </Touchable>
           <Touchable>
             <ListItem onPress={logout} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}>{t('LOGOUT')}</Text>
+              <Text
+                style={{ color: colors.primary, textAlign: 'center', textTransform: 'uppercase' }}
+              >
+                {t('LOGOUT')}
+              </Text>
               <Feather style={{ marginLeft: 10, color: colors.primary }} name="log-out" size={24} />
             </ListItem>
           </Touchable>
@@ -232,7 +275,7 @@ export default function ProfileScreen({ navigation }) {
         accentColor="#fff"
       />
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -242,28 +285,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   profileHeader: {
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 25,
-    width: '100%'
+    width: '100%',
   },
   profilePicContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   nameContainer: {
     alignItems: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   nameText: {
     fontSize: 18,
-    color: '#fff'
+    color: '#fff',
   },
   infoSection: {
     marginTop: 25,
-    width: '100%'
+    width: '100%',
   },
   infoContainer: {
     flexDirection: 'row',
@@ -271,39 +314,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   infoItem: {
     width: 120,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   line: {
     height: 1,
     width: '100%',
-    backgroundColor: '#ddd'
+    backgroundColor: '#ddd',
   },
   infoNumber: {
     fontSize: 18,
     color: colors.primary,
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   infoLabel: {
     textTransform: 'uppercase',
     color: '#000',
     fontSize: 10,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   prayerListWrapper: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginBottom: 250
+    marginBottom: 250,
   },
   panel: {
     backgroundColor: '#fff',
-    height: 600
+    height: 600,
   },
   header: {
     backgroundColor: '#fff',
@@ -329,26 +372,25 @@ const styles = StyleSheet.create({
   },
   accountRow: {
     width: '100%',
-    marginBottom: 20
+    marginBottom: 20,
   },
   fieldWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingRight: 10
+    paddingRight: 10,
   },
   label: {
     fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
-    color: '#000',
     color: colors.primary,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   textField: {
     marginLeft: 10,
     letterSpacing: 0.9,
     fontSize: 14,
-    color: '#000'
+    color: '#000',
   },
   textInput: {
     paddingHorizontal: 10,
@@ -356,16 +398,16 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     letterSpacing: 0.9,
     fontSize: 14,
-    paddingLeft: -10
+    paddingLeft: -10,
   },
   sessionSection: {
     marginVertical: 25,
-    padding: 0
+    padding: 0,
   },
   footerText: {
     paddingVertical: 8,
     color: '#7F7F7F',
     fontSize: 12,
-    textAlign: 'center'
-  }
-})
+    textAlign: 'center',
+  },
+});

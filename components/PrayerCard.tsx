@@ -10,9 +10,9 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
 import { SCALE } from '@/helpers/animation';
-import { PrayerQuery } from '@/types';
+import { Prayer } from '@/types';
 
-type Props = PrayerQuery & { navigate: any };
+type Props = Prayer & { navigate: any };
 
 export default function PrayerCard({ navigate, ...props }: Props) {
   const { t } = useTranslation('COMMON');

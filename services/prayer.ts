@@ -1,6 +1,6 @@
 import { API_DOMAIN } from '@/constants/api';
 import { auth } from '@/firebase';
-import { PrayerQuery, Prayer } from '@/types';
+import { Prayer, Prayer } from '@/types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -50,7 +50,7 @@ export async function queryFeed({
 export async function queryMap({ lng, lat }) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.get<{ data: PrayerQuery[] }>(
+    const { data } = await axios.get<{ data: Prayer[] }>(
       `${API_DOMAIN}/prayer/map?lng=${lng}&lat=${lat}`,
       {
         headers: {
