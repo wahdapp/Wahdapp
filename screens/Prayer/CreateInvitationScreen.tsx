@@ -1,22 +1,36 @@
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
-import { SnackbarContext } from '@/contexts/snackbar';
+import { useSnackbar } from '@/contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from '@/components';
 import dayjs from 'dayjs';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from '@/constants/prayers';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { LinearGradient } from 'expo-linear-gradient';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { createPrayer } from '@/services/prayer';
 import { addInvitedAmount } from '@/actions';
 import i18n from '../../i18n';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/types';
+import { RouteProp } from '@react-navigation/native';
 
-export default function CreateInvitationScreen({ route, navigation }) {
+type CreateInvitationScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CreateInvitation'
+>;
+
+type CreateInvitationScreenRouteProp = RouteProp<RootStackParamList, 'CreateInvitation'>;
+
+type Props = {
+  route: CreateInvitationScreenRouteProp;
+  navigation: CreateInvitationScreenNavigationProp;
+};
+
+export default function CreateInvitationScreen({ route, navigation }: Props) {
   const { t } = useTranslation(['INVITATION', 'COMMON']);
-  const { setErrorMessage } = useContext(SnackbarContext);
+  const [, setErrorMessage] = useSnackbar();
   const dispatch = useDispatch();
 
   const [selectedPrayer, setSelectedPrayer] = useState('');
@@ -28,16 +42,19 @@ export default function CreateInvitationScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
-  const user = useSelector(state => state.userState);
+  const user = useSelector((state) => state.userState);
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
-  const isComplete = useMemo(() => selectedPrayer && description && time, [selectedPrayer, description, time]);
+  const isComplete = useMemo(() => selectedPrayer && description && time, [
+    selectedPrayer,
+    description,
+    time,
+  ]);
 
   function handlePrayerClick(prayer) {
     if (selectedPrayer === prayer) {
       setSelectedPrayer('');
-    }
-    else {
+    } else {
       setSelectedPrayer(prayer);
     }
   }
@@ -55,18 +72,15 @@ export default function CreateInvitationScreen({ route, navigation }) {
   function handleOperation(gender, operator) {
     if (gender === 'M') {
       if (operator === '+') {
-        setMale(prev => prev + 1);
+        setMale((prev) => prev + 1);
+      } else if (male > 0) {
+        setMale((prev) => prev - 1);
       }
-      else if (male > 0) {
-        setMale(prev => prev - 1);
-      }
-    }
-    else {
+    } else {
       if (operator === '+') {
-        setFemale(prev => prev + 1);
-      }
-      else if (female > 0) {
-        setFemale(prev => prev - 1);
+        setFemale((prev) => prev + 1);
+      } else if (female > 0) {
+        setFemale((prev) => prev - 1);
       }
     }
   }
@@ -94,9 +108,9 @@ export default function CreateInvitationScreen({ route, navigation }) {
         lng: longitude,
         guests: {
           male,
-          female
+          female,
         },
-      }
+      };
 
       const id = await createPrayer(payload);
 
@@ -109,21 +123,20 @@ export default function CreateInvitationScreen({ route, navigation }) {
         description: payload.description,
         location: {
           lat: payload.lat,
-          lng: payload.lng
+          lng: payload.lng,
         },
         guests_male: payload.guests.male,
         guests_female: payload.guests.female,
         inviter: user,
         participants: [],
-        id
-      }
+        id,
+      };
 
       dispatch(addInvitedAmount());
 
       navigation.goBack();
       navigation.navigate('PrayerDetail', params);
-    }
-    catch (e) {
+    } catch (e) {
       setIsLoading(false);
       if (e.message) {
         setErrorMessage(e.message);
@@ -153,15 +166,18 @@ export default function CreateInvitationScreen({ route, navigation }) {
                   height: 40,
                   marginBottom: 15,
                   marginRight: 10,
-                  borderRadius: 20
+                  borderRadius: 20,
                 }}
                 backgroundColor={selectedPrayer === item ? colors.primary : '#fff'}
-                textStyle={{ textTransform: 'capitalize', color: selectedPrayer === item ? '#fff' : '#dedede' }}
+                textStyle={{
+                  textTransform: 'capitalize',
+                  color: selectedPrayer === item ? '#fff' : '#dedede',
+                }}
               >
                 {PRAYERS[item]}
               </RoundButton>
             )}
-            keyExtractor={item => item}
+            keyExtractor={(item) => item}
           />
         </View>
 
@@ -169,41 +185,53 @@ export default function CreateInvitationScreen({ route, navigation }) {
           <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
         </View>
         <View style={styles.participantsSection}>
-          {user.gender === 'M' && <View style={styles.participantsRow}>
-            <View>
-              <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
-            </View>
-            <View style={styles.counter}>
-              <Touchable onPress={() => handleOperation('M', '-')} style={{ position: 'relative', left: 60 }}>
-                <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
-                  <Text style={styles.operationText}>-</Text>
-                </View>
-              </Touchable>
-
-              <View style={styles.numberBtn}>
-                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{male}</Text>
+          {user.gender === 'M' && (
+            <View style={styles.participantsRow}>
+              <View>
+                <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
               </View>
+              <View style={styles.counter}>
+                <Touchable
+                  onPress={() => handleOperation('M', '-')}
+                  style={{ position: 'relative', left: 60 }}
+                >
+                  <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
+                    <Text style={styles.operationText}>-</Text>
+                  </View>
+                </Touchable>
 
-              <Touchable onPress={() => handleOperation('M', '+')}>
-                <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
-                  <Text style={styles.operationText}>+</Text>
+                <View style={styles.numberBtn}>
+                  <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
+                    {male}
+                  </Text>
                 </View>
-              </Touchable>
+
+                <Touchable onPress={() => handleOperation('M', '+')}>
+                  <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
+                    <Text style={styles.operationText}>+</Text>
+                  </View>
+                </Touchable>
+              </View>
             </View>
-          </View>}
+          )}
           <View style={styles.participantsRow}>
             <View>
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
-              <Touchable onPress={() => handleOperation('F', '-')} style={{ position: 'relative', left: 60 }}>
+              <Touchable
+                onPress={() => handleOperation('F', '-')}
+                style={{ position: 'relative', left: 60 }}
+              >
                 <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>
               </Touchable>
 
               <View style={styles.numberBtn}>
-                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>{female}</Text>
+                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
+                  {female}
+                </Text>
               </View>
 
               <Touchable onPress={() => handleOperation('F', '+')}>
@@ -230,10 +258,21 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
-          <Touchable onPress={() => setIsDatePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Touchable
+            onPress={() => setIsDatePickerVisible(true)}
+            style={{
+              width: '100%',
+              paddingHorizontal: 25,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name="calendar" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{dayjs(date).format('YYYY-MM-DD')}</Text>
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
+                {dayjs(date).format('YYYY-MM-DD')}
+              </Text>
             </View>
             <View>
               <Feather name="chevron-right" size={18} color="#7C7C7C" />
@@ -243,10 +282,21 @@ export default function CreateInvitationScreen({ route, navigation }) {
 
         <View style={styles.detailSection}>
           <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
-          <Touchable onPress={() => setIsTimePickerVisible(true)} style={{ width: '100%', paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Touchable
+            onPress={() => setIsTimePickerVisible(true)}
+            style={{
+              width: '100%',
+              paddingHorizontal: 25,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name="clock" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>{time ? `${time.hour}:${time.minute}` : t('CHOOSE_TIME')}</Text>
+              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
+                {time ? `${time.hour}:${time.minute}` : t('CHOOSE_TIME')}
+              </Text>
             </View>
             <View>
               <Feather name="chevron-right" size={18} color="#7C7C7C" />
@@ -277,11 +327,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
         />
 
         <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
-          <Touchable
-            disabled={!isComplete}
-            onPress={submit}
-            style={styles.inviteTouchable}
-          >
+          <Touchable disabled={!isComplete} onPress={submit} style={styles.inviteTouchable}>
             <View
               style={{
                 ...styles.inviteBtn,
@@ -290,17 +336,21 @@ export default function CreateInvitationScreen({ route, navigation }) {
                 borderWidth: isComplete ? 2 : 0,
               }}
             >
-              <Text style={{
-                fontSize: 14,
-                letterSpacing: 1.8,
-                color: '#ffffff'
-              }}>{t('INVITE')}</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  letterSpacing: 1.8,
+                  color: '#ffffff',
+                }}
+              >
+                {t('INVITE')}
+              </Text>
             </View>
           </Touchable>
         </View>
       </View>
-    </ScrollView >
-  )
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -308,12 +358,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   header: {
     fontSize: 18,
     color: '#7C7C7C',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   prayerBtn: {
     borderRadius: 25,
@@ -323,12 +373,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 40,
     marginBottom: 15,
-    marginRight: 10
+    marginRight: 10,
   },
   line: {
     height: 1,
     width: '100%',
-    backgroundColor: '#ddd'
+    backgroundColor: '#ddd',
   },
   detailSection: {
     paddingVertical: 15,
@@ -341,15 +391,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   counter: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'relative'
+    position: 'relative',
   },
   numberText: {
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   sectionHeader: {
     paddingLeft: 25,
@@ -366,15 +416,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    marginTop: 15
+    marginTop: 15,
   },
   inviteTouchable: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
 
     elevation: 8,
@@ -395,12 +445,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
 
     elevation: 8,
@@ -413,12 +463,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: colors.primary,
     height: 50,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
 
     elevation: 8,
@@ -430,17 +480,17 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: '#fff',
     borderRadius: 100,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
     position: 'relative',
     zIndex: 3,
-    left: 30
+    left: 30,
   },
   operationBtn: {
     justifyContent: 'center',
@@ -449,11 +499,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 100,
     position: 'relative',
-    zIndex: 2
+    zIndex: 2,
   },
   operationText: {
     fontSize: 26,
-    color: '#fff'
+    color: '#fff',
   },
   textArea: {
     width: '100%',
@@ -466,5 +516,5 @@ const styles = StyleSheet.create({
     height: 150,
     justifyContent: 'flex-start',
     fontSize: 12,
-  }
-})
+  },
+});

@@ -9,13 +9,8 @@ export type RootStackParamList = {
   Filter: undefined;
   CreateInvitation: { latitude: number; longitude: number; removeMarker: () => void };
   MarkerPrayers: {
-    nearbyPrayers: MapQueryData[];
-    handleConfirm: (
-      coords: MapEvent<{
-        action: 'marker-press';
-        id: string;
-      }>
-    ) => void;
+    nearbyPrayers: PrayerQuery[];
+    handleConfirm: (location: { latitude: number; longitude: number }) => void;
   };
   Notification: undefined;
   Invited: undefined;
@@ -25,7 +20,7 @@ export type RootStackParamList = {
 
   Tabs: undefined;
   PrayerDetail: Prayer;
-  ReportPrayer: undefined;
+  ReportPrayer: { prayerID: string };
 };
 
 export type AuthStackParamList = {
@@ -53,7 +48,7 @@ export interface User {
   email: string;
 }
 
-export interface MapQueryData {
+export interface PrayerQuery {
   id: string;
   prayer: string;
   location: {
@@ -65,8 +60,9 @@ export interface MapQueryData {
   guests_male: number;
   guests_female: number;
   schedule_time: string;
+  description: string;
 }
 
-export interface FilteredMapQuery extends MapQueryData {
+export interface FilteredMapQuery extends PrayerQuery {
   geohash: string;
 }

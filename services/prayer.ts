@@ -1,6 +1,6 @@
 import { API_DOMAIN } from '@/constants/api';
 import { auth } from '@/firebase';
-import { MapQueryData, Prayer } from '@/types';
+import { PrayerQuery, Prayer } from '@/types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -50,7 +50,7 @@ export async function queryFeed({
 export async function queryMap({ lng, lat }) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.get<{ data: MapQueryData[] }>(
+    const { data } = await axios.get<{ data: PrayerQuery[] }>(
       `${API_DOMAIN}/prayer/map?lng=${lng}&lat=${lat}`,
       {
         headers: {
@@ -184,7 +184,7 @@ export async function getParticipatedList(id: string) {
   }
 }
 
-export async function reportPrayer(prayerID: string, category: string, description: string) {
+export async function reportPrayer(prayerID: string, category: number, description: string) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.post(

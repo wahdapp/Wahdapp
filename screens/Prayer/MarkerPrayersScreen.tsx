@@ -3,8 +3,20 @@ import { StyleSheet, FlatList, View } from 'react-native';
 import { PrayerCard, RoundButton } from '@/components';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/types';
+import { RouteProp } from '@react-navigation/native';
 
-export default function MarkerPrayersScreen({ navigation, route }) {
+type MarkerPrayersNavigationProp = StackNavigationProp<RootStackParamList, 'MarkerPrayers'>;
+
+type MarkerPrayersScreenRouteProp = RouteProp<RootStackParamList, 'MarkerPrayers'>;
+
+type Props = {
+  route: MarkerPrayersScreenRouteProp;
+  navigation: MarkerPrayersNavigationProp;
+};
+
+export default function MarkerPrayersScreen({ navigation, route }: Props) {
   const { nearbyPrayers, handleConfirm } = route.params;
   const { t } = useTranslation(['INVITATION']);
 
@@ -21,16 +33,20 @@ export default function MarkerPrayersScreen({ navigation, route }) {
           contentContainerStyle={{ paddingBottom: 120 }}
           data={nearbyPrayers}
           renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </View>
       <Animatable.View animation="pulse" iterationCount="infinite" style={styles.buttonWrapper}>
-        <RoundButton onPress={handleInvite} style={{ width: '100%' }} touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+        <RoundButton
+          onPress={handleInvite}
+          style={{ width: '100%' }}
+          touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}
+        >
           {t('INVITE_HERE')}
         </RoundButton>
       </Animatable.View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -47,6 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 35
-  }
-})
+    paddingHorizontal: 35,
+  },
+});
