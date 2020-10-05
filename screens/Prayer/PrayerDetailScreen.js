@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useContext } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   StyleSheet,
@@ -52,7 +52,6 @@ export default function PrayerDetailScreen({ route, navigation }) {
 
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const markerRef = useRef(null);
 
   const [joinState, joinDispatch] = useOptimisticReducer(joinReducer, {
     currentParticipants: participants, // in formatted form
@@ -77,12 +76,6 @@ export default function PrayerDetailScreen({ route, navigation }) {
       ),
     });
   }, [navigation]);
-
-  function onRegionChangeComplete() {
-    if (markerRef && markerRef.current && markerRef.current.showCallout) {
-      markerRef.current.showCallout();
-    }
-  }
 
   async function getDistance() {
     setDistance(calculateDistance({ lat, lon: lng }, { lat: locationState.latitude, lon: locationState.longitude }));
@@ -183,18 +176,8 @@ export default function PrayerDetailScreen({ route, navigation }) {
         style={{ width: '100%', height: ScreenHeight * 0.3 }}
         showsUserLocation={true}
         showsMyLocationButton={false}
-        onRegionChangeComplete={onRegionChangeComplete}
       >
-        <Marker ref={markerRef} coordinate={{ latitude: lat, longitude: lng }}>
-          <Callout style={{ flex: 1, position: 'relative' }} onPress={() => openMaps(lat, lng, PRAYERS[prayer])}>
-            <View style={styles.callout}>
-              <Text style={styles.calloutText}>
-                Open in App
-              </Text>
-            </View>
-          </Callout>
-          <Image source={PIN} style={{ height: 50, width: 50, marginTop: -45 }} />
-        </Marker>
+        <Marker coordinate={{ latitude: lat, longitude: lng }} onPress={() => openMaps(lat, lng, PRAYERS[prayer])} />
       </MapView>
       <ScrollView style={styles.sectionWrapper}>
         <View style={[styles.detailSection, { flexDirection: 'row', justifyContent: 'space-between' }]}>

@@ -44,7 +44,7 @@ function ReportPrayerScreen({ route, navigation }) {
   return (
     <View style={styles.centeredView}>
       {isLoading && <Loader />}
-      <ScrollView contentContainerStyle={{ position: 'relative', paddingHorizontal: 25 }}>
+      <ScrollView contentContainerStyle={{ position: 'relative' }}>
         <Text style={styles.modalText}>Report a problem</Text>
         <Text style={styles.description}>Help us understand the issue with this prayer.</Text>
 

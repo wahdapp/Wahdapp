@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import { Text, LoaderWithoutOverlay } from '@/components';
-import * as Animatable from 'react-native-animatable';
 import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
@@ -211,9 +210,7 @@ export default function MapScreen({ navigation }) {
           <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
             <View style={{ alignItems: 'center', minWidth: 150 }}>
               <TouchableWithoutFeedback>
-                <Animatable.View
-                  animation="rubberBand"
-                  iterationCount="infinite"
+                <View
                   style={{
                     backgroundColor: colors.primary,
                     padding: 10,
@@ -224,7 +221,7 @@ export default function MapScreen({ navigation }) {
                   }}
                 >
                   <Text style={{ color: '#fff' }}>{t('CONFIRM')}</Text>
-                </Animatable.View>
+                </View>
               </TouchableWithoutFeedback>
               <Image source={PIN} style={{ height: 50, width: 50, marginTop: 15 }} />
             </View>
