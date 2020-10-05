@@ -2,17 +2,10 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Root } from "native-base";
-import { auth } from 'firebaseDB';
+import { Root } from 'native-base';
+import { auth } from '@/firebase';
 import store from './store';
-import {
-  Platform,
-  StatusBar,
-  StyleSheet,
-  View,
-  AsyncStorage,
-  Dimensions,
-} from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
 import { SnackbarProvider } from 'contexts/snackbar';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Feather } from '@expo/vector-icons';
@@ -26,7 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AppNavigator from './navigation/AppNavigator';
-import { decode, encode } from 'base-64'
+import { decode, encode } from 'base-64';
 import 'helpers/clearTimer';
 import { formatLanguage } from 'helpers/dateFormat';
 import './i18n';
@@ -34,24 +27,36 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Sentry from 'sentry-expo';
 
-const headerStyle = { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 };
+const headerStyle = {
+  backgroundColor: '#fff',
+  shadowColor: 'transparent',
+  elevation: 0,
+};
 
 // Enable sentry in production
 if (!__DEV__) {
   Sentry.init({
     dsn: 'https://1c85f06f0e814e3f862b9204f5bb07ba@o374179.ingest.sentry.io/5191762',
     enableInExpoDevelopment: false,
-    debug: false
+    debug: false,
   });
 }
 
 /* Firebase bug */
-global.crypto = require("@firebase/firestore");
-global.crypto.getRandomValues = byteArray => { for (let i = 0; i < byteArray.length; i++) { byteArray[i] = Math.floor(256 * Math.random()); } }
+global['crypto'] = require('@firebase/firestore');
+global['crypto'].getRandomValues = (byteArray) => {
+  for (let i = 0; i < byteArray.length; i++) {
+    byteArray[i] = Math.floor(256 * Math.random());
+  }
+};
 
-if (!global.btoa) { global.btoa = encode; }
+if (!global['btoa']) {
+  global['btoa'] = encode;
+}
 
-if (!global.atob) { global.atob = decode; }
+if (!global['atob']) {
+  global['atob'] = decode;
+}
 
 const Stack = createStackNavigator();
 
@@ -69,9 +74,9 @@ export default function App(props) {
   }, []);
 
   function authenticateUser() {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       setIsAuthenticating(false);
-      console.log({ user })
+      console.log({ user });
       setUserAuth(user);
     });
   }
@@ -87,7 +92,7 @@ export default function App(props) {
   async function getLocationPermission() {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      alert("Please enable your location for the best experience!");
+      alert('Please enable your location for the best experience!');
     }
   }
 
@@ -95,7 +100,7 @@ export default function App(props) {
     await Permissions.askAsync(Permissions.NOTIFICATIONS);
   }
 
-  if (!isLoadingComplete && !props.skipLoadingScreen || isAuthenticating) {
+  if ((!isLoadingComplete && !props.skipLoadingScreen) || isAuthenticating) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -111,15 +116,39 @@ export default function App(props) {
         <Root>
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerStyle }} />
-              <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
-              <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '', headerBackTitle: t('LOGIN'), headerStyle }} />
-              <Stack.Screen name="EmailSent" component={EmailSentScreen} options={{ headerShown: false, headerStyle }} />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false, headerStyle }}
+              />
+              <Stack.Screen
+                name="Signup"
+                component={SignupScreen}
+                options={{
+                  title: '',
+                  headerBackTitle: t('LOGIN'),
+                  headerStyle,
+                }}
+              />
+              <Stack.Screen
+                name="ForgotPassword"
+                component={ForgotPasswordScreen}
+                options={{
+                  title: '',
+                  headerBackTitle: t('LOGIN'),
+                  headerStyle,
+                }}
+              />
+              <Stack.Screen
+                name="EmailSent"
+                component={EmailSentScreen}
+                options={{ headerShown: false, headerStyle }}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </Root>
       </SnackbarProvider>
-    )
+    );
   }
 
   return (
@@ -141,9 +170,9 @@ export default function App(props) {
 async function loadResourcesAsync() {
   await Promise.all([
     Font.loadAsync({
-      'Roboto': require('./assets/fonts/Sen-Regular.ttf'),
-      'Roboto_medium': require('./assets/fonts/Sen-Bold.ttf'),
-      'Sen': require('./assets/fonts/Sen-Regular.ttf'),
+      Roboto: require('./assets/fonts/Sen-Regular.ttf'),
+      Roboto_medium: require('./assets/fonts/Sen-Bold.ttf'),
+      Sen: require('./assets/fonts/Sen-Regular.ttf'),
       'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
       ...Feather.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
@@ -164,8 +193,8 @@ function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
 }
 
-const ScreenHeight = Dimensions.get("window").height;
-const ScreenWidth = Dimensions.get("window").width;
+const ScreenHeight = Dimensions.get('window').height;
+const ScreenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -174,9 +203,9 @@ const styles = StyleSheet.create({
   },
   genderSelectionContainer: {
     flex: 1,
-    justifyContent: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    flexDirection: 'row',
     height: ScreenHeight,
-    width: ScreenWidth
+    width: ScreenWidth,
   },
 });
