@@ -5,11 +5,18 @@ import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import { languages } from '@/constants/languages';
 import { formatLanguage } from '@/helpers/dateFormat';
-import dayjs from 'dayjs';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/types';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
 
-function LanguageScreen({ navigation }) {
+type LanguageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Language'>;
+
+type Props = {
+  navigation: LanguageScreenNavigationProp;
+};
+
+function LanguageScreen({ navigation }: Props) {
   async function handleSelectLanguage(lng) {
     await AsyncStorage.setItem('lang', lng);
     navigation.goBack();
@@ -21,7 +28,7 @@ function LanguageScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       {languages.map((language, i) => (
-        <Touchable onPress={() => handleSelectLanguage(language.code)}>
+        <Touchable onPress={() => handleSelectLanguage(language.code)} key={i}>
           <ListItem key={i} onPress={() => handleSelectLanguage(language.code)}>
             <Left>
               <Text>{language.label}</Text>
@@ -33,7 +40,7 @@ function LanguageScreen({ navigation }) {
         </Touchable>
       ))}
     </View>
-  )
+  );
 }
 
 export default LanguageScreen;

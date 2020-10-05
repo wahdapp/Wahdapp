@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { MapEvent, Marker } from 'react-native-maps';
 import {
   StyleSheet,
   Platform,
   Image,
   TouchableOpacity,
   View,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Text, LoaderWithoutOverlay } from '@/components';
 import dayjs from 'dayjs';
@@ -20,18 +20,26 @@ import { AnimatedButton } from '@/components';
 import colors from '@/constants/colors';
 import geohash from 'ngeohash';
 import { queryMap } from '@/services/prayer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { FilteredMapQuery, MapQueryData, RootStackParamList } from '@/types';
 
-export default function MapScreen({ navigation }) {
+type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Map'>;
+
+type Props = {
+  navigation: MapScreenNavigationProp;
+};
+
+export default function MapScreen({ navigation }: Props) {
   const { t } = useTranslation(['INVITATION']);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
   const [userPosition, setUserPosition] = useState(null);
   const [isQuerying, setIsQuerying] = useState(false);
-  const [nearbyMarkers, setNearbyMarkers] = useState([]);
-  const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState([]);
-  const filter = useSelector(state => state.filterState);
-  const user = useSelector(state => state.userState);
+  const [nearbyMarkers, setNearbyMarkers] = useState<MapQueryData[]>([]);
+  const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
+  const filter = useSelector((state) => state.filterState);
+  const user = useSelector((state) => state.userState);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -41,12 +49,15 @@ export default function MapScreen({ navigation }) {
   useEffect(() => {
     if (userPosition && mapRef.current) {
       setTimeout(() => {
-        mapRef.current.animateToRegion({
-          latitude: userPosition.latitude,
-          longitude: userPosition.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }, 800);
+        mapRef.current.animateToRegion(
+          {
+            latitude: userPosition.latitude,
+            longitude: userPosition.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          },
+          800
+        );
         setCurrentRegion(userPosition);
       }, 100);
     }
@@ -57,10 +68,9 @@ export default function MapScreen({ navigation }) {
       const position = await Location.getCurrentPositionAsync({});
       setUserPosition({
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
       });
-    }
-    catch (e) {
+    } catch (e) {
       throw e;
     }
   }
@@ -73,15 +83,18 @@ export default function MapScreen({ navigation }) {
   function handleLongPress(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    mapRef.current.animateToRegion({
-      latitudeDelta: currentZoom.latitudeDelta,
-      longitudeDelta: currentZoom.longitudeDelta,
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude
-    }, 800)
+    mapRef.current.animateToRegion(
+      {
+        latitudeDelta: currentZoom.latitudeDelta,
+        longitudeDelta: currentZoom.longitudeDelta,
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+      },
+      800
+    );
     setCurrentRegion({
       latitude: coordinate.latitude,
-      longitude: coordinate.longitude
+      longitude: coordinate.longitude,
     });
   }
 
@@ -89,30 +102,35 @@ export default function MapScreen({ navigation }) {
   function handlePoiClick(coords) {
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
-    mapRef.current.animateToRegion({
-      latitudeDelta: currentZoom.latitudeDelta,
-      longitudeDelta: currentZoom.longitudeDelta,
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude
-    }, 800)
+    mapRef.current.animateToRegion(
+      {
+        latitudeDelta: currentZoom.latitudeDelta,
+        longitudeDelta: currentZoom.longitudeDelta,
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+      },
+      800
+    );
     setCurrentRegion({
       latitude: coordinate.latitude,
-      longitude: coordinate.longitude
+      longitude: coordinate.longitude,
     });
   }
 
   async function handleFloatBtnClick() {
     try {
-      mapRef.current.animateToRegion({
-        latitudeDelta: currentZoom.latitudeDelta,
-        longitudeDelta: currentZoom.longitudeDelta,
-        latitude: userPosition.latitude,
-        longitude: userPosition.longitude
-      }, 800)
+      mapRef.current.animateToRegion(
+        {
+          latitudeDelta: currentZoom.latitudeDelta,
+          longitudeDelta: currentZoom.longitudeDelta,
+          latitude: userPosition.latitude,
+          longitude: userPosition.longitude,
+        },
+        800
+      );
 
       setSelectedLocation({ latitude: userPosition.latitude, longitude: userPosition.longitude });
-    }
-    catch (e) {
+    } catch (e) {
       throw e;
     }
   }
@@ -131,12 +149,13 @@ export default function MapScreen({ navigation }) {
     setSelectedLocation(null);
   }
 
-  function handleConfirm(coords) {
-    let region = coords;
-    if (region.nativeEvent) {
-      region = region.nativeEvent.coordinate;
-    }
-    navigation.navigate('CreateInvitation', { ...region, removeMarker });
+  function handleConfirm(
+    coords: MapEvent<{
+      action: 'marker-press';
+      id: string;
+    }>
+  ) {
+    navigation.navigate('CreateInvitation', { ...coords.nativeEvent.coordinate, removeMarker });
   }
 
   async function queryArea() {
@@ -144,13 +163,13 @@ export default function MapScreen({ navigation }) {
 
     try {
       const list = await queryMap({ lat: currentRegion.latitude, lng: currentRegion.longitude });
-      console.log({ list })
+      console.log({ list });
       setNearbyMarkers(list);
 
       // Gather all unique geohashes to prevent multiple markers on the same spot
       const geohashes = [];
       const filtered = [];
-      for (let prayer of list) {
+      for (const prayer of list) {
         const hash = geohash.encode(prayer.location.lat, prayer.location.lng);
 
         if (!geohashes.includes(hash)) {
@@ -162,14 +181,15 @@ export default function MapScreen({ navigation }) {
       setFilteredNearbyMarkers(filtered);
 
       setIsQuerying(false);
-    }
-    catch (e) {
+    } catch (e) {
       setIsQuerying(false);
     }
   }
 
-  function handleMarkerPress(marker) {
-    const nearbyPrayers = nearbyMarkers.filter(item => geohash.encode(item.location.lat, item.location.lng) === marker.geohash);
+  function handleMarkerPress(marker: FilteredMapQuery) {
+    const nearbyPrayers = nearbyMarkers.filter(
+      (item) => geohash.encode(item.location.lat, item.location.lng) === marker.geohash
+    );
     navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });
   }
 
@@ -178,7 +198,7 @@ export default function MapScreen({ navigation }) {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <LoaderWithoutOverlay size="large" />
       </View>
-    )
+    );
   }
 
   return (
@@ -207,7 +227,12 @@ export default function MapScreen({ navigation }) {
         customMapStyle={GoogleMapsTheme}
       >
         {selectedLocation && (
-          <Marker coordinate={selectedLocation} onPress={handleConfirm} draggable={true} onDragEnd={handleMarkerDrag}>
+          <Marker
+            coordinate={selectedLocation}
+            onPress={handleConfirm}
+            draggable={true}
+            onDragEnd={handleMarkerDrag}
+          >
             <View style={{ alignItems: 'center', minWidth: 150 }}>
               <TouchableWithoutFeedback>
                 <View
@@ -217,7 +242,7 @@ export default function MapScreen({ navigation }) {
                     alignItems: 'center',
                     minWidth: 100,
                     minHeight: 30,
-                    borderRadius: 25
+                    borderRadius: 25,
                   }}
                 >
                   <Text style={{ color: '#fff' }}>{t('CONFIRM')}</Text>
@@ -227,7 +252,7 @@ export default function MapScreen({ navigation }) {
             </View>
           </Marker>
         )}
-        {filteredNearbyMarkers.length > 0 && (
+        {filteredNearbyMarkers.length > 0 &&
           filteredNearbyMarkers.map((marker, i) => (
             <Dot
               coordinate={{ latitude: marker.location.lat, longitude: marker.location.lng }}
@@ -235,32 +260,20 @@ export default function MapScreen({ navigation }) {
               key={i}
               color={dayjs().isBefore(dayjs(marker.schedule_time)) ? colors.primary : '#ddd'}
             />
-          )
           ))}
       </MapView>
       {selectedLocation ? (
-        <TouchableOpacity
-          style={styles.removeMarkerBtn}
-          onPress={removeMarker}
-        >
+        <TouchableOpacity style={styles.removeMarkerBtn} onPress={removeMarker}>
           <Feather name="x" size={30} color="#7C7C7C" />
         </TouchableOpacity>
       ) : (
-          <TouchableOpacity
-            style={styles.floatingBtn}
-            onPress={handleFloatBtnClick}
-          >
-            <Feather name="map-pin" size={30} color="#ffffff" />
-          </TouchableOpacity>
-        )
-      }
+        <TouchableOpacity style={styles.floatingBtn} onPress={handleFloatBtnClick}>
+          <Feather name="map-pin" size={30} color="#ffffff" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
-
-MapScreen.navigationOptions = {
-  header: null,
-};
 
 const styles = StyleSheet.create({
   panel: {
@@ -295,12 +308,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   floatingBtn: {
     alignItems: 'center',
@@ -326,7 +339,7 @@ const styles = StyleSheet.create({
   },
   inviteBtn: {
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   dot: {
     width: 24,
@@ -338,13 +351,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-  }
-})
+  },
+});
 
 function Dot({ coordinate, onPress, color = colors.primary }) {
   return (
     <Marker coordinate={coordinate} onPress={onPress}>
       <View style={{ ...styles.dot, backgroundColor: color }} />
     </Marker>
-  )
+  );
 }

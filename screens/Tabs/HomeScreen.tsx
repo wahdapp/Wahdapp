@@ -96,10 +96,7 @@ export default function HomeScreen({ navigation }: Props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <BoldText style={styles.titleStyle}>{t('HEADER')}</BoldText>
-        <TouchableOpacity
-          style={{ marginRight: 25 }}
-          onPress={() => navigation.navigate('Filter', { fetchNearbyPrayers })}
-        >
+        <TouchableOpacity style={{ marginRight: 25 }} onPress={() => navigation.navigate('Filter')}>
           <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>

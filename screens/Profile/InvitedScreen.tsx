@@ -5,10 +5,11 @@ import { NOT_FOUND } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import { auth } from '@/firebase';
 import { getInvitedList } from '@/services/prayer';
+import { Prayer } from '@/types';
 
 export default function InvitedScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE']);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<Prayer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,14 +25,16 @@ export default function InvitedScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#eee' }}>
       <View style={styles.prayerListWrapper}>
-        {isLoading
-          ? <View style={{ paddingTop: 25, paddingHorizontal: 25 }}><SkeletonCard /></View>
-          :
+        {isLoading ? (
+          <View style={{ paddingTop: 25, paddingHorizontal: 25 }}>
+            <SkeletonCard />
+          </View>
+        ) : (
           <FlatList
             style={{ height: '100%', paddingTop: 25 }}
             data={list}
             renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             ListEmptyComponent={() => (
               <View style={styles.imageContainer}>
                 <Image source={NOT_FOUND} style={styles.image} />
@@ -39,10 +42,10 @@ export default function InvitedScreen({ navigation }) {
               </View>
             )}
           />
-        }
+        )}
       </View>
-    </View >
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginBottom: 10,
-    height: '100%'
+    height: '100%',
   },
   imageContainer: {
     width: '100%',
@@ -58,11 +61,11 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     resizeMode: 'contain',
-    height: 250
+    height: 250,
   },
   notFoundText: {
     textAlign: 'center',
     color: '#7C7C7C',
     fontSize: 18,
   },
-})
+});

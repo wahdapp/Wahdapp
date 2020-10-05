@@ -7,8 +7,7 @@ export async function createUser(payload) {
     const { data } = await axios.post(`${API_DOMAIN}/user`, payload);
 
     return data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -18,13 +17,12 @@ export async function getUserInfo(user_id) {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get(`${API_DOMAIN}/user?user_id=${user_id}`, {
       headers: {
-        Authorization: `Token ${token}`
-      }
+        Authorization: `Token ${token}`,
+      },
     });
 
     return data.data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -34,13 +32,12 @@ export async function getFilterPreference() {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get(`${API_DOMAIN}/user/filter`, {
       headers: {
-        Authorization: `Token ${token}`
-      }
+        Authorization: `Token ${token}`,
+      },
     });
 
     return data.data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -50,13 +47,12 @@ export async function updateFilterPreference(payload) {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.patch(`${API_DOMAIN}/user/filter`, payload, {
       headers: {
-        Authorization: `Token ${token}`
-      }
+        Authorization: `Token ${token}`,
+      },
     });
 
     return data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -64,15 +60,18 @@ export async function updateFilterPreference(payload) {
 export async function updateUserName(name) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.patch(`${API_DOMAIN}/user?full_name=${name}`, {}, {
-      headers: {
-        Authorization: `Token ${token}`
+    const { data } = await axios.patch(
+      `${API_DOMAIN}/user?full_name=${name}`,
+      {},
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       }
-    });
+    );
 
     return data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -82,13 +81,12 @@ export async function deleteUser(payload) {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.delete(`${API_DOMAIN}/user`, {
       headers: {
-        Authorization: `Token ${token}`
-      }
+        Authorization: `Token ${token}`,
+      },
     });
 
     return data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -96,17 +94,20 @@ export async function deleteUser(payload) {
 export async function registerToken(deviceToken) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.post(`${API_DOMAIN}/registerToken`, {
-      token: deviceToken
-    }, {
-      headers: {
-        Authorization: `Token ${token}`
+    const { data } = await axios.post(
+      `${API_DOMAIN}/registerToken`,
+      {
+        token: deviceToken,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       }
-    });
+    );
 
     return data;
-  }
-  catch (e) {
+  } catch (e) {
     throw e;
   }
 }
