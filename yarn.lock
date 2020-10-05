@@ -5036,6 +5036,11 @@ immediate@^3.2.2:
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
   integrity sha1-0UD6j2FGWb1lQSMwl92qwlzdmRw=
 
+immer@^7.0.7:
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.9.tgz#28e7552c21d39dd76feccd2b800b7bc86ee4a62e"
+  integrity sha512-Vs/gxoM4DqNAYR7pugIxi0Xc8XAun/uy7AQu4fLLqaTBHxjOP9pJ266Q9MWA/ly4z6rAFZbvViOtihxUZ7O28A==
+
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-2.0.0.tgz#d81355c15612d386c61f9ddd3922d4304822a546"
@@ -9723,10 +9728,18 @@ url-parse@^1.4.4:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-use-optimistic-reducer@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/use-optimistic-reducer/-/use-optimistic-reducer-1.1.7.tgz#83c9fe1d526bfde6b526c1b199b8cefb5847a392"
-  integrity sha512-blPzS5zINIHpUCsZTve/4IlNB3PqUMbiX85tiQD/CJamIaj16UIk0WZCqo0LMCUF7ps2a+p6UB5k5OoybzuPQw==
+use-immer@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/use-immer/-/use-immer-0.4.1.tgz#82a372e666496bfd49750673be78c17fcd375ca8"
+  integrity sha512-lXukZMx+sWwkWOLMyd5/5Obr6xTDFGSOJ85/nGQk/qhpWAohaFWrYJkT2+70seU/F6Dh7S41c9X6TWL9ljReGQ==
+
+use-optimistic-reducer@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/use-optimistic-reducer/-/use-optimistic-reducer-1.2.2.tgz#6cb03619ba1a2223071dabc627da7bd767e95a2b"
+  integrity sha512-2TKf5tAJLR0FOiviovDTn4imXz3FhXMAutDQn5xU3zLXldE62IJKk0BU2cuw1JWrGWI2btvlqrea12yJfQgWMw==
+  dependencies:
+    immer "^7.0.7"
+    use-immer "^0.4.1"
 
 use-subscription@^1.4.0:
   version "1.4.1"

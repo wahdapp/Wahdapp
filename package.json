@@ -72,7 +72,7 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.14",
     "redux": "^4.0.5",
     "sentry-expo": "^2.0.3",
-    "use-optimistic-reducer": "^1.1.7"
+    "use-optimistic-reducer": "^1.2.2"
   },
   "devDependencies": {
     "@types/react": "^16.9.50",
