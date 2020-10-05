@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import AnimatedLoader from 'react-native-animated-loader';
 import LottieView from 'lottie-react-native';
 import { Text } from './Text';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 export function Loader({ width, height }) {
   return (

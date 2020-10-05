@@ -10,7 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { BoldText, Text, LoaderWithoutOverlay } from 'components';
 import { PRAYER_TIME_BG } from 'assets/images';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import dayjs from 'dayjs';

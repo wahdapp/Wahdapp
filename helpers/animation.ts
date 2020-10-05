@@ -1,7 +1,7 @@
 import { Animated } from 'react-native';
 
 export const SCALE = {
-  // this defines the terms of our scaling animation. 
+  // this defines the terms of our scaling animation.
   getScaleTransformationStyle(animated, startSize = 1, endSize = 0.95) {
     const interpolation = animated.interpolate({
       inputRange: [0, 1],
@@ -9,13 +9,11 @@ export const SCALE = {
     });
     const opacity = animated.interpolate({
       inputRange: [0, 1],
-      outputRange: [1, 0.7]
-    })
+      outputRange: [1, 0.7],
+    });
     return {
-      transform: [
-        { scale: interpolation },
-      ],
-      opacity
+      transform: [{ scale: interpolation }],
+      opacity,
     };
   },
   // This defines animation behavior we expext onPressIn
@@ -24,7 +22,7 @@ export const SCALE = {
     Animated.timing(animated, {
       toValue: 1,
       duration,
-      // useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   },
   // This defines animation behavior we expect onPressOut
@@ -33,7 +31,7 @@ export const SCALE = {
     Animated.timing(animated, {
       toValue: 0,
       duration,
-      // useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   },
 };

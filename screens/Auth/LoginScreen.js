@@ -6,7 +6,7 @@ import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
 import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { Notifications } from 'expo';
 import { registerToken } from 'services/user';
 
@@ -27,8 +27,8 @@ export default function LoginScreen({ navigation: { navigate } }) {
   }
 
   async function registerPushToken() {
-      const token = await Notifications.getExpoPushTokenAsync();
-      await registerToken(token);
+    const token = await Notifications.getExpoPushTokenAsync();
+    await registerToken(token);
   }
 
   async function handleLogin() {

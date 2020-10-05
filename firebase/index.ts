@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import Constants from 'expo-constants';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
@@ -14,7 +14,7 @@ export const auth = firebase.auth();
 
 export async function signInWithFacebook() {
   const appId = Constants.manifest.extra.facebook.appId;
-  const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
+  const permissions = ['public_profile', 'email']; // Permissions required, consult Facebook docs
 
   await Facebook.initializeAsync(appId, 'Wahdapp');
 
@@ -22,9 +22,9 @@ export async function signInWithFacebook() {
 
   switch (type) {
     case 'success': {
-      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      const facebookProfileData = await auth.signInWithCredential(credential);  // Sign in with Facebook credential
+      const facebookProfileData = await auth.signInWithCredential(credential); // Sign in with Facebook credential
       await auth.useDeviceLanguage();
 
       // Do something with Facebook profile data
@@ -49,11 +49,11 @@ export async function signInWithGoogle() {
 
   switch (type) {
     case 'success': {
-      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
       const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
-      console.log({ credential })
-      const googleProfileData = await auth.signInWithCredential(credential);  // Sign in with Facebook credential
-      console.log({ googleProfileData })
+      console.log({ credential });
+      const googleProfileData = await auth.signInWithCredential(credential); // Sign in with Facebook credential
+      console.log({ googleProfileData });
       await auth.useDeviceLanguage();
 
       // Do something with Facebook profile data

@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from 'constants/prayers';
 import { useTranslation } from 'react-i18next';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { LinearGradient } from 'expo-linear-gradient';
 import { createPrayer } from 'services/prayer';
@@ -196,7 +196,7 @@ export default function CreateInvitationScreen({ route, navigation }) {
               <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
             </View>
             <View style={styles.counter}>
-            <Touchable onPress={() => handleOperation('F', '-')}>
+              <Touchable onPress={() => handleOperation('F', '-')}>
                 <View style={[styles.operationBtn, { left: 60, paddingLeft: 8 }]}>
                   <Text style={styles.operationText}>-</Text>
                 </View>

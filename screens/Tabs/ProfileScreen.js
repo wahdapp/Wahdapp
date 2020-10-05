@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import * as Animatable from 'react-native-animatable';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { updateUserName } from 'services/user';
 
 export default function ProfileScreen({ navigation }) {

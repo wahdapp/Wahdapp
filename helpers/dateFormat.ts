@@ -1,25 +1,29 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
-import { auth } from 'firebaseDB';
+import { auth } from '@/firebase';
+import { TFunction } from 'i18next';
 
-export function formatDay(t, date) {
+export function formatDay(t: TFunction, date: string) {
   const today = dayjs();
-  const tomorrow = dayjs().add(1, 'days');
-  const yesterday = dayjs().add(-1, 'days');
-  if (today.isSame(date, 'day')) {
+  const tomorrow = dayjs().add(1, 'day');
+  const yesterday = dayjs().add(-1, 'day');
+
+  const dayjsDate = dayjs(date);
+
+  if (today.isSame(dayjsDate, 'day')) {
     return t('DAY.TODAY');
   }
-  if (tomorrow.isSame(date, 'day')) {
+  if (tomorrow.isSame(dayjsDate, 'day')) {
     return t('DAY.TOMORROW');
   }
-  if (yesterday.isSame(date, 'day')) {
+  if (yesterday.isSame(dayjsDate, 'day')) {
     return t('DAY.YESTERDAY');
   }
-  return date.format('MMM DD');
+  return dayjsDate.format('MMM DD');
 }
 
-export function formatLanguage(language) {
+export function formatLanguage(language: string) {
   switch (language) {
     case 'en':
       dayjs.locale('en');
@@ -27,7 +31,7 @@ export function formatLanguage(language) {
       break;
     case 'zh_hant':
       dayjs.locale('zh-tw');
-      auth.languageCode ='zh-TW';
+      auth.languageCode = 'zh-TW';
       break;
     case 'zh_hans':
       dayjs.locale('zh-cn');
@@ -39,7 +43,7 @@ export function formatLanguage(language) {
   }
 }
 
-export function formatAgo(t, timestamp) {
+export function formatAgo(t: TFunction, timestamp: number | string) {
   const now = dayjs();
 
   const minDiff = now.diff(dayjs(timestamp), 'minute');

@@ -1,5 +1,5 @@
-export default function parseLanguage(lang) {
-  let code = lang.toLowerCase();
+export default function parseLanguage(lang: string) {
+  const code = lang.toLowerCase();
   // English
   if (code.includes('en')) {
     return 'en';

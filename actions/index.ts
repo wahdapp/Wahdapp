@@ -3,80 +3,80 @@ import * as actions from '../constants/action_types';
 export function setLocation(payload) {
   return {
     type: actions.SET_LOCATION,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function setUser(payload) {
   return {
     type: actions.SET_USER,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function addInvitedAmount() {
   return { type: actions.ADD_INVITED_AMOUNT };
-};
+}
 
 export function setFullName(payload) {
   return {
     type: actions.SET_FULL_NAME,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function setFilter(payload) {
   return {
     type: actions.SET_FILTER,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function initializeFilter(gender) {
   return {
     type: actions.INITIALIZE_FILTER,
-    payload: gender
-  }
-};
+    payload: gender,
+  };
+}
 
 export function setSortBy(payload) {
   return {
     type: actions.SET_SORT_BY,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function setNotifications(payload) {
   return {
     type: actions.SET_NOTIFICATIONS,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function addNotification(payload) {
   return {
     type: actions.ADD_NOTIFICATION,
-    payload
-  }
+    payload,
+  };
 }
 
 export function removeNotification(payload) {
   return {
     type: actions.REMOVE_NOTIFICATION,
-    payload
-  }
-};
+    payload,
+  };
+}
 
 export function setIsNewNotification(payload) {
   return {
     type: actions.SET_IS_NEW_NOTIFICATION,
-    payload
-  }
+    payload,
+  };
 }
 
 export function setNotificationRedirect(payload) {
   return {
     type: actions.SET_NOTIFICATION_REDIRECT,
-    payload
-  }
-};
+    payload,
+  };
+}

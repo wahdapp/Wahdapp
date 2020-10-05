@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Touchable, Text } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 const GenderBox = ({ isSelected, onPress, gender, label }) => {
   return (
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    
+
     elevation: 5,
   },
   circle: {

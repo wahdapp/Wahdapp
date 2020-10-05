@@ -18,7 +18,7 @@ import { PIN } from 'assets/images';
 import GoogleMapsTheme from 'constants/google-maps-theme';
 import { useTranslation } from 'react-i18next';
 import { AnimatedButton } from 'components';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import geohash from 'ngeohash';
 import { queryMap } from 'services/prayer';
 

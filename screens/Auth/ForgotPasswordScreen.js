@@ -5,7 +5,7 @@ import { Text, BoldText, Loader, RoundButton } from 'components';
 import { auth } from 'firebaseDB';
 import { FORGOT, EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN', 'COMMON']);

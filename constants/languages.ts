@@ -1,14 +1,14 @@
 export const languages = [
   {
     code: 'en',
-    label: 'English'
+    label: 'English',
   },
   {
     code: 'zh_hant',
-    label: '繁體中文'
+    label: '繁體中文',
   },
   {
     code: 'zh_hans',
-    label: '简体中文'
-  }
+    label: '简体中文',
+  },
 ];

@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   email: '',
   gender: 'M',
   invitedAmount: 0,
-  participatedAmount: 0
+  participatedAmount: 0,
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -16,7 +16,8 @@ function userReducer(state = INITIAL_STATE, action) {
       return { ...state, full_name: action.payload };
     case ADD_INVITED_AMOUNT:
       return { ...state, invitedAmount: state.invitedAmount + 1 };
-    default: return state;
+    default:
+      return state;
   }
 }
 

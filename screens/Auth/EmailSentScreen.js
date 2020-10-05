@@ -3,7 +3,7 @@ import { StyleSheet, Platform, View, Image, ScrollView } from 'react-native';
 import { Text, BoldText, RoundButton } from 'components';
 import { EMAIL_SENT } from 'assets/images';
 import { useTranslation } from 'react-i18next';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 export default function EmailSentScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN']);

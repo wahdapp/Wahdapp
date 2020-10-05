@@ -6,7 +6,7 @@ import { auth } from 'firebaseDB';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { createUser } from 'services/user';
 import { convertLanguageCode } from 'helpers/languageCode';
 

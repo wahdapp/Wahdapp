@@ -6,7 +6,7 @@ import { Notifications } from 'expo';
 import { Text, BoldText } from 'components';
 import { Feather } from '@expo/vector-icons';
 import { BALLOON, MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { formatAgo } from 'helpers/dateFormat';
 import { useTranslation } from 'react-i18next';
 import { setIsNewNotification } from 'actions';

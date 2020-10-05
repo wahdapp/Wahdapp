@@ -23,7 +23,7 @@ import { auth } from 'firebaseDB';
 import useOptimisticReducer from 'use-optimistic-reducer';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { deletePrayer, joinPrayer } from 'services/prayer';
 
 const ScreenHeight = Dimensions.get("window").height;

@@ -8,7 +8,7 @@ import { prayerTypes } from 'constants/prayers';
 import { setSortBy } from 'actions';
 import { useTranslation } from 'react-i18next';
 import { getFilterPreference, updateFilterPreference } from 'services/user';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 export default function FilterScreen({ route, navigation }) {
   const user = useSelector(state => state.userState);
@@ -61,7 +61,7 @@ export default function FilterScreen({ route, navigation }) {
         setMinimumParticipants(preference.minimum_participants);
         setDefaultMinimumParts(preference.minimum_participants);
       }
-      
+
       setSameGender(preference.same_gender);
       setSelectedPrayers(preference.selected_prayers);
     }

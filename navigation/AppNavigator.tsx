@@ -8,7 +8,7 @@ import {
   setUser,
   setFilter,
   addNotification,
-  setNotificationRedirect
+  setNotificationRedirect,
 } from '../actions';
 import { Loader } from 'components';
 import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
@@ -30,7 +30,7 @@ export default ({ user }) => {
     return () => {
       // unsubscribe listener
       listener.remove();
-    }
+    };
   }, []);
 
   async function init() {
@@ -50,12 +50,17 @@ export default ({ user }) => {
 
       setIsFirstOAuth(false);
       setUserDataFetched(true);
-      dispatch(setUser({ ...userInfo, invitedAmount: invited.amount, participatedAmount: participated.amount }));
-    }
-    catch (e) {
-      console.log(e)
+      dispatch(
+        setUser({
+          ...userInfo,
+          invitedAmount: invited.amount,
+          participatedAmount: participated.amount,
+        })
+      );
+    } catch (e) {
+      console.log(e);
       // The user just signed in with OAuth
-      // Let the user choose his/her gender then create a new document into the database 
+      // Let the user choose his/her gender then create a new document into the database
       setIsFirstOAuth(true);
     }
   }
@@ -74,26 +79,30 @@ export default ({ user }) => {
     // App is open and foregrounded
     if (notification.origin === 'received') {
       Notifications.setBadgeNumberAsync(0);
-    }
-    else if (notification.origin === 'selected') {
+    } else if (notification.origin === 'selected') {
       // redirect to notification screen
       dispatch(setNotificationRedirect('Notification'));
     }
 
-    console.log({ notification })
+    console.log({ notification });
   }
 
   if (isFirstOAuth) {
-    return <SelectGenderScreen setIsFirstOAuth={setIsFirstOAuth} setUserDataFetched={setUserDataFetched} />
+    return (
+      <SelectGenderScreen
+        setIsFirstOAuth={setIsFirstOAuth}
+        setUserDataFetched={setUserDataFetched}
+      />
+    );
   }
 
   if (!userDataFetched) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
     <NavigationContainer>
       <MainTabNavigator />
     </NavigationContainer>
-  )
-}
+  );
+};

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { createUser, registerToken } from 'services/user';
 import { Notifications } from 'expo';
 import * as Animatable from 'react-native-animatable';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }) {
   const [isCreating, setIsCreating] = useState(false);

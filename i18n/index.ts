@@ -7,21 +7,25 @@ import en from './en.json';
 import parseLanguage from './parse';
 
 const resources = {
-  "en": en,
-  "zh_hant": zh_hant,
-  "zh_hans": zh_hans
+  en: en,
+  zh_hant: zh_hant,
+  zh_hans: zh_hans,
 };
 
 const languageDetector = {
   type: 'languageDetector',
   async: true, // flags below detection to be async
-  detect: callback => {
+  detect: (callback) => {
     return /*'en'; */ Localization.getLocalizationAsync().then(({ locale }) => {
       callback(parseLanguage(locale));
     });
   },
-  init: () => {},
-  cacheUserLanguage: () => {},
+  init: () => {
+    console.log('init');
+  },
+  cacheUserLanguage: () => {
+    console.log('cache');
+  },
 };
 
 i18n
@@ -31,8 +35,8 @@ i18n
     resources,
     fallbackLng: 'en',
     react: {
-      useSuspense: false
-    }
+      useSuspense: false,
+    },
   });
 
 export default i18n;

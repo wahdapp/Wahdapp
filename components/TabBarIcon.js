@@ -1,7 +1,7 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/colors';
 
 export default function TabBarIcon(props) {
   return (

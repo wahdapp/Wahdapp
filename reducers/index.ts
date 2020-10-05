@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   locationState: locationReducer,
   userState: userReducer,
   filterState: filterReducer,
-  notificationState: notificationsReducer
+  notificationState: notificationsReducer,
 });
 
 export default rootReducer;

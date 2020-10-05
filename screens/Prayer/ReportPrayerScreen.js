@@ -9,7 +9,7 @@ import { SnackbarContext } from 'contexts/snackbar';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { RoundButton, Text, Loader } from 'components';
 import { reportPrayer } from 'services/prayer';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 
 const categories = [
   { label: 'This is a spam', value: 0 },

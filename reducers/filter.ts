@@ -1,7 +1,7 @@
-import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '../constants/action_types';
+import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '@/constants/action_types';
 
 const INITIAL_STATE = {
-  sortBy: 'distance'
+  sortBy: 'distance',
 };
 
 function filterReducer(state = INITIAL_STATE, action) {
@@ -12,7 +12,8 @@ function filterReducer(state = INITIAL_STATE, action) {
       return INITIAL_STATE;
     case SET_SORT_BY:
       return { ...state, sortBy: action.payload };
-    default: return state;
+    default:
+      return state;
   }
 }
 

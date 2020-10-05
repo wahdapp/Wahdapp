@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Image, View } from 'react-native';
+import { Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -26,15 +26,16 @@ import ProfileScreen from 'screens/Tabs/ProfileScreen';
 import PrayerTimeScreen from 'screens/Tabs/PrayerTimeScreen';
 
 import { useTranslation } from 'react-i18next';
-import colors from 'constants/Colors';
+import colors from '@/constants/colors';
 import { Text } from 'components';
 import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { RootStackParamList } from '@/types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 const headerOptions = {
   headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
   headerTitleStyle: { fontFamily: 'Sen-Bold', fontSize: 18, color: '#d9d9d9' },
-}
+};
 
 function HomeStack() {
   const { t } = useTranslation(['HOME', 'FILTER']);
@@ -48,7 +49,7 @@ function HomeStack() {
         options={{ ...headerOptions, title: t('FILTER:HEADER'), headerBackTitle: ' ' }}
       />
     </Stack.Navigator>
-  )
+  );
 }
 
 function MapStack() {
@@ -56,54 +57,88 @@ function MapStack() {
   return (
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CreateInvitation" component={CreateInvitationScreen} options={{ ...headerOptions, title: '', headerBackTitle: ' ' }} />
-      <Stack.Screen name="MarkerPrayers" component={MarkerPrayersScreen} options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }} />
+      <Stack.Screen
+        name="CreateInvitation"
+        component={CreateInvitationScreen}
+        options={{ ...headerOptions, title: '', headerBackTitle: ' ' }}
+      />
+      <Stack.Screen
+        name="MarkerPrayers"
+        component={MarkerPrayersScreen}
+        options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }}
+      />
     </Stack.Navigator>
-  )
+  );
 }
 
 function PrayerTimeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="PrayerTime" component={PrayerTimeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PrayerTime"
+        component={PrayerTimeScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
-  )
+  );
 }
 
 function NotificationStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Notification" component={NotificationScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
-  )
+  );
 }
 
 function ProfileStack() {
   const { t } = useTranslation(['PROFILE']);
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false, title: t('PROFILE:HEADER') }} />
-      <Stack.Screen name="Invited" component={InvitedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_INVITED') }} />
-      <Stack.Screen name="Participated" component={ParticipatedScreen} options={{ ...headerOptions, title: t('PROFILE:PRAYERS_PARTICIPATED') }} />
-      <Stack.Screen name="Language" component={LanguageScreen} options={{ ...headerOptions, title: t('LANGUAGE_HEADER'), headerBackTitle: ' ' }} />
-      <Stack.Screen name="Contact" component={ContactScreen} options={{ ...headerOptions, title: t('PROFILE:OPTIONS.CONTACT') }} />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false, title: t('PROFILE:HEADER') }}
+      />
+      <Stack.Screen
+        name="Invited"
+        component={InvitedScreen}
+        options={{ ...headerOptions, title: t('PROFILE:PRAYERS_INVITED') }}
+      />
+      <Stack.Screen
+        name="Participated"
+        component={ParticipatedScreen}
+        options={{ ...headerOptions, title: t('PROFILE:PRAYERS_PARTICIPATED') }}
+      />
+      <Stack.Screen
+        name="Language"
+        component={LanguageScreen}
+        options={{ ...headerOptions, title: t('LANGUAGE_HEADER'), headerBackTitle: ' ' }}
+      />
+      <Stack.Screen
+        name="Contact"
+        component={ContactScreen}
+        options={{ ...headerOptions, title: t('PROFILE:OPTIONS.CONTACT') }}
+      />
     </Stack.Navigator>
-  )
+  );
 }
 
 const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
-  const { t } = useTranslation(['TABS', 'HOME', 'PROFILE', 'INVITATION', 'FILTER']);
-  const user = useSelector(state => state.userState);
-  const { isNew } = useSelector(state => state.notificationState);
+  const user = useSelector((state) => state.userState);
+  const { isNew } = useSelector((state) => state.notificationState);
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={colors.primary}
       barStyle={{ backgroundColor: '#fff', height: 60, justifyContent: 'center' }}
-      tabBarPosition="bottom"
     >
       <Tab.Screen
         name="Home"
@@ -111,8 +146,12 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon style={{ color: focused ? colors.primary : colors.secondary }} focused={focused} name="home" />
-          )
+            <TabBarIcon
+              style={{ color: focused ? colors.primary : colors.secondary }}
+              focused={focused}
+              name="home"
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -120,9 +159,7 @@ function Tabs() {
         component={MapStack}
         options={{
           tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="globe" />
-          )
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="globe" />,
         }}
       />
       <Tab.Screen
@@ -130,9 +167,7 @@ function Tabs() {
         component={PrayerTimeStack}
         options={{
           tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="moon" />
-          )
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="moon" />,
         }}
       />
       {/* <Tab.Screen
@@ -154,12 +189,15 @@ function Tabs() {
         options={{
           tabBarLabel: <Text style={{ fontSize: 14 }}>•</Text>,
           tabBarIcon: () => (
-            <Image source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR} style={{ width: 24, height: 24 }} />
-          )
+            <Image
+              source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR}
+              style={{ width: 24, height: 24 }}
+            />
+          ),
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }
 
 function MainStack() {
@@ -167,7 +205,11 @@ function MainStack() {
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
   return (
     <Stack.Navigator initialRouteName="Tabs">
-      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false, gestureDirection: 'horizontal' }} />
+      <Stack.Screen
+        name="Tabs"
+        component={Tabs}
+        options={{ headerShown: false, gestureDirection: 'horizontal' }}
+      />
       <Stack.Screen
         name="PrayerDetail"
         component={PrayerDetailScreen}
@@ -176,9 +218,10 @@ function MainStack() {
           title: t('PRAYER_DETAILS:HEADER', { prayer: PRAYERS[route.params.prayer] }),
           headerTitleStyle: [headerOptions.headerTitleStyle, { textTransform: 'capitalize' }],
           headerBackTitle: ' ',
-          gestureDirection: 'horizontal'
-        })} />
-      
+          gestureDirection: 'horizontal',
+        })}
+      />
+
       <Stack.Screen
         name="ReportPrayer"
         component={ReportPrayerScreen}
@@ -186,10 +229,11 @@ function MainStack() {
           ...headerOptions,
           title: '',
           headerTitleStyle: [headerOptions.headerTitleStyle, { textTransform: 'capitalize' }],
-          gestureDirection: 'horizontal'
-        })} />
+          gestureDirection: 'horizontal',
+        })}
+      />
     </Stack.Navigator>
-  )
+  );
 }
 
 export default MainStack;
