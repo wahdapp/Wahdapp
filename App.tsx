@@ -1,11 +1,11 @@
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
 import { auth } from '@/firebase';
 import store from './store';
-import { Platform, StatusBar, StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
 import { SnackbarProvider } from '@/contexts/snackbar';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Feather } from '@expo/vector-icons';
@@ -18,10 +18,10 @@ import EmailSentScreen from '@/screens/Auth/EmailSentScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import AppNavigator from './navigation/AppNavigator';
 import { decode, encode } from 'base-64';
+import AppNavigator from './navigation/AppNavigator';
+import { formatLanguage } from '@/helpers/dateFormat';
 import '@/helpers/clearTimer';
-import { formatLanguage } from 'helpers/dateFormat';
 import './i18n';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';

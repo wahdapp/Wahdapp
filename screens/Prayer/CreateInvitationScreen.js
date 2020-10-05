@@ -1,17 +1,17 @@
 import React, { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
-import { SnackbarContext } from 'contexts/snackbar';
-import { Text, BoldText, Touchable, Loader, RoundButton } from 'components';
+import { SnackbarContext } from '@/contexts/snackbar';
+import { Text, BoldText, Touchable, Loader, RoundButton } from '@/components';
 import dayjs from 'dayjs';
 import { Feather } from '@expo/vector-icons';
-import { prayerTypes } from 'constants/prayers';
+import { prayerTypes } from '@/constants/prayers';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { LinearGradient } from 'expo-linear-gradient';
-import { createPrayer } from 'services/prayer';
-import { addInvitedAmount } from 'actions';
+import { createPrayer } from '@/services/prayer';
+import { addInvitedAmount } from '@/actions';
 import i18n from '../../i18n';
 
 export default function CreateInvitationScreen({ route, navigation }) {

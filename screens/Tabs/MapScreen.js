@@ -9,18 +9,18 @@ import {
   View,
   TouchableWithoutFeedback
 } from 'react-native';
-import { Text, LoaderWithoutOverlay } from 'components';
+import { Text, LoaderWithoutOverlay } from '@/components';
 import * as Animatable from 'react-native-animatable';
 import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
-import { PIN } from 'assets/images';
-import GoogleMapsTheme from 'constants/google-maps-theme';
+import { PIN } from '@/assets/images';
+import GoogleMapsTheme from '@/constants/google-maps-theme';
 import { useTranslation } from 'react-i18next';
-import { AnimatedButton } from 'components';
+import { AnimatedButton } from '@/components';
 import colors from '@/constants/colors';
 import geohash from 'ngeohash';
-import { queryMap } from 'services/prayer';
+import { queryMap } from '@/services/prayer';
 
 export default function MapScreen({ navigation }) {
   const { t } = useTranslation(['INVITATION']);

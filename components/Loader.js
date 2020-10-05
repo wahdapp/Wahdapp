@@ -10,7 +10,7 @@ export function Loader({ width, height }) {
     <AnimatedLoader
       visible={true}
       overlayColor="rgba(255,255,255,0.75)"
-      source={require('assets/ripples.json')}
+      source={require('@/assets/ripples.json')}
       animationStyle={{ width, height }}
       speed={2}
     />
@@ -35,7 +35,7 @@ export function LoaderWithoutOverlay({ size = 'small', text = '' }) {
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <LottieView
-        source={require('assets/ripples.json')}
+        source={require('@/assets/ripples.json')}
         autoPlay
         loop
         style={{ width, height }}
@@ -47,9 +47,9 @@ export function LoaderWithoutOverlay({ size = 'small', text = '' }) {
 }
 
 export function Spinner({ size, type = 'default' }) {
-  let spinnerFile = require('assets/spinner.json');
+  let spinnerFile = require('@/assets/spinner.json');
   if (type === 'white') {
-    spinnerFile = require('assets/white_spinner.json');
+    spinnerFile = require('@/assets/white_spinner.json');
   }
   let width, height;
 

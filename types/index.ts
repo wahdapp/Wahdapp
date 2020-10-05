@@ -20,7 +20,7 @@ export type RootStackParamList = {
 export interface Prayer {
   guests_male: number;
   guests_female: number;
-  inviter: string;
+  inviter: User;
   participants: User[];
   prayer: string;
   schedule_time: string;

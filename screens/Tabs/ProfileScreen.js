@@ -2,20 +2,20 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, AsyncStorage, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SnackbarContext } from 'contexts/snackbar';
+import { SnackbarContext } from '@/contexts/snackbar';
 import SnackBar from 'react-native-snackbar-component';
 import { Feather } from '@expo/vector-icons';
-import { Text, BoldText, Touchable } from 'components';
-import { auth } from 'firebaseDB';
-import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from 'assets/images';
-import { setFullName } from 'actions';
+import { Text, BoldText, Touchable } from '@/components';
+import { auth } from '@/firebase';
+import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from '@/assets/images';
+import { setFullName } from '@/actions';
 import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
-import { updateUserName } from 'services/user';
+import { updateUserName } from '@/services/user';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);

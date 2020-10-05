@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, AsyncStorage } from 'react-native';
-import { Text, Touchable } from 'components';
+import { Text, Touchable } from '@/components';
 import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
-import { languages } from 'constants/languages';
-import { formatLanguage } from 'helpers/dateFormat';
+import { languages } from '@/constants/languages';
+import { formatLanguage } from '@/helpers/dateFormat';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';

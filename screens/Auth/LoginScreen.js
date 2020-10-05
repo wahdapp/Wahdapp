@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
-import { SnackbarContext } from 'contexts/snackbar';
-import { Text, Touchable, BoldText, Loader, RoundButton } from 'components';
-import { auth, signInWithFacebook, signInWithGoogle } from 'firebaseDB';
-import { FACEBOOK, GOOGLE, QURAN } from 'assets/images';
+import { SnackbarContext } from '@/contexts/snackbar';
+import { Text, Touchable, BoldText, Loader, RoundButton } from '@/components';
+import { auth, signInWithFacebook, signInWithGoogle } from '@/firebase';
+import { FACEBOOK, GOOGLE, QURAN } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { Notifications } from 'expo';
-import { registerToken } from 'services/user';
+import { registerToken } from '@/services/user';
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN', 'PROFILE']);

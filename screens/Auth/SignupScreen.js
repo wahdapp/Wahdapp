@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, View, ScrollView, TextInput, Image } from 'react-native';
-import { SnackbarContext } from 'contexts/snackbar';
-import { BoldText, Loader, RoundButton, GenderBox } from 'components';
-import { auth } from 'firebaseDB';
+import { SnackbarContext } from '@/contexts/snackbar';
+import { BoldText, Loader, RoundButton, GenderBox } from '@/components';
+import { auth } from '@/firebase';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import colors from '@/constants/colors';
-import { createUser } from 'services/user';
-import { convertLanguageCode } from 'helpers/languageCode';
+import { createUser } from '@/services/user';
+import { convertLanguageCode } from '@/helpers/languageCode';
 
 export default function SignupScreen({ navigation: { navigate } }) {
   const { t } = useTranslation(['SIGN', 'COMMON']);

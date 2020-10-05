@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, TouchableOpacity, ScrollView, Slider, AsyncStorage, FlatList } from 'react-native';
 import { CheckBox } from 'native-base';
-import { Text, BoldText, RoundButton, Loader } from 'components';
+import { Text, BoldText, RoundButton, Loader } from '@/components';
 import { Feather } from '@expo/vector-icons';
-import { prayerTypes } from 'constants/prayers';
-import { setSortBy } from 'actions';
+import { prayerTypes } from '@/constants/prayers';
+import { setSortBy } from '@/actions';
 import { useTranslation } from 'react-i18next';
-import { getFilterPreference, updateFilterPreference } from 'services/user';
+import { getFilterPreference, updateFilterPreference } from '@/services/user';
 import colors from '@/constants/colors';
 
 export default function FilterScreen({ route, navigation }) {

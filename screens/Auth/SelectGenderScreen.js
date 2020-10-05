@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { BoldText, RoundButton, Loader, GenderBox } from 'components';
-import { auth } from 'firebaseDB';
-import { setUser, initializeFilter } from 'actions';
+import { BoldText, RoundButton, Loader, GenderBox } from '@/components';
+import { auth } from '@/firebase';
+import { setUser, initializeFilter } from '@/actions';
 import { useTranslation } from 'react-i18next';
-import { createUser, registerToken } from 'services/user';
+import { createUser, registerToken } from '@/services/user';
 import { Notifications } from 'expo';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';

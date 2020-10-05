@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Image } from 'react-native';
-import { PrayerCard, SkeletonCard, Text } from 'components';
-import { NOT_FOUND } from 'assets/images';
+import { PrayerCard, SkeletonCard, Text } from '@/components';
+import { NOT_FOUND } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
-import { auth } from 'firebaseDB';
-import { getInvitedList } from 'services/prayer';
+import { auth } from '@/firebase';
+import { getInvitedList } from '@/services/prayer';
 
 export default function InvitedScreen({ navigation }) {
   const { t } = useTranslation(['PROFILE']);

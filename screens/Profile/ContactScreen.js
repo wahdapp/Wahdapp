@@ -1,6 +1,6 @@
 import React from 'react';
 import Webview from 'react-native-webview';
-import { LoaderWithoutOverlay } from 'components';
+import { LoaderWithoutOverlay } from '@/components';
 import { View } from 'react-native';
 
 export default function ContactScreen() {

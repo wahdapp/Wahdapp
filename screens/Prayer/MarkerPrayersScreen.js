@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
-import { PrayerCard, RoundButton } from 'components';
+import { PrayerCard, RoundButton } from '@/components';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
 

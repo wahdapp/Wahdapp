@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Image, View, Animated } from 'react-native';
 import { Text } from './Text';
-import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from 'assets/images';
+import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '@/assets/images';
 import dayjs from 'dayjs';
-import { calculateDistance, formatDistance } from 'helpers/geo';
-import { formatDay } from 'helpers/dateFormat';
+import { calculateDistance, formatDistance } from '@/helpers/geo';
+import { formatDay } from '@/helpers/dateFormat';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
-import { SCALE } from 'helpers/animation';
+import { SCALE } from '@/helpers/animation';
 
 export default function PrayerCard({ navigate, ...props }) {
   const { t } = useTranslation('COMMON');

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, Platform, View, Image, TextInput, ScrollView } from 'react-native';
-import { SnackbarContext } from 'contexts/snackbar';
-import { Text, BoldText, Loader, RoundButton } from 'components';
-import { auth } from 'firebaseDB';
-import { FORGOT, EMAIL_SENT } from 'assets/images';
+import { SnackbarContext } from '@/contexts/snackbar';
+import { Text, BoldText, Loader, RoundButton } from '@/components';
+import { auth } from '@/firebase';
+import { FORGOT, EMAIL_SENT } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 

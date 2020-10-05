@@ -1,5 +1,5 @@
-import { API_DOMAIN } from 'constants/api';
-import { auth } from 'firebaseDB';
+import { API_DOMAIN } from '@/constants/api';
+import { auth } from '@/firebase';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -19,7 +19,7 @@ export async function queryFeed({ lng, lat, timestamp = dayjs().format(), sortTy
         break;
       default: sortBy = sortType;
     }
-    
+
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get(`${API_DOMAIN}/prayer/feed?lng=${lng}&lat=${lat}&timestamp=${encodeURIComponent(timestamp)}&sortBy=${sortBy}&pageSize=${pageSize}&pageNumber=${pageNumber}`, {
       headers: {
@@ -172,11 +172,11 @@ export async function reportPrayer(prayerID, category, description) {
       category,
       description
     },
-    {
-      headers: {
-        Authorization: `Token ${token}`
-      }
-    });
+      {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      });
 
     return data.data;
   }

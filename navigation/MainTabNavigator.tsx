@@ -3,32 +3,32 @@ import { Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import TabBarIcon from 'components/TabBarIcon';
+import TabBarIcon from '@/components/TabBarIcon';
 
 // Prayer
-import PrayerDetailScreen from 'screens/Prayer/PrayerDetailScreen';
-import MarkerPrayersScreen from 'screens/Prayer/MarkerPrayersScreen';
-import FilterScreen from 'screens/Prayer/FilterScreen';
-import CreateInvitationScreen from 'screens/Prayer/CreateInvitationScreen';
-import ReportPrayerScreen from 'screens/Prayer/ReportPrayerScreen';
+import PrayerDetailScreen from '@/screens/Prayer/PrayerDetailScreen';
+import MarkerPrayersScreen from '@/screens/Prayer/MarkerPrayersScreen';
+import FilterScreen from '@/screens/Prayer/FilterScreen';
+import CreateInvitationScreen from '@/screens/Prayer/CreateInvitationScreen';
+import ReportPrayerScreen from '@/screens/Prayer/ReportPrayerScreen';
 
 // Profile
-import ContactScreen from 'screens/Profile/ContactScreen';
-import InvitedScreen from 'screens/Profile/InvitedScreen';
-import ParticipatedScreen from 'screens/Profile/ParticipatedScreen';
-import LanguageScreen from 'screens/Profile/LanguageScreen';
+import ContactScreen from '@/screens/Profile/ContactScreen';
+import InvitedScreen from '@/screens/Profile/InvitedScreen';
+import ParticipatedScreen from '@/screens/Profile/ParticipatedScreen';
+import LanguageScreen from '@/screens/Profile/LanguageScreen';
 
 // Tabs
-import HomeScreen from 'screens/Tabs/HomeScreen';
-import MapScreen from 'screens/Tabs/MapScreen';
-import NotificationScreen from 'screens/Tabs/NotificationScreen';
-import ProfileScreen from 'screens/Tabs/ProfileScreen';
-import PrayerTimeScreen from 'screens/Tabs/PrayerTimeScreen';
+import HomeScreen from '@/screens/Tabs/HomeScreen';
+import MapScreen from '@/screens/Tabs/MapScreen';
+import NotificationScreen from '@/screens/Tabs/NotificationScreen';
+import ProfileScreen from '@/screens/Tabs/ProfileScreen';
+import PrayerTimeScreen from '@/screens/Tabs/PrayerTimeScreen';
 
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
-import { Text } from 'components';
-import { MAN_AVATAR, WOMAN_AVATAR } from 'assets/images';
+import { Text } from '@/components';
+import { MAN_AVATAR, WOMAN_AVATAR } from '@/assets/images';
 import { RootStackParamList } from '@/types';
 
 const Stack = createStackNavigator<RootStackParamList>();

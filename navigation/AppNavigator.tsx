@@ -10,12 +10,12 @@ import {
   addNotification,
   setNotificationRedirect,
 } from '../actions';
-import { Loader } from 'components';
-import SelectGenderScreen from 'screens/Auth/SelectGenderScreen';
+import { Loader } from '@/components';
+import SelectGenderScreen from '@/screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
-import { getUserInfo } from 'services/user';
-import { getInvitedAmount, getParticipatedAmount } from 'services/prayer';
+import { getUserInfo } from '@/services/user';
+import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);

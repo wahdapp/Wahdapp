@@ -1,5 +1,5 @@
-import { API_DOMAIN } from 'constants/api';
-import { auth } from 'firebaseDB';
+import { API_DOMAIN } from '@/constants/api';
+import { auth } from '@/firebase';
 import axios from 'axios';
 
 export async function createUser(payload) {
