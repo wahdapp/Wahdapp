@@ -26,6 +26,7 @@ import './i18n';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import * as Sentry from 'sentry-expo';
+import { AuthStackParamList } from './types';
 
 const headerStyle = {
   backgroundColor: '#fff',
@@ -58,7 +59,7 @@ if (!global['atob']) {
   global['atob'] = decode;
 }
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AuthStackParamList>();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);

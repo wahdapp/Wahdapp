@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, Dispatch, SetStateAction } from 'react';
 import SnackBar from 'react-native-snackbar-component';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 
-export const SnackbarContext = React.createContext({});
+export const SnackbarContext = React.createContext(
+  {} as [string, Dispatch<SetStateAction<string>>]
+);
 
 export const SnackbarProvider: React.FC = ({ children }) => {
   const { t } = useTranslation(['SIGN']);
@@ -21,7 +23,7 @@ export const SnackbarProvider: React.FC = ({ children }) => {
   }, [errorMessage]);
 
   return (
-    <SnackbarContext.Provider value={{ errorMessage, setErrorMessage }}>
+    <SnackbarContext.Provider value={[errorMessage, setErrorMessage]}>
       <SnackBar
         visible={!!errorMessage.length}
         textMessage={errorMessage}
@@ -34,3 +36,5 @@ export const SnackbarProvider: React.FC = ({ children }) => {
     </SnackbarContext.Provider>
   );
 };
+
+export const useSnackbar = () => useContext(SnackbarContext);

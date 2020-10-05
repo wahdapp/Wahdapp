@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
-import { SnackbarContext } from '@/contexts/snackbar';
+import { useSnackbar } from '@/contexts/snackbar';
 import { Text, Touchable, BoldText, Loader, RoundButton } from '@/components';
 import { auth, signInWithFacebook, signInWithGoogle } from '@/firebase';
 import { FACEBOOK, GOOGLE, QURAN } from '@/assets/images';
@@ -9,10 +9,18 @@ import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { Notifications } from 'expo';
 import { registerToken } from '@/services/user';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '@/types';
 
-export default function LoginScreen({ navigation: { navigate } }) {
+type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
+
+type Props = {
+  navigation: LoginScreenNavigationProp;
+};
+
+export default function LoginScreen({ navigation: { navigate } }: Props) {
   const { t } = useTranslation(['SIGN', 'PROFILE']);
-  const { setErrorMessage } = useContext(SnackbarContext);
+  const [, setErrorMessage] = useSnackbar();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,8 +49,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
       await auth.signInWithEmailAndPassword(email, password);
 
       registerPushToken();
-    }
-    catch (e) {
+    } catch (e) {
       setLoading(false);
       displayError(e.message);
     }
@@ -58,24 +65,40 @@ export default function LoginScreen({ navigation: { navigate } }) {
     await registerPushToken();
   }
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView style={styles.container}>
         <Image style={{ width: '100%', height: 200, resizeMode: 'cover' }} source={QURAN} />
-        <Animatable.View animation="fadeInUp" style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}>
+        <Animatable.View
+          animation="fadeInUp"
+          style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}
+        >
           <BoldText style={styles.headerText}>Welcome to Wahdapp</BoldText>
         </Animatable.View>
         <View style={styles.formContainer}>
           <Animatable.View animation="fadeInUp" delay={300}>
             <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-            <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              style={styles.textInput}
+              placeholder="ahmad@email.com"
+              placeholderTextColor="#dedede"
+            />
           </Animatable.View>
 
           <Animatable.View animation="fadeInUp" delay={600}>
             <BoldText style={styles.inputLabel}>{t('PASSWORD')}</BoldText>
-            <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.textInput} placeholder="********" placeholderTextColor="#dedede" />
+            <TextInput
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              style={styles.textInput}
+              placeholder="********"
+              placeholderTextColor="#dedede"
+            />
           </Animatable.View>
 
           <Animatable.View animation="fadeInUp" delay={900} style={styles.forgotPwdContainer}>
@@ -84,51 +107,74 @@ export default function LoginScreen({ navigation: { navigate } }) {
             </Touchable>
           </Animatable.View>
 
-          <Animatable.View animation="fadeInUp" delay={1200} style={{ ...styles.loginBtnContainer, width: '100%' }}>
-            <RoundButton onPress={handleLogin}>
-              {t('LOGIN')}
-            </RoundButton>
+          <Animatable.View
+            animation="fadeInUp"
+            delay={1200}
+            style={{ ...styles.loginBtnContainer, width: '100%' }}
+          >
+            <RoundButton onPress={handleLogin}>{t('LOGIN')}</RoundButton>
           </Animatable.View>
 
           <View style={styles.signUpLabelContainer}>
             <Text style={styles.signUpLabel}>{t('NOT_HAVE')}</Text>
-            <Text style={{ ...styles.signUpLabel, color: colors.primary }} onPress={() => navigate('Signup')}> {t('SIGNUP_NOW')} </Text>
+            <Text
+              style={{ ...styles.signUpLabel, color: colors.primary }}
+              onPress={() => navigate('Signup')}
+            >
+              {' '}
+              {t('SIGNUP_NOW')}{' '}
+            </Text>
           </View>
 
           <View style={styles.signUpLabelContainer}>
             <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
           </View>
 
-          <Animatable.View animation="bounceIn" delay={2000} style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
+          <Animatable.View
+            animation="bounceIn"
+            delay={2000}
+            style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
+          >
             <Touchable onPress={handleFacebookPress}>
               <View style={styles.facebookButton}>
-                <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={FACEBOOK} />
+                <Image
+                  style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }}
+                  source={FACEBOOK}
+                />
                 <Text style={{ fontSize: 10, color: '#ffffff' }}>{t('FACEBOOK_LOGIN')}</Text>
               </View>
             </Touchable>
           </Animatable.View>
 
-          <Animatable.View animation="bounceIn" delay={2300} style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}>
+          <Animatable.View
+            animation="bounceIn"
+            delay={2300}
+            style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
+          >
             <Touchable onPress={handleGooglePress}>
               <View style={styles.googleButton}>
-                <Image style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }} source={GOOGLE} />
+                <Image
+                  style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }}
+                  source={GOOGLE}
+                />
                 <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('GOOGLE_LOGIN')}</Text>
               </View>
             </Touchable>
           </Animatable.View>
 
           <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
-            <View style={{ textAlign: 'center' }}>
+            <View>
               <Touchable onPress={() => Linking.openURL(`https://wahd.app/privacy`)}>
-                <Text style={{ fontSize: 8, color: '#7F7F7F' }}>{t('PROFILE:OPTIONS.PRIVACY')}</Text>
+                <Text style={{ fontSize: 8, color: '#7F7F7F' }}>
+                  {t('PROFILE:OPTIONS.PRIVACY')}
+                </Text>
               </Touchable>
             </View>
           </View>
-
         </View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -142,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'left',
     color: colors.primary,
-    letterSpacing: 0.9
+    letterSpacing: 0.9,
   },
   container: {
     height: '100%',
@@ -162,18 +208,18 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: '100%',
     paddingLeft: 25,
-    paddingRight: 25
+    paddingRight: 25,
   },
   formContainer: {
     paddingLeft: 25,
     paddingRight: 25,
-    width: '100%'
+    width: '100%',
   },
   loginBtnContainer: {
     marginTop: 25,
     marginLeft: 'auto',
     marginRight: 'auto',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   loginBtn: {
     height: 52,
@@ -182,27 +228,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   forgotPwdContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 10
+    marginTop: 10,
   },
   signUpLabelContainer: {
     marginTop: 10,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   signUpLabel: {
     fontSize: 12,
     color: '#7C7C7C',
     textAlign: 'center',
-    lineHeight: 30
+    lineHeight: 30,
   },
   hyperlink: {
     fontSize: 14,
-    color: 'blue'
+    color: 'blue',
   },
   textInput: {
     marginBottom: 20,
@@ -211,13 +257,13 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     letterSpacing: 1.8,
     fontSize: 16,
-    paddingLeft: -10
+    paddingLeft: -10,
   },
   inputLabel: {
     fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
-    color: '#7C7C7C'
+    color: '#7C7C7C',
   },
   facebookButton: {
     height: 52,
@@ -249,5 +295,5 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowColor: '#000',
     shadowOffset: { height: 0, width: 0 },
-  }
+  },
 });

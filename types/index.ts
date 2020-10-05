@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { MapEvent } from 'react-native-maps';
 
 export type RootStackParamList = {
@@ -25,6 +26,13 @@ export type RootStackParamList = {
   Tabs: undefined;
   PrayerDetail: Prayer;
   ReportPrayer: undefined;
+};
+
+export type AuthStackParamList = {
+  EmailSent: undefined;
+  ForgotPassword: undefined;
+  Login: undefined;
+  Signup: undefined;
 };
 
 export interface Prayer {

@@ -1,15 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Platform, View, Image, TextInput, ScrollView } from 'react-native';
-import { SnackbarContext } from '@/contexts/snackbar';
+import { useSnackbar } from '@/contexts/snackbar';
 import { Text, BoldText, Loader, RoundButton } from '@/components';
 import { auth } from '@/firebase';
 import { FORGOT, EMAIL_SENT } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '@/types';
 
-export default function ForgotPasswordScreen({ navigation: { navigate } }) {
+type ForgotPasswordScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ForgotPassword'>;
+
+type Props = {
+  navigation: ForgotPasswordScreenNavigationProp;
+};
+
+export default function ForgotPasswordScreen({ navigation: { navigate } }: Props) {
   const { t } = useTranslation(['SIGN', 'COMMON']);
-  const { setErrorMessage } = useContext(SnackbarContext);
+  const [, setErrorMessage] = useSnackbar();
 
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -23,17 +31,20 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
 
       setIsSending(false);
       setIsSent(true);
-    }
-    catch (e) {
+    } catch (e) {
       setIsSending(false);
       setErrorMessage(e.message);
     }
   }
 
   return (
-    <View behavior="padding" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+    <View
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}
+    >
       {isSending && <Loader />}
-      <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ScrollView
+        contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      >
         <View style={styles.container}>
           <View>
             <View style={styles.imageContainer}>
@@ -49,38 +60,40 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }) {
 
                 <View style={styles.buttonContainer}>
                   <View style={{ width: '100%' }}>
-                    <RoundButton onPress={sendResetEmail}>
-                      {t('BACK_TO_LOGIN')}
-                    </RoundButton>
+                    <RoundButton onPress={sendResetEmail}>{t('BACK_TO_LOGIN')}</RoundButton>
                   </View>
                 </View>
               </>
             ) : (
-                <>
-                  <View style={styles.descriptionSection}>
-                    <BoldText style={styles.bold}>{t('FORGOT.HEADER')}</BoldText>
-                    <Text style={styles.text}>{t('FORGOT.DESCRIPTION')}</Text>
-                  </View>
+              <>
+                <View style={styles.descriptionSection}>
+                  <BoldText style={styles.bold}>{t('FORGOT.HEADER')}</BoldText>
+                  <Text style={styles.text}>{t('FORGOT.DESCRIPTION')}</Text>
+                </View>
 
-                  <View style={styles.formContainer}>
-                    <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
-                    <TextInput value={email} onChangeText={setEmail} style={styles.textInput} placeholder="ahmad@email.com" placeholderTextColor="#dedede" />
-                  </View>
+                <View style={styles.formContainer}>
+                  <BoldText style={styles.inputLabel}>{t('EMAIL')}</BoldText>
+                  <TextInput
+                    value={email}
+                    onChangeText={setEmail}
+                    style={styles.textInput}
+                    placeholder="ahmad@email.com"
+                    placeholderTextColor="#dedede"
+                  />
+                </View>
 
-                  <View style={styles.buttonContainer}>
-                    <View style={{ width: '100%' }}>
-                      <RoundButton onPress={sendResetEmail}>
-                        {t('SUBMIT')}
-                      </RoundButton>
-                    </View>
+                <View style={styles.buttonContainer}>
+                  <View style={{ width: '100%' }}>
+                    <RoundButton onPress={sendResetEmail}>{t('SUBMIT')}</RoundButton>
                   </View>
-                </>
-              )}
+                </View>
+              </>
+            )}
           </View>
         </View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -88,16 +101,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'ios' ? 20 : 24,
     padding: 25,
-    width: '100%'
+    width: '100%',
   },
   imageContainer: {
     paddingLeft: 25,
-    paddingRight: 25
+    paddingRight: 25,
   },
   image: {
     width: '100%',
     resizeMode: 'contain',
-    height: 150
+    height: 150,
   },
   descriptionSection: {
     marginVertical: 25,
@@ -105,23 +118,23 @@ const styles = StyleSheet.create({
   bold: {
     fontSize: 20,
     textAlign: 'center',
-    color: '#7C7C7C'
+    color: '#7C7C7C',
   },
   text: {
     fontSize: 14,
     textAlign: 'center',
     color: '#7C7C7C',
-    marginTop: 25
+    marginTop: 25,
   },
   formContainer: {
     width: '100%',
-    marginBottom: 20
+    marginBottom: 20,
   },
   inputLabel: {
     fontSize: 10,
     marginLeft: 10,
     marginBottom: 10,
-    color: '#7C7C7C'
+    color: '#7C7C7C',
   },
   textInput: {
     marginBottom: 20,
@@ -130,16 +143,16 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     letterSpacing: 1.8,
     fontSize: 16,
-    paddingLeft: -10
+    paddingLeft: -10,
   },
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   button: {
     width: '100%',
     backgroundColor: colors.primary,
-    height: 52
-  }
+    height: 52,
+  },
 });
