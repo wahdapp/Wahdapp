@@ -46,6 +46,9 @@
       "splash": {
         "image": "./assets/images/splash_screens/ios/splash.png",
         "resizeMode": "cover"
+      },
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
       }
     },
     "hooks": {

@@ -1,6 +1,6 @@
 import { API_DOMAIN } from '@/constants/api';
 import { auth } from '@/firebase';
-import { Prayer, Prayer } from '@/types';
+import { Prayer } from '@/types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
