@@ -48,9 +48,7 @@
     "CHOOSE_TIME": "選擇時間",
     "INVITE": "發出邀請",
     "INVITE_HERE": "在此處邀請",
-    "ERROR": [
-      "禮拜時間不可比現在還早"
-    ]
+    "ERROR": ["禮拜時間不可比現在還早"]
   },
   "PROFILE": {
     "HEADER": "個人",
@@ -81,6 +79,8 @@
     "BACK": "返回"
   },
   "SIGN": {
+    "WELCOME": "歡迎",
+    "PROCEED": "登入以繼續",
     "LOGIN": "登入",
     "FORGOT_PWD": "忘記密碼",
     "NOT_HAVE": "還沒有帳號？",
@@ -109,12 +109,7 @@
     "GOOGLE_LOGIN": "用 Google 登入",
     "FACEBOOK_LOGIN": "用 Facebook 登入",
     "CHOOSE_GENDER": "請選擇您的性別",
-    "ERROR": [
-      "電子郵件或密碼尚未填寫",
-      "有至少一欄尚未填寫",
-      "兩個密碼不符",
-      "好"
-    ]
+    "ERROR": ["電子郵件或密碼尚未填寫", "有至少一欄尚未填寫", "兩個密碼不符", "好"]
   },
   "NOTIFICATIONS": {
     "TIME_DIFF": {

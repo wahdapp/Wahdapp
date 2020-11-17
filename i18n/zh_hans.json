@@ -48,9 +48,7 @@
     "CHOOSE_TIME": "选择时间",
     "INVITE": "发出邀请",
     "INVITE_HERE": "在此处邀请",
-    "ERROR": [
-      "礼拜时间不可比现在还早"
-    ]
+    "ERROR": ["礼拜时间不可比现在还早"]
   },
   "PROFILE": {
     "HEADER": "个人",
@@ -81,6 +79,8 @@
     "BACK": "返回"
   },
   "SIGN": {
+    "WELCOME": "登入",
+    "PROCEED": "登入以继续",
     "LOGIN": "登入",
     "FORGOT_PWD": "忘记密码",
     "NOT_HAVE": "还没有帐号？",
@@ -109,12 +109,7 @@
     "GOOGLE_LOGIN": "用 Google 登入",
     "FACEBOOK_LOGIN": "用 Facebook 登入",
     "CHOOSE_GENDER": "请选择您的性别",
-    "ERROR": [
-      "电子邮件或密码尚未填写",
-      "有至少一栏尚未填写",
-      "两个密码不符",
-      "好"
-    ]
+    "ERROR": ["电子邮件或密码尚未填写", "有至少一栏尚未填写", "两个密码不符", "好"]
   },
   "NOTIFICATIONS": {
     "TIME_DIFF": {

@@ -78,8 +78,8 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
           animation="fadeInUp"
           style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 60 }}
         >
-          <BoldText style={styles.headerText}>Welcome</BoldText>
-          <Text style={styles.subheaderText}>Sign in to proceed</Text>
+          <BoldText style={styles.headerText}>{t('WELCOME')}</BoldText>
+          <Text style={styles.subheaderText}>{t('PROCEED')}</Text>
         </Animatable.View>
         <View style={styles.formContainer}>
           <Animatable.View animation="fadeInUp" delay={300}>

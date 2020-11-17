@@ -48,9 +48,7 @@
     "CHOOSE_TIME": "Choose Time",
     "INVITE": "INVITE",
     "INVITE_HERE": "INVITE HERE",
-    "ERRORS": [
-      "Prayer time cannot be before now"
-    ]
+    "ERRORS": ["Prayer time cannot be before now"]
   },
   "PROFILE": {
     "HEADER": "Profile",
@@ -81,6 +79,8 @@
     "BACK": "Back"
   },
   "SIGN": {
+    "WELCOME": "Welcome",
+    "PROCEED": "Sign in to proceed",
     "LOGIN": "Login",
     "FORGOT_PWD": "Forgot Password",
     "NOT_HAVE": "Don't have an account yet?",
