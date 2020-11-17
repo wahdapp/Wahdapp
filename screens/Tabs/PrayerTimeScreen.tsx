@@ -357,5 +357,5 @@ function findNextPrayer(timings: Timings) {
 }
 
 function pad(num) {
-  return ('00' + num).substr(-2, 2);
+  return ('00' + parseInt(num)).substr(-2, 2);
 }
