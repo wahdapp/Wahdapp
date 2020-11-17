@@ -127,7 +127,7 @@ export default function PrayerCard({ navigate, ...props }: Props) {
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    marginBottom: 20,
+    marginBottom: 5,
     width: '100%',
   },
   card: {

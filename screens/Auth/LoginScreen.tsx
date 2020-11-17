@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-n
 import { useSnackbar } from '@/contexts/snackbar';
 import { Text, Touchable, BoldText, Loader, RoundButton } from '@/components';
 import { auth, signInWithFacebook, signInWithGoogle } from '@/firebase';
-import { FACEBOOK, GOOGLE, QURAN } from '@/assets/images';
+import { FACEBOOK, GOOGLE, LOGO_WHITE } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
@@ -70,12 +70,16 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView style={styles.container}>
-        <Image style={{ width: '100%', height: 200, resizeMode: 'cover' }} source={QURAN} />
+        <View style={{ alignItems: 'center', marginTop: 50 }}>
+          <Image style={{ width: 100, height: 100, resizeMode: 'cover' }} source={LOGO_WHITE} />
+        </View>
+
         <Animatable.View
           animation="fadeInUp"
-          style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 25 }}
+          style={{ width: '100%', paddingHorizontal: 35, marginTop: 30, marginBottom: 60 }}
         >
-          <BoldText style={styles.headerText}>Welcome to Wahdapp</BoldText>
+          <BoldText style={styles.headerText}>Welcome</BoldText>
+          <Text style={styles.subheaderText}>Sign in to proceed</Text>
         </Animatable.View>
         <View style={styles.formContainer}>
           <Animatable.View animation="fadeInUp" delay={300}>
@@ -185,10 +189,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerText: {
-    fontSize: 20,
-    textAlign: 'left',
+    fontSize: 26,
+    textAlign: 'center',
     color: colors.primary,
     letterSpacing: 0.9,
+  },
+  subheaderText: {
+    color: '#7C7C7C',
+    fontSize: 12,
+    letterSpacing: 1,
+    textAlign: 'center',
   },
   container: {
     height: '100%',
