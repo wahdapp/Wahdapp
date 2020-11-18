@@ -1,15 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import MapView, { MapEvent, Marker } from 'react-native-maps';
-import {
-  StyleSheet,
-  Platform,
-  Image,
-  TouchableOpacity,
-  View,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import { Text, LoaderWithoutOverlay } from '@/components';
+import MapView, { MapEvent, Marker, Circle } from 'react-native-maps';
+import { StyleSheet, Image, TouchableOpacity, View, TouchableWithoutFeedback } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import { Text, LoaderWithoutOverlay, RoundButton, BoldText } from '@/components';
 import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
@@ -22,6 +16,7 @@ import geohash from 'ngeohash';
 import { queryMap } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Prayer, RootStackParamList } from '@/types';
+import GetNotified from './GetNotified';
 
 type FilteredMapQuery = Prayer & { geohash: string };
 
@@ -40,9 +35,32 @@ export default function MapScreen({ navigation }: Props) {
   const [isQuerying, setIsQuerying] = useState(false);
   const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
-  const filter = useSelector((state) => state.filterState);
-  const user = useSelector((state) => state.userState);
+
+  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(true);
+  const [isChoosingRange, setIsChoosingRange] = useState(false);
+  const [notifyLocation, setNotifyLocation] = useState(null);
   const mapRef = useRef(null);
+  const circleRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      // Check user's permission statuses on notification & location
+      const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
+
+      console.log({ notifStat, posStat });
+      if (notifStat === 'granted' && posStat === 'granted') {
+        // display tip to let user choose a geographical range to get notified
+        setShowAreaSelectionTip(true);
+
+        const position = await Location.getCurrentPositionAsync({});
+        setNotifyLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     getUserPosition();
@@ -50,20 +68,30 @@ export default function MapScreen({ navigation }: Props) {
 
   useEffect(() => {
     if (userPosition && mapRef.current) {
-      setTimeout(() => {
-        mapRef.current.animateToRegion(
-          {
-            latitude: userPosition.latitude,
-            longitude: userPosition.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          },
-          800
-        );
-        setCurrentRegion(userPosition);
-      }, 100);
+      animateToCurrentRegion();
     }
   }, [userPosition, mapRef]);
+
+  useEffect(() => {
+    if (isChoosingRange && mapRef.current) {
+      animateToCurrentRegion();
+    }
+  }, [isChoosingRange, mapRef]);
+
+  function animateToCurrentRegion() {
+    setTimeout(() => {
+      mapRef.current.animateToRegion(
+        {
+          latitude: userPosition.latitude,
+          longitude: userPosition.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+        800
+      );
+      setCurrentRegion(userPosition);
+    }, 100);
+  }
 
   async function getUserPosition() {
     try {
@@ -83,6 +111,9 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   function handleLongPress(coords) {
+    // prevent getting triggered while choosing notification area
+    if (isChoosingRange) return;
+
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     mapRef.current.animateToRegion(
@@ -102,6 +133,9 @@ export default function MapScreen({ navigation }: Props) {
 
   // Google Maps only
   function handlePoiClick(coords) {
+    // prevent getting triggered while choosing notification area
+    if (isChoosingRange) return;
+
     const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     mapRef.current.animateToRegion(
@@ -137,15 +171,15 @@ export default function MapScreen({ navigation }: Props) {
     }
   }
 
-  function handleMarkerDrag(coords) {
+  const handleMarkerDrag = (setLocation) => (coords) => {
     const { coordinate } = coords.nativeEvent;
-    setSelectedLocation(coordinate);
+    setLocation(coordinate);
     mapRef.current.animateToRegion({
       ...coordinate,
       latitudeDelta: currentZoom.latitudeDelta,
       longitudeDelta: currentZoom.longitudeDelta,
     });
-  }
+  };
 
   function removeMarker() {
     setSelectedLocation(null);
@@ -190,6 +224,22 @@ export default function MapScreen({ navigation }: Props) {
     navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });
   }
 
+  function setTip(answer: boolean) {
+    setShowAreaSelectionTip(false);
+    setIsChoosingRange(answer);
+    animateToCurrentRegion();
+  }
+
+  async function handleNotificationBtnPress() {
+    // Check user's permission statuses on notification & location
+    const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
+
+    if (notifStat === 'granted' && posStat === 'granted') {
+      setIsChoosingRange(true);
+    }
+  }
+
   if (!userPosition) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -198,21 +248,27 @@ export default function MapScreen({ navigation }: Props) {
     );
   }
 
+  if (showAreaSelectionTip) {
+    return <GetNotified setTip={setTip} />;
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      <AnimatedButton
-        showLoading={isQuerying}
-        width={150}
-        height={30}
-        title={t('QUERY')}
-        titleFontSize={10}
-        titleFontFamily="Sen"
-        titleColor="#000"
-        backgroundColor="#fff"
-        borderRadius={25}
-        onPress={queryArea}
-        containerStyle={{ position: 'absolute', top: 35, left: 0, right: 0, zIndex: 5 }}
-      />
+      {!isChoosingRange && (
+        <AnimatedButton
+          showLoading={isQuerying}
+          width={150}
+          height={30}
+          title={t('QUERY')}
+          titleFontSize={10}
+          titleFontFamily="Sen"
+          titleColor="#000"
+          backgroundColor="#fff"
+          borderRadius={25}
+          onPress={queryArea}
+          containerStyle={{ position: 'absolute', top: 35, left: 0, right: 0, zIndex: 5 }}
+        />
+      )}
       <MapView
         provider="google"
         ref={mapRef}
@@ -223,7 +279,29 @@ export default function MapScreen({ navigation }: Props) {
         onRegionChangeComplete={handleDrag}
         customMapStyle={GoogleMapsTheme}
       >
-        {selectedLocation && (
+        {isChoosingRange && (
+          <>
+            <Circle
+              ref={circleRef}
+              onLayout={() =>
+                circleRef.current.setNativeProps({
+                  strokeColor: 'rgba(109, 199, 176, 0.4)',
+                  strokeWidth: 0,
+                })
+              }
+              center={notifyLocation}
+              radius={3000}
+              strokeWidth={0}
+              fillColor="rgba(109, 199, 176, 0.4)"
+            />
+            <Marker
+              coordinate={notifyLocation}
+              draggable={true}
+              onDragEnd={handleMarkerDrag(setNotifyLocation)}
+            />
+          </>
+        )}
+        {!isChoosingRange && selectedLocation && (
           <Marker
             coordinate={selectedLocation}
             onPress={(
@@ -238,7 +316,7 @@ export default function MapScreen({ navigation }: Props) {
               })
             }
             draggable={true}
-            onDragEnd={handleMarkerDrag}
+            onDragEnd={handleMarkerDrag(setSelectedLocation)}
           >
             <View style={{ alignItems: 'center', minWidth: 150 }}>
               <TouchableWithoutFeedback>
@@ -269,14 +347,49 @@ export default function MapScreen({ navigation }: Props) {
             />
           ))}
       </MapView>
-      {selectedLocation ? (
-        <TouchableOpacity style={styles.removeMarkerBtn} onPress={removeMarker}>
-          <Feather name="x" size={30} color="#7C7C7C" />
+      {!isChoosingRange && (
+        <TouchableOpacity style={styles.notificationBtn} onPress={handleNotificationBtnPress}>
+          <Feather name="bell" size={30} color="#7C7C7C" />
         </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={styles.floatingBtn} onPress={handleFloatBtnClick}>
-          <Feather name="map-pin" size={30} color="#ffffff" />
-        </TouchableOpacity>
+      )}
+
+      {!isChoosingRange &&
+        (selectedLocation ? (
+          <TouchableOpacity style={styles.removeMarkerBtn} onPress={removeMarker}>
+            <Feather name="x" size={30} color="#7C7C7C" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.floatingBtn} onPress={handleFloatBtnClick}>
+            <Feather name="map-pin" size={30} color="#ffffff" />
+          </TouchableOpacity>
+        ))}
+
+      {isChoosingRange && (
+        <>
+          <View style={styles.areaSelectBanner}>
+            <BoldText style={styles.areaSelectBannerText}>Notification Area</BoldText>
+            <Text style={styles.areaSelectBannerDesc}>
+              Drag the marker to the area you would like to receive new prayer notifications from
+            </Text>
+          </View>
+          <View style={{ ...styles.buttonWrapper, bottom: 80 }}>
+            <RoundButton style={{ width: '100%' }} touchableStyle={styles.touchableStyle}>
+              Confirm
+            </RoundButton>
+          </View>
+
+          <View style={{ ...styles.buttonWrapper, bottom: 15 }}>
+            <RoundButton
+              style={{ width: '100%' }}
+              backgroundColor="#fff"
+              textStyle={{ color: '#7D7D7D' }}
+              touchableStyle={styles.touchableStyle}
+              onPress={() => setTip(false)}
+            >
+              Cancel
+            </RoundButton>
+          </View>
+        </>
       )}
     </View>
   );
@@ -344,6 +457,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 100,
   },
+  notificationBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    position: 'absolute',
+    bottom: 80,
+    right: 10,
+    height: 60,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+  },
   inviteBtn: {
     width: '100%',
     textAlign: 'center',
@@ -358,6 +482,42 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonWrapper: {
+    position: 'absolute',
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 15,
+  },
+  touchableStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  areaSelectBanner: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 15,
+    paddingTop: 35,
+    paddingBottom: 25,
+  },
+  areaSelectBannerText: {
+    color: '#000',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  areaSelectBannerDesc: {
+    color: '#7D7D7D',
+    textAlign: 'center',
+    fontSize: 12,
+    marginTop: 10,
   },
 });
 

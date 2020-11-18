@@ -1,11 +1,27 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  ColorValue,
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+  TouchableNativeFeedbackProps,
+  ViewStyle,
+} from 'react-native';
 import Touchable from './Touchable';
 import { Text } from './Text';
 import colors from '@/constants/colors';
 import { View } from 'react-native';
 
-export default function RoundButton({
+type Props = TouchableNativeFeedbackProps & {
+  style?: StyleProp<ViewStyle>;
+  width?: React.ReactText;
+  height?: number;
+  backgroundColor?: ColorValue;
+  textStyle?: StyleProp<TextStyle>;
+  touchableStyle?: StyleProp<ViewStyle>;
+};
+
+const RoundButton: React.FC<Props> = ({
   children,
   style = {},
   width = '100%',
@@ -14,24 +30,26 @@ export default function RoundButton({
   textStyle = {},
   touchableStyle = {},
   ...props
-}) {
+}) => {
   return (
-    <Touchable {...props} style={{ ...styles.touchableStyle, ...touchableStyle }}>
+    <Touchable {...props} style={[styles.touchableStyle, touchableStyle]}>
       <View
-        style={{
-          ...styles.button,
-          width,
-          height,
-          borderRadius: height / 2,
-          ...style,
-          backgroundColor,
-        }}
+        style={[
+          {
+            ...styles.button,
+            width,
+            height,
+            borderRadius: height / 2,
+            backgroundColor,
+          },
+          style,
+        ]}
       >
-        <Text style={{ ...styles.text, ...textStyle }}>{children}</Text>
+        <Text style={[styles.text, textStyle]}>{children}</Text>
       </View>
     </Touchable>
   );
-}
+};
 
 const styles = StyleSheet.create({
   touchableStyle: {
@@ -56,3 +74,5 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
 });
+
+export default RoundButton;
