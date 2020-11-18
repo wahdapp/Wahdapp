@@ -80,7 +80,7 @@ export default function MapScreen({ navigation }: Props) {
 
   function animateToCurrentRegion() {
     setTimeout(() => {
-      mapRef.current.animateToRegion(
+      mapRef?.current?.animateToRegion(
         {
           latitude: userPosition.latitude,
           longitude: userPosition.longitude,
