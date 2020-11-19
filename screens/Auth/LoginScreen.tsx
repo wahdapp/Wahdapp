@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { Notifications } from 'expo';
-import { registerToken } from '@/services/user';
+import { registerToken } from '@/services/device-token';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
 
@@ -35,8 +35,12 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
   }
 
   async function registerPushToken() {
-    const token = await Notifications.getExpoPushTokenAsync();
-    await registerToken(token);
+    try {
+      const token = await Notifications.getExpoPushTokenAsync();
+      await registerToken(token);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async function handleLogin() {

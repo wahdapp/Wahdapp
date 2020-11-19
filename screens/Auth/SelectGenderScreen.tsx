@@ -5,7 +5,8 @@ import { BoldText, RoundButton, Loader, GenderBox } from '@/components';
 import { auth } from '@/firebase';
 import { setUser, initializeFilter } from '@/actions';
 import { useTranslation } from 'react-i18next';
-import { createUser, registerToken } from '@/services/user';
+import { createUser } from '@/services/user';
+import { registerToken } from '@/services/device-token';
 import { Notifications } from 'expo';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
@@ -33,6 +34,8 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
       full_name: auth.currentUser.displayName,
       email: auth.currentUser.email,
       gender,
+      locale: 'en',
+      location: null,
     };
 
     await createUser({

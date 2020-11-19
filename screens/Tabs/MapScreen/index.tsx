@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import MapView, { MapEvent, Marker, Circle } from 'react-native-maps';
 import { StyleSheet, Image, TouchableOpacity, View, TouchableWithoutFeedback } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export default function MapScreen({ navigation }: Props) {
+  const user = useSelector((state) => state.userState);
   const { t } = useTranslation(['INVITATION']);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
@@ -36,7 +38,7 @@ export default function MapScreen({ navigation }: Props) {
   const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
 
-  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(true);
+  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
   const [notifyLocation, setNotifyLocation] = useState(null);
   const mapRef = useRef(null);
