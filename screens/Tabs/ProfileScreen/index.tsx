@@ -28,6 +28,7 @@ import { updateUserName } from '@/services/user';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useUserInfo } from '@/hooks/redux';
+import { deleteDeviceToken } from '@/services/device-token';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -118,6 +119,7 @@ export default function ProfileScreen({ navigation }: Props) {
   }
 
   function logout() {
+    deleteDeviceToken(); // no need to await
     auth.signOut();
     AsyncStorage.removeItem('prayersFilter');
   }
