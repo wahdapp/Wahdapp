@@ -25,12 +25,12 @@ export default function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation(['HOME']);
   const location = useLocation();
   const filter = useFilter();
+  const { redirect } = useNotification();
   const dispatch = useDispatch();
 
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { redirect } = useNotification();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 

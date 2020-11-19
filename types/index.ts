@@ -73,7 +73,7 @@ export interface RootState {
   filterState: {
     sortBy: string;
   };
-  notificationsState: {
+  notificationState: {
     notifications: any[];
     isNew: boolean;
     redirect: keyof RootStackParamList;

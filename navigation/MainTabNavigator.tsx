@@ -132,7 +132,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
   const user = useUserInfo();
-  const { isNew } = useNotification();
+  // const { isNew } = useNotification();
 
   return (
     <Tab.Navigator
