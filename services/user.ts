@@ -124,10 +124,8 @@ export async function updateLocale(locale: string) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.patch(
-      `${API_DOMAIN}/user/locale`,
-      {
-        locale,
-      },
+      `${API_DOMAIN}/user/locale?locale=${locale}`,
+      {},
       {
         headers: {
           Authorization: `Token ${token}`,
