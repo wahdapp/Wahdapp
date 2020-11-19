@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { MapEvent, Marker, Circle } from 'react-native-maps';
 import { StyleSheet, Image, TouchableOpacity, View, TouchableWithoutFeedback } from 'react-native';
-import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import { Text, LoaderWithoutOverlay, RoundButton, BoldText } from '@/components';
 import dayjs from 'dayjs';
@@ -18,9 +17,15 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Prayer, RootStackParamList } from '@/types';
 import GetNotified from './GetNotified';
 import { useUserInfo } from '@/hooks/redux';
+import { updateUserLocation } from '@/services/user';
+import { setNotifyRegion } from '@/actions';
+import { useDispatch } from 'react-redux';
 
 type FilteredMapQuery = Prayer & { geohash: string };
-
+type Region = {
+  latitude: number;
+  longitude: number;
+};
 type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Map'>;
 
 type Props = {
@@ -30,17 +35,25 @@ type Props = {
 export default function MapScreen({ navigation }: Props) {
   const user = useUserInfo();
   const { t } = useTranslation(['INVITATION']);
+  const dispatch = useDispatch();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
-  const [userPosition, setUserPosition] = useState(null);
+  const [userPosition, setUserPosition] = useState<Region>(null);
   const [isQuerying, setIsQuerying] = useState(false);
   const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
 
   const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
-  const [notifyLocation, setNotifyLocation] = useState(null);
+  const [notifyLocation, setNotifyLocation] = useState<Region>(
+    user.location
+      ? {
+          latitude: user.location.lat,
+          longitude: user.location.lng,
+        }
+      : null
+  );
   const mapRef = useRef(null);
   const circleRef = useRef(null);
 
@@ -50,16 +63,17 @@ export default function MapScreen({ navigation }: Props) {
       const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
 
-      console.log({ notifStat, posStat });
       if (notifStat === 'granted' && posStat === 'granted') {
         // display tip to let user choose a geographical range to get notified
         setShowAreaSelectionTip(true);
 
-        const position = await Location.getCurrentPositionAsync({});
-        setNotifyLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
+        if (!notifyLocation) {
+          const position = await Location.getCurrentPositionAsync({});
+          setNotifyLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        }
       }
     })();
   }, []);
@@ -70,28 +84,28 @@ export default function MapScreen({ navigation }: Props) {
 
   useEffect(() => {
     if (userPosition && mapRef.current) {
-      animateToCurrentRegion();
+      animateToRegion(userPosition);
     }
   }, [userPosition, mapRef]);
 
   useEffect(() => {
     if (isChoosingRange && mapRef.current) {
-      animateToCurrentRegion();
+      animateToRegion(notifyLocation ?? userPosition);
     }
   }, [isChoosingRange, mapRef]);
 
-  function animateToCurrentRegion() {
+  function animateToRegion(region: Region) {
     setTimeout(() => {
       mapRef?.current?.animateToRegion(
         {
-          latitude: userPosition.latitude,
-          longitude: userPosition.longitude,
+          latitude: region.latitude,
+          longitude: region.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         },
         800
       );
-      setCurrentRegion(userPosition);
+      setCurrentRegion(region);
     }, 100);
   }
 
@@ -229,7 +243,7 @@ export default function MapScreen({ navigation }: Props) {
   function setTip(answer: boolean) {
     setShowAreaSelectionTip(false);
     setIsChoosingRange(answer);
-    animateToCurrentRegion();
+    animateToRegion(userPosition);
   }
 
   async function handleNotificationBtnPress() {
@@ -240,6 +254,12 @@ export default function MapScreen({ navigation }: Props) {
     if (notifStat === 'granted' && posStat === 'granted') {
       setIsChoosingRange(true);
     }
+  }
+
+  async function confirmNotificationRange() {
+    const region = { lat: notifyLocation.latitude, lng: notifyLocation.longitude };
+    await updateUserLocation(region);
+    dispatch(setNotifyRegion(region));
   }
 
   if (!userPosition) {
@@ -281,7 +301,7 @@ export default function MapScreen({ navigation }: Props) {
         onRegionChangeComplete={handleDrag}
         customMapStyle={GoogleMapsTheme}
       >
-        {isChoosingRange && (
+        {isChoosingRange && notifyLocation && (
           <>
             <Circle
               ref={circleRef}
@@ -375,7 +395,11 @@ export default function MapScreen({ navigation }: Props) {
             </Text>
           </View>
           <View style={{ ...styles.buttonWrapper, bottom: 80 }}>
-            <RoundButton style={{ width: '100%' }} touchableStyle={styles.touchableStyle}>
+            <RoundButton
+              onPress={confirmNotificationRange}
+              style={{ width: '100%' }}
+              touchableStyle={styles.touchableStyle}
+            >
               Confirm
             </RoundButton>
           </View>

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { BoldText, RoundButton, Loader, GenderBox } from '@/components';
 import { auth } from '@/firebase';
-import { setUser, initializeFilter } from '@/actions';
+import { setUser, initializeFilter, setDeviceToken } from '@/actions';
 import { useTranslation } from 'react-i18next';
 import { createUser } from '@/services/user';
 import { registerToken } from '@/services/device-token';
@@ -25,6 +25,8 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
   async function registerPushToken() {
     const token = await Notifications.getExpoPushTokenAsync();
     await registerToken(token);
+
+    dispatch(setDeviceToken(token));
   }
 
   async function chooseGender() {

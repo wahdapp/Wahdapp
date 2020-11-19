@@ -39,6 +39,20 @@ export function initializeFilter(gender) {
   };
 }
 
+export function setDeviceToken(payload: string) {
+  return {
+    type: actions.SET_DEVICE_TOKEN,
+    payload,
+  };
+}
+
+export function setNotifyRegion(payload: { lat: number; lng: number }) {
+  return {
+    type: actions.SET_NOTIFY_REGION,
+    payload,
+  };
+}
+
 export function setSortBy(payload) {
   return {
     type: actions.SET_SORT_BY,

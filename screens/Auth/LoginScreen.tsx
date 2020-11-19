@@ -11,6 +11,8 @@ import { Notifications } from 'expo';
 import { registerToken } from '@/services/device-token';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
+import { useDispatch } from 'react-redux';
+import { setDeviceToken } from '@/actions';
 
 type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -20,6 +22,7 @@ type Props = {
 
 export default function LoginScreen({ navigation: { navigate } }: Props) {
   const { t } = useTranslation(['SIGN', 'PROFILE']);
+  const dispatch = useDispatch();
   const [, setErrorMessage] = useSnackbar();
 
   const [email, setEmail] = useState('');
@@ -38,6 +41,8 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
     try {
       const token = await Notifications.getExpoPushTokenAsync();
       await registerToken(token);
+
+      dispatch(setDeviceToken(token));
     } catch (e) {
       console.log(e);
     }

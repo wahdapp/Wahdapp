@@ -140,3 +140,25 @@ export async function updateLocale(locale: string) {
     throw e;
   }
 }
+
+export async function updateUserLocation(location: { lat: number; lng: number }) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(
+      `${API_DOMAIN}/user/location`,
+      {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}

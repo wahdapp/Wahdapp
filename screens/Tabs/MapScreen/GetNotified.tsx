@@ -1,22 +1,35 @@
 import React, { Dispatch } from 'react';
 import { WAVE } from '@/assets/images';
 import { StyleSheet, Image, View, ScrollView } from 'react-native';
-import * as Notifications from 'expo-notifications';
+import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import { BoldText, RoundButton, Text } from '@/components';
 import colors from '@/constants/colors';
+import { useDispatch } from 'react-redux';
+import { useUserInfo } from '@/hooks/redux';
+import { setDeviceToken } from '@/actions';
+import { registerToken } from '@/services/device-token';
 
 type Props = {
   setTip: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const GetNotified: React.FC<Props> = ({ setTip }) => {
+  const user = useUserInfo();
+  const dispatch = useDispatch();
+
   async function verifyPermissions() {
     // Check user's permission statuses on notification & location
     const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
 
     if (notifStat === 'granted' && posStat === 'granted') {
+      // register device token if the user previously denied permission
+      if (!user.device_token) {
+        const token = await Notifications.getExpoPushTokenAsync();
+        await registerToken(token);
+        dispatch(setDeviceToken(token));
+      }
       // let user choose area to be notified
       setTip(true);
     }
