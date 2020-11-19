@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import MapView, { MapEvent, Marker, Circle } from 'react-native-maps';
 import { StyleSheet, Image, TouchableOpacity, View, TouchableWithoutFeedback } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -18,6 +17,7 @@ import { queryMap } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Prayer, RootStackParamList } from '@/types';
 import GetNotified from './GetNotified';
+import { useUserInfo } from '@/hooks/redux';
 
 type FilteredMapQuery = Prayer & { geohash: string };
 
@@ -28,7 +28,7 @@ type Props = {
 };
 
 export default function MapScreen({ navigation }: Props) {
-  const user = useSelector((state) => state.userState);
+  const user = useUserInfo();
   const { t } = useTranslation(['INVITATION']);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import {
   StyleSheet,
   Dimensions,
@@ -28,6 +27,7 @@ import { deletePrayer, joinPrayer } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
+import { useLocation, useUserInfo } from '@/hooks/redux';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -62,8 +62,8 @@ function joinReducer(state, action) {
 export default function PrayerDetailScreen({ route, navigation }: Props) {
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
   const { showActionSheetWithOptions } = useActionSheet();
-  const locationState = useSelector((state) => state.locationState);
-  const user = useSelector((state) => state.userState);
+  const locationState = useLocation();
+  const user = useUserInfo();
 
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
   const {

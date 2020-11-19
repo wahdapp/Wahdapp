@@ -48,3 +48,34 @@ export interface User {
   gender: string;
   email: string;
 }
+
+export interface UserPrivateInfo {
+  id: string;
+  full_name: string;
+  email: string;
+  gender: string;
+  location?: {
+    lat: number;
+    lng: number;
+  };
+  locale: string;
+  device_token?: string;
+  invitedAmount?: number;
+  participatedAmount?: number;
+}
+
+export interface RootState {
+  userState: UserPrivateInfo;
+  locationState: {
+    latitude?: number;
+    longitude?: number;
+  };
+  filterState: {
+    sortBy: string;
+  };
+  notificationsState: {
+    notifications: any[];
+    isNew: boolean;
+    redirect: keyof RootStackParamList;
+  };
+}

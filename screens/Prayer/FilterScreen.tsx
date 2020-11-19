@@ -19,6 +19,7 @@ import { getFilterPreference, updateFilterPreference } from '@/services/user';
 import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
+import { useFilter, useUserInfo } from '@/hooks/redux';
 
 type FilterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Filter'>;
 
@@ -27,8 +28,8 @@ type Props = {
 };
 
 export default function FilterScreen({ navigation }: Props) {
-  const user = useSelector((state) => state.userState);
-  const filterState = useSelector((state) => state.filterState);
+  const user = useUserInfo();
+  const filterState = useFilter();
   const dispatch = useDispatch();
 
   const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);

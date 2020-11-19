@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
 import { useSnackbar } from '@/contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from '@/components';
@@ -15,6 +15,7 @@ import i18n from '../../i18n';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
+import { useUserInfo } from '@/hooks/redux';
 
 type CreateInvitationScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -42,7 +43,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
-  const user = useSelector((state) => state.userState);
+  const user = useUserInfo();
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
   const isComplete = useMemo(() => selectedPrayer && description && time, [

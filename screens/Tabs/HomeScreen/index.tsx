@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { StyleSheet, FlatList, TouchableOpacity, Platform, Image, View } from 'react-native';
 import { PrayerCard, SkeletonCard, Text, BoldText } from '@/components';
 import { Feather } from '@expo/vector-icons';
@@ -11,6 +11,7 @@ import colors from '@/constants/colors';
 import { setNotificationRedirect } from '@/actions';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
+import { useFilter, useLocation, useNotification } from '@/hooks/redux';
 
 const PAGE_SIZE = 10;
 
@@ -22,14 +23,14 @@ type Props = {
 
 export default function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation(['HOME']);
-  const location = useSelector((state) => state.locationState);
-  const filter = useSelector((state) => state.filterState);
+  const location = useLocation();
+  const filter = useFilter();
   const dispatch = useDispatch();
 
   const [nearbyPrayers, setNearbyPrayers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { redirect } = useSelector((state) => state.notificationState);
+  const { redirect } = useNotification();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 

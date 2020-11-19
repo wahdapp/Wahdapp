@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   View,
   AsyncStorage,
@@ -27,6 +27,7 @@ import colors from '@/constants/colors';
 import { updateUserName } from '@/services/user';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
+import { useUserInfo } from '@/hooks/redux';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -36,7 +37,7 @@ type Props = {
 
 export default function ProfileScreen({ navigation }: Props) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
-  const user = useSelector((state) => state.userState);
+  const user = useUserInfo();
   const dispatch = useDispatch();
 
   const [isEditingFullName, setIsEditingFullName] = useState(false);

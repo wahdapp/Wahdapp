@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import TabBarIcon from '@/components/TabBarIcon';
@@ -30,6 +29,7 @@ import colors from '@/constants/colors';
 import { Text } from '@/components';
 import { MAN_AVATAR, WOMAN_AVATAR } from '@/assets/images';
 import { RootStackParamList } from '@/types';
+import { useNotification, useUserInfo } from '@/hooks/redux';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const headerOptions = {
@@ -131,8 +131,8 @@ function ProfileStack() {
 const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
-  const user = useSelector((state) => state.userState);
-  const { isNew } = useSelector((state) => state.notificationState);
+  const user = useUserInfo();
+  const { isNew } = useNotification();
 
   return (
     <Tab.Navigator

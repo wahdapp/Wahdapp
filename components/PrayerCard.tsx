@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { StyleSheet, Image, View, Animated } from 'react-native';
 import { Text } from './Text';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA, JANAZAH, JUMUAH } from '@/assets/images';
@@ -11,12 +10,13 @@ import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content';
 import { SCALE } from '@/helpers/animation';
 import { Prayer } from '@/types';
+import { useLocation } from '@/hooks/redux';
 
 type Props = Prayer & { navigate: any };
 
 export default function PrayerCard({ navigate, ...props }: Props) {
   const { t } = useTranslation('COMMON');
-  const locationState = useSelector((state) => state.locationState);
+  const locationState = useLocation();
 
   const {
     guests_male,
