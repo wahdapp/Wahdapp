@@ -1,7 +1,7 @@
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
-import { Platform, StatusBar, StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
 import { auth } from '@/firebase';
@@ -110,59 +110,55 @@ export default function App(props) {
     );
   }
 
-  if (!userAuth || !userAuth.emailVerified) {
-    return (
-      <SnackbarProvider>
-        <Root>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false, headerStyle }}
-              />
-              <Stack.Screen
-                name="Signup"
-                component={SignupScreen}
-                options={{
-                  title: '',
-                  headerBackTitle: t('LOGIN'),
-                  headerStyle,
-                }}
-              />
-              <Stack.Screen
-                name="ForgotPassword"
-                component={ForgotPasswordScreen}
-                options={{
-                  title: '',
-                  headerBackTitle: t('LOGIN'),
-                  headerStyle,
-                }}
-              />
-              <Stack.Screen
-                name="EmailSent"
-                component={EmailSentScreen}
-                options={{ headerShown: false, headerStyle }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </Root>
-      </SnackbarProvider>
-    );
-  }
-
   return (
     <SnackbarProvider>
-      <ActionSheetProvider>
-        <Root>
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <Provider store={store}>
-              <AppNavigator user={userAuth} />
-            </Provider>
-          </View>
-        </Root>
-      </ActionSheetProvider>
+      <Root>
+        <ActionSheetProvider>
+          <Provider store={store}>
+            {!userAuth || !userAuth.emailVerified ? (
+              <NavigationContainer>
+                <Stack.Navigator initialRouteName="Login">
+                  <Stack.Screen
+                    name="Login"
+                    component={LoginScreen}
+                    options={{ headerShown: false, headerStyle }}
+                  />
+                  <Stack.Screen
+                    name="Signup"
+                    component={SignupScreen}
+                    options={{
+                      title: '',
+                      headerBackTitle: t('LOGIN'),
+                      headerStyle,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPasswordScreen}
+                    options={{
+                      title: '',
+                      headerBackTitle: t('LOGIN'),
+                      headerStyle,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="EmailSent"
+                    component={EmailSentScreen}
+                    options={{ headerShown: false, headerStyle }}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            ) : (
+              <View style={styles.container}>
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                <Provider store={store}>
+                  <AppNavigator user={userAuth} />
+                </Provider>
+              </View>
+            )}
+          </Provider>
+        </ActionSheetProvider>
+      </Root>
     </SnackbarProvider>
   );
 }

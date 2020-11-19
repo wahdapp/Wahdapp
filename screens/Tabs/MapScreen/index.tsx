@@ -43,8 +43,7 @@ export default function MapScreen({ navigation }: Props) {
   const [isQuerying, setIsQuerying] = useState(false);
   const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
-
-  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location);
+  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location.lat);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
   const [notifyLocation, setNotifyLocation] = useState<Region>(
     user.location.lat
@@ -64,9 +63,6 @@ export default function MapScreen({ navigation }: Props) {
       const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
 
       if (notifStat === 'granted' && posStat === 'granted') {
-        // display tip to let user choose a geographical range to get notified
-        setShowAreaSelectionTip(true);
-
         if (!notifyLocation) {
           const position = await Location.getCurrentPositionAsync({});
           setNotifyLocation({
