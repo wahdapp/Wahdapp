@@ -119,3 +119,24 @@ export async function deleteUser() {
     throw e;
   }
 }
+
+export async function updateLocale(locale: string) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.patch(
+      `${API_DOMAIN}/user/locale`,
+      {
+        locale,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}

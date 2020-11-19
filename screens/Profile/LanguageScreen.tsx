@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
 import { Text, Touchable } from '@/components';
 import i18n from 'i18next';
 import { ListItem, Radio, Right, Left } from 'native-base';
@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
+import { updateLocale } from '@/services/user';
 
 type LanguageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Language'>;
 
@@ -18,11 +19,11 @@ type Props = {
 
 function LanguageScreen({ navigation }: Props) {
   async function handleSelectLanguage(lng) {
-    await AsyncStorage.setItem('lang', lng);
     navigation.goBack();
     i18n.changeLanguage(lng);
-
     formatLanguage(lng);
+
+    await updateLocale(lng);
   }
 
   return (

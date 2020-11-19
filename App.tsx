@@ -22,11 +22,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { decode, encode } from 'base-64';
 import AppNavigator from './navigation/AppNavigator';
-import { formatLanguage } from '@/helpers/dateFormat';
 import '@/helpers/clearTimer';
 import './i18n';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import * as Sentry from 'sentry-expo';
 import { AuthStackParamList } from './types';
 
@@ -75,7 +73,6 @@ export default function App(props) {
     getLocationPermission();
     getNotificationPermission();
     authenticateUser();
-    initLanguage();
   }, []);
 
   function authenticateUser() {
@@ -84,14 +81,6 @@ export default function App(props) {
       console.log({ user });
       setUserAuth(user);
     });
-  }
-
-  async function initLanguage() {
-    const language = await AsyncStorage.getItem('lang');
-    if (language) {
-      i18n.changeLanguage(language);
-      formatLanguage(language);
-    }
   }
 
   async function getLocationPermission() {

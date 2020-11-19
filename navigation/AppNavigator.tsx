@@ -16,6 +16,8 @@ import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
 import { getUserInfo } from '@/services/user';
 import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
+import i18n from 'i18next';
+import { formatLanguage } from '@/helpers/dateFormat';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -48,6 +50,7 @@ export default ({ user }) => {
       const invited = await getInvitedAmount(user.uid);
       const participated = await getParticipatedAmount(user.uid);
 
+      initLanguage(userInfo.locale);
       setIsFirstOAuth(false);
       setUserDataFetched(true);
       dispatch(
@@ -63,6 +66,11 @@ export default ({ user }) => {
       // Let the user choose his/her gender then create a new document into the database
       setIsFirstOAuth(true);
     }
+  }
+
+  async function initLanguage(locale: string) {
+    i18n.changeLanguage(locale);
+    formatLanguage(locale);
   }
 
   async function initFilter() {
