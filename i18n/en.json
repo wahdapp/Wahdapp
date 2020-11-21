@@ -48,7 +48,13 @@
     "CHOOSE_TIME": "Choose Time",
     "INVITE": "INVITE",
     "INVITE_HERE": "INVITE HERE",
-    "ERRORS": ["Prayer time cannot be before now"]
+    "ERRORS": ["Prayer time cannot be before now"],
+    "NOTIFICATION": {
+      "TITLE": "Notification Area",
+      "DESC": "Drag the marker to the area you would like to receive new prayer notifications from",
+      "CONFIRM": "Confirm",
+      "CANCEL": "Cancel"
+    }
   },
   "PROFILE": {
     "HEADER": "Profile",
@@ -138,6 +144,12 @@
     "SUNRISE": "Sunrise",
     "BEGINS_AFTER": "Begins after {{time}}",
     "GETTING_LATEST": "Getting latest prayer times..."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "Get Notified",
+    "DESC": "Please pick an area where you would like to receive notifications from. A notification will be sent to your device whenever there is a new prayer in the selected area.",
+    "CONTINUE": "Continue",
+    "NO_THANKS": "No Thanks"
   },
   "COMMON": {
     "PRAYERS": {

@@ -48,7 +48,13 @@
     "CHOOSE_TIME": "選擇時間",
     "INVITE": "發出邀請",
     "INVITE_HERE": "在此處邀請",
-    "ERROR": ["禮拜時間不可比現在還早"]
+    "ERROR": ["禮拜時間不可比現在還早"],
+    "NOTIFICATION": {
+      "TITLE": "通知區域",
+      "DESC": "請把圖釘拖曳至您想要收到最新禮拜通知的區域",
+      "CONFIRM": "確認",
+      "CANCEL": "取消"
+    }
   },
   "PROFILE": {
     "HEADER": "個人",
@@ -133,6 +139,12 @@
     "SUNRISE": "日出",
     "BEGINS_AFTER": "在 {{time}} 後進入",
     "GETTING_LATEST": "正在取得最新禮拜時間..."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "取得最新禮拜通知",
+    "DESC": "請選擇您想要收到通知的區域範圍。每當該區域有新的禮拜邀請時，您將會接收到新的通知。",
+    "CONTINUE": "繼續",
+    "NO_THANKS": "不用了，謝謝"
   },
   "COMMON": {
     "PRAYERS": {

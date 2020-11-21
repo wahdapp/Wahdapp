@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useUserInfo } from '@/hooks/redux';
 import { setDeviceToken } from '@/actions';
 import { registerToken } from '@/services/device-token';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   setTip: Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +18,7 @@ type Props = {
 const GetNotified: React.FC<Props> = ({ setTip }) => {
   const user = useUserInfo();
   const dispatch = useDispatch();
+  const { t } = useTranslation(['GET_NOTIFIED']);
 
   async function verifyPermissions() {
     // Check user's permission statuses on notification & location
@@ -40,11 +42,8 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
         <View style={styles.waveHeader} />
         <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
         <View style={styles.container}>
-          <BoldText style={styles.title}>Get Notified</BoldText>
-          <Text style={styles.desc}>
-            Please pick an area where you would like to receive notifications from. A notification
-            will be sent to your device whenever there is a new prayer in the selected area.
-          </Text>
+          <BoldText style={styles.title}>{t('TITLE')}</BoldText>
+          <Text style={styles.desc}>{t('DESC')}</Text>
         </View>
       </ScrollView>
 
@@ -54,7 +53,7 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
           style={{ width: '100%' }}
           touchableStyle={styles.touchableStyle}
         >
-          Continue
+          {t('CONTINUE')}
         </RoundButton>
       </View>
 
@@ -66,7 +65,7 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
           touchableStyle={styles.touchableStyle}
           onPress={() => setTip(false)}
         >
-          No Thanks
+          {t('NO_THANKS')}
         </RoundButton>
       </View>
     </>

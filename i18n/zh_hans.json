@@ -48,7 +48,13 @@
     "CHOOSE_TIME": "选择时间",
     "INVITE": "发出邀请",
     "INVITE_HERE": "在此处邀请",
-    "ERROR": ["礼拜时间不可比现在还早"]
+    "ERROR": ["礼拜时间不可比现在还早"],
+    "NOTIFICATION": {
+      "TITLE": "通知区域",
+      "DESC": "请把图钉拖曳至您想要收到最新礼拜通知的区域",
+      "CONFIRM": "确认",
+      "CANCEL": "取消"
+    }
   },
   "PROFILE": {
     "HEADER": "个人",
@@ -133,6 +139,12 @@
     "SUNRISE": "日出",
     "BEGINS_AFTER": "在 {{time}} 后进入",
     "GETTING_LATEST": "正在取得最新礼拜时间...."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "取得最新礼拜通知",
+    "DESC": "请选择您想要收到通知的区域范围。每当该区域有新的礼拜邀请时，您将会接收到新的通知。",
+    "CONTINUE": "继续",
+    "NO_THANKS": "不用了，谢谢"
   },
   "COMMON": {
     "PRAYERS": {

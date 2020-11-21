@@ -387,10 +387,8 @@ export default function MapScreen({ navigation }: Props) {
       {isChoosingRange && (
         <>
           <View style={styles.areaSelectBanner}>
-            <BoldText style={styles.areaSelectBannerText}>Notification Area</BoldText>
-            <Text style={styles.areaSelectBannerDesc}>
-              Drag the marker to the area you would like to receive new prayer notifications from
-            </Text>
+            <BoldText style={styles.areaSelectBannerText}>{t('NOTIFICATION.TITLE')}</BoldText>
+            <Text style={styles.areaSelectBannerDesc}>{t('NOTIFICATION.DESC')}</Text>
           </View>
           <View style={{ ...styles.buttonWrapper, bottom: 80 }}>
             <RoundButton
@@ -398,7 +396,7 @@ export default function MapScreen({ navigation }: Props) {
               style={{ width: '100%' }}
               touchableStyle={styles.touchableStyle}
             >
-              Confirm
+              {t('NOTIFICATION.CONFIRM')}
             </RoundButton>
           </View>
 
@@ -410,7 +408,7 @@ export default function MapScreen({ navigation }: Props) {
               touchableStyle={styles.touchableStyle}
               onPress={() => setTip(false)}
             >
-              Cancel
+              {t('NOTIFICATION.CANCEL')}
             </RoundButton>
           </View>
         </>
