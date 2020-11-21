@@ -91,7 +91,7 @@ export default function ProfileScreen({ navigation }: Props) {
       (index) => {
         switch (index) {
           case 0:
-            Linking.openURL(`https://wahd.app${subpath}/about`);
+            Linking.openURL(`https://wahd.app${subpath}/`);
             break;
           case 1:
             navigation.navigate('Contact');

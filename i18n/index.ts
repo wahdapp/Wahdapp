@@ -10,13 +10,17 @@ const resources = {
   en: en,
   zh_hant: zh_hant,
   zh_hans: zh_hans,
+  ar: en, //ar
+  ru: en, //ru
+  fr: en, //fr
+  tr: en, //tr
 };
 
 const languageDetector = {
   type: 'languageDetector',
   async: true, // flags below detection to be async
   detect: (callback) => {
-    return /*'en'; */ Localization.getLocalizationAsync().then(({ locale }) => {
+    return Localization.getLocalizationAsync().then(({ locale }) => {
       callback(parseLanguage(locale));
     });
   },
