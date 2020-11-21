@@ -91,8 +91,8 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       setIsLoading(true);
       // validate date time
       const now = dayjs();
-      const formattedDate = dayjs(date).format('YYYY-DD-MM');
-      const schedule = dayjs(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-DD-MM HH:mm');
+      const formattedDate = dayjs(date).format('YYYY-MM-DD');
+      const schedule = dayjs(`${formattedDate} ${time.hour}:${time.minute}`, 'YYYY-MM-DD HH:mm');
       const formattedSchedule = schedule.format();
 
       if (now > schedule) {
@@ -112,6 +112,8 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
           female,
         },
       };
+
+      console.log({ date, formattedSchedule });
 
       const id = await createPrayer(payload);
 
