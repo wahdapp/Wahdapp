@@ -173,7 +173,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
   function openActionSheet() {
     showActionSheetWithOptions(
       {
-        options: ['View on Google Maps', 'Report', 'Cancel'],
+        options: [t('OPTIONS.0'), t('OPTIONS.1'), t('OPTIONS.2')],
         title: '',
         message: '',
         cancelButtonIndex: 2,

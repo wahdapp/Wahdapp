@@ -30,7 +30,8 @@
     "CANCEL_PRAYER": "删除邀请",
     "CANCEL_PRAYER_CONFIRM": "您确定要取消此邀请？",
     "NO": "否",
-    "YES": "是"
+    "YES": "是",
+    "OPTIONS": ["在 Google 地图上开启", "检举", "取消"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "礼拜纪录",
@@ -145,6 +146,14 @@
     "DESC": "请选择您想要收到通知的区域范围。每当该区域有新的礼拜邀请时，您将会接收到新的通知。",
     "CONTINUE": "继续",
     "NO_THANKS": "不用了，谢谢"
+  },
+  "REPORT": {
+    "TITLE": "检举",
+    "DESC": "请帮助我们了解关于这份邀请的问题",
+    "PLACEHOLDER": "您想添加的任何其他资讯",
+    "SUBMIT": "送出",
+    "CATEGORY": ["这是垃圾讯息", "提供的资讯不实", "含有恐吓信息", "其它"],
+    "ERROR": "有问题發生！请稍后再试"
   },
   "COMMON": {
     "PRAYERS": {

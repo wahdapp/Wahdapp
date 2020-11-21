@@ -30,7 +30,8 @@
     "CANCEL_PRAYER": "取消邀請",
     "CANCEL_PRAYER_CONFIRM": "您確定要取消此邀請？",
     "NO": "否",
-    "YES": "是"
+    "YES": "是",
+    "OPTIONS": ["在 Google 地圖上開啟", "檢舉", "取消"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "禮拜紀錄",
@@ -145,6 +146,14 @@
     "DESC": "請選擇您想要收到通知的區域範圍。每當該區域有新的禮拜邀請時，您將會接收到新的通知。",
     "CONTINUE": "繼續",
     "NO_THANKS": "不用了，謝謝"
+  },
+  "REPORT": {
+    "TITLE": "檢舉",
+    "DESC": "請幫助我們了解關於這份邀請的問題",
+    "PLACEHOLDER": "您想添加的任何其他資訊",
+    "SUBMIT": "送出",
+    "CATEGORY": ["這是垃圾訊息", "提供的資訊不實", "含有恐嚇信息", "其它"],
+    "ERROR": "有問題發生！請稍後再試"
   },
   "COMMON": {
     "PRAYERS": {

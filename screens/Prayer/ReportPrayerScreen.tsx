@@ -12,6 +12,7 @@ import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 type ReportPrayerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ReportPrayer'>;
 
@@ -22,21 +23,21 @@ type Props = {
   navigation: ReportPrayerScreenNavigationProp;
 };
 
-const categories = [
-  { label: 'This is a spam', value: 0 },
-  { label: 'The information given is not true', value: 1 },
-  { label: 'This contains threatening messages', value: 2 },
-  { label: 'Other', value: 3 },
-];
-
 function ReportPrayerScreen({ route, navigation }: Props) {
   const { prayerID } = route.params;
-
+  const { t } = useTranslation(['REPORT']);
   const [, setErrorMessage] = useSnackbar();
 
   const [category, setCategory] = useState(0);
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const categories = [
+    { label: t('CATEGORY.0'), value: 0 },
+    { label: t('CATEGORY.1'), value: 1 },
+    { label: t('CATEGORY.2'), value: 2 },
+    { label: t('CATEGORY.3'), value: 3 },
+  ];
 
   async function submit() {
     try {
@@ -47,7 +48,7 @@ function ReportPrayerScreen({ route, navigation }: Props) {
       navigation.goBack();
     } catch (e) {
       setIsLoading(false);
-      setErrorMessage('Something went wrong! Try again later');
+      setErrorMessage(t('ERROR'));
     }
   }
 
@@ -55,8 +56,8 @@ function ReportPrayerScreen({ route, navigation }: Props) {
     <View style={styles.centeredView}>
       {isLoading && <Loader />}
       <ScrollView contentContainerStyle={{ position: 'relative' }}>
-        <Text style={styles.modalText}>Report a problem</Text>
-        <Text style={styles.description}>Help us understand the issue with this prayer.</Text>
+        <Text style={styles.modalText}>{t('TITLE')}</Text>
+        <Text style={styles.description}>{t('DESC')}</Text>
 
         <View style={styles.radioWrapper}>
           <RadioForm initial={0} animation={true}>
@@ -93,7 +94,7 @@ function ReportPrayerScreen({ route, navigation }: Props) {
           value={description}
           style={styles.textArea}
           placeholderTextColor="#dedede"
-          placeholder="Any extra information you would like to add"
+          placeholder={t('PLACEHOLDER')}
         />
       </ScrollView>
 
@@ -102,7 +103,7 @@ function ReportPrayerScreen({ route, navigation }: Props) {
           onPress={submit}
           touchableStyle={{ flexDirection: 'row', justifyContent: 'center' }}
         >
-          Submit
+          {t('SUBMIT')}
         </RoundButton>
       </View>
     </View>

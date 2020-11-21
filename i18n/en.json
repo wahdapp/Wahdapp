@@ -30,7 +30,8 @@
     "CANCEL_PRAYER": "Cancel Invitation",
     "CANCEL_PRAYER_CONFIRM": "Are you sure to cancel this invitation?",
     "NO": "No",
-    "YES": "Yes"
+    "YES": "Yes",
+    "OPTIONS": ["View on Google Maps", "Report", "Cancel"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "Past Prayers",
@@ -150,6 +151,19 @@
     "DESC": "Please pick an area where you would like to receive notifications from. A notification will be sent to your device whenever there is a new prayer in the selected area.",
     "CONTINUE": "Continue",
     "NO_THANKS": "No Thanks"
+  },
+  "REPORT": {
+    "TITLE": "Report a problem",
+    "DESC": "Help us understand the issue with this prayer.",
+    "PLACEHOLDER": "Any extra information you would like to add",
+    "SUBMIT": "Submit",
+    "CATEGORY": [
+      "This is a spam",
+      "The information given is not true",
+      "This contains threatening messages",
+      "Other"
+    ],
+    "ERROR": "Something went wrong! Try again later"
   },
   "COMMON": {
     "PRAYERS": {
