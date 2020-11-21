@@ -1,5 +1,5 @@
 // Adjust according to Google Firebase specification
-// list: https://appmakers.dev/bcp-47-language-codes-list/
+// list: http://www.lingoes.net/en/translator/langcode.htm
 export const convertLanguageCode = (code: string) => {
   switch (code) {
     case 'zh_hant':
@@ -14,6 +14,12 @@ export const convertLanguageCode = (code: string) => {
       return 'ru-RU';
     case 'tr':
       return 'tr-TR';
+    case 'id':
+      return 'id-ID';
+    case 'az':
+      return 'az-AZ';
+    case 'ms':
+      return 'ms';
     default:
       return 'en-US';
   }

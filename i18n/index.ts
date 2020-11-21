@@ -14,6 +14,9 @@ const resources = {
   ru: en, //ru
   fr: en, //fr
   tr: en, //tr
+  id: en, //id
+  az: en, //az
+  ms: en, //ms
 };
 
 const languageDetector = {

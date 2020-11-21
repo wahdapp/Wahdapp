@@ -24,6 +24,18 @@ export default function parseLanguage(lang: string) {
   if (code.includes('ar')) {
     return 'ar';
   }
+  // Indonesian
+  if (code.includes('id')) {
+    return 'id';
+  }
+  // Azerbaijani
+  if (code.includes('az')) {
+    return 'az';
+  }
+  // Malay
+  if (code.includes('ms')) {
+    return 'ms';
+  }
 
   // Set English as default
   return 'en';
