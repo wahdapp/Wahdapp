@@ -76,6 +76,7 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
               style={styles.textInput}
               placeholder="Ahmad Ali"
               placeholderTextColor="#dedede"
+              maxLength={30}
             />
           </Animatable.View>
 
