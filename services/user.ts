@@ -1,5 +1,6 @@
 import { API_DOMAIN } from '@/constants/api';
 import { auth } from '@/firebase';
+import { PRAYERS } from '../types';
 import axios from 'axios';
 
 type UserPayload = {
@@ -74,11 +75,20 @@ type FilterPayload = {
 export async function updateFilterPreference(payload: FilterPayload) {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.patch(`${API_DOMAIN}/user/filter`, payload, {
-      headers: {
-        Authorization: `Token ${token}`,
+    console.log(payload.selected_prayers.map((p) => PRAYERS[p]).join(''));
+    const { data } = await axios.patch(
+      `${API_DOMAIN}/user/filter`,
+      {
+        minimum_participants: payload.minimum_participants,
+        same_gender: payload.same_gender,
+        selected_prayers: payload.selected_prayers.map((p) => PRAYERS[p]).join(''),
       },
-    });
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
 
     return data;
   } catch (e) {

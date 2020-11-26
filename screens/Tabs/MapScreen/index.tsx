@@ -46,7 +46,7 @@ export default function MapScreen({ navigation }: Props) {
   const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location.lat);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
   const [notifyLocation, setNotifyLocation] = useState<Region>(
-    user.location.lat
+    user.location?.lat
       ? {
           latitude: user.location.lat,
           longitude: user.location.lng,

@@ -79,3 +79,14 @@ export interface RootState {
     redirect: keyof RootStackParamList;
   };
 }
+
+export enum PRAYERS {
+  fajr = 0,
+  dhuhr = 1,
+  asr = 2,
+  maghrib = 3,
+  isha = 4,
+  jumuah = 5,
+  janazah = 6,
+  taraweeh = 7,
+}

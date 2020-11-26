@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import { Touchable, Text } from '@/components';
+import Touchable from './Touchable';
+import { Text } from './Text';
 import { MAN_AVATAR, WOMAN_AVATAR } from '@/assets/images';
 import colors from '@/constants/colors';
 
