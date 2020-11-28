@@ -71,7 +71,7 @@ export interface RootState {
     longitude?: number;
   };
   filterState: {
-    sortBy: string;
+    sortBy: 'distance' | 'participants' | 'time';
   };
   notificationState: {
     notifications: any[];

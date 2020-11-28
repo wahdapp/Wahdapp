@@ -4,6 +4,15 @@ import { Prayer } from '@/types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+type FeedQueryType = {
+  lng: number;
+  lat: number;
+  timestamp?: string;
+  sortType: 'distance' | 'participants' | 'time';
+  pageSize: number;
+  pageNumber: number;
+};
+
 export async function queryFeed({
   lng,
   lat,
@@ -11,7 +20,7 @@ export async function queryFeed({
   sortType = 'distance',
   pageSize = 10,
   pageNumber = 1,
-}) {
+}: FeedQueryType) {
   try {
     let sortBy;
 
@@ -26,11 +35,11 @@ export async function queryFeed({
         sortBy = 'time';
         break;
       default:
-        sortBy = sortType;
+        sortBy = 'distance';
     }
 
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.get(
+    const { data } = await axios.get<{ data: Prayer[] }>(
       `${API_DOMAIN}/prayer/feed?lng=${lng}&lat=${lat}&timestamp=${encodeURIComponent(
         timestamp
       )}&sortBy=${sortBy}&pageSize=${pageSize}&pageNumber=${pageNumber}`,
