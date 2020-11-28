@@ -11,7 +11,7 @@ import colors from '@/constants/colors';
 import { setNotificationRedirect } from '@/actions';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
-import { useFilter, useLocation, useNotification } from '@/hooks/redux';
+import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';
 
 const PAGE_SIZE = 10;
 
@@ -26,9 +26,9 @@ export default function HomeScreen({ navigation }: Props) {
   const location = useLocation();
   const filter = useFilter();
   const { redirect } = useNotification();
+  const prayers = useFeedPrayers();
   const dispatch = useDispatch();
 
-  const [nearbyPrayers, setNearbyPrayers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,10 +83,10 @@ export default function HomeScreen({ navigation }: Props) {
       }
 
       if (refresh) {
-        setNearbyPrayers(list);
+        dispatch({ type: 'SET_FEED', payload: list });
         setCurrentPage(1);
       } else {
-        setNearbyPrayers((prev) => [...prev, ...list]);
+        dispatch({ type: 'ADD_TO_FEED', payload: list });
       }
     } catch (e) {
       console.log(e);
@@ -101,7 +101,7 @@ export default function HomeScreen({ navigation }: Props) {
           <Feather name="sliders" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>
-      <View style={{ ...styles.prayerListWrapper, height: nearbyPrayers.length ? null : '100%' }}>
+      <View style={{ ...styles.prayerListWrapper, height: prayers.length ? null : '100%' }}>
         {isFetching ? (
           <View style={{ paddingVertical: 15, paddingHorizontal: 25 }}>
             <SkeletonCard />
@@ -110,7 +110,7 @@ export default function HomeScreen({ navigation }: Props) {
           <FlatList
             style={{ height: '100%' }}
             contentContainerStyle={{ paddingBottom: 60 }}
-            data={nearbyPrayers}
+            data={prayers}
             renderItem={({ item }) => (
               <PrayerCard {...item} navigate={navigation.navigate} query={query} />
             )}

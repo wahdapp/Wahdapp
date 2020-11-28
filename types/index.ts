@@ -78,6 +78,10 @@ export interface RootState {
     isNew: boolean;
     redirect: keyof RootStackParamList;
   };
+  prayersState: {
+    feed: Prayer[];
+    map: Prayer[];
+  };
 }
 
 export enum PRAYERS {

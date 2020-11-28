@@ -12,7 +12,7 @@ import { SCALE } from '@/helpers/animation';
 import { Prayer } from '@/types';
 import { useLocation } from '@/hooks/redux';
 
-type Props = Prayer & { navigate: any };
+type Props = Prayer & { navigate: any; query?: () => void };
 
 export default function PrayerCard({ navigate, ...props }: Props) {
   const { t } = useTranslation('COMMON');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -25,9 +25,10 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import colors from '@/constants/colors';
 import { deletePrayer, joinPrayer } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '@/types';
+import { RootStackParamList, User } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useLocation, useUserInfo } from '@/hooks/redux';
+import { useDispatch } from 'react-redux';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -40,7 +41,17 @@ type Props = {
 
 const ScreenHeight = Dimensions.get('window').height;
 
-function joinReducer(state, action) {
+type ReducerState = {
+  isJoined: boolean;
+  currentParticipants: User[];
+};
+
+type Actions =
+  | { type: 'JOIN'; payload: User }
+  | { type: 'CANCEL'; id: string }
+  | { type: 'FALLBACK'; payload: ReducerState };
+
+function joinReducer(state: ReducerState, action: Actions) {
   switch (action.type) {
     case 'JOIN':
       return {
@@ -61,6 +72,7 @@ function joinReducer(state, action) {
 
 export default function PrayerDetailScreen({ route, navigation }: Props) {
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
+  const dispatch = useDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
   const locationState = useLocation();
   const user = useUserInfo();
@@ -117,6 +129,12 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
   async function handleJoin() {
     // do the operations for joining
     if (!isJoined) {
+      // synchronize with redux state
+      dispatch({
+        type: 'JOIN_PRAYER',
+        payload: { prayerID: id, userID: auth.currentUser.uid, user },
+      });
+
       joinDispatch({
         type: 'JOIN',
         optimistic: {
@@ -125,12 +143,22 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
+            dispatch({
+              type: 'CANCEL',
+              payload: { prayerID: id, userID: auth.currentUser.uid },
+            });
           },
+          queue: 'join',
         },
         payload: { ...user, id: auth.currentUser.uid },
-        queue: 'join',
       });
     } else {
+      // synchronize with redux state
+      dispatch({
+        type: 'CANCEL_PRAYER',
+        payload: { prayerID: id, userID: auth.currentUser.uid },
+      });
+
       joinDispatch({
         type: 'CANCEL',
         optimistic: {
@@ -139,10 +167,14 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
           },
           fallback: (prevState) => {
             joinDispatch({ type: 'FALLBACK', payload: prevState });
+            dispatch({
+              type: 'JOIN',
+              payload: { prayerID: id, userID: auth.currentUser.uid, user },
+            });
           },
+          queue: 'join',
         },
         id: auth.currentUser.uid,
-        queue: 'join',
       });
     }
   }
