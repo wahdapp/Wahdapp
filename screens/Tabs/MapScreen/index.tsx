@@ -16,7 +16,7 @@ import { queryMap } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Prayer, RootStackParamList } from '@/types';
 import GetNotified from './GetNotified';
-import { useUserInfo } from '@/hooks/redux';
+import { useMapPrayers, useUserInfo } from '@/hooks/redux';
 import { updateUserLocation } from '@/services/user';
 import { setNotifyRegion } from '@/actions';
 import { useDispatch } from 'react-redux';
@@ -36,12 +36,12 @@ export default function MapScreen({ navigation }: Props) {
   const user = useUserInfo();
   const { t } = useTranslation(['INVITATION']);
   const dispatch = useDispatch();
+  const prayers = useMapPrayers();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
   const [userPosition, setUserPosition] = useState<Region>(null);
   const [isQuerying, setIsQuerying] = useState(false);
-  const [nearbyMarkers, setNearbyMarkers] = useState<Prayer[]>([]);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
   const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location.lat);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
@@ -207,7 +207,7 @@ export default function MapScreen({ navigation }: Props) {
     try {
       const list = await queryMap({ lat: currentRegion.latitude, lng: currentRegion.longitude });
       console.log({ list });
-      setNearbyMarkers(list);
+      dispatch({ type: 'SET_MAP', payload: list });
 
       // Gather all unique geohashes to prevent multiple markers on the same spot
       const geohashes = [];
@@ -230,7 +230,7 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   function handleMarkerPress(marker: FilteredMapQuery) {
-    const nearbyPrayers = nearbyMarkers.filter(
+    const nearbyPrayers = prayers.filter(
       (item) => geohash.encode(item.location.lat, item.location.lng) === marker.geohash
     );
     navigation.navigate('MarkerPrayers', { nearbyPrayers, handleConfirm });

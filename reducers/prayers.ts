@@ -19,11 +19,11 @@ type Actions =
   | { type: 'SET_MAP'; payload: Prayer[] };
 
 function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
-  console.log({ action });
   let feedIndex: number;
   let mapIndex: number;
-  let newFeed;
-  let newMap;
+  let newFeed: Prayer[];
+  let newMap: Prayer[];
+
   switch (action.type) {
     case 'SET_FEED':
       return { ...state, feed: action.payload };
@@ -39,15 +39,17 @@ function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
       newMap = [...state.map];
 
       if (feedIndex !== -1) {
+        // append user to the current participant list (feed)
         newFeed.splice(feedIndex, 1, {
-          ...state[feedIndex],
-          participants: [newFeed[feedIndex].participants, action.payload.user],
+          ...newFeed[feedIndex],
+          participants: [...newFeed[feedIndex].participants, action.payload.user],
         });
       }
       if (mapIndex !== -1) {
+        // append user to the current participant list (map)
         newMap.splice(mapIndex, 1, {
-          ...state[mapIndex],
-          participants: [newMap[mapIndex].participants, action.payload.user],
+          ...newFeed[mapIndex],
+          participants: [...newMap[mapIndex].participants, action.payload.user],
         });
       }
       return {
@@ -62,17 +64,19 @@ function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
       newMap = [...state.map];
 
       if (feedIndex !== -1) {
+        // remove user from the current participant list (feed)
         newFeed.splice(feedIndex, 1, {
-          ...state[feedIndex],
-          participants: state.feed[feedIndex].participants.filter(
+          ...newFeed[feedIndex],
+          participants: newFeed[feedIndex].participants.filter(
             (p) => p.id !== action.payload.userID
           ),
         });
       }
       if (mapIndex !== -1) {
+        // remove user from the current participant list (map)
         newMap.splice(mapIndex, 1, {
-          ...state[mapIndex],
-          participants: state.map[mapIndex].participants.filter(
+          ...newFeed[mapIndex],
+          participants: newFeed[mapIndex].participants.filter(
             (p) => p.id !== action.payload.userID
           ),
         });
