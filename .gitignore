@@ -12,3 +12,5 @@ web-report/
 *.log
 .env
 .env.*
+google-services.json
+GoogleService-Info.plist
