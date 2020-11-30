@@ -155,7 +155,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
     } else {
       // synchronize with redux state
       dispatch({
-        type: 'CANCEL_PRAYER',
+        type: 'LEAVE_PRAYER',
         payload: { prayerID: id, userID: auth.currentUser.uid },
       });
 

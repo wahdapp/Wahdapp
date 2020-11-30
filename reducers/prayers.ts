@@ -14,8 +14,9 @@ const INITIAL_STATE = {
 type Actions =
   | { type: 'SET_FEED'; payload: Prayer[] }
   | { type: 'ADD_TO_FEED'; payload: Prayer[] }
+  | { type: 'CANCEL_PRAYER'; payload: string }
   | { type: 'JOIN_PRAYER'; payload: { prayerID: string; userID: string; user: User } }
-  | { type: 'CANCEL_PRAYER'; payload: { prayerID: string; userID: string } }
+  | { type: 'LEAVE_PRAYER'; payload: { prayerID: string; userID: string } }
   | { type: 'SET_MAP'; payload: Prayer[] };
 
 function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
@@ -29,6 +30,11 @@ function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
       return { ...state, feed: action.payload };
     case 'SET_MAP':
       return { ...state, map: action.payload };
+    case 'CANCEL_PRAYER':
+      return {
+        feed: state.feed.filter((p) => p.id !== action.payload),
+        map: state.map.filter((p) => p.id !== action.payload),
+      };
     case 'ADD_TO_FEED':
       return { ...state, feed: [...state.feed, action.payload] };
     case 'JOIN_PRAYER':
@@ -56,7 +62,7 @@ function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
         feed: newFeed,
         map: newMap,
       };
-    case 'CANCEL_PRAYER':
+    case 'LEAVE_PRAYER':
       feedIndex = findIndex(state.feed, { id: action.payload.prayerID });
       mapIndex = findIndex(state.map, { id: action.payload.prayerID });
 
