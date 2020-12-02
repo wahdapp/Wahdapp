@@ -191,6 +191,8 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
     try {
       await deletePrayer(id);
 
+      dispatch({ type: 'CANCEL_PRAYER', payload: id });
+
       setIsLoading(false);
       navigation.goBack();
 
