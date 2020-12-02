@@ -4,6 +4,21 @@ import { Prayer } from '@/types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+export async function getPrayerByID(id: string) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get<{ data: Prayer }>(`${API_DOMAIN}/prayer?id=${id}`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (e) {
+    throw e;
+  }
+}
+
 type FeedQueryType = {
   lng: number;
   lat: number;

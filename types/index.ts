@@ -74,9 +74,8 @@ export interface RootState {
     sortBy: 'distance' | 'participants' | 'time';
   };
   notificationState: {
-    notifications: any[];
-    isNew: boolean;
-    redirect: keyof RootStackParamList;
+    redirectScreen: keyof RootStackParamList;
+    redirectPayload: any;
   };
   prayersState: {
     feed: Prayer[];

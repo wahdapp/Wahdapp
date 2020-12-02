@@ -29,7 +29,7 @@ import colors from '@/constants/colors';
 import { Text } from '@/components';
 import { MAN_AVATAR, WOMAN_AVATAR } from '@/assets/images';
 import { RootStackParamList } from '@/types';
-import { useNotification, useUserInfo } from '@/hooks/redux';
+import { useUserInfo } from '@/hooks/redux';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const headerOptions = {
@@ -132,7 +132,6 @@ const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
   const user = useUserInfo();
-  // const { isNew } = useNotification();
 
   return (
     <Tab.Navigator

@@ -3,13 +3,14 @@ import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { BoldText, RoundButton, Loader, GenderBox } from '@/components';
 import { auth } from '@/firebase';
-import { setUser, initializeFilter, setDeviceToken } from '@/actions';
+import { setUser, initializeFilter, setDeviceToken, setLocation } from '@/actions';
 import { useTranslation } from 'react-i18next';
 import { createUser } from '@/services/user';
 import { registerToken } from '@/services/device-token';
 import { Notifications } from 'expo';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
+import { getLatLong } from '@/helpers/geo';
 
 type Props = {
   setIsFirstOAuth: Dispatch<SetStateAction<boolean>>;
@@ -44,6 +45,9 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
       uid: auth.currentUser.uid,
       ...user,
     });
+
+    const location = await getLatLong();
+    dispatch(setLocation(location));
 
     dispatch(setUser(user));
     dispatch(initializeFilter(gender));

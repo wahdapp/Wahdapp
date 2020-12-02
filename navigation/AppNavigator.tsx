@@ -3,21 +3,16 @@ import { AsyncStorage, Vibration } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { getLatLong } from '../helpers/geo';
-import {
-  setLocation,
-  setUser,
-  setFilter,
-  addNotification,
-  setNotificationRedirect,
-} from '../actions';
+import { setLocation, setUser, setFilter, setNotificationRedirect } from '../actions';
 import { Loader } from '@/components';
 import SelectGenderScreen from '@/screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
 import { getUserInfo } from '@/services/user';
-import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
+import { getInvitedAmount, getParticipatedAmount, getPrayerByID } from '@/services/prayer';
 import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
+import { Notification } from 'expo/build/Notifications/Notifications.types';
 
 export default ({ user }) => {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -80,19 +75,24 @@ export default ({ user }) => {
     }
   }
 
-  function handleNotification(notification) {
-    Vibration.vibrate();
-    dispatch(addNotification(notification.data));
-
-    // App is open and foregrounded
-    if (notification.origin === 'received') {
-      Notifications.setBadgeNumberAsync(0);
-    } else if (notification.origin === 'selected') {
-      // redirect to notification screen
-      dispatch(setNotificationRedirect('Notification'));
+  async function handleNotification(notification: Notification) {
+    if (notification.remote) {
+      if (notification.data.id) {
+        const prayer = await getPrayerByID(notification.data.id);
+        dispatch(setNotificationRedirect({ screen: 'PrayerDetail', payload: prayer }));
+      }
     }
 
     console.log({ notification });
+    // "notification": Object {
+    //   "actionId": null,
+    //   "data": Object {
+    //     "id": "de43ec2a-05be-4d63-99dc-7cb63394d2c7",
+    //   },
+    //   "origin": "received",
+    //   "remote": true,
+    //   "userText": null,
+    // },
   }
 
   if (isFirstOAuth) {

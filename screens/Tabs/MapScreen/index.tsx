@@ -43,7 +43,7 @@ export default function MapScreen({ navigation }: Props) {
   const [userPosition, setUserPosition] = useState<Region>(null);
   const [isQuerying, setIsQuerying] = useState(false);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
-  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location.lat);
+  const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location?.lat);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
   const [notifyLocation, setNotifyLocation] = useState<Region>(
     user.location?.lat

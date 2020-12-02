@@ -25,7 +25,7 @@ export default function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation(['HOME']);
   const location = useLocation();
   const filter = useFilter();
-  const { redirect } = useNotification();
+  const { redirectScreen, redirectPayload } = useNotification();
   const prayers = useFeedPrayers();
   const dispatch = useDispatch();
 
@@ -35,11 +35,12 @@ export default function HomeScreen({ navigation }: Props) {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    if (redirect) {
-      navigation.navigate(redirect);
-      dispatch(setNotificationRedirect(''));
+    console.log({ redirectScreen, redirectPayload });
+    if (redirectScreen.length) {
+      navigation.navigate(redirectScreen, redirectPayload);
+      dispatch(setNotificationRedirect({ screen: '', payload: {} }));
     }
-  }, [redirect]);
+  }, [redirectScreen]);
 
   useEffect(() => {
     query();

@@ -60,35 +60,7 @@ export function setSortBy(payload) {
   };
 }
 
-export function setNotifications(payload) {
-  return {
-    type: actions.SET_NOTIFICATIONS,
-    payload,
-  };
-}
-
-export function addNotification(payload) {
-  return {
-    type: actions.ADD_NOTIFICATION,
-    payload,
-  };
-}
-
-export function removeNotification(payload) {
-  return {
-    type: actions.REMOVE_NOTIFICATION,
-    payload,
-  };
-}
-
-export function setIsNewNotification(payload) {
-  return {
-    type: actions.SET_IS_NEW_NOTIFICATION,
-    payload,
-  };
-}
-
-export function setNotificationRedirect(payload) {
+export function setNotificationRedirect(payload: { screen: string; payload: any }) {
   return {
     type: actions.SET_NOTIFICATION_REDIRECT,
     payload,
