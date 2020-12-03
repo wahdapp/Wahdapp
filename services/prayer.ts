@@ -24,7 +24,6 @@ type FeedQueryType = {
   lat: number;
   timestamp?: string;
   sortType: 'distance' | 'participants' | 'time';
-  pageSize: number;
   pageNumber: number;
 };
 
@@ -33,7 +32,6 @@ export async function queryFeed({
   lat,
   timestamp = dayjs().format(),
   sortType = 'distance',
-  pageSize = 10,
   pageNumber = 1,
 }: FeedQueryType) {
   try {
@@ -57,7 +55,7 @@ export async function queryFeed({
     const { data } = await axios.get<{ data: Prayer[] }>(
       `${API_DOMAIN}/prayer/feed?lng=${lng}&lat=${lat}&timestamp=${encodeURIComponent(
         timestamp
-      )}&sortBy=${sortBy}&pageSize=${pageSize}&pageNumber=${pageNumber}`,
+      )}&sortBy=${sortBy}&pageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `Token ${token}`,

@@ -36,7 +36,7 @@ function prayersReducer(state: State = INITIAL_STATE, action: Actions) {
         map: state.map.filter((p) => p.id !== action.payload),
       };
     case 'ADD_TO_FEED':
-      return { ...state, feed: [...state.feed, action.payload] };
+      return { ...state, feed: [...state.feed, ...action.payload] };
     case 'JOIN_PRAYER':
       feedIndex = findIndex(state.feed, { id: action.payload.prayerID });
       mapIndex = findIndex(state.map, { id: action.payload.prayerID });

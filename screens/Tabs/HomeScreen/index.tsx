@@ -13,7 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -31,11 +31,12 @@ export default function HomeScreen({ navigation }: Props) {
 
   const [isFetching, setIsFetching] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  console.log({ hasMore, currentPage });
+
   useEffect(() => {
-    console.log({ redirectScreen, redirectPayload });
     if (redirectScreen.length) {
       navigation.navigate(redirectScreen, redirectPayload);
       dispatch(setNotificationRedirect({ screen: '', payload: {} }));
@@ -62,8 +63,7 @@ export default function HomeScreen({ navigation }: Props) {
       const list = await queryFeed({
         lng: location.longitude,
         lat: location.latitude,
-        pageSize: PAGE_SIZE,
-        pageNumber: refresh ? 1 : currentPage,
+        pageNumber: refresh ? 0 : currentPage,
         sortType: filter.sortBy,
       });
 
@@ -74,11 +74,6 @@ export default function HomeScreen({ navigation }: Props) {
         setHasMore(false);
       }
       // if scrolling to the end
-      else if (!refresh) {
-        setHasMore(true);
-        setCurrentPage((prev) => prev + 1);
-      }
-      // if refreshing or modified filter preference
       else {
         setHasMore(true);
       }
@@ -88,6 +83,7 @@ export default function HomeScreen({ navigation }: Props) {
         setCurrentPage(1);
       } else {
         dispatch({ type: 'ADD_TO_FEED', payload: list });
+        setCurrentPage((prev) => prev + 1);
       }
     } catch (e) {
       console.log(e);
@@ -113,7 +109,7 @@ export default function HomeScreen({ navigation }: Props) {
             contentContainerStyle={{ paddingBottom: 60 }}
             data={prayers}
             renderItem={({ item }) => (
-              <PrayerCard {...item} navigate={navigation.navigate} query={query} />
+              <PrayerCard key={item.id} {...item} navigate={navigation.navigate} query={query} />
             )}
             keyExtractor={(item) => item.id}
             onRefresh={() => {
@@ -129,7 +125,19 @@ export default function HomeScreen({ navigation }: Props) {
                 </View>
               </View>
             )}
-            onEndReached={() => (hasMore ? fetchNearbyPrayers : null)}
+            ListFooterComponent={() =>
+              hasMore ? (
+                <View style={{ paddingVertical: 15, paddingHorizontal: 25 }}>
+                  <SkeletonCard />
+                </View>
+              ) : null
+            }
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (hasMore) {
+                fetchNearbyPrayers();
+              }
+            }}
           />
         )}
       </View>
