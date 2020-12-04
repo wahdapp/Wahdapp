@@ -14,3 +14,4 @@ web-report/
 .env.*
 google-services.json
 GoogleService-Info.plist
+.vscode
