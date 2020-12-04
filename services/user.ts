@@ -12,7 +12,12 @@ type UserPayload = {
 
 export async function createUser(payload: UserPayload) {
   try {
-    const { data } = await axios.post(`${API_DOMAIN}/user`, payload);
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.post(`${API_DOMAIN}/user`, payload, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
 
     return data;
   } catch (e) {

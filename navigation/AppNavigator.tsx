@@ -76,7 +76,7 @@ export default ({ user }) => {
   }
 
   async function handleNotification(notification: Notification) {
-    if (notification.remote) {
+    if (notification.remote && notification.origin === 'selected') {
       if (notification.data.id) {
         const prayer = await getPrayerByID(notification.data.id);
         dispatch(setNotificationRedirect({ screen: 'PrayerDetail', payload: prayer }));
