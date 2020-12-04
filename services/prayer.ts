@@ -152,11 +152,11 @@ export async function getInvitedAmount(id: string) {
   }
 }
 
-export async function getInvitedList(id: string) {
+export async function getInvitedList(id: string, pageNumber: number) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get<{ data: Prayer[] }>(
-      `${API_DOMAIN}/prayer/invitations?user_id=${id}`,
+      `${API_DOMAIN}/prayer/invitations?user_id=${id}?pageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `Token ${token}`,
@@ -188,11 +188,11 @@ export async function getParticipatedAmount(id: string) {
   }
 }
 
-export async function getParticipatedList(id: string) {
+export async function getParticipatedList(id: string, pageNumber: number) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get<{ data: Prayer[] }>(
-      `${API_DOMAIN}/prayer/participated?user_id=${id}`,
+      `${API_DOMAIN}/prayer/participated?user_id=${id}?pageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `Token ${token}`,
