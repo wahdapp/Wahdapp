@@ -9,9 +9,6 @@ export default ({ config }) => {
         "googleMaps": {
           "apiKey": process.env.ANDROID_GOOGLE_MAPS_API_KEY
         },
-        "googleSignIn": {
-          "certificateHash": process.env.ANDROID_GOOGLE_SIGN_CERTIFICATE_HASH
-        }
       },
       "googleServicesFile": "./google-services.json",
       "versionCode": 1,
@@ -31,9 +28,6 @@ export default ({ config }) => {
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleMapsApiKey": process.env.IOS_GOOGLE_MAPS_API_KEY,
-        "googleSignIn": {
-          "reservedClientId": process.env.IOS_GOOGLE_SIGN_ID
-        }
       },
       "splash": {
         "image": "./assets/images/splash_screens/ios/splash.png",
