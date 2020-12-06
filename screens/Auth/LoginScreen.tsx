@@ -143,7 +143,7 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
             <Text style={styles.signUpLabel}>{t('CONNECT')}</Text>
           </View>
 
-          <Animatable.View
+          {/* <Animatable.View
             animation="bounceIn"
             delay={2000}
             style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
@@ -157,7 +157,7 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
                 <Text style={{ fontSize: 10, color: '#ffffff' }}>{t('FACEBOOK_LOGIN')}</Text>
               </View>
             </Touchable>
-          </Animatable.View>
+          </Animatable.View> */}
 
           <Animatable.View
             animation="bounceIn"
