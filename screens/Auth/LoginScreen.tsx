@@ -161,7 +161,7 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
 
           <Animatable.View
             animation="bounceIn"
-            delay={2300}
+            delay={2000}
             style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
           >
             <Touchable onPress={handleGooglePress}>
