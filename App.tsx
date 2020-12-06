@@ -14,7 +14,6 @@ import LoginScreen from '@/screens/Auth/LoginScreen';
 import SignupScreen from '@/screens/Auth/SignupScreen';
 import ForgotPasswordScreen from '@/screens/Auth/ForgotPasswordScreen';
 import EmailSentScreen from '@/screens/Auth/EmailSentScreen';
-import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -204,14 +203,4 @@ const styles = StyleSheet.create({
     height: ScreenHeight,
     width: ScreenWidth,
   },
-});
-
-TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
-  if (error) {
-    return;
-  }
-  if (data) {
-    const locations: { latitude: number; longitude: number } = data['locations'];
-    console.log({ locations });
-  }
 });

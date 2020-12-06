@@ -14,8 +14,34 @@ export function setUser(payload) {
   };
 }
 
+export function setInvitedAmount(payload: number) {
+  return {
+    type: actions.SET_INVITED_AMOUNT,
+    payload,
+  };
+}
+
+export function setParticipatedAmount(payload: number) {
+  return {
+    type: actions.SET_PARTICIPATED_AMOUNT,
+    payload,
+  };
+}
+
 export function addInvitedAmount() {
   return { type: actions.ADD_INVITED_AMOUNT };
+}
+
+export function minusInvitedAmount() {
+  return { type: actions.MINUS_INVITED_AMOUNT };
+}
+
+export function addParticipatedAmount() {
+  return { type: actions.ADD_PARTICIPATED_AMOUNT };
+}
+
+export function minusParticipatedAmount() {
+  return { type: actions.MINUS_PARTICIPATED_AMOUNT };
 }
 
 export function setFullName(payload) {
@@ -63,6 +89,13 @@ export function setSortBy(payload) {
 export function setNotificationRedirect(payload: { screen: string; payload: any }) {
   return {
     type: actions.SET_NOTIFICATION_REDIRECT,
+    payload,
+  };
+}
+
+export function cancelPrayer(payload: string) {
+  return {
+    type: actions.CANCEL_PRAYER,
     payload,
   };
 }

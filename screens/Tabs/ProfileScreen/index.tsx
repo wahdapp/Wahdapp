@@ -17,7 +17,7 @@ import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from '@/components';
 import { auth } from '@/firebase';
 import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from '@/assets/images';
-import { setFullName } from '@/actions';
+import { setFullName, setInvitedAmount, setParticipatedAmount } from '@/actions';
 import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -29,6 +29,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useUserInfo } from '@/hooks/redux';
 import { deleteDeviceToken } from '@/services/device-token';
+import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -47,6 +48,17 @@ export default function ProfileScreen({ navigation }: Props) {
   const [emailSentMessage, setEmailSentMessage] = useState('');
   const { showActionSheetWithOptions } = useActionSheet();
   const [, setErrorMessage] = useSnackbar();
+
+  useEffect(() => {
+    (async () => {
+      // Get the total amount of previously invited & participated, store in redux
+      const invited = await getInvitedAmount(user.id);
+      const participated = await getParticipatedAmount(user.id);
+
+      dispatch(setInvitedAmount(invited.amount));
+      dispatch(setParticipatedAmount(participated.amount));
+    })();
+  }, []);
 
   useEffect(() => {
     if (emailSentMessage.length) {

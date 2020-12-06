@@ -9,7 +9,7 @@ import SelectGenderScreen from '@/screens/Auth/SelectGenderScreen';
 import MainTabNavigator from './MainTabNavigator';
 import { Notifications } from 'expo';
 import { getUserInfo } from '@/services/user';
-import { getInvitedAmount, getParticipatedAmount, getPrayerByID } from '@/services/prayer';
+import { getPrayerByID } from '@/services/prayer';
 import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
 import { Notification } from 'expo/build/Notifications/Notifications.types';
@@ -41,20 +41,10 @@ export default ({ user }) => {
       // Get user general info
       const userInfo = await getUserInfo(user.uid);
 
-      // Get total invited & participated prayers amount
-      const invited = await getInvitedAmount(user.uid);
-      const participated = await getParticipatedAmount(user.uid);
-
       initLanguage(userInfo.locale);
       setIsFirstOAuth(false);
       setUserDataFetched(true);
-      dispatch(
-        setUser({
-          ...userInfo,
-          invitedAmount: invited.amount,
-          participatedAmount: participated.amount,
-        })
-      );
+      dispatch(setUser(userInfo));
     } catch (e) {
       console.log(e);
       // The user just signed in with OAuth

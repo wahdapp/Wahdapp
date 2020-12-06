@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -29,6 +29,12 @@ import { RootStackParamList, User } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useLocation, useUserInfo } from '@/hooks/redux';
 import { useDispatch } from 'react-redux';
+import {
+  addParticipatedAmount,
+  cancelPrayer,
+  minusInvitedAmount,
+  minusParticipatedAmount,
+} from '@/actions';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -140,8 +146,15 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
         optimistic: {
           callback: async () => {
             await joinPrayer(id);
+            /*
+              Increment participated amount.
+              No need to revert in fallback, because this will only be
+              executed after a successful callback
+            */
+            dispatch(addParticipatedAmount());
           },
           fallback: (prevState) => {
+            // restore previous state, synchronize with redux store
             joinDispatch({ type: 'FALLBACK', payload: prevState });
             dispatch({
               type: 'CANCEL',
@@ -164,8 +177,15 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
         optimistic: {
           callback: async () => {
             await joinPrayer(id);
+            /*
+              Decrement participated amount.
+              No need to revert in fallback, because this will only be
+              executed after a successful callback
+            */
+            dispatch(minusParticipatedAmount());
           },
           fallback: (prevState) => {
+            // restore previous state, synchronize with redux store
             joinDispatch({ type: 'FALLBACK', payload: prevState });
             dispatch({
               type: 'JOIN',
@@ -191,7 +211,8 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
     try {
       await deletePrayer(id);
 
-      dispatch({ type: 'CANCEL_PRAYER', payload: id });
+      dispatch(cancelPrayer(id));
+      dispatch(minusInvitedAmount());
 
       setIsLoading(false);
       navigation.goBack();

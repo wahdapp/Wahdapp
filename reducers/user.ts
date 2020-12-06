@@ -4,6 +4,8 @@ import {
   ADD_INVITED_AMOUNT,
   SET_DEVICE_TOKEN,
   SET_NOTIFY_REGION,
+  SET_INVITED_AMOUNT,
+  SET_PARTICIPATED_AMOUNT,
 } from '../constants/action_types';
 
 const INITIAL_STATE = {
@@ -28,6 +30,10 @@ function userReducer(state = INITIAL_STATE, action) {
       return { ...state, device_token: action.payload };
     case SET_NOTIFY_REGION:
       return { ...state, location: action.payload };
+    case SET_INVITED_AMOUNT:
+      return { ...state, invitedAmount: action.payload };
+    case SET_PARTICIPATED_AMOUNT:
+      return { ...state, participatedAmount: action.payload };
     default:
       return state;
   }
