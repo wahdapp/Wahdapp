@@ -26,7 +26,7 @@ function HistoryListWrapper(type: 'invited' | 'participated') {
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
-      fetchList();
+      fetchList(true);
     }, []);
 
     async function fetchList(refresh = false) {
