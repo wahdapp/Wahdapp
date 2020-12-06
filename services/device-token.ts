@@ -2,7 +2,7 @@ import { API_DOMAIN } from '@/constants/api';
 import { auth } from '@/firebase';
 import axios from 'axios';
 
-export async function registerToken(deviceToken) {
+export async function registerToken(deviceToken: string) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.post(
