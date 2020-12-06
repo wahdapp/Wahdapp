@@ -19,7 +19,7 @@ const INITIAL_STATE = {
 function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SET_USER:
-      return action.payload;
+      return { ...state, ...action.payload };
     case SET_FULL_NAME:
       return { ...state, full_name: action.payload };
     case ADD_INVITED_AMOUNT:

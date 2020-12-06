@@ -37,7 +37,6 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
       email: auth.currentUser.email,
       gender,
       locale: 'en',
-      location: null,
     };
 
     await createUser({
