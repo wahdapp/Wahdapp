@@ -1,4 +1,4 @@
-import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '@/constants/action_types';
+import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '@/actions/filter';
 
 const INITIAL_STATE = {
   sortBy: 'distance',

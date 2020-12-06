@@ -12,7 +12,7 @@ import { registerToken } from '@/services/device-token';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
 import { useDispatch } from 'react-redux';
-import { setDeviceToken } from '@/actions';
+import { setDeviceToken } from '@/actions/user';
 
 type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
 

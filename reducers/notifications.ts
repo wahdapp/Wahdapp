@@ -1,4 +1,4 @@
-import { SET_NOTIFICATION_REDIRECT } from '../constants/action_types';
+import { SET_NOTIFICATION_REDIRECT } from '@/actions/notifications';
 
 const INITIAL_STATE = {
   redirectScreen: '', // which screen it should redirect to

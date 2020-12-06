@@ -6,7 +6,7 @@ import {
   SET_NOTIFY_REGION,
   SET_INVITED_AMOUNT,
   SET_PARTICIPATED_AMOUNT,
-} from '../constants/action_types';
+} from '@/actions/user';
 
 const INITIAL_STATE = {
   full_name: '',

@@ -1,4 +1,4 @@
-import { SET_LOCATION } from '../constants/action_types';
+import { SET_LOCATION } from '@/actions/location';
 
 function locationReducer(state = {}, action) {
   switch (action.type) {

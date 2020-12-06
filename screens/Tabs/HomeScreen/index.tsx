@@ -8,7 +8,7 @@ import { queryFeed } from '@/services/prayer';
 import { NOT_FOUND } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
-import { setNotificationRedirect } from '@/actions';
+import { setNotificationRedirect } from '@/actions/notifications';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';

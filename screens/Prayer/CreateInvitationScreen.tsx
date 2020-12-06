@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { createPrayer } from '@/services/prayer';
-import { addInvitedAmount } from '@/actions';
+import { addInvitedAmount } from '@/actions/user';
 import i18n from '../../i18n';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';

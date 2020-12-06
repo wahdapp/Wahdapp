@@ -18,7 +18,7 @@ import { Prayer, RootStackParamList } from '@/types';
 import GetNotified from './GetNotified';
 import { useMapPrayers, useUserInfo } from '@/hooks/redux';
 import { updateUserLocation } from '@/services/user';
-import { setNotifyRegion } from '@/actions';
+import { setNotifyRegion } from '@/actions/user';
 import { useDispatch } from 'react-redux';
 
 type FilteredMapQuery = Prayer & { geohash: string };

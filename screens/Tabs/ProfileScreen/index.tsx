@@ -17,7 +17,7 @@ import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from '@/components';
 import { auth } from '@/firebase';
 import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from '@/assets/images';
-import { setFullName, setInvitedAmount, setParticipatedAmount } from '@/actions';
+import { setFullName, setInvitedAmount, setParticipatedAmount } from '@/actions/user';
 import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';

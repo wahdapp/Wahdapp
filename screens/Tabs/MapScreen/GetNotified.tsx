@@ -7,7 +7,7 @@ import { BoldText, RoundButton, Text } from '@/components';
 import colors from '@/constants/colors';
 import { useDispatch } from 'react-redux';
 import { useUserInfo } from '@/hooks/redux';
-import { setDeviceToken } from '@/actions';
+import { setDeviceToken } from '@/actions/user';
 import { registerToken } from '@/services/device-token';
 import { useTranslation } from 'react-i18next';
 

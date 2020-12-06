@@ -29,12 +29,8 @@ import { RootStackParamList, User } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useLocation, useUserInfo } from '@/hooks/redux';
 import { useDispatch } from 'react-redux';
-import {
-  addParticipatedAmount,
-  cancelPrayer,
-  minusInvitedAmount,
-  minusParticipatedAmount,
-} from '@/actions';
+import { cancelPrayer } from '@/actions/prayers';
+import { addParticipatedAmount, minusInvitedAmount, minusParticipatedAmount } from '@/actions/user';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -13,7 +13,7 @@ import { CheckBox } from 'native-base';
 import { Text, BoldText, RoundButton, Loader } from '@/components';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from '@/constants/prayers';
-import { setSortBy } from '@/actions';
+import { setSortBy } from '@/actions/filter';
 import { useTranslation } from 'react-i18next';
 import { getFilterPreference, updateFilterPreference } from '@/services/user';
 import colors from '@/constants/colors';
