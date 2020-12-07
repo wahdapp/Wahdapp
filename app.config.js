@@ -20,7 +20,8 @@ export default ({ config }) => {
         "xxdpi": "./assets/images/splash_screens/android/xxdpi/splash.png",
         "xxxdpi": "./assets/images/splash_screens/android/xxxdpi/splash.png",
         "resizeMode": "cover"
-      }
+      },
+      "useNextNotificationsApi": true,
     },
     "ios": {
       "bundleIdentifier": "com.wahdapp.wahdapp",
