@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, View, Image } from 'react-native';
-import { PrayerCard, SkeletonCard, Text } from '@/components';
-import { NOT_FOUND } from '@/assets/images';
+import { StyleSheet, FlatList, View } from 'react-native';
+import { PrayerCard, SkeletonCard } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { auth } from '@/firebase';
 import { getInvitedList, getParticipatedList } from '@/services/prayer';
@@ -38,6 +37,8 @@ function HistoryListWrapper(type: 'invited' | 'participated') {
           prayersList = await getParticipatedList(auth.currentUser.uid, currentPage);
         }
 
+        console.log({ type, prayersList });
+
         // Stop fetching more
         if (prayersList.length < PAGE_SIZE) {
           setHasMore(false);
@@ -56,7 +57,9 @@ function HistoryListWrapper(type: 'invited' | 'participated') {
         }
         setIsLoading(false);
       } catch (e) {
+        console.log(e);
         setIsLoading(false);
+        setHasMore(false);
       }
     }
 
@@ -73,12 +76,6 @@ function HistoryListWrapper(type: 'invited' | 'participated') {
               data={list}
               renderItem={({ item }) => <PrayerCard {...item} navigate={navigation.navigate} />}
               keyExtractor={(item) => item.id}
-              ListEmptyComponent={() => (
-                <View style={styles.imageContainer}>
-                  <Image source={NOT_FOUND} style={styles.image} />
-                  <Text style={styles.notFoundText}>{t('EMPTY')}</Text>
-                </View>
-              )}
               onRefresh={() => {
                 setIsRefreshing(true);
                 fetchList(true).then(() => setIsRefreshing(false));
@@ -111,19 +108,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
     height: '100%',
-  },
-  imageContainer: {
-    width: '100%',
-  },
-  image: {
-    width: '100%',
-    resizeMode: 'contain',
-    height: 250,
-  },
-  notFoundText: {
-    textAlign: 'center',
-    color: '#7C7C7C',
-    fontSize: 18,
   },
 });
 

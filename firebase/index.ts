@@ -51,9 +51,7 @@ export async function signInWithGoogle() {
     case 'success': {
       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
       const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
-      console.log({ credential });
       const googleProfileData = await auth.signInWithCredential(credential); // Sign in with Facebook credential
-      console.log({ googleProfileData });
       await auth.useDeviceLanguage();
 
       // Do something with Facebook profile data

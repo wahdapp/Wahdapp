@@ -424,17 +424,17 @@ const styles = StyleSheet.create({
   },
   userItem: {
     marginTop: 15,
-    height: 75,
-    width: 75,
+    minHeight: 75,
+    maxWidth: 100,
+    marginRight: 10,
   },
   userName: {
     marginTop: 5,
     fontSize: 12,
     textAlign: 'center',
     flexWrap: 'wrap',
-    minWidth: 50,
-    minHeight: 50,
     color: '#000',
+    minWidth: 75,
   },
   callout: {
     padding: 8,

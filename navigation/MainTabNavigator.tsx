@@ -20,7 +20,7 @@ import LanguageScreen from '@/screens/Profile/LanguageScreen';
 // Tabs
 import HomeScreen from '@/screens/Tabs/HomeScreen';
 import MapScreen from '@/screens/Tabs/MapScreen';
-import NotificationScreen from '@/screens/Tabs/NotificationScreen';
+// import NotificationScreen from '@/screens/Tabs/NotificationScreen';
 import ProfileScreen from '@/screens/Tabs/ProfileScreen';
 import PrayerTimeScreen from '@/screens/Tabs/PrayerTimeScreen';
 
@@ -34,7 +34,7 @@ import { useUserInfo } from '@/hooks/redux';
 const Stack = createStackNavigator<RootStackParamList>();
 const headerOptions = {
   headerStyle: { backgroundColor: '#fff', shadowColor: 'transparent', elevation: 0 },
-  headerTitleStyle: { fontFamily: 'Sen-Bold', fontSize: 18, color: '#d9d9d9' },
+  headerTitleStyle: { fontFamily: 'SenBold', fontSize: 18, color: '#d9d9d9' },
 };
 
 function HomeStack() {
@@ -83,17 +83,17 @@ function PrayerTimeStack() {
   );
 }
 
-function NotificationStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-}
+// function NotificationStack() {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen
+//         name="Notification"
+//         component={NotificationScreen}
+//         options={{ headerShown: false }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function ProfileStack() {
   const { t } = useTranslation(['PROFILE']);

@@ -80,7 +80,6 @@ type FilterPayload = {
 export async function updateFilterPreference(payload: FilterPayload) {
   try {
     const token = await auth.currentUser.getIdToken();
-    console.log(payload.selected_prayers.map((p) => PRAYERS[p]).join(''));
     const { data } = await axios.patch(
       `${API_DOMAIN}/user/filter`,
       {

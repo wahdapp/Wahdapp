@@ -49,7 +49,6 @@ export default ({ user }) => {
       setUserDataFetched(true);
       dispatch(setUser(userInfo));
     } catch (e) {
-      console.log(e);
       // The user just signed in with OAuth
       // Let the user choose his/her gender then create a new document into the database
       setIsFirstOAuth(true);
@@ -76,7 +75,6 @@ export default ({ user }) => {
       }
     }
 
-    console.log({ notification });
     // "notification": Object {
     //   "actionId": null,
     //   "data": Object {

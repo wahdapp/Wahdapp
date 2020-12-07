@@ -34,8 +34,6 @@ export default function HomeScreen({ navigation }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  console.log({ hasMore, currentPage });
-
   useEffect(() => {
     if (redirectScreen.length) {
       navigation.navigate(redirectScreen, redirectPayload);
@@ -66,8 +64,6 @@ export default function HomeScreen({ navigation }: Props) {
         pageNumber: refresh ? 0 : currentPage,
         sortType: filter.sortBy,
       });
-
-      console.log({ list });
 
       // Stop fetching more
       if (list.length < PAGE_SIZE) {

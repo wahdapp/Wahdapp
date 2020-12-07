@@ -96,8 +96,6 @@ export async function createPrayer(payload) {
       },
     });
 
-    console.log({ data });
-
     return data.data;
   } catch (e) {
     throw e;
@@ -156,7 +154,7 @@ export async function getInvitedList(id: string, pageNumber: number) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get<{ data: Prayer[] }>(
-      `${API_DOMAIN}/prayer/invitations?user_id=${id}?pageNumber=${pageNumber}`,
+      `${API_DOMAIN}/prayer/invitations?user_id=${id}&pageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `Token ${token}`,
@@ -192,7 +190,7 @@ export async function getParticipatedList(id: string, pageNumber: number) {
   try {
     const token = await auth.currentUser.getIdToken();
     const { data } = await axios.get<{ data: Prayer[] }>(
-      `${API_DOMAIN}/prayer/participated?user_id=${id}?pageNumber=${pageNumber}`,
+      `${API_DOMAIN}/prayer/participated?user_id=${id}&pageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `Token ${token}`,

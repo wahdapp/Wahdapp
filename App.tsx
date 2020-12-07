@@ -14,7 +14,6 @@ import LoginScreen from '@/screens/Auth/LoginScreen';
 import SignupScreen from '@/screens/Auth/SignupScreen';
 import ForgotPasswordScreen from '@/screens/Auth/ForgotPasswordScreen';
 import EmailSentScreen from '@/screens/Auth/EmailSentScreen';
-import * as Location from 'expo-location';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -58,8 +57,6 @@ if (!global['atob']) {
   global['atob'] = decode;
 }
 
-const LOCATION_TASK_NAME = 'background-location-task';
-
 const Stack = createStackNavigator<AuthStackParamList>();
 
 export default function App(props) {
@@ -77,7 +74,6 @@ export default function App(props) {
   function authenticateUser() {
     auth.onAuthStateChanged((user) => {
       setIsAuthenticating(false);
-      console.log({ user });
       setUserAuth(user);
     });
   }
@@ -86,12 +82,6 @@ export default function App(props) {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       alert('Please enable your location for the best experience!');
-    }
-
-    if (userAuth && userAuth.emailVerified) {
-      await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-        accuracy: Location.Accuracy.Balanced,
-      });
     }
   }
 
@@ -104,7 +94,7 @@ export default function App(props) {
       <AppLoading
         startAsync={loadResourcesAsync}
         onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
+        onFinish={() => setLoadingComplete(true)}
       />
     );
   }
@@ -163,18 +153,11 @@ export default function App(props) {
 }
 
 async function loadResourcesAsync() {
-  await Promise.all([
-    Font.loadAsync({
-      Roboto: require('./assets/fonts/Sen-Regular.ttf'),
-      Roboto_medium: require('./assets/fonts/Sen-Bold.ttf'),
-      Sen: require('./assets/fonts/Sen-Regular.ttf'),
-      'Sen-Bold': require('./assets/fonts/Sen-Bold.ttf'),
-      ...Feather.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/Sen-Regular.ttf'),
-    }),
-  ]);
+  await Font.loadAsync({
+    Sen: require('./assets/fonts/Sen-Regular.ttf'),
+    SenBold: require('./assets/fonts/Sen-Bold.ttf'),
+    ...Feather.font,
+  });
 }
 
 function handleLoadingError(error) {
@@ -182,10 +165,6 @@ function handleLoadingError(error) {
   // service, for example Sentry
   console.warn(error);
   Sentry.captureException(error);
-}
-
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
 }
 
 const ScreenHeight = Dimensions.get('window').height;

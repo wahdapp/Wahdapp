@@ -6,7 +6,7 @@ export const Text: React.FC<TextProps> = (props) => {
 };
 
 export const BoldText: React.FC<TextProps> = (props) => {
-  return <DefaultText {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />;
+  return <DefaultText {...props} style={[props.style, { fontFamily: 'SenBold' }]} />;
 };
 
 export const AnimatedText: React.FC<TextProps> = (props) => {
@@ -14,5 +14,5 @@ export const AnimatedText: React.FC<TextProps> = (props) => {
 };
 
 export const AnimatedBoldText: React.FC<TextProps> = (props) => {
-  return <Animated.Text {...props} style={[props.style, { fontFamily: 'Sen-Bold' }]} />;
+  return <Animated.Text {...props} style={[props.style, { fontFamily: 'SenBold' }]} />;
 };

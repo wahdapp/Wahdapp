@@ -103,8 +103,6 @@ export default function PrayerTimeScreen() {
       const position = await Location.getCurrentPositionAsync({});
       const prayers = await getPrayerTimes(position.coords, 3, false);
 
-      console.log(prayers);
-
       const next = findNextPrayer(prayers.timings);
       const now = dayjs();
 

@@ -206,7 +206,7 @@ export default function MapScreen({ navigation }: Props) {
 
     try {
       const list = await queryMap({ lat: currentRegion.latitude, lng: currentRegion.longitude });
-      console.log({ list });
+
       dispatch({ type: 'SET_MAP', payload: list });
 
       // Gather all unique geohashes to prevent multiple markers on the same spot

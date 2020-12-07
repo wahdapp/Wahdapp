@@ -113,8 +113,6 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
         },
       };
 
-      console.log({ date, formattedSchedule });
-
       const id = await createPrayer(payload);
 
       setIsLoading(false);

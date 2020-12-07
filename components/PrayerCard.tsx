@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#7C7C7C',
     textAlignVertical: 'bottom',
+    maxWidth: '70%',
   },
 });
 
