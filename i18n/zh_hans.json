@@ -1,7 +1,7 @@
 {
   "HOME": {
-    "HEADER": "附近集会",
-    "EMPTY": "目前尚未有任何集会 :("
+    "HEADER": "您附近的礼拜邀请",
+    "EMPTY": "附近目前沒有任何礼拜邀请 :("
   },
   "FILTER": {
     "HEADER": "筛选",
@@ -94,7 +94,7 @@
     "SIGNUP_NOW": "马上注册",
     "SIGNUP": "注册",
     "CONNECT": "或者",
-    "CREATE_ACCOUNT": "创办帐号",
+    "CREATE_ACCOUNT": "创立新帐号",
     "FULL_NAME": "全名",
     "EMAIL": "电子邮件",
     "PASSWORD": "密码",

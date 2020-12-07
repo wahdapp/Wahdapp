@@ -1,7 +1,7 @@
 {
   "HOME": {
-    "HEADER": "附近集會",
-    "EMPTY": "目前尚未有任何集會 :("
+    "HEADER": "您附近的禮拜邀請",
+    "EMPTY": "附近目前沒有任何禮拜邀請 :("
   },
   "FILTER": {
     "HEADER": "篩選",
@@ -94,7 +94,7 @@
     "SIGNUP_NOW": "馬上註冊",
     "SIGNUP": "註冊",
     "CONNECT": "或者",
-    "CREATE_ACCOUNT": "創辦帳號",
+    "CREATE_ACCOUNT": "建立新帳號",
     "FULL_NAME": "全名",
     "EMAIL": "電子郵件",
     "PASSWORD": "密碼",
