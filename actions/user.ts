@@ -8,6 +8,7 @@ export const SET_INVITED_AMOUNT = 'SET_INVITED_AMOUNT';
 export const SET_PARTICIPATED_AMOUNT = 'SET_PARTICIPATED_AMOUNT';
 export const ADD_PARTICIPATED_AMOUNT = 'ADD_PARTICIPATED_AMOUNT';
 export const MINUS_PARTICIPATED_AMOUNT = 'MINUS_PARTICIPATED_AMOUNT';
+export const INIT_USER = 'INIT_USER';
 
 export function setUser(payload) {
   return {
@@ -65,4 +66,8 @@ export function setNotifyRegion(payload: { lat: number; lng: number }) {
     type: SET_NOTIFY_REGION,
     payload,
   };
+}
+
+export function initUser() {
+  return { type: INIT_USER };
 }

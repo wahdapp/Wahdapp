@@ -17,7 +17,7 @@ import { Feather } from '@expo/vector-icons';
 import { Text, BoldText, Touchable } from '@/components';
 import { auth } from '@/firebase';
 import { MAN_AVATAR, WOMAN_AVATAR, WAVE } from '@/assets/images';
-import { setFullName, setInvitedAmount, setParticipatedAmount } from '@/actions/user';
+import { initUser, setFullName, setInvitedAmount, setParticipatedAmount } from '@/actions/user';
 import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -134,6 +134,7 @@ export default function ProfileScreen({ navigation }: Props) {
     deleteDeviceToken(); // no need to await
     auth.signOut();
     AsyncStorage.removeItem('prayersFilter');
+    dispatch(initUser());
   }
 
   function handleInvitedPress() {

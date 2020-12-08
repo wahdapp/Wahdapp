@@ -6,6 +6,7 @@ import {
   SET_NOTIFY_REGION,
   SET_INVITED_AMOUNT,
   SET_PARTICIPATED_AMOUNT,
+  INIT_USER,
 } from '@/actions/user';
 
 const INITIAL_STATE = {
@@ -34,6 +35,8 @@ function userReducer(state = INITIAL_STATE, action) {
       return { ...state, invitedAmount: action.payload };
     case SET_PARTICIPATED_AMOUNT:
       return { ...state, participatedAmount: action.payload };
+    case INIT_USER:
+      return INITIAL_STATE;
     default:
       return state;
   }
