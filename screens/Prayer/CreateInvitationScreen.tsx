@@ -16,6 +16,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useUserInfo } from '@/hooks/redux';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type CreateInvitationScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -30,6 +32,7 @@ type Props = {
 };
 
 export default function CreateInvitationScreen({ route, navigation }: Props) {
+  useLogScreenView('create_invitation');
   const { t } = useTranslation(['INVITATION', 'COMMON']);
   const [, setErrorMessage] = useSnackbar();
   const dispatch = useDispatch();
@@ -114,6 +117,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       };
 
       const id = await createPrayer(payload);
+      logEvent('create_invitation', { status: 'success', selected_prayer: selectedPrayer });
 
       setIsLoading(false);
       removeMarker();
@@ -138,6 +142,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       navigation.goBack();
       navigation.navigate('PrayerDetail', params);
     } catch (e) {
+      logEvent('create_invitation', { status: 'failure' });
       setIsLoading(false);
       if (e.message) {
         setErrorMessage(e.message);

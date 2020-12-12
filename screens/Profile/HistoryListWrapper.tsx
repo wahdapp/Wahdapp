@@ -6,6 +6,7 @@ import { auth } from '@/firebase';
 import { getInvitedList, getParticipatedList } from '@/services/prayer';
 import { Prayer, RootStackParamList } from '@/types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 const PAGE_SIZE = 5;
 
@@ -17,6 +18,7 @@ type Props = {
 
 function HistoryListWrapper(type: 'invited' | 'participated') {
   return function InvitedScreen({ navigation }: Props) {
+    useLogScreenView(type);
     const { t } = useTranslation(['PROFILE']);
     const [list, setList] = useState<Prayer[]>([]);
     const [isLoading, setIsLoading] = useState(true);

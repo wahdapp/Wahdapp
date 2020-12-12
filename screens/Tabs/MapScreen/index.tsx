@@ -20,6 +20,8 @@ import { useMapPrayers, useUserInfo } from '@/hooks/redux';
 import { updateUserLocation } from '@/services/user';
 import { setNotifyRegion } from '@/actions/user';
 import { useDispatch } from 'react-redux';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type FilteredMapQuery = Prayer & { geohash: string };
 type Region = {
@@ -33,6 +35,7 @@ type Props = {
 };
 
 export default function MapScreen({ navigation }: Props) {
+  useLogScreenView('map');
   const user = useUserInfo();
   const { t } = useTranslation(['INVITATION']);
   const dispatch = useDispatch();
@@ -199,6 +202,7 @@ export default function MapScreen({ navigation }: Props) {
 
   function handleConfirm(location: { latitude: number; longitude: number }) {
     navigation.navigate('CreateInvitation', { ...location, removeMarker });
+    logEvent('confirm_location', { type: 'new' });
   }
 
   async function queryArea() {

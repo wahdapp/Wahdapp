@@ -13,6 +13,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
 import { useDispatch } from 'react-redux';
 import { setDeviceToken } from '@/actions/user';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -21,6 +23,7 @@ type Props = {
 };
 
 export default function LoginScreen({ navigation: { navigate } }: Props) {
+  useLogScreenView('login');
   const { t } = useTranslation(['SIGN', 'PROFILE']);
   const dispatch = useDispatch();
   const [, setErrorMessage] = useSnackbar();
@@ -56,9 +59,11 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
     try {
       setLoading(true);
       await auth.signInWithEmailAndPassword(email, password);
+      logEvent('login', { status: 'success', method: 'email' });
 
       registerPushToken();
     } catch (e) {
+      logEvent('login', { status: 'failure', method: 'email' });
       setLoading(false);
       displayError(e.message);
     }
@@ -70,8 +75,16 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
   }
 
   async function handleGooglePress() {
-    await signInWithGoogle();
-    await registerPushToken();
+    try {
+      setLoading(true);
+      await signInWithGoogle();
+      await registerPushToken();
+      logEvent('login', { status: 'success', method: 'google' });
+    } catch (e) {
+      logEvent('login', { status: 'failure', method: 'google' });
+      setLoading(false);
+      displayError(e.message);
+    }
   }
 
   if (loading) return <Loader />;

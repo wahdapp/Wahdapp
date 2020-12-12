@@ -6,6 +6,8 @@ import * as Animatable from 'react-native-animatable';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type MarkerPrayersNavigationProp = StackNavigationProp<RootStackParamList, 'MarkerPrayers'>;
 
@@ -17,12 +19,14 @@ type Props = {
 };
 
 export default function MarkerPrayersScreen({ navigation, route }: Props) {
+  useLogScreenView('marker_prayers');
   const { nearbyPrayers, handleConfirm } = route.params;
   const { t } = useTranslation(['INVITATION']);
 
   function handleInvite() {
     const { location } = nearbyPrayers[0];
     handleConfirm({ latitude: location.lat, longitude: location.lng });
+    logEvent('confirm_location', { type: 'previous' });
   }
 
   return (

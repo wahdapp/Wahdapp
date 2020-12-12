@@ -12,6 +12,7 @@ import { setNotificationRedirect } from '@/actions/notifications';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 const PAGE_SIZE = 5;
 
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export default function HomeScreen({ navigation }: Props) {
+  useLogScreenView('home');
   const { t } = useTranslation(['HOME']);
   const location = useLocation();
   const filter = useFilter();

@@ -13,6 +13,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type ReportPrayerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ReportPrayer'>;
 
@@ -24,6 +26,7 @@ type Props = {
 };
 
 function ReportPrayerScreen({ route, navigation }: Props) {
+  useLogScreenView('report');
   const { prayerID } = route.params;
   const { t } = useTranslation(['REPORT']);
   const [, setErrorMessage] = useSnackbar();
@@ -43,10 +46,12 @@ function ReportPrayerScreen({ route, navigation }: Props) {
     try {
       setIsLoading(true);
       await reportPrayer(prayerID, category, description);
+      logEvent('report', { status: 'success', category, description });
 
       setIsLoading(false);
       navigation.goBack();
     } catch (e) {
+      logEvent('report', { status: 'failure' });
       setIsLoading(false);
       setErrorMessage(t('ERROR'));
     }

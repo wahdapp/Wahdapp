@@ -11,6 +11,8 @@ import { createUser } from '@/services/user';
 import { convertLanguageCode } from '@/helpers/languageCode';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type SignupScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Signup'>;
 
@@ -19,6 +21,7 @@ type Props = {
 };
 
 export default function SignupScreen({ navigation: { navigate } }: Props) {
+  useLogScreenView('sign_up');
   const { t } = useTranslation(['SIGN', 'COMMON']);
   const [, setErrorMessage] = useSnackbar();
 
@@ -44,12 +47,18 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
         gender,
       });
 
-      auth.languageCode = convertLanguageCode(i18n.language);
+      const languageCode = convertLanguageCode(i18n.language);
+
+      auth.languageCode = languageCode;
+      logEvent('select_gender', { gender });
+      logEvent('signup', { status: 'success', language: languageCode });
+
       await auth.currentUser.sendEmailVerification();
       await auth.signOut();
       setLoading(false);
       navigate('EmailSent');
     } catch (e) {
+      logEvent('signup', { status: 'failure' });
       setLoading(false);
       if (e.message) {
         setErrorMessage(e.message);

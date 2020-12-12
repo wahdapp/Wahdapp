@@ -22,7 +22,6 @@ import { ListItem } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import i18n from 'i18next';
-import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { updateUserName } from '@/services/user';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -30,6 +29,8 @@ import { RootStackParamList } from '@/types';
 import { useUserInfo } from '@/hooks/redux';
 import { deleteDeviceToken } from '@/services/device-token';
 import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -38,6 +39,7 @@ type Props = {
 };
 
 export default function ProfileScreen({ navigation }: Props) {
+  useLogScreenView('profile');
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
   const user = useUserInfo();
   const dispatch = useDispatch();
@@ -158,8 +160,10 @@ export default function ProfileScreen({ navigation }: Props) {
       try {
         setPasswordEmailSent(true);
         await auth.sendPasswordResetEmail(user.email);
+        logEvent('reset_password', { status: 'success' });
         setEmailSentMessage('An email has been sent to your inbox.');
       } catch (e) {
+        logEvent('reset_password', { status: 'failure' });
         setErrorMessage('An error occurred. Please try again later.');
       }
     }

@@ -11,6 +11,8 @@ import { registerToken } from '@/services/device-token';
 import { Notifications } from 'expo';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type Props = {
   setIsFirstOAuth: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ type Props = {
 };
 
 function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
+  useLogScreenView('select_gender');
   const [isCreating, setIsCreating] = useState(false);
   const [gender, setGender] = useState('');
   const dispatch = useDispatch();
@@ -44,6 +47,8 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
       uid: auth.currentUser.uid,
       ...user,
     });
+
+    logEvent('select_gender', { gender });
 
     dispatch(setUser(user));
     dispatch(initializeFilter(gender));

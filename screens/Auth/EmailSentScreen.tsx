@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type EmailSentScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'EmailSent'>;
 
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function EmailSentScreen({ navigation: { navigate } }: Props) {
+  useLogScreenView('email_sent');
   const { t } = useTranslation(['SIGN']);
 
   return (

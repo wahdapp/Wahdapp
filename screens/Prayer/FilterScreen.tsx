@@ -20,6 +20,8 @@ import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useUserInfo } from '@/hooks/redux';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type FilterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Filter'>;
 
@@ -28,6 +30,7 @@ type Props = {
 };
 
 export default function FilterScreen({ navigation }: Props) {
+  useLogScreenView('filter');
   const user = useUserInfo();
   const filterState = useFilter();
   const dispatch = useDispatch();
@@ -94,19 +97,25 @@ export default function FilterScreen({ navigation }: Props) {
   }
 
   async function applyFilter() {
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    await updateFilterPreference({
-      selected_prayers: selectedPrayers,
-      minimum_participants: minimumParticipants,
-      same_gender: sameGender,
-    });
+      await updateFilterPreference({
+        selected_prayers: selectedPrayers,
+        minimum_participants: minimumParticipants,
+        same_gender: sameGender,
+      });
 
-    await AsyncStorage.setItem('prayersFilter', JSON.stringify({ sortBy: selectedSort }));
-    dispatch(setSortBy(selectedSort));
-    setIsLoading(false);
+      await AsyncStorage.setItem('prayersFilter', JSON.stringify({ sortBy: selectedSort }));
+      logEvent('update_filter', { status: 'success' });
+      dispatch(setSortBy(selectedSort));
+      setIsLoading(false);
 
-    navigation.goBack();
+      navigation.goBack();
+    } catch (e) {
+      logEvent('update_filter', { status: 'failure' });
+      setIsLoading(false);
+    }
   }
 
   function handlePrayerClick(prayer) {

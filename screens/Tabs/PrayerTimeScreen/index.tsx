@@ -10,6 +10,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
 import durationPlugin from 'dayjs/plugin/duration';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type Prayers = {
   fajr: string;
@@ -51,6 +52,7 @@ type PrayerTimes = {
 dayjs.extend(durationPlugin);
 
 export default function PrayerTimeScreen() {
+  useLogScreenView('prayer_time');
   const { t } = useTranslation(['PRAYER_TIME', 'COMMON']);
 
   const [isFetching, setIsFetching] = useState(true);

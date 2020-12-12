@@ -2,8 +2,10 @@ import React from 'react';
 import Webview from 'react-native-webview';
 import { LoaderWithoutOverlay } from '@/components';
 import { View } from 'react-native';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 export default function ContactScreen() {
+  useLogScreenView('contact');
   return (
     <View style={{ flex: 1 }}>
       <Webview

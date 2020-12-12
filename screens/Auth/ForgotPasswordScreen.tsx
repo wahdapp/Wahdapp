@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
+import { logEvent } from 'expo-firebase-analytics';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type ForgotPasswordScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ForgotPassword'>;
 
@@ -16,6 +18,7 @@ type Props = {
 };
 
 export default function ForgotPasswordScreen({ navigation: { navigate } }: Props) {
+  useLogScreenView('forgot_password');
   const { t } = useTranslation(['SIGN', 'COMMON']);
   const [, setErrorMessage] = useSnackbar();
 
@@ -28,10 +31,12 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }: Props
       setIsSending(true);
 
       await auth.sendPasswordResetEmail(email);
+      logEvent('forgot_password', { status: 'success' });
 
       setIsSending(false);
       setIsSent(true);
     } catch (e) {
+      logEvent('forgot_password', { status: 'failure' });
       setIsSending(false);
       setErrorMessage(e.message);
     }

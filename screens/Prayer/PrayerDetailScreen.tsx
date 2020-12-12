@@ -31,6 +31,7 @@ import { useLocation, useUserInfo } from '@/hooks/redux';
 import { useDispatch } from 'react-redux';
 import { cancelPrayer } from '@/actions/prayers';
 import { addParticipatedAmount, minusInvitedAmount, minusParticipatedAmount } from '@/actions/user';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -73,6 +74,7 @@ function joinReducer(state: ReducerState, action: Actions) {
 }
 
 export default function PrayerDetailScreen({ route, navigation }: Props) {
+  useLogScreenView('prayer_detail');
   const { t } = useTranslation(['PRAYER_DETAILS', 'COMMON']);
   const dispatch = useDispatch();
   const { showActionSheetWithOptions } = useActionSheet();

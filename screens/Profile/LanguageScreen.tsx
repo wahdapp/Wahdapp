@@ -10,6 +10,7 @@ import { RootStackParamList } from '@/types';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
 import { updateLocale } from '@/services/user';
+import useLogScreenView from '@/hooks/useLogScreenView';
 
 type LanguageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Language'>;
 
@@ -18,6 +19,7 @@ type Props = {
 };
 
 function LanguageScreen({ navigation }: Props) {
+  useLogScreenView('language');
   async function handleSelectLanguage(lng) {
     navigation.goBack();
     i18n.changeLanguage(lng);
