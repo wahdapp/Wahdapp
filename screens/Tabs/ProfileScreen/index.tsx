@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   View,
@@ -180,39 +180,39 @@ export default function ProfileScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          <Animatable.View animation="bounceIn" delay={300} style={styles.profilePicContainer}>
+          <View style={styles.profilePicContainer}>
             <Image
               source={user.gender === 'M' ? MAN_AVATAR : WOMAN_AVATAR}
               style={{ width: 60, height: 60 }}
             />
-          </Animatable.View>
+          </View>
 
-          <Animatable.View animation="bounceIn" delay={600} style={styles.nameContainer}>
+          <View style={styles.nameContainer}>
             <BoldText style={styles.nameText}>{user.full_name}</BoldText>
-          </Animatable.View>
+          </View>
         </LinearGradient>
 
         <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
 
         <View style={[styles.infoSection, { marginTop: 0 }]}>
           <View style={styles.infoContainer}>
-            <Animatable.View animation="bounceIn" delay={900}>
+            <View>
               <Touchable style={styles.infoItem} onPress={handleInvitedPress}>
                 <BoldText style={styles.infoNumber}>{user.invitedAmount}</BoldText>
                 <Text style={styles.infoLabel}>{t('PRAYERS_INVITED')}</Text>
               </Touchable>
-            </Animatable.View>
+            </View>
 
-            <Animatable.View animation="bounceIn" delay={1200}>
+            <View>
               <Touchable style={styles.infoItem} onPress={handleParticipatedPress}>
                 <BoldText style={styles.infoNumber}>{user.participatedAmount}</BoldText>
                 <Text style={styles.infoLabel}>{t('PRAYERS_PARTICIPATED')}</Text>
               </Touchable>
-            </Animatable.View>
+            </View>
           </View>
         </View>
         <View style={styles.accountSection}>
-          <Animatable.View animation="fadeInRight" delay={1700} style={styles.accountRow}>
+          <View style={styles.accountRow}>
             <Text style={styles.label}>{t('SIGN:FULL_NAME')}</Text>
             {isEditingFullName ? (
               <TextInput
@@ -231,19 +231,19 @@ export default function ProfileScreen({ navigation }: Props) {
                 </Touchable>
               </View>
             )}
-          </Animatable.View>
+          </View>
 
-          <Animatable.View animation="fadeInRight" delay={1950} style={styles.accountRow}>
+          <View style={styles.accountRow}>
             <Text style={styles.label}>{t('SIGN:EMAIL')}</Text>
             <Text style={styles.textField}>{user.email}</Text>
-          </Animatable.View>
+          </View>
 
-          <Animatable.View animation="fadeInRight" delay={2200} style={styles.accountRow}>
+          <View style={styles.accountRow}>
             <Text style={styles.label}>{t('COMMON:GENDER.LABEL')}</Text>
             <Text style={styles.textField}>
               {user.gender === 'M' ? t('COMMON:GENDER.MALE') : t('COMMON:GENDER.FEMALE')}
             </Text>
-          </Animatable.View>
+          </View>
         </View>
 
         <View style={styles.sessionSection}>
