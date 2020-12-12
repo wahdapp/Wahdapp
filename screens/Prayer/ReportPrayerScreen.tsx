@@ -55,7 +55,11 @@ function ReportPrayerScreen({ route, navigation }: Props) {
   return (
     <View style={styles.centeredView}>
       {isLoading && <Loader />}
-      <ScrollView contentContainerStyle={{ position: 'relative' }}>
+      <ScrollView
+        contentContainerStyle={{
+          width: '100%',
+        }}
+      >
         <Text style={styles.modalText}>{t('TITLE')}</Text>
         <Text style={styles.description}>{t('DESC')}</Text>
 
@@ -114,10 +118,8 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
-    position: 'relative',
+    paddingHorizontal: 25,
   },
   modalText: {
     paddingTop: 35,
@@ -148,12 +150,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   buttonWrapper: {
-    position: 'absolute',
     bottom: 25,
     zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 25,
   },
 });
 
