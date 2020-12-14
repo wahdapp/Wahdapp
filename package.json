@@ -1,5 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "version": "1.0.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -7,7 +8,10 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
-    "debug": "react-devtools"
+    "debug": "react-devtools",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major"
   },
   "jest": {
     "preset": "jest-expo"
@@ -91,6 +95,8 @@
     "eslint-plugin-react": "^7.21.3",
     "jest-expo": "^37.0.0",
     "prettier": "^2.1.2",
+    "standard-version": "^7.1.0",
+    "standard-version-expo": "^1.0.3",
     "typescript": "^4.0.3"
   },
   "private": true
