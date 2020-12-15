@@ -10,8 +10,11 @@
     Official source code of Wahdapp's mobile application
     <br />
     <br />
-    <a href="https://discord.gg/Zn4698v8pM"><img alt="Discord Chat" src="https://img.shields.io/discord/787953609471688734.svg?logo=discord&color=%236DC7B0"></a>
-    <a href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+    <a aria-label="made with expo" href="https://github.com/expo" target="_blank">
+    <img src="https://img.shields.io/badge/MADE%20WITH%20EXPO-000.svg?logo=expo&labelColor=4630eb">
+  </a>
+    <a href="https://discord.gg/Zn4698v8pM" target="_blank"><img alt="Discord Chat" src="https://img.shields.io/discord/787953609471688734.svg?logo=discord&color=%236DC7B0"></a>
+    <a href="https://opensource.org/licenses/MIT" target="_blank"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
     <br />
     <br />
     <a href="">Google Play</a>
