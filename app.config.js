@@ -36,7 +36,8 @@ export default ({ config }) => {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-fg.png",
         "backgroundImage": "./assets/images/logo-bg.png"
-      }
+      },
+      "icon": "./assets/images/logo.png"
     },
     "ios": {
       "bundleIdentifier": "com.wahdapp.wahdapp",

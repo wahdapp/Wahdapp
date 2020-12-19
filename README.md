@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://wahd.app">
-    <img src="assets/images/logo.png" style="border-radius: 14px" alt="Logo" width="150" height="150">
+    <img src="assets/images/banner.jpg" style="border-radius: 10px" alt="banner">
   </a>
 
   <h1 align="center">Wahdapp</h1>
