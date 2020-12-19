@@ -1,0 +1,199 @@
+{
+  "HOME": {
+    "HEADER": "Sholat di dekat anda",
+    "EMPTY": "Tidak dapat menemukan Sholat di didekat anda :("
+  },
+  "FILTER": {
+    "HEADER": "Filter",
+    "PRAYERS": "Prayers",
+    "SORTBY": "Urutkan Dengan",
+    "DISTANCE": "Jarak",
+    "PARTICIPANTS": "Peserta",
+    "TIME": "Waktu",
+    "MIN_PARTICIPANTS": "Minimum Peserta\n",
+    "PERSON": "orang",
+    "PEOPLE": "orang-orang",
+    "SAME_GENDER": "Jenis kelamin yang sama",
+    "CHECKBOX_DESC": "Jika diperiksa, anda hanya akan menerima undangan yang dibuat oleh wanita.",
+    "BUTTON": "SIMPAN"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "Sholat {{prayer}}",
+    "JOIN": "Bergabung",
+    "JOINED": "Telah bergabung",
+    "CANCEL": "Batalkan",
+    "ENDED": "Berakhir",
+    "DESCRIPTION": "Deskripsi",
+    "ORGANIZER": "Penyelenggara",
+    "PARTICIPANTS": "Peserta",
+    "GUESTS": "Tamu",
+    "CANCEL_PRAYER": "Batalkan Undangan",
+    "CANCEL_PRAYER_CONFIRM": "Apakah anda yakin untuk membatalkan undangan ini?",
+    "NO": "Tidak",
+    "YES": "Ya",
+    "OPTIONS": ["Lihat di Google Maps", "Laporkan", "Batalkan"]
+  },
+  "INVITATION": {
+    "HISTORY_PRAYERS": "Sholat sebelumnya",
+    "QUERY": "Tanyakan area ini",
+    "CONFIRM": "Konfirmasi",
+    "CANCEL": "Batalkan",
+    "HEADER": "Undang Sholat",
+    "PRAYER": "Sholat",
+    "CURRENT_PARTICIPANTS": "Peserta Awal",
+    "DESCRIPTION": "Deskripsi",
+    "PLACEHOLDER": "Jelaskan lokasi secara singkat agar mudah ditemukan oleh orang lain",
+    "DATE": "Tanggal",
+    "TIME": "Waktu",
+    "CHOOSE_DATE": "Pilih Tanggal",
+    "CHOOSE_TIME": "Pilih Waktu",
+    "INVITE": "UNDANG",
+    "INVITE_HERE": "UNDANG KESINI",
+    "ERRORS": ["Waktu Sholat tidak bisa dipilih sebelum sekarang"],
+    "NOTIFICATION": {
+      "TITLE": "Area Notifikasi",
+      "DESC": "Tarik penanda ke daerah yang anda inginkan untuk menerima notifikasi sholat",
+      "CONFIRM": "Konfirmasi",
+      "CANCEL": "Batalkam"
+    }
+  },
+  "PROFILE": {
+    "HEADER": "Profil",
+    "PRAYERS_INVITED": "SHOLAT\nUNDANGAN",
+    "PRAYERS_PARTICIPATED": "SHOLAT\nBERPARTISIPASI",
+    "EMPTY": "Tidak ada undangan sholat :(",
+    "LANGUAGE_HEADER": "Pilih Bahasa",
+    "CHANGE_PASSWORD": "Ganti Kata Sandi",
+    "LOGOUT": "Keluar",
+    "DELETE_ACCOUNT": "Hapus Akun",
+    "OPTIONS": {
+      "PRIVACY": "Kebijakan Pribadi",
+      "FAQ": "FAQ",
+      "ABOUT": "Tentang",
+      "CONTACT": "Kontak",
+      "DONATE": "Donasi",
+      "LANGUAGE": "Pilihan Bahasa",
+      "LOGOUT": "Keluar",
+      "CANCEL": "Batalkan"
+    }
+  },
+  "TABS": {
+    "HOME": "Beranda",
+    "MAP": "Peta",
+    "PRAYER_TIMES": "Waktu Sholat",
+    "NOTIFICATION": "Notifikasi",
+    "PROFILE": "Profil",
+    "BACK": "Kembali"
+  },
+  "SIGN": {
+    "WELCOME": "Selamat Datang",
+    "PROCEED": "Masuk untuk melanjutkan",
+    "LOGIN": "Masuk",
+    "FORGOT_PWD": "Lupa kata sandi",
+    "NOT_HAVE": "Belum punya akun?",
+    "SIGNUP_NOW": "Daftar sekarang",
+    "SIGNUP": "Daftar",
+    "CONNECT": "Atau lanjutkan dengan",
+    "CREATE_ACCOUNT": "Buat Akun",
+    "FULL_NAME": "Nama Lengkap",
+    "EMAIL": "Alamat Email",
+    "PASSWORD": "Kata Sandi",
+    "CONFIRM": "Konfirmasi Kata Sandi",
+    "FORGOT": {
+      "HEADER": "Lupa Kata Sandi Anda?",
+      "DESCRIPTION": "Mohon masukan email yang anda gunakan untuk mendaftar. Kami akan mengirimkan email untuk mereset kata sandi anda lagi!"
+    },
+    "RESET": {
+      "HEADER": "Reset Kata Sandi",
+      "DESCRIPTION": "Email telah dikirimkan ke inbox anda. Ikuti langkah yang diperlukan untuk mereset kata sandi untuk akun anda."
+    },
+    "VERIFY": {
+      "HEADER": "Verifikasi alamat Email anda",
+      "DESCRIPTION": "Email verifikasi telah dikirimkan ke inbox anda. Mohon ikuti langkah yang diperlukan untuk memulai perjalanan anda!"
+    },
+    "BACK_TO_LOGIN": "Kembali ke MASUK",
+    "SUBMIT": "Kirimkan",
+    "GOOGLE_LOGIN": "Lanjutkan dengan Google",
+    "FACEBOOK_LOGIN": "Lanjutkan dengan Facebook",
+    "CHOOSE_GENDER": "Pilih jenis kelamin",
+    "ERROR": [
+      "Email atau kata sandi diperlukan",
+      "Anda memiliki satu atau dua bagian yang diperlukan",
+      "Kata sandi tidak cocok",
+      "OK"
+    ]
+  },
+  "NOTIFICATIONS": {
+    "TIME_DIFF": {
+      "MIN_AGO": "{{count}} menit yang lalu",
+      "MIN_AGO_plural": "{{count}} menit yang lalu",
+      "HOUR_AGO": "{{count}} jam lalu",
+      "HOUR_AGO_plural": "{{count}} jam lalu",
+      "DAY_AGO": "{{count}} hari yang lalu",
+      "DAY_AGO_plural": "{{count}} hari yang lalu",
+      "MONTH_AGO": "{{count}} bulan yang lalu",
+      "MONTH_AGO_plural": "{{count}} bulan yang lalu",
+      "YEAR_AGO": "{{count}} tahun yang lalu",
+      "YEAR_AGO_plural": "{{count}} tahun yang lalu"
+    },
+    "TYPES": {
+      "JOIN": "{{user}} bergabung dengan sholat {{prayer}} anda."
+    }
+  },
+  "PRAYER_TIME": {
+    "HEADER": "Waktu Sholat",
+    "SUNRISE": "Matahari terbit",
+    "BEGINS_AFTER": "Dimulai setelah {{time}}",
+    "GETTING_LATEST": "Dapatkan waktu sholat terbaru..."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "Dapatkan pemberitahuan",
+    "DESC": "Mohon memilih daerah yang diiinginkan untuk menerima pemberitahuan. Pemberitahuan akan dikirimkan ke perangkat anda saat ada sholat pada area yang terpilih.",
+    "CONTINUE": "Lanjutkan",
+    "NO_THANKS": "Tidak terima kasih"
+  },
+  "REPORT": {
+    "TITLE": "Laporkan masalah",
+    "DESC": "Bantu kami memahami masalah dengan sholat ini.",
+    "PLACEHOLDER": "Informasi tambahan yang ingin anda tambahkan",
+    "SUBMIT": "Kirimkan",
+    "CATEGORY": [
+      "Ini adalah spam",
+      "Informasi yang diberikan tidak benar",
+      "Mengandung pesan yang bersifat mengancam",
+      "Lainya"
+    ],
+    "ERROR": "Ada yang salah! Coba lagi nanti"
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "Subuh",
+      "dhuhr": "Dhuhur",
+      "asr": "Ashar",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "jumuah": "Jumatan",
+      "janazah": "Jenazah"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "Diundang oleh {{name}}",
+      "PARTICIPATING": "{{num}} berpartisipasi"
+    },
+    "GENDER": {
+      "LABEL": "Jenis Kelamin",
+      "MALE": "Pria",
+      "FEMALE": "Wanita",
+      "CONFIRM": "Konfirmasi"
+    },
+    "LOADING": "Memuat...",
+    "DAY": {
+      "TODAY": "Hari Ini",
+      "YESTERDAY": "Kemarin",
+      "TOMORROW": "Besok"
+    },
+    "DISTANCE": {
+      "KM": "km",
+      "M": "m"
+    }
+  }
+}

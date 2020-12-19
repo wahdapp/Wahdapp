@@ -33,6 +33,10 @@ export default ({ config }) => {
         "resizeMode": "cover"
       },
       "useNextNotificationsApi": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo-fg.png",
+        "backgroundImage": "./assets/images/logo-bg.png"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.wahdapp.wahdapp",

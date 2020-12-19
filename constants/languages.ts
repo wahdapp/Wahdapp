@@ -11,4 +11,8 @@ export const languages = [
     code: 'zh_hans',
     label: '简体中文',
   },
+  {
+    code: 'id',
+    label: 'Bahasa Indonesia',
+  },
 ];

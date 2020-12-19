@@ -4,17 +4,18 @@ import { initReactI18next } from 'react-i18next';
 import zh_hant from './zh_hant.json';
 import zh_hans from './zh_hans.json';
 import en from './en.json';
+import id from './id.json';
 import parseLanguage from './parse';
 
 const resources = {
   en: en,
   zh_hant: zh_hant,
   zh_hans: zh_hans,
+  id, //id
   ar: en, //ar
   ru: en, //ru
   fr: en, //fr
   tr: en, //tr
-  id: en, //id
   az: en, //az
   ms: en, //ms
 };

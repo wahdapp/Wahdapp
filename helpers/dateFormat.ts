@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
+import 'dayjs/locale/id';
 import { auth } from '@/firebase';
 import { TFunction } from 'i18next';
 
@@ -36,6 +37,10 @@ export function formatLanguage(language: string) {
     case 'zh_hans':
       dayjs.locale('zh-cn');
       auth.languageCode = 'zh-CN';
+      break;
+    case 'id':
+      dayjs.locale('id');
+      auth.languageCode = 'id-ID';
       break;
     default:
       dayjs.locale('en');
