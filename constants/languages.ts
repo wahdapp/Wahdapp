@@ -15,4 +15,8 @@ export const languages = [
     code: 'id',
     label: 'Bahasa Indonesia',
   },
+  {
+    code: 'fr',
+    label: 'Français',
+  },
 ];

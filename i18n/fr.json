@@ -1,0 +1,199 @@
+{
+  "HOME": {
+    "HEADER": "Prières à proximité",
+    "EMPTY": "Aucune prière trouvée :("
+  },
+  "FILTER": {
+    "HEADER": "Filtrer",
+    "PRAYERS": "Prières",
+    "SORTBY": "Trier par",
+    "DISTANCE": "Distance",
+    "PARTICIPANTS": "Participants",
+    "TIME": "Heure",
+    "MIN_PARTICIPANTS": "Participants Minimum\n",
+    "PERSON": "personne",
+    "PEOPLE": "personnes",
+    "SAME_GENDER": "Même sexe",
+    "CHECKBOX_DESC": "Si coché, vous ne verrez que les invitations organisées par des femmes.",
+    "BUTTON": "Sauvegarde"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "{{prayer}} Prière",
+    "JOIN": "Rejoindre",
+    "JOINED": "Jointe",
+    "CANCEL": "Annuler",
+    "ENDED": "Terminé",
+    "DESCRIPTION": "Description",
+    "ORGANIZER": "Organizer",
+    "PARTICIPANTS": "Participants",
+    "GUESTS": "Invités",
+    "CANCEL_PRAYER": "Annuler l'invitation",
+    "CANCEL_PRAYER_CONFIRM": "Êtes-vous sûr de vouloir annuler cette invitation?",
+    "NO": "Non",
+    "YES": "Oui",
+    "OPTIONS": ["Voir sur Google Maps", "Déclarer", "Annuler"]
+  },
+  "INVITATION": {
+    "HISTORY_PRAYERS": "Prières passées",
+    "QUERY": "Cherche cette zone",
+    "CONFIRM": "Confirmer",
+    "CANCEL": "Annuler",
+    "HEADER": "Invitation de Prière",
+    "PRAYER": "Prière",
+    "CURRENT_PARTICIPANTS": "Participants Initiaux",
+    "DESCRIPTION": "Description",
+    "PLACEHOLDER": "Décrivez brièvement l'emplacement afin que les autres puissent le trouver facilement",
+    "DATE": "Date",
+    "TIME": "Heure",
+    "CHOOSE_DATE": "Choisissez la date",
+    "CHOOSE_TIME": "Choisissez l'heure",
+    "INVITE": "INVITER",
+    "INVITE_HERE": "INVITE ICI",
+    "ERRORS": ["La date de prière ne doit pas être passée"],
+    "NOTIFICATION": {
+      "TITLE": "Zone de Notification",
+      "DESC": "Faites glisser le marqueur vers la zone dont vous souhaitez recevoir de nouvelles notifications de prière",
+      "CONFIRM": "Confirmer",
+      "CANCEL": "Annuler"
+    }
+  },
+  "PROFILE": {
+    "HEADER": "Profil",
+    "PRAYERS_INVITED": "PRIÈRES\nINVITÉES",
+    "PRAYERS_PARTICIPATED": "PRIÈRES\nPARTICIPÉES",
+    "EMPTY": "Pas de prières invitées jusqu'à présent :(",
+    "LANGUAGE_HEADER": "Choisissez la langue",
+    "CHANGE_PASSWORD": "Changer le mot de passe",
+    "LOGOUT": "Se déconnecter",
+    "DELETE_ACCOUNT": "Supprimer votre compte",
+    "OPTIONS": {
+      "PRIVACY": "Politique de confidentialité",
+      "FAQ": "FAQ",
+      "ABOUT": "Sur nous",
+      "CONTACT": "Contactez-nous",
+      "DONATE": "Donner",
+      "LANGUAGE": "Préférence de langue",
+      "LOGOUT": "Se déconnecter",
+      "CANCEL": "Annuler"
+    }
+  },
+  "TABS": {
+    "HOME": "Page d'accueil",
+    "MAP": "Carte",
+    "PRAYER_TIMES": "Heures de prières",
+    "NOTIFICATION": "Notification",
+    "PROFILE": "Profil",
+    "BACK": "Retour"
+  },
+  "SIGN": {
+    "WELCOME": "Bienvenue",
+    "PROCEED": "Connectez-vous pour continuer",
+    "LOGIN": "Connecter",
+    "FORGOT_PWD": "Mot de passe oublié",
+    "NOT_HAVE": "Vous n'avez pas encore de compte?",
+    "SIGNUP_NOW": "Créer un compte maintenant",
+    "SIGNUP": "Créer un compte",
+    "CONNECT": "Ou connecter via",
+    "CREATE_ACCOUNT": "Créer un compte",
+    "FULL_NAME": "Nom et prénom",
+    "EMAIL": "Adresse email ",
+    "PASSWORD": "Mot de passe",
+    "CONFIRM": "Confirmer votre mot de passe",
+    "FORGOT": {
+      "HEADER": "Mot de Passe Oublié?",
+      "DESCRIPTION": "Saisissez votre email pour changer votre mot de passe."
+    },
+    "RESET": {
+      "HEADER": "Réinitialiser Votre Mot de Passe",
+      "DESCRIPTION": "Un lien de réinitialisation a été envoyé à votre email adresse."
+    },
+    "VERIFY": {
+      "HEADER": "Verifier Votre Email Adresse",
+      "DESCRIPTION": "Un mail de vérification a été envoyé à votre email adresse. Veuillez suivre les étapes nécessaires pour commencer votre voyage!"
+    },
+    "BACK_TO_LOGIN": "RETOUR",
+    "SUBMIT": "SOUMETTRE",
+    "GOOGLE_LOGIN": "Continuer via Google",
+    "FACEBOOK_LOGIN": "Continuer via Facebook",
+    "CHOOSE_GENDER": "Veuillez indiquer votre sexe",
+    "ERROR": [
+      "Absence d'email ou mot de passe",
+      "Absence d'un ou plusieurs champs",
+      "Les mots de passe ne correspondent pas",
+      "OK"
+    ]
+  },
+  "NOTIFICATIONS": {
+    "TIME_DIFF": {
+      "MIN_AGO": "il y a {{count}} minute",
+      "MIN_AGO_plural": "il ya {{count}} minutes",
+      "HOUR_AGO": "il y a {{count}} heure",
+      "HOUR_AGO_plural": "il y a {{count}} heures",
+      "DAY_AGO": "il y a{{count}} jour",
+      "DAY_AGO_plural": "il y a {{count}} jours",
+      "MONTH_AGO": "il y a {{count}} mois",
+      "MONTH_AGO_plural": "il y a {{count}} mois",
+      "YEAR_AGO": "il y a {{count}} an",
+      "YEAR_AGO_plural": "il y a {{count}} ans"
+    },
+    "TYPES": {
+      "JOIN": "{{user}} va rejoindre votre prière de {{prayer}}."
+    }
+  },
+  "PRAYER_TIME": {
+    "HEADER": "Heures de Prière",
+    "SUNRISE": "Lever de soleil",
+    "BEGINS_AFTER": "Commencer dans {{time}}",
+    "GETTING_LATEST": "Mis à jour des heures de prières en cours..."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "Être notifié",
+    "DESC": "Veuillez choisir une zone dont vous souhaitez recevoir de nouvelles notifications de prière. Vous serez notifié chaque fois qu'il y a une nouvelle prière dans la zone sélectionnée.",
+    "CONTINUE": "Continuer",
+    "NO_THANKS": "Non merci"
+  },
+  "REPORT": {
+    "TITLE": "Rapporter un problème",
+    "DESC": "Aidez-nous à comprendre le problème avec cette prière.",
+    "PLACEHOLDER": "Toute information supplémentaire que vous souhaitez ajouter",
+    "SUBMIT": "Soumettre",
+    "CATEGORY": [
+      "C'est un spam",
+      "Les informations données ne sont pas vraies",
+      "Cela contient des messages menaçants",
+      "Autres"
+    ],
+    "ERROR": "Quelque chose a mal fonctionné! Veuillez réessayer plus tard."
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "jumuah": "Jumuah",
+      "janazah": "Janazah"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "invité par {{name}}",
+      "PARTICIPATING": "{{num}} participants"
+    },
+    "GENDER": {
+      "LABEL": "Sexe",
+      "MALE": "Homme",
+      "FEMALE": "Femme",
+      "CONFIRM": "Confirmer"
+    },
+    "LOADING": "Chargement...",
+    "DAY": {
+      "TODAY": "Aujourd'hui",
+      "YESTERDAY": "Hier",
+      "TOMORROW": "Demain"
+    },
+    "DISTANCE": {
+      "KM": "km",
+      "M": "m"
+    }
+  }
+}

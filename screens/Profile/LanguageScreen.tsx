@@ -9,6 +9,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
+import 'dayjs/locale/id';
+import 'dayjs/locale/fr';
 import { updateLocale } from '@/services/user';
 import useLogScreenView from '@/hooks/useLogScreenView';
 
