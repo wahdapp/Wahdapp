@@ -1,7 +1,19 @@
 export const languages = [
   {
+    code: 'id',
+    label: 'Bahasa Indonesia',
+  },
+  {
     code: 'en',
     label: 'English',
+  },
+  {
+    code: 'fr',
+    label: 'Français',
+  },
+  {
+    code: 'tr',
+    label: 'Türkçe',
   },
   {
     code: 'zh_hant',
@@ -10,13 +22,5 @@ export const languages = [
   {
     code: 'zh_hans',
     label: '简体中文',
-  },
-  {
-    code: 'id',
-    label: 'Bahasa Indonesia',
-  },
-  {
-    code: 'fr',
-    label: 'Français',
   },
 ];

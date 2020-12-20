@@ -1,0 +1,194 @@
+{
+  "HOME": {
+    "HEADER": "Etraftaki Cemaat",
+    "EMPTY": "Henüz yakınızda cemaat bulunamadı :("
+  },
+  "FILTER": {
+    "HEADER": "Filtre",
+    "PRAYERS": "Cemaat",
+    "SORTBY": "Sırala",
+    "DISTANCE": "Mesafe",
+    "PARTICIPANTS": "Katılacaklar",
+    "TIME": "Zaman",
+    "MIN_PARTICIPANTS": "Minimum Katılacak\n",
+    "PERSON": "kişi",
+    "PEOPLE": "kişiler",
+    "SAME_GENDER": "Aynı cinsiyet",
+    "CHECKBOX_DESC": " İşaretlerseniz, yalnızca kadınlara göre düzenlenen davetleri görürsünüz.",
+    "BUTTON": "Kaydet"
+  },
+  "PRAYER_DETAILS": {
+    "HEADER": "{{prayer}} Namazı",
+    "JOIN": "Katıl",
+    "JOINED": "Katılıyor",
+    "CANCEL": "İptal",
+    "ENDED": "Bitti",
+    "DESCRIPTION": "Açıklama",
+    "ORGANIZER": "Davet eden",
+    "PARTICIPANTS": "Katılımcılar",
+    "GUESTS": "Misafirler",
+    "CANCEL_PRAYER": "Daveti iptal et",
+    "CANCEL_PRAYER_CONFIRM": "Bu daveti iptal edeceğinize emin misiniz?",
+    "NO": "Hayır",
+    "YES": "Evet",
+    "OPTIONS": ["Google Maps'ta görüntüle", "Raporla", "İptal"]
+  },
+  "INVITATION": {
+    "HISTORY_PRAYERS": "Geçmiş Cemaat",
+    "QUERY": "Bu alanı ara",
+    "CONFIRM": "Onayla",
+    "CANCEL": "İptal",
+    "HEADER": "Cemaat daveti",
+    "PRAYER": "Cemaat",
+    "CURRENT_PARTICIPANTS": "İlk katılımcılar",
+    "DESCRIPTION": "Açıklama",
+    "PLACEHOLDER": "Kısaca konumu tarif ediniz, böylece rahatla bulunabilir",
+    "DATE": "Tarih",
+    "TIME": "Zaman",
+    "CHOOSE_DATE": "Tarih seçiniz",
+    "CHOOSE_TIME": "Zaman seçiniz",
+    "INVITE": "Davet et",
+    "INVITE_HERE": "Buraya davet et",
+    "ERRORS": ["İbadet zamanı bundan önce olamaz"],
+    "NOTIFICATION": {
+      "TITLE": "Bildirim alanı",
+      "DESC": "İşaretleyiciyi cemaat bildirimleri almak istediğiniz alana bırakın",
+      "CONFIRM": "Onayla",
+      "CANCEL": "İptal et"
+    }
+  },
+  "PROFILE": {
+    "HEADER": "Profil",
+    "PRAYERS_INVITED": "Davet edilmiş\nCemaatler",
+    "PRAYERS_PARTICIPATED": "Katılmış\nCemaatler",
+    "EMPTY": "Davetli cemaat bulunmuyor :(",
+    "LANGUAGE_HEADER": "Dil seçiniz",
+    "CHANGE_PASSWORD": "Parola değiştir",
+    "LOGOUT": "Çıkış",
+    "DELETE_ACCOUNT": "Hesabı sil",
+    "OPTIONS": {
+      "PRIVACY": "Gizlilik",
+      "FAQ": "SSS",
+      "ABOUT": "Hakkında",
+      "CONTACT": "İletişim",
+      "DONATE": "Bağış",
+      "LANGUAGE": "Dil tercihi",
+      "LOGOUT": "Çıkış",
+      "CANCEL": "İptal"
+    }
+  },
+  "TABS": {
+    "HOME": "Ana Sayfa",
+    "MAP": "Harita",
+    "PRAYER_TIMES": "Namaz vakitleri",
+    "NOTIFICATION": "Bildirim",
+    "PROFILE": "Profil",
+    "BACK": "Geri"
+  },
+  "SIGN": {
+    "WELCOME": "Hoş Geldiniz",
+    "PROCEED": "Devam etmek için hesap oluşturunuz",
+    "LOGIN": "Giriş",
+    "FORGOT_PWD": "Parolamı unuttum",
+    "NOT_HAVE": "Henüz hesabınız yok mu?",
+    "SIGNUP_NOW": "Şimdi kayıt ol",
+    "SIGNUP": "Kayıt ol",
+    "CONNECT": "veya",
+    "CREATE_ACCOUNT": "Hesap oluştur",
+    "FULL_NAME": "Ad-Soyad",
+    "EMAIL": "Email Adresi",
+    "PASSWORD": "Parola",
+    "CONFIRM": "Parolayı onayla",
+    "FORGOT": {
+      "HEADER": "Parolamı unuttum?",
+      "DESCRIPTION": "Lütfen kaydolmak için kullandığınız maili giriniz. Parolanızı sıfırlamanız için mail göndereceğiz!"
+    },
+    "RESET": {
+      "HEADER": "Parolayı sıfırla",
+      "DESCRIPTION": "E-postası gönderildi. Hesabınız şifresini sıfırlamak için gerekli adımları takip ediniz."
+    },
+    "VERIFY": {
+      "HEADER": "Mail adresini doğrula",
+      "DESCRIPTION": "Bir doğrulama e-postası gönderildi. Lütfen hesabınızı etkinleştirmek için gerekli adımları izleyin!"
+    },
+    "BACK_TO_LOGIN": "Girişe dön",
+    "SUBMIT": "Gönder",
+    "GOOGLE_LOGIN": "Google'la devam et",
+    "FACEBOOK_LOGIN": " Facebook ile devam et",
+    "CHOOSE_GENDER": "Lütfen cinsiyetinizi seçiniz",
+    "ERROR": [
+      "Email veya parola eksik",
+      "Bir veya daha fazla alan eksik",
+      "Parola eşleşmiyor",
+      "TAMAM"
+    ]
+  },
+  "NOTIFICATIONS": {
+    "TIME_DIFF": {
+      "MIN_AGO": "{{count}} dakika kaldı",
+      "MIN_AGO_plural": "{{count}} dakika kaldı",
+      "HOUR_AGO": "{{count}} saat kaldı",
+      "HOUR_AGO_plural": "{{count}} saat kaldı",
+      "DAY_AGO": "{{count}} gün kaldı",
+      "DAY_AGO_plural": "{{count}} gün kaldı",
+      "MONTH_AGO": "{{count}} ay kaldı",
+      "MONTH_AGO_plural": "{{count}} ay kaldı",
+      "YEAR_AGO": "{{count}} yıl kaldı",
+      "YEAR_AGO_plural": "{{count}} yıl kaldı"
+    },
+    "TYPES": {
+      "JOIN": "{{user}} katılıyor {{prayer}} cemaate."
+    }
+  },
+  "PRAYER_TIME": {
+    "HEADER": "Namaz Vakitleri",
+    "SUNRISE": "Güneş",
+    "BEGINS_AFTER": "Vaktin çıkmasına {{time}}",
+    "GETTING_LATEST": "Güncel vakitler alınıyor..."
+  },
+  "GET_NOTIFIED": {
+    "TITLE": "Haberdar ol",
+    "DESC": "Bildirim almak alanı lütfen seçiniz. Her yeni cemaatte bildirim cihazınıza gelecek.",
+    "CONTINUE": "Devam",
+    "NO_THANKS": "Hayır, teşekkürler"
+  },
+  "REPORT": {
+    "TITLE": "Problem bildir",
+    "DESC": "Bununla ilgili sorunu anlamamıza yardımcı olun",
+    "PLACEHOLDER": "Eklemek istediğiniz başka bilgi var mı?",
+    "SUBMIT": "Gönder",
+    "CATEGORY": ["Bir spamdır", "Verilen bilgi doğru değil", "Tehdit mesajı içeriyor", "Diğer"],
+    "ERROR": "Bir şey ters gitti! Daha sonra tekrar deneyiniz"
+  },
+  "COMMON": {
+    "PRAYERS": {
+      "fajr": "Sabah",
+      "dhuhr": "Öğle",
+      "asr": "İkindi",
+      "maghrib": "Akşam",
+      "isha": "Yatsı",
+      "jumuah": "Cuma",
+      "janazah": "Cenaze"
+    },
+    "PRAYER_CARD": {
+      "INVITED": "{{name}} tarafından davet edildi",
+      "PARTICIPATING": "{{num}} kişi katılıyor"
+    },
+    "GENDER": {
+      "LABEL": "Cinsiyet",
+      "MALE": "Erkek",
+      "FEMALE": "Kadın",
+      "CONFIRM": "Onayla"
+    },
+    "LOADING": "Yükleniyor...",
+    "DAY": {
+      "TODAY": "Bugün",
+      "YESTERDAY": "Dün",
+      "TOMORROW": "Yarın"
+    },
+    "DISTANCE": {
+      "KM": "km",
+      "M": "m"
+    }
+  }
+}

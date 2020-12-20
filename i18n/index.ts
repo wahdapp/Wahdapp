@@ -6,6 +6,7 @@ import zh_hans from './zh_hans.json';
 import en from './en.json';
 import id from './id.json';
 import fr from './fr.json';
+import tr from './tr.json';
 import parseLanguage from './parse';
 
 const resources = {
@@ -14,9 +15,9 @@ const resources = {
   zh_hans: zh_hans,
   id,
   fr,
+  tr,
   ar: en, //ar
   ru: en, //ru
-  tr: en, //tr
   az: en, //az
   ms: en, //ms
 };

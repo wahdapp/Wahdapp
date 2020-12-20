@@ -11,6 +11,7 @@ import 'dayjs/locale/zh-tw';
 import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/id';
 import 'dayjs/locale/fr';
+import 'dayjs/locale/tr';
 import { updateLocale } from '@/services/user';
 import useLogScreenView from '@/hooks/useLogScreenView';
 
