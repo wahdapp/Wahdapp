@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.1.0 (2021-02-17)
+
+
+### Bug Fixes
+
+* **permissions:** sync user position, fix notification range ([e4136ad](https://github.com/aboudicheng/Jamaat/commit/e4136ad8f257b31743618ff4a6ced165028fd828))
+
 ### [0.0.3](https://github.com/aboudicheng/Jamaat/compare/v0.0.2...v0.0.3) (2021-02-16)
 
 ### [0.0.2](https://github.com/aboudicheng/Jamaat/compare/v1.0.3...v0.0.2) (2021-02-16)
