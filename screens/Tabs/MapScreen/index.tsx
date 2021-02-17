@@ -73,8 +73,13 @@ export default function MapScreen({ navigation }: Props) {
       await Permissions.getAsync(Permissions.LOCATION);
 
       if (!notifyLocation) {
-        const position = await getLatLong();
-        setNotifyLocation(position);
+        try {
+          const position = await getLatLong();
+          setNotifyLocation(position);
+        } catch (e) {
+          console.log(e);
+          setNotifyLocation({ latitude: 0, longitude: 0 });
+        }
       }
     })();
   }, []);

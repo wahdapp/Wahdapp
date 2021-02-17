@@ -32,6 +32,7 @@ import { deleteDeviceToken } from '@/services/device-token';
 import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
 import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
+import * as Device from 'expo-device';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -45,12 +46,22 @@ export default function ProfileScreen({ navigation }: Props) {
   const user = useUserInfo();
   const dispatch = useDispatch();
 
+  const [isTablet, setIsTablet] = useState(false);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
   const [passwordEmailSent, setPasswordEmailSent] = useState(false);
   const [emailSentMessage, setEmailSentMessage] = useState('');
   const { showActionSheetWithOptions } = useActionSheet();
   const [, setErrorMessage] = useSnackbar();
+
+  useEffect(() => {
+    (async () => {
+      const device = await Device.getDeviceTypeAsync();
+      if (device === Device.DeviceType.TABLET) {
+        setIsTablet(true);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -209,7 +220,11 @@ export default function ProfileScreen({ navigation }: Props) {
           </View>
         </LinearGradient>
 
-        <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
+        {isTablet ? (
+          <View style={{ marginBottom: 20 }} />
+        ) : (
+          <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
+        )}
 
         <View style={[styles.infoSection, { marginTop: 0 }]}>
           <View style={styles.infoContainer}>

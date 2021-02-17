@@ -38,7 +38,7 @@ export default ({ config }) => {
         "backgroundImage": "./assets/images/logo-bg.png"
       },
       "icon": "./assets/images/logo.png",
-      "permissions": ["ACCESS_FINE_LOCATION"]
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
     },
     "ios": {
       ...config.ios,
@@ -53,7 +53,11 @@ export default ({ config }) => {
         "resizeMode": "cover"
       },
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"]
+        "UIBackgroundModes": ["fetch"],
+        "NSLocationWhenInUseUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
+        "NSLocationAlwaysUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
+        "NSLocationUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
       }
     },
     "hooks": {

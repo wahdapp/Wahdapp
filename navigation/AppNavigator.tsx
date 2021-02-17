@@ -35,13 +35,21 @@ export default ({ user }) => {
 
   async function init() {
     // get user location
-    const location = await getLatLong();
-    dispatch(setLocation(location));
+    try {
+      const location = await getLatLong();
+      dispatch(setLocation(location));
+    } catch (e) {
+      dispatch(setLocation({ latitude: 0, longitude: 0 }));
+    }
 
     setInterval(async () => {
       // update user's current position every 30 seconds
-      const location = await getLatLong();
-      dispatch(setLocation(location));
+      try {
+        const location = await getLatLong();
+        dispatch(setLocation(location));
+      } catch (e) {
+        dispatch(setLocation({ latitude: 0, longitude: 0 }));
+      }
     }, 30 * 1000);
 
     await initFilter();

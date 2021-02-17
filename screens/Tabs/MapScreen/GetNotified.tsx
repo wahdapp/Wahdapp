@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState, useEffect } from 'react';
 import { WAVE } from '@/assets/images';
 import { StyleSheet, Image, View, ScrollView } from 'react-native';
 import { Notifications } from 'expo';
@@ -10,6 +10,7 @@ import { useUserInfo } from '@/hooks/redux';
 import { setDeviceToken } from '@/actions/user';
 import { registerToken } from '@/services/device-token';
 import { useTranslation } from 'react-i18next';
+import * as Device from 'expo-device';
 
 type Props = {
   setTip: Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +20,16 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
   const user = useUserInfo();
   const dispatch = useDispatch();
   const { t } = useTranslation(['GET_NOTIFIED']);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const device = await Device.getDeviceTypeAsync();
+      if (device === Device.DeviceType.TABLET) {
+        setIsTablet(true);
+      }
+    })();
+  }, []);
 
   async function verifyPermissions() {
     // Check user's permission statuses on notification & location
@@ -43,7 +54,9 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
     <>
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={styles.waveHeader} />
-        <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
+        {!isTablet && (
+          <Image source={WAVE} style={{ width: '100%', height: 60, marginBottom: 0 }} />
+        )}
         <View style={styles.container}>
           <BoldText style={styles.title}>{t('TITLE')}</BoldText>
           <Text style={styles.desc}>{t('DESC')}</Text>

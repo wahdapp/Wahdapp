@@ -25,7 +25,7 @@ export const SnackbarProvider: React.FC = ({ children }) => {
   return (
     <SnackbarContext.Provider value={[errorMessage, setErrorMessage]}>
       <SnackBar
-        visible={!!errorMessage.length}
+        visible={!!errorMessage?.length}
         textMessage={errorMessage}
         backgroundColor={colors.error}
         actionText={t('ERROR.3')}
