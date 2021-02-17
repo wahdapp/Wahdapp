@@ -90,7 +90,7 @@ function SelectGenderScreen({ setIsFirstOAuth, setUserDataFetched }: Props) {
           <RoundButton
             onPress={chooseGender}
             style={{ maxWidth: 300 }}
-            touchableStyle={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}
+            touchableStyle={{ flexDirection: 'row', justifyContent: 'center' }}
           >
             {t('COMMON:GENDER.CONFIRM')}
           </RoundButton>
