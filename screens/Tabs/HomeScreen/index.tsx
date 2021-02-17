@@ -45,7 +45,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   useEffect(() => {
     query();
-  }, [filter, location]);
+  }, [filter]);
 
   async function query() {
     if (!isEmpty(location)) {

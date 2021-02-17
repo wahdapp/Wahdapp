@@ -22,7 +22,7 @@ import { queryMap } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Prayer, RootStackParamList } from '@/types';
 import GetNotified from './GetNotified';
-import { useMapPrayers, useUserInfo } from '@/hooks/redux';
+import { useMapPrayers, useUserInfo, useLocation } from '@/hooks/redux';
 import { updateUserLocation } from '@/services/user';
 import { setNotifyRegion } from '@/actions/user';
 import { useDispatch } from 'react-redux';
@@ -47,10 +47,10 @@ export default function MapScreen({ navigation }: Props) {
   const { t } = useTranslation(['INVITATION']);
   const dispatch = useDispatch();
   const prayers = useMapPrayers();
+  const userPosition: Region = useLocation() as Region;
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
-  const [userPosition, setUserPosition] = useState<Region>(null);
   const [isQuerying, setIsQuerying] = useState(false);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
   const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location?.lat);
@@ -69,20 +69,14 @@ export default function MapScreen({ navigation }: Props) {
   useEffect(() => {
     (async () => {
       // Check user's permission statuses on notification & location
-      const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
+      await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      await Permissions.getAsync(Permissions.LOCATION);
 
-      if (notifStat === 'granted' && posStat === 'granted') {
-        if (!notifyLocation) {
-          const position = await getLatLong();
-          setNotifyLocation(position);
-        }
+      if (!notifyLocation) {
+        const position = await getLatLong();
+        setNotifyLocation(position);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    getUserPosition();
   }, []);
 
   useEffect(() => {
@@ -110,15 +104,6 @@ export default function MapScreen({ navigation }: Props) {
       );
       setCurrentRegion(region);
     }, 100);
-  }
-
-  async function getUserPosition() {
-    try {
-      const position = await getLatLong();
-      setUserPosition(position);
-    } catch (e) {
-      console.log('Error occurred while getting geolocation');
-    }
   }
 
   function handleDrag(coords) {
@@ -261,16 +246,16 @@ export default function MapScreen({ navigation }: Props) {
     setIsChoosingRange(false);
   }
 
+  if (showAreaSelectionTip) {
+    return <GetNotified setTip={setTip} />;
+  }
+
   if (!userPosition) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <LoaderWithoutOverlay size="large" />
       </View>
     );
-  }
-
-  if (showAreaSelectionTip) {
-    return <GetNotified setTip={setTip} />;
   }
 
   return (
