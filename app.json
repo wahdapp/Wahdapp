@@ -3,20 +3,26 @@
     "name": "Wahdapp",
     "slug": "wahdapp",
     "privacy": "public",
-    "platforms": ["ios", "android", "web"],
-    "version": "0.1.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "description": "",
     "android": {
-      "versionCode": 380000100
+      "versionCode": 380000200
     },
     "ios": {
-      "buildNumber": "0.1.0"
+      "buildNumber": "0.2.0"
     }
   }
 }

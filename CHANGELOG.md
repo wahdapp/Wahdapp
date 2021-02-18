@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/aboudicheng/Jamaat/compare/v0.1.0...v0.2.0) (2021-02-18)
+
+
+### Features
+
+* **auth:** add apple sign in ([d3441d7](https://github.com/aboudicheng/Jamaat/commit/d3441d7d3a6992fd2705a81e551104449e8531fb))
+* **auth:** remove login requirement ([70d2e8d](https://github.com/aboudicheng/Jamaat/commit/70d2e8d12c145cb317c97741e7b9e3dbb7e744a7))
+* **i18n:** add russian locale ([13f3076](https://github.com/aboudicheng/Jamaat/commit/13f307682f2161127dffff5610883c13cd901a42))
+
+
+### Bug Fixes
+
+* **auth:** consider string length ([8bede79](https://github.com/aboudicheng/Jamaat/commit/8bede79d8ce0d74439409f2fb2eb298daf5fb92e))
+* **auth:** select gender flow ([5e3aac3](https://github.com/aboudicheng/Jamaat/commit/5e3aac3562cd1adc183fa5c7859dfa7b84a29d5b))
+* **map:** stop animating to user position after dependency change ([d2f597d](https://github.com/aboudicheng/Jamaat/commit/d2f597dd2b108e87b1afae355f7af3a08ac388ef))
+
 ## 0.1.0 (2021-02-17)
 
 
