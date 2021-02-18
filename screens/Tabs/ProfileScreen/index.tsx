@@ -194,7 +194,7 @@ export default function ProfileScreen({ navigation }: Props) {
     }
   }
 
-  if (!user?.id) {
+  if (!user?.email) {
     return <SelectGenderScreen />;
   }
 

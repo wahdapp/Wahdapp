@@ -75,6 +75,8 @@ export default function PrayerCard({ navigate, ...props }: Props) {
     // only allow logged users to view in details
     if (isAuth) {
       navigate('PrayerDetail', props);
+    } else {
+      navigate('Auth');
     }
   }
 
