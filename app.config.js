@@ -44,6 +44,7 @@ export default ({ config }) => {
       ...config.ios,
       "bundleIdentifier": "com.aboudicheng.wahdapp",
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleMapsApiKey": process.env.IOS_GOOGLE_MAPS_API_KEY,

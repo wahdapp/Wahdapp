@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, ScrollView, TextInput, Linking } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, TextInput, Linking, Platform } from 'react-native';
 import { useSnackbar } from '@/contexts/snackbar';
 import { Text, Touchable, BoldText, Loader, RoundButton } from '@/components';
 import { auth, signInWithFacebook, signInWithGoogle } from '@/firebase';
@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { setDeviceToken } from '@/actions/user';
 import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
+import firebase from 'firebase/app';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -87,15 +89,33 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
     }
   }
 
-  // async function handleApplePress() {
-  //   try {
+  async function handleApplePress() {
+    try {
+      const appleCredential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
 
-  //   } catch (e) {
-  //     logEvent('login', { status: 'failure', method: 'apple' });
-  //     // setLoading(false);
-  //     displayError(e.message);
-  //   }
-  // }
+      const { identityToken } = appleCredential;
+
+      if (identityToken) {
+        const provider = new firebase.auth.OAuthProvider('apple.com');
+        const credential = provider.credential({
+          idToken: identityToken,
+        });
+
+        await auth.signInWithCredential(credential);
+        await registerPushToken();
+      }
+    } catch (e) {
+      console.log(e);
+      logEvent('login', { status: 'failure', method: 'apple' });
+      // setLoading(false);
+      displayError(e.message);
+    }
+  }
 
   if (loading) return <Loader />;
 
@@ -198,21 +218,23 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
             </Touchable>
           </Animatable.View>
 
-          <Animatable.View
-            animation="bounceIn"
-            delay={2000}
-            style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
-          >
-            <Touchable onPress={handleGooglePress}>
-              <View style={styles.googleButton}>
-                <Image
-                  style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }}
-                  source={APPLE}
-                />
-                <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('APPLE_LOGIN')}</Text>
-              </View>
-            </Touchable>
-          </Animatable.View>
+          {Platform.OS === 'ios' && (
+            <Animatable.View
+              animation="bounceIn"
+              delay={2000}
+              style={{ ...styles.loginBtnContainer, width: '100%', marginTop: 15 }}
+            >
+              <Touchable onPress={handleApplePress}>
+                <View style={styles.googleButton}>
+                  <Image
+                    style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 15 }}
+                    source={APPLE}
+                  />
+                  <Text style={{ fontSize: 10, color: '#7F7F7F' }}>{t('APPLE_LOGIN')}</Text>
+                </View>
+              </Touchable>
+            </Animatable.View>
+          )}
 
           <View style={{ ...styles.loginBtnContainer, marginVertical: 15 }}>
             <View>

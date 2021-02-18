@@ -48,7 +48,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   useEffect(() => {
     query();
-  }, [filter]);
+  }, [location, filter]);
 
   async function query() {
     if (!isEmpty(location)) {
@@ -88,6 +88,7 @@ export default function HomeScreen({ navigation }: Props) {
         setCurrentPage((prev) => prev + 1);
       }
     } catch (e) {
+      setIsFetching(false);
       setHasMore(false);
       dispatch({ type: 'SET_FEED', payload: [] });
       console.log(e);
