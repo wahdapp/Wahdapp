@@ -16,7 +16,7 @@ import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
 import { Notification } from 'expo/build/Notifications/Notifications.types';
 
-export default ({ user }) => {
+export default function AppNavigator({ user, position }) {
   const [userDataFetched, setUserDataFetched] = useState(false);
   const dispatch = useDispatch();
 
@@ -50,23 +50,9 @@ export default ({ user }) => {
   }, [user]);
 
   async function init() {
-    // get user location
-    try {
-      const location = await getLatLong();
-      dispatch(setLocation(location));
-    } catch (e) {
-      dispatch(setLocation({ latitude: 0, longitude: 0 }));
+    if (position) {
+      dispatch(setLocation(position));
     }
-
-    // setInterval(async () => {
-    //   // update user's current position every 30 seconds
-    //   try {
-    //     const location = await getLatLong();
-    //     dispatch(setLocation(location));
-    //   } catch (e) {
-    //     dispatch(setLocation({ latitude: 0, longitude: 0 }));
-    //   }
-    // }, 30 * 1000);
 
     await initFilter();
   }
@@ -111,4 +97,4 @@ export default ({ user }) => {
       <MainTabNavigator />
     </NavigationContainer>
   );
-};
+}

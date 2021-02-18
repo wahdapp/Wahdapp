@@ -16,6 +16,7 @@ import AppNavigator from './navigation/AppNavigator';
 import '@/helpers/clearTimer';
 import './i18n';
 import * as Sentry from 'sentry-expo';
+import { getLatLong } from './helpers/geo';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -46,6 +47,7 @@ export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [userAuth, setUserAuth] = useState(null);
+  const [position, setPosition] = useState(null);
 
   useEffect(() => {
     getLocationPermission();
@@ -71,6 +73,21 @@ export default function App(props) {
     await Permissions.askAsync(Permissions.NOTIFICATIONS);
   }
 
+  async function loadResourcesAsync() {
+    await Font.loadAsync({
+      Sen: require('./assets/fonts/Sen-Regular.ttf'),
+      SenBold: require('./assets/fonts/Sen-Bold.ttf'),
+      ...Feather.font,
+    });
+
+    try {
+      const pos = await getLatLong();
+      setPosition(pos);
+    } catch (e) {
+      console.log('Error while getting position');
+    }
+  }
+
   if ((!isLoadingComplete && !props.skipLoadingScreen) || isAuthenticating) {
     return (
       <AppLoading
@@ -89,7 +106,7 @@ export default function App(props) {
             <View style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <Provider store={store}>
-                <AppNavigator user={userAuth} />
+                <AppNavigator user={userAuth} position={position} />
               </Provider>
             </View>
           </Provider>
@@ -97,14 +114,6 @@ export default function App(props) {
       </Root>
     </SnackbarProvider>
   );
-}
-
-async function loadResourcesAsync() {
-  await Font.loadAsync({
-    Sen: require('./assets/fonts/Sen-Regular.ttf'),
-    SenBold: require('./assets/fonts/Sen-Bold.ttf'),
-    ...Feather.font,
-  });
 }
 
 function handleLoadingError(error) {
