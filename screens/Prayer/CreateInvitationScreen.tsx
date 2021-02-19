@@ -49,7 +49,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   const user = useUserInfo();
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
-  const isComplete = useMemo(() => selectedPrayer && description && time, [
+  const isComplete = useMemo(() => !!selectedPrayer.length && !!description.length && !!time, [
     selectedPrayer,
     description,
     time,
@@ -155,7 +155,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       {isLoading && <Loader />}
       <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
         <View style={styles.detailSection}>
-          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')}</BoldText>
+          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')} *</BoldText>
           <FlatList
             style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
             contentContainerStyle={{ paddingRight: 45 }}
@@ -250,7 +250,9 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
         </View>
 
         <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
-          <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>{t('DESCRIPTION')}</BoldText>
+          <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>
+            {t('DESCRIPTION')} *
+          </BoldText>
           <TextInput
             multiline={true}
             numberOfLines={6}
@@ -263,7 +265,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
         </View>
 
         <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('DATE')}</BoldText>
+          <BoldText style={styles.sectionHeader}>{t('DATE')} *</BoldText>
           <Touchable
             onPress={() => setIsDatePickerVisible(true)}
             style={{
@@ -287,7 +289,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
         </View>
 
         <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('TIME')}</BoldText>
+          <BoldText style={styles.sectionHeader}>{t('TIME')} *</BoldText>
           <Touchable
             onPress={() => setIsTimePickerVisible(true)}
             style={{
@@ -337,7 +339,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
             <View
               style={{
                 ...styles.inviteBtn,
-                backgroundColor: colors.primary,
+                backgroundColor: isComplete ? colors.primary : '#dedede',
                 borderColor: isComplete ? colors.primary : '#dedede',
                 borderWidth: isComplete ? 2 : 0,
               }}

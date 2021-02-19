@@ -34,8 +34,9 @@ function SelectGenderScreen() {
       setIsCreating(true);
 
       const user = {
-        full_name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
+        full_name:
+          auth.currentUser.displayName ?? auth.currentUser.providerData[0].email.split('@')[0],
+        email: auth.currentUser.email ?? auth.currentUser.providerData[0].email,
         gender,
         locale: i18n.language,
       };
