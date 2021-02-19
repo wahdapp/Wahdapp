@@ -29,7 +29,6 @@ import { useDispatch } from 'react-redux';
 import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
 import { getLatLong } from '@/helpers/geo';
-import { auth } from '@/firebase';
 import { useAuthStatus } from '@/hooks/auth';
 
 type FilteredMapQuery = Prayer & { geohash: string };
@@ -120,6 +119,8 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   function handleLongPress(coords) {
+    // prevent users without an account to select
+    if (!isAuth) return;
     // prevent getting triggered while choosing notification area
     if (isChoosingRange) return;
 
@@ -142,6 +143,8 @@ export default function MapScreen({ navigation }: Props) {
 
   // Google Maps only
   function handlePoiClick(coords) {
+    // prevent users without an account to select
+    if (!isAuth) return;
     // prevent getting triggered while choosing notification area
     if (isChoosingRange) return;
 
