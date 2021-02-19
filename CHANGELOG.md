@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/aboudicheng/Jamaat/compare/v0.2.0...v0.2.1) (2021-02-19)
+
+
+### Bug Fixes
+
+* apple signup, invitation required fields ([2095885](https://github.com/aboudicheng/Jamaat/commit/20958854da68084040820889bc8e3e34355f4335))
+* **map:** restrict actions for users without accounts ([fcf27af](https://github.com/aboudicheng/Jamaat/commit/fcf27af34ec89e64d453ae17729a217850061985))
+
 ## [0.2.0](https://github.com/aboudicheng/Jamaat/compare/v0.1.0...v0.2.0) (2021-02-18)
 
 
