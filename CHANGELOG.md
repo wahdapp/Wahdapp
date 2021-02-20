@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/aboudicheng/Jamaat/compare/v0.2.2...v0.2.3) (2021-02-20)
+
+
+### Bug Fixes
+
+* **permission:** guide user to permission settings ([795f7c5](https://github.com/aboudicheng/Jamaat/commit/795f7c53e0c29955ba38ef732ecf8146b3ab6073))
+
 ### [0.2.2](https://github.com/aboudicheng/Jamaat/compare/v0.2.1...v0.2.2) (2021-02-20)
 
 
