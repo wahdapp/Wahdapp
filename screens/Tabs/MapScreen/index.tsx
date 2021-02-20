@@ -7,6 +7,9 @@ import {
   View,
   TouchableWithoutFeedback,
   Platform,
+  AsyncStorage,
+  Linking,
+  Alert,
 } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Text, LoaderWithoutOverlay, RoundButton, BoldText } from '@/components';
@@ -30,6 +33,9 @@ import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
 import { getLatLong } from '@/helpers/geo';
 import { useAuthStatus } from '@/hooks/auth';
+import { Notifications } from 'expo';
+import { registerToken } from '@/services/device-token';
+import { askPermissions, guideToSettings } from '@/helpers/permission';
 
 type FilteredMapQuery = Prayer & { geohash: string };
 type Region = {
@@ -65,23 +71,26 @@ export default function MapScreen({ navigation }: Props) {
         }
       : null
   );
+  const [hasSeenGetNotified, setHasSeenGetNotified] = useState(true); // whether the user has previously seen the GetNotified screen
   const mapRef = useRef(null);
   const circleRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      // Check user's permission statuses on notification & location
-      await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      await Permissions.getAsync(Permissions.LOCATION);
+      try {
+        await askPermissions();
 
-      if (!notifyLocation) {
-        try {
-          const position = await getLatLong();
-          setNotifyLocation(position);
-        } catch (e) {
-          console.log(e);
-          setNotifyLocation({ latitude: 0, longitude: 0 });
+        if (!notifyLocation) {
+          try {
+            const position = await getLatLong();
+            setNotifyLocation(position);
+          } catch (e) {
+            console.log(e);
+            setNotifyLocation({ latitude: 0, longitude: 0 });
+          }
         }
+      } catch (e) {
+        guideToSettings();
       }
     })();
   }, []);
@@ -97,6 +106,20 @@ export default function MapScreen({ navigation }: Props) {
       animateToRegion(notifyLocation ?? userPosition);
     }
   }, [isChoosingRange, mapRef]);
+
+  useEffect(() => {
+    // if the GetNotified screen has been seen before, don't show it again
+    if (isAuth && showAreaSelectionTip) {
+      (async () => {
+        const hasSeen = await AsyncStorage.getItem('get_notified_visited');
+
+        if (!hasSeen) {
+          setHasSeenGetNotified(false);
+          AsyncStorage.setItem('get_notified_visited', 'true');
+        }
+      })();
+    }
+  }, [isAuth, showAreaSelectionTip]);
 
   function animateToRegion(region: Region) {
     setTimeout(() => {
@@ -244,12 +267,13 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   async function handleNotificationBtnPress() {
-    // Check user's permission statuses on notification & location
-    const { status: notifStat } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    const { status: posStat } = await Permissions.getAsync(Permissions.LOCATION);
-
-    if (notifStat === 'granted' && posStat === 'granted') {
+    try {
+      await askPermissions();
+      const token = await Notifications.getExpoPushTokenAsync();
+      await registerToken(token);
       setIsChoosingRange(true);
+    } catch (e) {
+      guideToSettings();
     }
   }
 
@@ -261,7 +285,7 @@ export default function MapScreen({ navigation }: Props) {
     setIsChoosingRange(false);
   }
 
-  if (isAuth && showAreaSelectionTip) {
+  if (isAuth && showAreaSelectionTip && !hasSeenGetNotified) {
     return <GetNotified setTip={setTip} />;
   }
 

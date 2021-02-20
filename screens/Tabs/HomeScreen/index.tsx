@@ -58,11 +58,16 @@ export default function HomeScreen({ navigation }: Props) {
 
       setIsFetching(false);
       setIsRefreshing(false);
+    } else {
+      setIsFetching(false);
+      setHasMore(false);
+      dispatch({ type: 'SET_FEED', payload: [] });
     }
   }
 
   async function fetchNearbyPrayers(refresh = false) {
     try {
+      console.log('fetch');
       const list = await queryFeed({
         lng: location.longitude,
         lat: location.latitude,

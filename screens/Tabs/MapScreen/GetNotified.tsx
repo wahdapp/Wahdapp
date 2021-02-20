@@ -11,6 +11,7 @@ import { setDeviceToken } from '@/actions/user';
 import { registerToken } from '@/services/device-token';
 import { useTranslation } from 'react-i18next';
 import * as Device from 'expo-device';
+import { askPermissions, guideToSettings } from '@/helpers/permission';
 
 type Props = {
   setTip: Dispatch<React.SetStateAction<boolean>>;
@@ -32,23 +33,25 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
   }, []);
 
   async function verifyPermissions() {
-    // Check user's permission statuses on notification & location
-    await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    await Permissions.getAsync(Permissions.LOCATION);
+    try {
+      await askPermissions();
 
-    // register device token if the user previously denied permission
-    if (!user.device_token) {
-      try {
-        const token = await Notifications.getExpoPushTokenAsync();
-        await registerToken(token);
-        dispatch(setDeviceToken(token));
-      } catch (e) {
-        console.log('Error occurred while registering device token');
-        setTip(false);
+      // register device token if the user previously denied permission
+      if (!user.device_token) {
+        try {
+          const token = await Notifications.getExpoPushTokenAsync();
+          await registerToken(token);
+          dispatch(setDeviceToken(token));
+        } catch (e) {
+          console.log('Error occurred while registering device token');
+          setTip(false);
+        }
       }
+      // let user choose area to be notified
+      setTip(true);
+    } catch (e) {
+      guideToSettings();
     }
-    // let user choose area to be notified
-    setTip(true);
   }
   return (
     <>
