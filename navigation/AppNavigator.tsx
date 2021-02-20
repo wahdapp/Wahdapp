@@ -42,6 +42,7 @@ export default function AppNavigator({ user, position }) {
           dispatch(setUser(userInfo));
         } catch (e) {
           console.log(e);
+          setUserDataFetched(false);
         }
       })();
     } else {
