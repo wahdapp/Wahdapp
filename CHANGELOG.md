@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/aboudicheng/Jamaat/compare/v0.2.3...v0.2.4) (2021-02-21)
+
+
+### Bug Fixes
+
+* **android:** redirect to correct setting screen ([d0ccfdd](https://github.com/aboudicheng/Jamaat/commit/d0ccfdd9a73ffdd04c25b77a8f4413c9d1a6d359))
+* several ux issues ([c5c11aa](https://github.com/aboudicheng/Jamaat/commit/c5c11aa85f650b939822acc81828808e1691d08c))
+
 ### [0.2.3](https://github.com/aboudicheng/Jamaat/compare/v0.2.2...v0.2.3) (2021-02-20)
 
 
