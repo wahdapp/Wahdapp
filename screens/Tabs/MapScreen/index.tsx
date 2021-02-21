@@ -279,11 +279,11 @@ export default function MapScreen({ navigation }: Props) {
 
   async function confirmNotificationRange() {
     try {
-    const region = { lat: notifyLocation.latitude, lng: notifyLocation.longitude };
-    await updateUserLocation(region);
-    dispatch(setNotifyRegion(region));
+      const region = { lat: notifyLocation.latitude, lng: notifyLocation.longitude };
+      await updateUserLocation(region);
+      dispatch(setNotifyRegion(region));
 
-    setIsChoosingRange(false);
+      setIsChoosingRange(false);
     } catch (e) {
       setIsChoosingRange(false);
     }
@@ -586,4 +586,3 @@ function Dot({ coordinate, onPress, color = colors.primary }) {
     </Marker>
   );
 }
->
