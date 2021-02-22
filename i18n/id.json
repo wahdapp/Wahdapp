@@ -59,8 +59,8 @@
   },
   "PROFILE": {
     "HEADER": "Profil",
-    "PRAYERS_INVITED": "SHOLAT\nUNDANGAN",
-    "PRAYERS_PARTICIPATED": "SHOLAT\nBERPARTISIPASI",
+    "PRAYERS_INVITED": "UNDANGAN\nSHOLAT",
+    "PRAYERS_PARTICIPATED": "BERPARTISIPASI\nSHOLAT",
     "EMPTY": "Tidak ada undangan sholat :(",
     "LANGUAGE_HEADER": "Pilih Bahasa",
     "CHANGE_PASSWORD": "Ganti Kata Sandi",
