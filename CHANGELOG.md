@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/aboudicheng/Jamaat/compare/v0.2.5...v0.3.0) (2021-02-24)
+
+
+### Features
+
+* **ux:** smoother signup flow with 3rd party services, fix permissions ([9ad72a1](https://github.com/aboudicheng/Jamaat/commit/9ad72a156d8203624b98271730f2b63faa97f8d9))
+
 ### [0.2.5](https://github.com/aboudicheng/Jamaat/compare/v0.2.4...v0.2.5) (2021-02-22)
 
 
