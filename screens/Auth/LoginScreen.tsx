@@ -120,11 +120,11 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
     }
   }
 
+  if (loading) return <Loader />;
+
   if (auth.currentUser && !user?.email?.length) {
     return <SelectGenderScreen />;
   }
-
-  if (loading) return <Loader />;
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
