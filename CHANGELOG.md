@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/aboudicheng/Jamaat/compare/v0.3.0...v0.3.1) (2021-03-01)
+
+
+### Bug Fixes
+
+* **auth:** do not await for token registration result ([090c836](https://github.com/aboudicheng/Jamaat/commit/090c836210b0e7906063a9f761510fea32c47abc))
+* **auth:** select gender screen after loading ([5fd8dcb](https://github.com/aboudicheng/Jamaat/commit/5fd8dcb2775af40f2eff30a3ad960310a114a8af))
+
 ## [0.3.0](https://github.com/aboudicheng/Jamaat/compare/v0.2.5...v0.3.0) (2021-02-24)
 
 

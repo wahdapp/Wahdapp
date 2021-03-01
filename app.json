@@ -8,7 +8,7 @@
       "android",
       "web"
     ],
-    "version": "0.3.0",
+    "version": "0.3.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "updates": {
@@ -19,10 +19,10 @@
     ],
     "description": "",
     "android": {
-      "versionCode": 380000300
+      "versionCode": 380000301
     },
     "ios": {
-      "buildNumber": "0.3.0"
+      "buildNumber": "0.3.1"
     }
   }
 }
