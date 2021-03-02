@@ -19,7 +19,7 @@
     <br />
     <a href="https://play.google.com/store/apps/details?id=com.aboudicheng.wahdapp" target="_blank" rel="noreferrer">Google Play</a>
     ·
-    <a href="">App Store</a>
+    <a href="https://apps.apple.com/app/id1554030477" target="_blank" rel="noreferrer">App Store</a>
     <br />
     <br />
   </p>
