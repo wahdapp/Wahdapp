@@ -337,6 +337,7 @@ export default function MapScreen({ navigation }: Props) {
         ref={mapRef}
         style={{ flex: 1 }}
         showsUserLocation={true}
+        showsMyLocationButton={false}
         onLongPress={handleLongPress}
         onPoiClick={handlePoiClick}
         onRegionChangeComplete={handleDrag}
