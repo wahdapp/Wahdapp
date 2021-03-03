@@ -36,6 +36,7 @@ import { useAuthStatus } from '@/hooks/auth';
 import { Notifications } from 'expo';
 import { registerToken } from '@/services/device-token';
 import { askPermissions, guideToSettings } from '@/helpers/permission';
+import { useSnackbar } from '@/contexts/snackbar';
 
 type FilteredMapQuery = Prayer & { geohash: string };
 type Region = {
@@ -52,10 +53,11 @@ export default function MapScreen({ navigation }: Props) {
   useLogScreenView('map');
   const isAuth = useAuthStatus();
   const user = useUserInfo();
-  const { t } = useTranslation(['INVITATION']);
+  const { t } = useTranslation(['INVITATION', 'HOME']);
   const dispatch = useDispatch();
   const prayers = useMapPrayers();
   const userPosition: Region = useLocation() as Region;
+  const [, setErrorMessage] = useSnackbar();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
@@ -230,6 +232,10 @@ export default function MapScreen({ navigation }: Props) {
         lng: currentRegion.longitude,
         isAuth,
       });
+
+      if (!list.length) {
+        setErrorMessage(t('HOME:EMPTY'));
+      }
 
       dispatch({ type: 'SET_MAP', payload: list });
 
