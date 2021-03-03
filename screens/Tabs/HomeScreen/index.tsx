@@ -66,37 +66,38 @@ export default function HomeScreen({ navigation }: Props) {
   }
 
   async function fetchNearbyPrayers(refresh = false) {
-    try {
-      console.log('fetch');
-      const list = await queryFeed({
-        lng: location.longitude,
-        lat: location.latitude,
-        pageNumber: refresh ? 0 : currentPage,
-        sortType: filter.sortBy,
-        isAuth,
-      });
+    if (!isEmpty(location)) {
+      try {
+        const list = await queryFeed({
+          lng: location.longitude,
+          lat: location.latitude,
+          pageNumber: refresh ? 0 : currentPage,
+          sortType: filter.sortBy,
+          isAuth,
+        });
 
-      // Stop fetching more
-      if (list.length < PAGE_SIZE) {
+        // Stop fetching more
+        if (list.length < PAGE_SIZE) {
+          setHasMore(false);
+        }
+        // if scrolling to the end
+        else {
+          setHasMore(true);
+        }
+
+        if (refresh) {
+          dispatch({ type: 'SET_FEED', payload: list });
+          setCurrentPage(1);
+        } else {
+          dispatch({ type: 'ADD_TO_FEED', payload: list });
+          setCurrentPage((prev) => prev + 1);
+        }
+      } catch (e) {
+        setIsFetching(false);
         setHasMore(false);
+        dispatch({ type: 'SET_FEED', payload: [] });
+        console.log(e);
       }
-      // if scrolling to the end
-      else {
-        setHasMore(true);
-      }
-
-      if (refresh) {
-        dispatch({ type: 'SET_FEED', payload: list });
-        setCurrentPage(1);
-      } else {
-        dispatch({ type: 'ADD_TO_FEED', payload: list });
-        setCurrentPage((prev) => prev + 1);
-      }
-    } catch (e) {
-      setIsFetching(false);
-      setHasMore(false);
-      dispatch({ type: 'SET_FEED', payload: [] });
-      console.log(e);
     }
   }
 
