@@ -34,12 +34,10 @@ function HistoryListWrapper(type: 'invited' | 'participated') {
       try {
         let prayersList: Prayer[];
         if (type === 'invited') {
-          prayersList = await getInvitedList(auth.currentUser.uid, currentPage);
+          prayersList = await getInvitedList(auth.currentUser.uid, refresh ? 0 : currentPage);
         } else {
-          prayersList = await getParticipatedList(auth.currentUser.uid, currentPage);
+          prayersList = await getParticipatedList(auth.currentUser.uid, refresh ? 0 : currentPage);
         }
-
-        console.log({ type, prayersList });
 
         // Stop fetching more
         if (prayersList.length < PAGE_SIZE) {
