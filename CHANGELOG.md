@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/aboudicheng/Jamaat/compare/v0.3.3...v0.3.4) (2021-03-08)
+
+
+### Bug Fixes
+
+* **env:** staging env ([85fc5d5](https://github.com/aboudicheng/Jamaat/commit/85fc5d5c7254521405ea7c1a3bfdea2c5d297497))
+* **feed:** prevent calling api without location enabled ([1be502a](https://github.com/aboudicheng/Jamaat/commit/1be502a2be271876ac633ae90fd4371aec74f9d3))
+* **feed:** prevent further scroll triggers ([dea7234](https://github.com/aboudicheng/Jamaat/commit/dea72346b54a82fb4d3101de4066afdbf03658d3))
+* **permissions:** guide to settings after catching exception ([e214313](https://github.com/aboudicheng/Jamaat/commit/e214313891942a7b6ea5002ef2576fb4dd5bed03))
+* **profile:** history list refresh ([ac4c940](https://github.com/aboudicheng/Jamaat/commit/ac4c9406acdc1d6e5289d8ed0705f61b5040eeb1))
+
 ### [0.3.3](https://github.com/aboudicheng/Jamaat/compare/v0.3.2...v0.3.3) (2021-03-03)
 
 
