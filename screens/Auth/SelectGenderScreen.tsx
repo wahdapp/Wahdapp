@@ -8,7 +8,7 @@ import { initializeFilter } from '@/actions/filter';
 import { useTranslation } from 'react-i18next';
 import { createUser } from '@/services/user';
 import { registerToken } from '@/services/device-token';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
 import { logEvent } from 'expo-firebase-analytics';
@@ -24,7 +24,7 @@ function SelectGenderScreen() {
 
   async function registerPushToken() {
     try {
-      const token = await Notifications.getExpoPushTokenAsync();
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
       await registerToken(token);
 
       dispatch(setDeviceToken(token));

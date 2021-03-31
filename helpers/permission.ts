@@ -1,4 +1,5 @@
 import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 import { Alert, Linking, Platform } from 'react-native';
 
 export const askPermissions = async () => {
@@ -12,7 +13,7 @@ export const askPermissions = async () => {
 
   // do not force the user to turn on notification permission
   try {
-    await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    await Notifications.getPermissionsAsync();
   } catch (e) {
     console.log(e);
   }

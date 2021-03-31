@@ -7,11 +7,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Platform,
-  AsyncStorage,
-  Linking,
-  Alert,
 } from 'react-native';
-import * as Permissions from 'expo-permissions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, LoaderWithoutOverlay, RoundButton, BoldText } from '@/components';
 import dayjs from 'dayjs';
 import { Feather } from '@expo/vector-icons';
@@ -33,7 +30,7 @@ import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
 import { getLatLong } from '@/helpers/geo';
 import { useAuthStatus } from '@/hooks/auth';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import { registerToken } from '@/services/device-token';
 import { askPermissions, guideToSettings } from '@/helpers/permission';
 import { useSnackbar } from '@/contexts/snackbar';
@@ -279,7 +276,7 @@ export default function MapScreen({ navigation }: Props) {
       // }
 
       setIsChoosingRange(true);
-      const token = await Notifications.getExpoPushTokenAsync();
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
       registerToken(token);
     } catch (e) {
       guideToSettings();

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Slider,
-  AsyncStorage,
-  FlatList,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Slider, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CheckBox } from 'native-base';
 import { Text, BoldText, RoundButton, Loader } from '@/components';
 import { Feather } from '@expo/vector-icons';

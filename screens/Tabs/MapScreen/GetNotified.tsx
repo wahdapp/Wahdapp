@@ -1,7 +1,7 @@
 import React, { Dispatch, useState, useEffect } from 'react';
 import { WAVE } from '@/assets/images';
 import { StyleSheet, Image, View, ScrollView } from 'react-native';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import { BoldText, RoundButton, Text } from '@/components';
 import colors from '@/constants/colors';
@@ -36,7 +36,7 @@ const GetNotified: React.FC<Props> = ({ setTip }) => {
     // register device token if the user previously denied permission
     if (!user.device_token) {
       try {
-        const token = await Notifications.getExpoPushTokenAsync();
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
         registerToken(token);
         dispatch(setDeviceToken(token));
       } catch (e) {

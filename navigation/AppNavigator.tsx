@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { setLocation } from '@/actions/location';
@@ -8,12 +8,19 @@ import { setFilter } from '@/actions/filter';
 import { setNotificationRedirect } from '@/actions/notifications';
 import { Loader } from '@/components';
 import MainTabNavigator from './MainTabNavigator';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import { getUserInfo, updateLocale } from '@/services/user';
 import { getPrayerByID } from '@/services/prayer';
 import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
-import { Notification } from 'expo/build/Notifications/Notifications.types';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function AppNavigator({ user, position }) {
   const [userDataFetched, setUserDataFetched] = useState(false);
@@ -22,11 +29,15 @@ export default function AppNavigator({ user, position }) {
   useEffect(() => {
     init();
 
-    const listener = Notifications.addListener(handleNotification);
+    const notificationListener = Notifications.addNotificationReceivedListener(handleNotification);
+    const responseListener = Notifications.addNotificationResponseReceivedListener(
+      handleNotificationResponse
+    );
 
     return () => {
-      // unsubscribe listener
-      listener.remove();
+      // unsubscribe listeners
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
 
@@ -71,23 +82,15 @@ export default function AppNavigator({ user, position }) {
     }
   }
 
-  async function handleNotification(notification: Notification) {
-    if (notification.remote && notification.origin === 'selected') {
-      if (notification.data.id) {
-        const prayer = await getPrayerByID(notification.data.id);
-        dispatch(setNotificationRedirect({ screen: 'PrayerDetail', payload: prayer }));
-      }
-    }
+  async function handleNotification(notification: Notifications.Notification) {
+    // handle any new incoming notification
+  }
 
-    // "notification": Object {
-    //   "actionId": null,
-    //   "data": Object {
-    //     "id": "de43ec2a-05be-4d63-99dc-7cb63394d2c7",
-    //   },
-    //   "origin": "received",
-    //   "remote": true,
-    //   "userText": null,
-    // },
+  async function handleNotificationResponse(response: Notifications.NotificationResponse) {
+    if (response.notification.request.content.data.id) {
+      const prayer = await getPrayerByID(response.notification.request.content.data.id as string);
+      dispatch(setNotificationRedirect({ screen: 'PrayerDetail', payload: prayer }));
+    }
   }
 
   if (!userDataFetched) {

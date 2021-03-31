@@ -7,7 +7,7 @@ import { APPLE, GOOGLE, LOGO_WHITE } from '@/assets/images';
 import { useTranslation } from 'react-i18next';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import { registerToken } from '@/services/device-token';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
@@ -47,8 +47,9 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
 
   async function registerPushToken() {
     try {
-      const token = await Notifications.getExpoPushTokenAsync();
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
       await registerToken(token);
+      console.log({ token });
 
       dispatch(setDeviceToken(token));
     } catch (e) {

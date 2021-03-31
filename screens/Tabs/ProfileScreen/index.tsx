@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   View,
-  AsyncStorage,
   StyleSheet,
   Image,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
   Linking,
   Platform,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSnackbar } from '@/contexts/snackbar';
 import SnackBar from 'react-native-snackbar-component';
