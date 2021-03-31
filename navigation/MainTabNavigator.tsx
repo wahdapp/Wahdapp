@@ -37,6 +37,7 @@ import { MAN_AVATAR, WOMAN_AVATAR } from '@/assets/images';
 import { RootStackParamList } from '@/types';
 import { useUserInfo } from '@/hooks/redux';
 import { useAuthStatus } from '@/hooks/auth';
+import { auth } from '@/firebase';
 
 const headerStyle = {
   backgroundColor: '#fff',
@@ -185,7 +186,7 @@ function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={auth.currentUser ? 'Home' : 'Auth'}
       activeColor={colors.primary}
       barStyle={{ backgroundColor: '#fff', height: 60, justifyContent: 'center' }}
     >
