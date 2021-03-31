@@ -1,6 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { StyleSheet, ScrollView, FlatList, TextInput, View } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useSnackbar } from '@/contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from '@/components';
 import dayjs from 'dayjs';
@@ -151,54 +159,88 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-      {isLoading && <Loader />}
-      <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
-        <View style={styles.detailSection}>
-          <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')} *</BoldText>
-          <FlatList
-            style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
-            contentContainerStyle={{ paddingRight: 45 }}
-            horizontal={true}
-            data={prayerTypes}
-            renderItem={({ item }) => (
-              <RoundButton
-                onPress={() => handlePrayerClick(item)}
-                style={{
-                  backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
-                  width: null,
-                  minWidth: 80,
-                  paddingHorizontal: 20,
-                  height: 40,
-                  marginBottom: 15,
-                  marginRight: 10,
-                  borderRadius: 20,
-                }}
-                backgroundColor={selectedPrayer === item ? colors.primary : '#fff'}
-                textStyle={{
-                  textTransform: 'capitalize',
-                  color: selectedPrayer === item ? '#fff' : '#dedede',
-                }}
-              >
-                {PRAYERS[item]}
-              </RoundButton>
-            )}
-            keyExtractor={(item) => item}
-          />
-        </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+        {isLoading && <Loader />}
+        <View style={{ paddingVertical: 20, height: '100%', width: '100%' }}>
+          <View style={styles.detailSection}>
+            <BoldText style={[styles.sectionHeader, { marginBottom: 5 }]}>{t('PRAYER')} *</BoldText>
+            <FlatList
+              style={{ width: '100%', paddingTop: 5, paddingLeft: 25 }}
+              contentContainerStyle={{ paddingRight: 45 }}
+              horizontal={true}
+              data={prayerTypes}
+              renderItem={({ item }) => (
+                <RoundButton
+                  onPress={() => handlePrayerClick(item)}
+                  style={{
+                    backgroundColor: selectedPrayer === item ? colors.primary : '#fff',
+                    width: null,
+                    minWidth: 80,
+                    paddingHorizontal: 20,
+                    height: 40,
+                    marginBottom: 15,
+                    marginRight: 10,
+                    borderRadius: 20,
+                  }}
+                  backgroundColor={selectedPrayer === item ? colors.primary : '#fff'}
+                  textStyle={{
+                    textTransform: 'capitalize',
+                    color: selectedPrayer === item ? '#fff' : '#dedede',
+                  }}
+                >
+                  {PRAYERS[item]}
+                </RoundButton>
+              )}
+              keyExtractor={(item) => item}
+            />
+          </View>
 
-        <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
-        </View>
-        <View style={styles.participantsSection}>
-          {user.gender === 'M' && (
+          <View style={styles.detailSection}>
+            <BoldText style={styles.sectionHeader}>{t('CURRENT_PARTICIPANTS')}</BoldText>
+          </View>
+          <View style={styles.participantsSection}>
+            {user.gender === 'M' && (
+              <View style={styles.participantsRow}>
+                <View>
+                  <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
+                </View>
+                <View style={styles.counter}>
+                  <Touchable
+                    onPress={() => handleOperation('M', '-')}
+                    style={{ position: 'relative', left: 60 }}
+                  >
+                    <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
+                      <Text style={styles.operationText}>-</Text>
+                    </View>
+                  </Touchable>
+
+                  <View style={styles.numberBtn}>
+                    <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
+                      {male}
+                    </Text>
+                  </View>
+
+                  <Touchable onPress={() => handleOperation('M', '+')}>
+                    <View
+                      style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}
+                    >
+                      <Text style={styles.operationText}>+</Text>
+                    </View>
+                  </Touchable>
+                </View>
+              </View>
+            )}
             <View style={styles.participantsRow}>
               <View>
-                <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
+                <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
               </View>
               <View style={styles.counter}>
                 <Touchable
-                  onPress={() => handleOperation('M', '-')}
+                  onPress={() => handleOperation('F', '-')}
                   style={{ position: 'relative', left: 60 }}
                 >
                   <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
@@ -208,156 +250,129 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
 
                 <View style={styles.numberBtn}>
                   <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
-                    {male}
+                    {female}
                   </Text>
                 </View>
 
-                <Touchable onPress={() => handleOperation('M', '+')}>
+                <Touchable onPress={() => handleOperation('F', '+')}>
                   <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
                     <Text style={styles.operationText}>+</Text>
                   </View>
                 </Touchable>
               </View>
             </View>
-          )}
-          <View style={styles.participantsRow}>
-            <View>
-              <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
-            </View>
-            <View style={styles.counter}>
-              <Touchable
-                onPress={() => handleOperation('F', '-')}
-                style={{ position: 'relative', left: 60 }}
-              >
-                <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
-                  <Text style={styles.operationText}>-</Text>
-                </View>
-              </Touchable>
-
-              <View style={styles.numberBtn}>
-                <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
-                  {female}
-                </Text>
-              </View>
-
-              <Touchable onPress={() => handleOperation('F', '+')}>
-                <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
-                  <Text style={styles.operationText}>+</Text>
-                </View>
-              </Touchable>
-            </View>
           </View>
-        </View>
 
-        <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
-          <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>
-            {t('DESCRIPTION')} *
-          </BoldText>
-          <TextInput
-            multiline={true}
-            numberOfLines={6}
-            onChangeText={setDescription}
-            value={description}
-            style={styles.textArea}
-            placeholderTextColor="#dedede"
-            placeholder={t('PLACEHOLDER')}
-          />
-        </View>
-
-        <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('DATE')} *</BoldText>
-          <Touchable
-            onPress={() => setIsDatePickerVisible(true)}
-            style={{
-              width: '100%',
-              paddingHorizontal: 25,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Feather name="calendar" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
-                {dayjs(date).format('YYYY-MM-DD')}
-              </Text>
-            </View>
-            <View>
-              <Feather name="chevron-right" size={18} color="#7C7C7C" />
-            </View>
-          </Touchable>
-        </View>
-
-        <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader}>{t('TIME')} *</BoldText>
-          <Touchable
-            onPress={() => setIsTimePickerVisible(true)}
-            style={{
-              width: '100%',
-              paddingHorizontal: 25,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Feather name="clock" size={18} color={colors.primary} />
-              <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
-                {time ? `${time.hour}:${time.minute}` : t('CHOOSE_TIME')}
-              </Text>
-            </View>
-            <View>
-              <Feather name="chevron-right" size={18} color="#7C7C7C" />
-            </View>
-          </Touchable>
-        </View>
-
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          locale={i18n.language}
-          onConfirm={handleDatePickerConfirm}
-          onCancel={() => setIsDatePickerVisible(false)}
-          headerTextIOS={t('CHOOSE_DATE')}
-          cancelTextIOS={t('CANCEL')}
-          confirmTextIOS={t('CONFIRM')}
-        />
-
-        <DateTimePickerModal
-          isVisible={isTimePickerVisible}
-          mode="time"
-          locale={i18n.language}
-          onConfirm={handleTimePickerConfirm}
-          onCancel={() => setIsTimePickerVisible(false)}
-          headerTextIOS={t('CHOOSE_TIME')}
-          cancelTextIOS={t('CANCEL')}
-          confirmTextIOS={t('CONFIRM')}
-        />
-
-        <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
-          <Touchable disabled={!isComplete} onPress={submit} style={styles.inviteTouchable}>
-            <View
+          <View style={styles.detailSection}>
+            <BoldText style={styles.sectionHeader}>{t('DATE')} *</BoldText>
+            <Touchable
+              onPress={() => setIsDatePickerVisible(true)}
               style={{
-                ...styles.inviteBtn,
-                backgroundColor: isComplete ? colors.primary : '#dedede',
-                borderColor: isComplete ? colors.primary : '#dedede',
-                borderWidth: isComplete ? 2 : 0,
+                width: '100%',
+                paddingHorizontal: 25,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
-              <Text
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Feather name="calendar" size={18} color={colors.primary} />
+                <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
+                  {dayjs(date).format('YYYY-MM-DD')}
+                </Text>
+              </View>
+              <View>
+                <Feather name="chevron-right" size={18} color="#7C7C7C" />
+              </View>
+            </Touchable>
+          </View>
+
+          <View style={styles.detailSection}>
+            <BoldText style={styles.sectionHeader}>{t('TIME')} *</BoldText>
+            <Touchable
+              onPress={() => setIsTimePickerVisible(true)}
+              style={{
+                width: '100%',
+                paddingHorizontal: 25,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Feather name="clock" size={18} color={colors.primary} />
+                <Text style={{ paddingLeft: 15, color: '#7C7C7C' }}>
+                  {time ? `${time.hour}:${time.minute}` : t('CHOOSE_TIME')}
+                </Text>
+              </View>
+              <View>
+                <Feather name="chevron-right" size={18} color="#7C7C7C" />
+              </View>
+            </Touchable>
+          </View>
+
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            locale={i18n.language}
+            onConfirm={handleDatePickerConfirm}
+            onCancel={() => setIsDatePickerVisible(false)}
+            headerTextIOS={t('CHOOSE_DATE')}
+            cancelTextIOS={t('CANCEL')}
+            confirmTextIOS={t('CONFIRM')}
+          />
+
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            locale={i18n.language}
+            onConfirm={handleTimePickerConfirm}
+            onCancel={() => setIsTimePickerVisible(false)}
+            headerTextIOS={t('CHOOSE_TIME')}
+            cancelTextIOS={t('CANCEL')}
+            confirmTextIOS={t('CONFIRM')}
+          />
+
+          <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
+            <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>
+              {t('DESCRIPTION')} *
+            </BoldText>
+            <TextInput
+              multiline={true}
+              numberOfLines={6}
+              onChangeText={setDescription}
+              value={description}
+              style={styles.textArea}
+              placeholderTextColor="#dedede"
+              placeholder={t('PLACEHOLDER')}
+            />
+          </View>
+
+          <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
+            <Touchable disabled={!isComplete} onPress={submit} style={styles.inviteTouchable}>
+              <View
                 style={{
-                  fontSize: 14,
-                  letterSpacing: 1.8,
-                  color: '#ffffff',
+                  ...styles.inviteBtn,
+                  backgroundColor: isComplete ? colors.primary : '#dedede',
+                  borderColor: isComplete ? colors.primary : '#dedede',
+                  borderWidth: isComplete ? 2 : 0,
                 }}
               >
-                {t('INVITE')}
-              </Text>
-            </View>
-          </Touchable>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    letterSpacing: 1.8,
+                    color: '#ffffff',
+                  }}
+                >
+                  {t('INVITE')}
+                </Text>
+              </View>
+            </Touchable>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
