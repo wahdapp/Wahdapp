@@ -9,9 +9,6 @@ import store from './store';
 import { SnackbarProvider } from '@/contexts/snackbar';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Feather } from '@expo/vector-icons';
-import * as Permissions from 'expo-permissions';
-
-import { decode, encode } from 'base-64';
 import AppNavigator from './navigation/AppNavigator';
 import '@/helpers/clearTimer';
 import './i18n';
@@ -27,22 +24,6 @@ if (!__DEV__) {
     debug: false,
   });
 }
-
-/* Firebase bug */
-// global['crypto'] = require('@firebase/firestore');
-// global['crypto'].getRandomValues = (byteArray) => {
-//   for (let i = 0; i < byteArray.length; i++) {
-//     byteArray[i] = Math.floor(256 * Math.random());
-//   }
-// };
-
-// if (!global['btoa']) {
-//   global['btoa'] = encode;
-// }
-
-// if (!global['atob']) {
-//   global['atob'] = decode;
-// }
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
