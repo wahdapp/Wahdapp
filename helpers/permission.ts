@@ -1,11 +1,10 @@
 import * as Permissions from 'expo-permissions';
-import * as Notifications from 'expo-notifications';
 import { Alert, Linking, Platform } from 'react-native';
 
 export const askPermissions = async () => {
   // check user's permission statuses on notification & location
   try {
-    const { status: locationStat } = await Permissions.getAsync(Permissions.LOCATION);
+    const { status: locationStat } = await Permissions.askAsync(Permissions.LOCATION);
     if (locationStat !== 'granted') throw new Error('');
   } catch (e) {
     throw e;
@@ -13,9 +12,9 @@ export const askPermissions = async () => {
 
   // do not force the user to turn on notification permission
   try {
-    await Notifications.getPermissionsAsync();
+    await Permissions.askAsync(Permissions.NOTIFICATIONS);
   } catch (e) {
-    console.log(e);
+    return;
   }
 };
 

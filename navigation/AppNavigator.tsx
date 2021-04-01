@@ -67,12 +67,8 @@ export default function AppNavigator({ user, position }) {
       dispatch(setLocation(position));
     }
 
+    formatLanguage(i18n.language);
     await initFilter();
-  }
-
-  async function initLanguage(locale: string) {
-    i18n.changeLanguage(locale);
-    formatLanguage(locale);
   }
 
   async function initFilter() {
@@ -92,6 +88,8 @@ export default function AppNavigator({ user, position }) {
       dispatch(setNotificationRedirect({ screen: 'PrayerDetail', payload: prayer }));
     }
   }
+
+  console.log({ userDataFetched });
 
   if (!userDataFetched) {
     return <Loader />;
