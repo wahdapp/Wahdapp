@@ -56,6 +56,7 @@ export default function App(props) {
 
     try {
       const pos = await getLatLong();
+      console.log({ pos });
       setPosition(pos);
     } catch (e) {
       console.log('Error while getting position');

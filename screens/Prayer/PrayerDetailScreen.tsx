@@ -23,7 +23,7 @@ import useOptimisticReducer from 'use-optimistic-reducer';
 import { useTranslation } from 'react-i18next';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import colors from '@/constants/colors';
-import { deletePrayer, joinPrayer } from '@/services/prayer';
+import { deletePrayer, getTranslation, joinPrayer } from '@/services/prayer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, User } from '@/types';
 import { RouteProp } from '@react-navigation/native';
@@ -34,6 +34,7 @@ import { addParticipatedAmount, minusInvitedAmount, minusParticipatedAmount } fr
 import useLogScreenView from '@/hooks/useLogScreenView';
 import { useAuthStatus } from '@/hooks/auth';
 import isEmpty from 'lodash/isEmpty';
+import i18n from 'i18next';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -99,6 +100,11 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
 
   const [distance, setDistance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
+  const [currentDescription, setCurrentDescription] = useState(description);
+  const [translatedText, setTranslatedText] = useState('');
 
   const [joinState, joinDispatch] = useOptimisticReducer(joinReducer, {
     currentParticipants: participants, // in formatted form
@@ -250,6 +256,34 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
     );
   }
 
+  async function handleTranslation() {
+    if (isTranslating) return;
+
+    // if the current text is the original text
+    if (!showTranslation) {
+      // if already translated, use the cached text
+      if (translatedText.length) {
+        setCurrentDescription(translatedText);
+        setShowTranslation(true);
+      } else {
+        try {
+          setIsTranslating(true);
+          const translated = await getTranslation(description, i18n.language);
+          setIsTranslating(false);
+          setCurrentDescription(translated);
+          setTranslatedText(translated);
+          setShowTranslation(true);
+        } catch (e) {
+          setIsTranslating(false);
+        }
+      }
+    } else {
+      // toggle back to the original description
+      setCurrentDescription(description);
+      setShowTranslation(false);
+    }
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       {isLoading && <Loader />}
@@ -321,8 +355,17 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
             {t('DESCRIPTION')}
           </BoldText>
           <Text style={styles.sectionSubHeader} selectable={true}>
-            {description}
+            {currentDescription}
           </Text>
+          <TouchableOpacity onPress={handleTranslation}>
+            <Text style={styles.translate}>
+              {isTranslating
+                ? t('COMMON:LOADING')
+                : showTranslation
+                ? t('VIEW_ORIGINAL')
+                : t('VIEW_TRANSLATION')}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.line} />
@@ -350,7 +393,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
         )}
 
         {(guests_male > 0 || guests_female > 0) && (
-          <View style={styles.detailSection}>
+          <View style={[styles.detailSection, { paddingBottom: 50 }]}>
             <BoldText style={styles.sectionHeader}>
               {t('GUESTS')} ({guests_male + guests_female})
             </BoldText>
@@ -425,6 +468,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#7C7C7C',
     lineHeight: 22,
+    marginBottom: 8,
+  },
+  translate: {
+    fontSize: 12,
+    color: '#000000',
   },
   line: {
     height: 1,

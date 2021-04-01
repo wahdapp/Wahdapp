@@ -245,3 +245,21 @@ export async function reportPrayer(prayerID: string, category: number, descripti
     throw e;
   }
 }
+
+export async function getTranslation(text: string, dest: string) {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const { data } = await axios.get<{ data: { text: string } }>(
+      `${API_DOMAIN}/prayer/translate?text=${text}&dest=${dest}`,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+
+    return data.data.text;
+  } catch (e) {
+    throw e;
+  }
+}
