@@ -1,20 +1,28 @@
 import * as Permissions from 'expo-permissions';
 import { Alert, Linking, Platform } from 'react-native';
+import { getLatLong } from './geo';
 
 export const askPermissions = async () => {
   // check user's permission statuses on notification & location
   try {
+    const { status: currentStat } = await Permissions.getAsync(Permissions.LOCATION);
     const { status: locationStat } = await Permissions.askAsync(Permissions.LOCATION);
     if (locationStat !== 'granted') throw new Error('');
+
+    // When the user gives permission after the popup, get user's location again
+    if (currentStat !== 'granted' && locationStat === 'granted') {
+      const pos = await getLatLong();
+      return pos;
+    }
   } catch (e) {
-    throw e;
+    guideToSettings();
   }
 
   // do not force the user to turn on notification permission
   try {
     await Permissions.askAsync(Permissions.NOTIFICATIONS);
   } catch (e) {
-    return;
+    return null;
   }
 };
 

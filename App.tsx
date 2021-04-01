@@ -13,7 +13,7 @@ import '@/helpers/clearTimer';
 import './i18n';
 import * as Sentry from 'sentry-expo';
 import { getLatLong } from './helpers/geo';
-import { askPermissions, guideToSettings } from './helpers/permission';
+import { askPermissions } from './helpers/permission';
 import * as SplashScreen from 'expo-splash-screen';
 
 // Enable sentry in production
@@ -70,15 +70,28 @@ export default function App() {
       }
     }
 
-    try {
-      askPermissions();
-    } catch (e) {
-      guideToSettings();
-    }
-
     authenticateUser();
     prepare();
   }, []);
+
+  useEffect(() => {
+    if (isCompleted) {
+      // If asking permission immediately after being ready, the screen
+      // gets stuck on the splash screen for some reason. Instead, the
+      // application asks the permissions 1.5 seconds after the application
+      // gets ready.
+      setTimeout(async () => {
+        try {
+          const result = await askPermissions();
+          if (result) {
+            setPosition(result);
+          }
+        } catch (e) {
+          return;
+        }
+      }, 1500);
+    }
+  }, [isCompleted]);
 
   function authenticateUser() {
     auth.onAuthStateChanged((user) => {

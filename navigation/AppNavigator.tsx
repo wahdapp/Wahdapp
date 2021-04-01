@@ -42,6 +42,12 @@ export default function AppNavigator({ user, position }) {
   }, []);
 
   useEffect(() => {
+    if (position) {
+      dispatch(setLocation(position));
+    }
+  }, [position]);
+
+  useEffect(() => {
     if (user) {
       (async () => {
         try {
@@ -63,10 +69,6 @@ export default function AppNavigator({ user, position }) {
   }, [user]);
 
   async function init() {
-    if (position) {
-      dispatch(setLocation(position));
-    }
-
     formatLanguage(i18n.language);
     await initFilter();
   }
