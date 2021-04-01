@@ -1,5 +1,5 @@
-import * as Font from 'expo-font';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useFonts } from 'expo-font';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Platform, StatusBar, StyleSheet, View, Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
@@ -26,13 +26,25 @@ if (!__DEV__) {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Sen: require('./assets/fonts/Sen-Regular.ttf'),
+    SenBold: require('./assets/fonts/Sen-Bold.ttf'),
+    ...Feather.font,
+  });
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [userAuth, setUserAuth] = useState(null);
   const [position, setPosition] = useState(null);
 
+  const isCompleted = useMemo(() => fontsLoaded && isLoadingComplete && !isAuthenticating, [
+    fontsLoaded,
+    isLoadingComplete,
+    isAuthenticating,
+  ]);
+
   const onLayoutRootView = useCallback(async () => {
-    if (isLoadingComplete && !isAuthenticating) {
+    if (isCompleted) {
       // This tells the splash screen to hide immediately! If we call this after
       // `setAppIsReady`, then we may see a blank screen while the app is
       // loading its initial state and rendering its first pixels. So instead,
@@ -40,7 +52,7 @@ export default function App() {
       // performed layout.
       await SplashScreen.hideAsync();
     }
-  }, [isLoadingComplete, isAuthenticating]);
+  }, [isCompleted]);
 
   useEffect(() => {
     async function prepare() {
@@ -76,12 +88,6 @@ export default function App() {
   }
 
   async function loadResourcesAsync() {
-    await Font.loadAsync({
-      Sen: require('./assets/fonts/Sen-Regular.ttf'),
-      SenBold: require('./assets/fonts/Sen-Bold.ttf'),
-      ...Feather.font,
-    });
-
     try {
       const pos = await getLatLong();
       setPosition(pos);
@@ -90,7 +96,7 @@ export default function App() {
     }
   }
 
-  if (!isLoadingComplete || isAuthenticating) {
+  if (!isCompleted) {
     return null;
   }
 
