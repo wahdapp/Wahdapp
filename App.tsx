@@ -1,6 +1,5 @@
-import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Platform, StatusBar, StyleSheet, View, Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
@@ -15,6 +14,7 @@ import './i18n';
 import * as Sentry from 'sentry-expo';
 import { getLatLong } from './helpers/geo';
 import { askPermissions, guideToSettings } from './helpers/permission';
+import * as SplashScreen from 'expo-splash-screen';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -25,19 +25,47 @@ if (!__DEV__) {
   });
 }
 
-export default function App(props) {
+export default function App() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [userAuth, setUserAuth] = useState(null);
   const [position, setPosition] = useState(null);
 
+  const onLayoutRootView = useCallback(async () => {
+    if (isLoadingComplete && !isAuthenticating) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoadingComplete, isAuthenticating]);
+
   useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+        // Pre-load fonts, make any API calls you need to do here
+        await loadResourcesAsync();
+      } catch (e) {
+        await SplashScreen.hideAsync();
+        handleLoadingError(e);
+      } finally {
+        // Tell the application to render
+        setLoadingComplete(true);
+      }
+    }
+
     try {
       askPermissions();
     } catch (e) {
       guideToSettings();
     }
+
     authenticateUser();
+    prepare();
   }, []);
 
   function authenticateUser() {
@@ -62,14 +90,8 @@ export default function App(props) {
     }
   }
 
-  if ((!isLoadingComplete && !props.skipLoadingScreen) || isAuthenticating) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => setLoadingComplete(true)}
-      />
-    );
+  if (!isLoadingComplete || isAuthenticating) {
+    return null;
   }
 
   return (
@@ -77,7 +99,7 @@ export default function App(props) {
       <Root>
         <ActionSheetProvider>
           <Provider store={store}>
-            <View style={styles.container}>
+            <View style={styles.container} onLayout={onLayoutRootView}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <Provider store={store}>
                 <AppNavigator user={userAuth} position={position} />

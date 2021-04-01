@@ -30,7 +30,7 @@ function deg2rad(deg) {
 
 export async function getLatLong() {
   try {
-    const position = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+    const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
     return { latitude: position.coords.latitude, longitude: position.coords.longitude };
   }
   catch (e) {
