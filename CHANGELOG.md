@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/aboudicheng/Jamaat/compare/v0.4.0...v0.4.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* **permission:** ask location permission on ready ([750b54f](https://github.com/aboudicheng/Jamaat/commit/750b54fb25cab1256a90722893d396b61c671918))
+
 ## [0.4.0](https://github.com/aboudicheng/Jamaat/compare/v0.3.4...v0.4.0) (2021-04-01)
 
 
