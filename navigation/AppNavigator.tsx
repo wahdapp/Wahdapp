@@ -89,8 +89,6 @@ export default function AppNavigator({ user, position }) {
     }
   }
 
-  console.log({ userDataFetched });
-
   if (!userDataFetched) {
     return <Loader />;
   }
