@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/aboudicheng/Jamaat/compare/v0.3.4...v0.4.0) (2021-04-01)
+
+
+### Features
+
+* **app:** useFonts hook ([84429c9](https://github.com/aboudicheng/Jamaat/commit/84429c944b60eafdc0092c59a22bdf55551f5adc))
+* **invitation:** change description area position ([a5e9017](https://github.com/aboudicheng/Jamaat/commit/a5e90175a777c87273414357f2fddcda61ae43c4))
+* **screen:** dynamic initial route ([5842c4a](https://github.com/aboudicheng/Jamaat/commit/5842c4af41be0cd25c0c6901d5611c1a175ca19d))
+* **translation:** enable prayer description translation ([4839fde](https://github.com/aboudicheng/Jamaat/commit/4839fdea134b5015776bb235a44a147ba6874dbf))
+
 ### [0.3.4](https://github.com/aboudicheng/Jamaat/compare/v0.3.3...v0.3.4) (2021-03-08)
 
 
