@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.4.2) (2021-04-02)
+
+
+### Bug Fixes
+
+* **splash-screen:** remove preventAutoHideAsync ([87d41cb](https://github.com/aboudicheng/Jamaat/commit/87d41cba27a33345ccc8fb6512aee129a0ff28cd))
+
 ### [0.4.1](https://github.com/aboudicheng/Jamaat/compare/v0.4.0...v0.4.1) (2021-04-01)
 
 
