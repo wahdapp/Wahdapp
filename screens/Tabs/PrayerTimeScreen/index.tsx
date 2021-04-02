@@ -102,7 +102,7 @@ export default function PrayerTimeScreen() {
 
   async function fetchPrayerTimes() {
     try {
-      const position = await Location.getCurrentPositionAsync({});
+      const position = await Location.getLastKnownPositionAsync();
       const prayers = await getPrayerTimes(position.coords, 3, false);
 
       const next = findNextPrayer(prayers.timings);

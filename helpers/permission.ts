@@ -10,10 +10,8 @@ export const askPermissions = async () => {
     if (locationStat !== 'granted') throw new Error('');
 
     // When the user gives permission after the popup, get user's location again
-    if (currentStat !== 'granted' && locationStat === 'granted') {
-      const pos = await getLatLong();
-      return pos;
-    }
+    const pos = await getLatLong();
+    return pos;
   } catch (e) {
     guideToSettings();
   }
