@@ -51,6 +51,7 @@ export default function AppNavigator({ user, position }) {
     if (user) {
       (async () => {
         try {
+          setUserDataFetched(false);
           const userInfo = await getUserInfo(user.uid);
 
           if (userInfo.locale !== i18n.language) {
