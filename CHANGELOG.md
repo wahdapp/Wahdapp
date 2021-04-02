@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/aboudicheng/Jamaat/compare/v0.4.2...v0.4.3) (2021-04-02)
+
+
+### Bug Fixes
+
+* **screen:** avoid directing to gender selection screen after oauth login ([634b8b9](https://github.com/aboudicheng/Jamaat/commit/634b8b9467d5811f8eeac66a91adf9c5d2dd7cf3))
+
 ### [0.4.2](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.4.2) (2021-04-02)
 
 
