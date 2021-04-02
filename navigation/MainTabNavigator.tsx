@@ -186,7 +186,7 @@ function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName={auth.currentUser ? 'Home' : 'Auth'}
+      initialRouteName={isAuth ? 'Home' : 'Auth'}
       activeColor={colors.primary}
       barStyle={{ backgroundColor: '#fff', height: 60, justifyContent: 'center' }}
     >
