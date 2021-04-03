@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/aboudicheng/Jamaat/compare/v0.4.3...v0.4.4) (2021-04-03)
+
+
+### Features
+
+* **splash-screen:** fetch user data in splash screen ([bcf4082](https://github.com/aboudicheng/Jamaat/commit/bcf4082252c1a5aa91e6b86992e88c5a5f475c00))
+
 ### [0.4.3](https://github.com/aboudicheng/Jamaat/compare/v0.4.2...v0.4.3) (2021-04-02)
 
 
