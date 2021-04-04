@@ -1,6 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -38,6 +38,7 @@
     "expo-app-loading": "^1.0.1",
     "expo-apple-authentication": "~2.2.2",
     "expo-asset": "~8.2.1",
+    "expo-checkbox": "^1.0.2",
     "expo-constants": "~9.3.3",
     "expo-device": "~2.4.0",
     "expo-facebook": "~9.1.0",

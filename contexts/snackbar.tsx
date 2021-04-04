@@ -12,7 +12,7 @@ export const SnackbarProvider: React.FC = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    if (errorMessage.length) {
+    if (errorMessage?.length) {
       setTimeout(
         () => {
           setErrorMessage('');

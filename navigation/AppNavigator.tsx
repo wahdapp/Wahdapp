@@ -101,7 +101,7 @@ export default function AppNavigator({ userAuth, userInfo, position }) {
     }
   }
 
-  if (!userDataFetched) {
+  if (!userDataFetched && isFirstMounted) {
     return <Loader />;
   }
 

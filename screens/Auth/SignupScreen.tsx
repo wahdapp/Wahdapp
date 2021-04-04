@@ -8,11 +8,16 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import colors from '@/constants/colors';
 import { createUser } from '@/services/user';
+import { registerToken } from '@/services/device-token';
+import * as Notifications from 'expo-notifications';
 import { convertLanguageCode } from '@/helpers/languageCode';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
 import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
+import { useDispatch } from 'react-redux';
+import { setDeviceToken, setUser } from '@/actions/user';
+import { initializeFilter } from '@/actions/filter';
 
 type SignupScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Signup'>;
 
@@ -22,6 +27,7 @@ type Props = {
 
 export default function SignupScreen({ navigation: { navigate } }: Props) {
   useLogScreenView('sign_up');
+  const dispatch = useDispatch();
   const { t } = useTranslation(['SIGN', 'COMMON']);
   const [, setErrorMessage] = useSnackbar();
 
@@ -30,6 +36,17 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('');
   const [loading, setLoading] = useState(false);
+
+  async function registerPushToken() {
+    try {
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
+      await registerToken(token);
+
+      dispatch(setDeviceToken(token));
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async function handleSignup() {
     if (!fullName.trim() || !email.trim() || !password.trim()) {
@@ -40,12 +57,16 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
     try {
       setLoading(true);
       await auth.createUserWithEmailAndPassword(email.trim(), password);
-      await createUser({
+
+      const userPayload = {
         uid: auth.currentUser.uid,
         full_name: fullName.trim(),
         email: email.trim(),
         gender,
-      });
+        locale: i18n.language,
+      };
+
+      await createUser(userPayload);
 
       const languageCode = convertLanguageCode(i18n.language);
 
@@ -54,9 +75,10 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
       logEvent('signup', { status: 'success', language: languageCode });
 
       await auth.currentUser.sendEmailVerification();
-      await auth.signOut();
+      dispatch(setUser(userPayload));
+      dispatch(initializeFilter(gender));
       setLoading(false);
-      navigate('EmailSent');
+      registerPushToken();
     } catch (e) {
       logEvent('signup', { status: 'failure' });
       setLoading(false);
