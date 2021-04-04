@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useLayoutEffect } from 'react';
 import { Platform, StatusBar, StyleSheet, View, Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
@@ -15,6 +15,9 @@ import * as Sentry from 'sentry-expo';
 import { getLatLong } from './helpers/geo';
 import { askPermissions } from './helpers/permission';
 import * as SplashScreen from 'expo-splash-screen';
+import { UserPrivateInfo } from './types';
+import { getUserInfo, updateLocale } from './services/user';
+import i18n from 'i18next';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -35,6 +38,7 @@ export default function App() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [userAuth, setUserAuth] = useState(null);
+  const [userInfo, setUserInfo] = useState<UserPrivateInfo>(null);
   const [position, setPosition] = useState(null);
 
   const isCompleted = useMemo(() => fontsLoaded && isLoadingComplete && !isAuthenticating, [
@@ -43,9 +47,10 @@ export default function App() {
     isAuthenticating,
   ]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function prepare() {
       try {
+        await SplashScreen.preventAutoHideAsync().catch(console.warn);
         // Pre-load fonts, make any API calls you need to do here
         await loadResourcesAsync();
       } catch (e) {
@@ -53,7 +58,9 @@ export default function App() {
         handleLoadingError(e);
       } finally {
         // Tell the application to render
-        await SplashScreen.hideAsync();
+        setTimeout(async () => {
+          await SplashScreen.hideAsync();
+        }, 300);
         setLoadingComplete(true);
       }
     }
@@ -99,6 +106,11 @@ export default function App() {
     }
     try {
       await authenticateUser();
+      const info = await getUserInfo(auth.currentUser.uid);
+      if (info.locale !== i18n.language) {
+        updateLocale(i18n.language);
+      }
+      setUserInfo(info);
     } catch (e) {
       return;
     }
@@ -116,7 +128,7 @@ export default function App() {
             <View style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <Provider store={store}>
-                <AppNavigator user={userAuth} position={position} />
+                <AppNavigator userAuth={userAuth} userInfo={userInfo} position={position} />
               </Provider>
             </View>
           </Provider>

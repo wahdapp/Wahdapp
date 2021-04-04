@@ -8,6 +8,7 @@ type UserPayload = {
   full_name: string;
   email: string;
   gender: string;
+  locale: string;
 };
 
 export async function createUser(payload: UserPayload) {

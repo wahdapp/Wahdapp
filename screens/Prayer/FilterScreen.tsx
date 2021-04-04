@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { View, StyleSheet, TouchableOpacity, ScrollView, Slider, FlatList } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Slider,
+  FlatList,
+  Switch,
+  Platform,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CheckBox } from 'native-base';
+import Checkbox from 'expo-checkbox';
 import { Text, BoldText, RoundButton, Loader } from '@/components';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from '@/constants/prayers';
@@ -232,11 +241,19 @@ export default function FilterScreen({ navigation }: Props) {
               <Text style={styles.sectionSubHeader}>{t('CHECKBOX_DESC')}</Text>
             </View>
             <View>
-              <CheckBox
-                checked={sameGender}
-                onPress={() => setSameGender((prev) => !prev)}
-                color={colors.primary}
-              />
+              {Platform.OS === 'ios' ? (
+                <Switch
+                  value={sameGender}
+                  onValueChange={(value) => setSameGender(value)}
+                  trackColor={{ true: colors.primary, false: null }}
+                />
+              ) : (
+                <Checkbox
+                  value={sameGender}
+                  onValueChange={(value) => setSameGender(value)}
+                  color={colors.primary}
+                />
+              )}
             </View>
           </View>
         )}

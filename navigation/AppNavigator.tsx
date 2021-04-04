@@ -22,8 +22,9 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function AppNavigator({ user, position }) {
+export default function AppNavigator({ userAuth, userInfo, position }) {
   const [userDataFetched, setUserDataFetched] = useState(false);
+  const [isFirstMounted, setIsFirstMounted] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,17 +49,25 @@ export default function AppNavigator({ user, position }) {
   }, [position]);
 
   useEffect(() => {
-    if (user) {
+    if (userInfo) {
+      setUserDataFetched(true);
+      dispatch(setUser(userInfo));
+    }
+    setIsFirstMounted(true);
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (userAuth && isFirstMounted) {
       (async () => {
         try {
           setUserDataFetched(false);
-          const userInfo = await getUserInfo(user.uid);
+          const info = await getUserInfo(userAuth.uid);
 
-          if (userInfo.locale !== i18n.language) {
+          if (info.locale !== i18n.language) {
             updateLocale(i18n.language);
           }
           setUserDataFetched(true);
-          dispatch(setUser(userInfo));
+          dispatch(setUser(info));
         } catch (e) {
           console.log(e);
           setUserDataFetched(true);
@@ -67,7 +76,7 @@ export default function AppNavigator({ user, position }) {
     } else {
       setUserDataFetched(true);
     }
-  }, [user]);
+  }, [userAuth, userInfo]);
 
   async function init() {
     formatLanguage(i18n.language);
@@ -92,7 +101,7 @@ export default function AppNavigator({ user, position }) {
     }
   }
 
-  if (!userDataFetched) {
+  if (!userDataFetched && isFirstMounted) {
     return <Loader />;
   }
 
