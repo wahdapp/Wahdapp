@@ -1,1 +1,10 @@
-export const prayerTypes = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'jumuah', 'janazah'];
+export const prayerTypes = [
+  'fajr',
+  'dhuhr',
+  'asr',
+  'maghrib',
+  'isha',
+  'jumuah',
+  'janazah',
+  'taraweeh',
+];

@@ -175,7 +175,8 @@
       "maghrib": "المغرب",
       "isha": "العشاء",
       "jumuah": "الجمعة",
-      "janazah": "الجنازة"
+      "janazah": "الجنازة",
+      "taraweeh": "التراويح"
     },
     "PRAYER_CARD": {
       "INVITED": "مدعو بواسطة {{name}}",
@@ -187,7 +188,7 @@
       "FEMALE": "أنثى",
       "CONFIRM": "تأكيد"
     },
-    "LOADING": "جار التحميل....",
+    "LOADING": "جار التحميل...",
     "DAY": {
       "TODAY": "اليوم",
       "YESTERDAY": "في الأمس",

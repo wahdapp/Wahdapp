@@ -175,7 +175,8 @@
       "maghrib": "Maghrib",
       "isha": "Isha",
       "jumuah": "Jumuah",
-      "janazah": "Janazah"
+      "janazah": "Janazah",
+      "taraweeh": "Taraweeh"
     },
     "PRAYER_CARD": {
       "INVITED": "invited by {{name}}",

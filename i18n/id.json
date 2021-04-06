@@ -175,7 +175,8 @@
       "maghrib": "Maghrib",
       "isha": "Isha",
       "jumuah": "Jumatan",
-      "janazah": "Jenazah"
+      "janazah": "Jenazah",
+      "taraweeh": "Tarawih"
     },
     "PRAYER_CARD": {
       "INVITED": "Diundang oleh {{name}}",

@@ -165,7 +165,8 @@
       "maghrib": "昏礼",
       "isha": "宵礼",
       "jumuah": "聚礼",
-      "janazah": "葬礼"
+      "janazah": "葬礼",
+      "taraweeh": "泰拉威"
     },
     "PRAYER_CARD": {
       "INVITED": "由 {{name}} 邀请",

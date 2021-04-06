@@ -170,7 +170,8 @@
       "maghrib": "Akşam",
       "isha": "Yatsı",
       "jumuah": "Cuma",
-      "janazah": "Cenaze"
+      "janazah": "Cenaze",
+      "taraweeh": "Teravih"
     },
     "PRAYER_CARD": {
       "INVITED": "{{name}} tarafından davet edildi",
