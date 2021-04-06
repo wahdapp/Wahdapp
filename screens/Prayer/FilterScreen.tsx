@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Slider,
   FlatList,
   Switch,
   Platform,
@@ -39,9 +38,6 @@ export default function FilterScreen({ navigation }: Props) {
 
   const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
   const [sameGender, setSameGender] = useState(false);
-  const [minNum, setMinNum] = useState(user.gender === 'M' ? 0 : 2);
-  const [minimumParticipants, setMinimumParticipants] = useState(minNum);
-  const [defaultMinimumParts, setDefaultMinimumParts] = useState(minNum);
   const [selectedSort, setSelectedSort] = useState(filterState.sortBy);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['FILTER', 'COMMON']);
@@ -51,18 +47,6 @@ export default function FilterScreen({ navigation }: Props) {
   useEffect(() => {
     fetchFilterPreference();
   }, []);
-
-  useEffect(() => {
-    if (user.gender === 'F') {
-      if (sameGender) {
-        setMinNum(0);
-      } else {
-        setMinNum(2);
-        setMinimumParticipants(2);
-        setDefaultMinimumParts(2);
-      }
-    }
-  }, [sameGender]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -78,11 +62,6 @@ export default function FilterScreen({ navigation }: Props) {
     try {
       const preference = await getFilterPreference();
 
-      if (user.gender === 'F' && preference.same_gender) {
-        setMinimumParticipants(preference.minimum_participants);
-        setDefaultMinimumParts(preference.minimum_participants);
-      }
-
       setSameGender(preference.same_gender);
       setSelectedPrayers(preference.selected_prayers);
     } catch (e) {
@@ -92,8 +71,6 @@ export default function FilterScreen({ navigation }: Props) {
 
   function resetFilter() {
     setSelectedPrayers(prayerTypes);
-    setMinimumParticipants(minNum);
-    setDefaultMinimumParts(minNum);
     setSameGender(false);
     setSelectedSort('distance');
   }
@@ -104,7 +81,6 @@ export default function FilterScreen({ navigation }: Props) {
 
       await updateFilterPreference({
         selected_prayers: selectedPrayers,
-        minimum_participants: minimumParticipants,
         same_gender: sameGender,
       });
 
@@ -205,29 +181,6 @@ export default function FilterScreen({ navigation }: Props) {
             keyExtractor={(item) => item}
           />
         </View>
-
-        {user.gender === 'F' && (
-          <View style={styles.detailSection}>
-            <View>
-              <BoldText style={styles.sectionHeader}>
-                {t('MIN_PARTICIPANTS')}
-                {`(>= ${minimumParticipants} ${
-                  minimumParticipants > 1 ? t('PEOPLE') : t('PERSON')
-                })`}
-              </BoldText>
-              <Slider
-                style={{ width: '100%', height: 40, marginTop: 15, marginLeft: 25 }}
-                minimumValue={minNum}
-                value={defaultMinimumParts}
-                onValueChange={setMinimumParticipants}
-                step={1}
-                maximumValue={30}
-                minimumTrackTintColor="#000"
-                maximumTrackTintColor="#fff"
-              />
-            </View>
-          </View>
-        )}
 
         {user.gender === 'F' && (
           <View

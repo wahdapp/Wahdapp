@@ -74,7 +74,6 @@ export async function getFilterPreference() {
 
 type FilterPayload = {
   selected_prayers?: string[];
-  minimum_participants?: number;
   same_gender?: boolean;
 };
 
@@ -84,7 +83,6 @@ export async function updateFilterPreference(payload: FilterPayload) {
     const { data } = await axios.patch(
       `${API_DOMAIN}/user/filter`,
       {
-        minimum_participants: payload.minimum_participants,
         same_gender: payload.same_gender,
         selected_prayers: payload.selected_prayers.map((p) => PRAYERS[p]).join(''),
       },
