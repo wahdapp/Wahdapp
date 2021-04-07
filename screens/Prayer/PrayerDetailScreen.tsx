@@ -11,6 +11,7 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Share,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
@@ -35,6 +36,7 @@ import useLogScreenView from '@/hooks/useLogScreenView';
 import { useAuthStatus } from '@/hooks/auth';
 import isEmpty from 'lodash/isEmpty';
 import i18n from 'i18next';
+import { getLangSubpath } from '@/helpers/languageCode';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -235,20 +237,25 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
   function openActionSheet() {
     showActionSheetWithOptions(
       {
-        options: [t('OPTIONS.0'), t('OPTIONS.1'), t('OPTIONS.2')],
+        options: [t('OPTIONS.0'), t('OPTIONS.1'), t('OPTIONS.2'), t('OPTIONS.3')],
         title: '',
         message: '',
-        cancelButtonIndex: 2,
-        destructiveButtonIndex: 1,
+        cancelButtonIndex: 3,
+        destructiveButtonIndex: 2,
         textStyle: { fontFamily: 'Sen', color: colors.primary },
         destructiveColor: colors.error,
       },
-      (index) => {
+      async (index) => {
         switch (index) {
           case 0:
             Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
             break;
           case 1:
+            const result = await Share.share({
+              url: `https://wahd.app${getLangSubpath()}/prayer/${id}`,
+            });
+            break;
+          case 2:
             navigation.navigate('ReportPrayer', { prayerID: id });
             break;
         }

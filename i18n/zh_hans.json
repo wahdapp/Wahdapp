@@ -32,7 +32,7 @@
     "CANCEL_PRAYER_CONFIRM": "您确定要取消此邀请？",
     "NO": "否",
     "YES": "是",
-    "OPTIONS": ["在 Google 地图上开启", "检举", "取消"]
+    "OPTIONS": ["在 Google 地图上开启", "分享", "检举", "取消"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "礼拜纪录",

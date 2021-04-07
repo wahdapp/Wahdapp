@@ -32,7 +32,7 @@
     "CANCEL_PRAYER_CONFIRM": "Apakah anda yakin untuk membatalkan undangan ini?",
     "NO": "Tidak",
     "YES": "Ya",
-    "OPTIONS": ["Lihat di Google Maps", "Laporkan", "Batalkan"]
+    "OPTIONS": ["Lihat di Google Maps", "Bagikan", "Laporkan", "Batalkan"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "Sholat sebelumnya",

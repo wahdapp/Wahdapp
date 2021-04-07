@@ -32,7 +32,7 @@
     "CANCEL_PRAYER_CONFIRM": "Are you sure to cancel this invitation?",
     "NO": "No",
     "YES": "Yes",
-    "OPTIONS": ["View on Google Maps", "Report", "Cancel"]
+    "OPTIONS": ["View on Google Maps", "Share", "Report", "Cancel"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "Past Prayers",

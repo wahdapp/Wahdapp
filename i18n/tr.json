@@ -32,7 +32,7 @@
     "CANCEL_PRAYER_CONFIRM": "Bu daveti iptal edeceğinize emin misiniz?",
     "NO": "Hayır",
     "YES": "Evet",
-    "OPTIONS": ["Google Maps'ta görüntüle", "Raporla", "İptal"]
+    "OPTIONS": ["Google Maps'ta görüntüle", "Paylaş", "Raporla", "İptal"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "Geçmiş Cemaat",

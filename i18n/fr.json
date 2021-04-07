@@ -32,7 +32,7 @@
     "CANCEL_PRAYER_CONFIRM": "Êtes-vous sûr de vouloir annuler cette invitation?",
     "NO": "Non",
     "YES": "Oui",
-    "OPTIONS": ["Voir sur Google Maps", "Déclarer", "Annuler"]
+    "OPTIONS": ["Voir sur Google Maps", "Partager", "Déclarer", "Annuler"]
   },
   "INVITATION": {
     "HISTORY_PRAYERS": "Prières passées",
