@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.5.0) (2021-04-04)
+
+### [0.4.4](https://github.com/aboudicheng/Jamaat/compare/v0.4.3...v0.4.4) (2021-04-03)
+
+
+### Features
+
+* **splash-screen:** fetch user data in splash screen ([bcf4082](https://github.com/aboudicheng/Jamaat/commit/bcf4082252c1a5aa91e6b86992e88c5a5f475c00))
+
+### [0.4.3](https://github.com/aboudicheng/Jamaat/compare/v0.4.2...v0.4.3) (2021-04-02)
+
+
+### Bug Fixes
+
+* **screen:** avoid directing to gender selection screen after oauth login ([634b8b9](https://github.com/aboudicheng/Jamaat/commit/634b8b9467d5811f8eeac66a91adf9c5d2dd7cf3))
+
+### [0.4.2](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.4.2) (2021-04-02)
+
+
+### Bug Fixes
+
+* **signup:** remove the necessity to verify account after signup ([dd5e020](https://github.com/aboudicheng/Jamaat/commit/dd5e02082cab32d1b46cb58ff1b244ef8ad5133f))
+* **splash-screen:** remove preventAutoHideAsync ([87d41cb](https://github.com/aboudicheng/Jamaat/commit/87d41cba27a33345ccc8fb6512aee129a0ff28cd))
+
 ### [0.4.1](https://github.com/aboudicheng/Jamaat/compare/v0.4.0...v0.4.1) (2021-04-01)
 
 
