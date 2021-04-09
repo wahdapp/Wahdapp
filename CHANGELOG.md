@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.5.1 (2021-04-09)
+
+
+### Features
+
+* **app:** useFonts hook ([84429c9](https://github.com/wahdapp/Wahdapp/commit/84429c944b60eafdc0092c59a22bdf55551f5adc))
+* **auth:** add apple sign in ([d3441d7](https://github.com/wahdapp/Wahdapp/commit/d3441d7d3a6992fd2705a81e551104449e8531fb))
+* **auth:** remove login requirement ([70d2e8d](https://github.com/wahdapp/Wahdapp/commit/70d2e8d12c145cb317c97741e7b9e3dbb7e744a7))
+* **i18n:** add russian locale ([13f3076](https://github.com/wahdapp/Wahdapp/commit/13f307682f2161127dffff5610883c13cd901a42))
+* **invitation:** change description area position ([a5e9017](https://github.com/wahdapp/Wahdapp/commit/a5e90175a777c87273414357f2fddcda61ae43c4))
+* **map:** empty result toaster ([65891a8](https://github.com/wahdapp/Wahdapp/commit/65891a89cda9ed87da491d47862e36f738e825ab))
+* **prayer:** add taraweeh option ([8da8094](https://github.com/wahdapp/Wahdapp/commit/8da809486648470bb0ab930b043f3697ea32a6bd))
+* **screen:** dynamic initial route ([5842c4a](https://github.com/wahdapp/Wahdapp/commit/5842c4af41be0cd25c0c6901d5611c1a175ca19d))
+* **splash-screen:** fetch user data in splash screen ([bcf4082](https://github.com/wahdapp/Wahdapp/commit/bcf4082252c1a5aa91e6b86992e88c5a5f475c00))
+* **translation:** enable prayer description translation ([4839fde](https://github.com/wahdapp/Wahdapp/commit/4839fdea134b5015776bb235a44a147ba6874dbf))
+* **ux:** smoother signup flow with 3rd party services, fix permissions ([9ad72a1](https://github.com/wahdapp/Wahdapp/commit/9ad72a156d8203624b98271730f2b63faa97f8d9))
+
+
+### Bug Fixes
+
+* **android:** redirect to correct setting screen ([d0ccfdd](https://github.com/wahdapp/Wahdapp/commit/d0ccfdd9a73ffdd04c25b77a8f4413c9d1a6d359))
+* **auth:** cancel loading after failed api call ([f96a2ec](https://github.com/wahdapp/Wahdapp/commit/f96a2ec5e2c926d8b6eb2064e22f350f6d578dfc))
+* **auth:** consider string length ([8bede79](https://github.com/wahdapp/Wahdapp/commit/8bede79d8ce0d74439409f2fb2eb298daf5fb92e))
+* **auth:** do not await for token registration result ([090c836](https://github.com/wahdapp/Wahdapp/commit/090c836210b0e7906063a9f761510fea32c47abc))
+* **auth:** handle user exception ([351b602](https://github.com/wahdapp/Wahdapp/commit/351b602e69a4e5b91de53e0d4fb14130106c19a5))
+* **auth:** select gender flow ([5e3aac3](https://github.com/wahdapp/Wahdapp/commit/5e3aac3562cd1adc183fa5c7859dfa7b84a29d5b))
+* **auth:** select gender screen after loading ([5fd8dcb](https://github.com/wahdapp/Wahdapp/commit/5fd8dcb2775af40f2eff30a3ad960310a114a8af))
+* **env:** staging env ([85fc5d5](https://github.com/wahdapp/Wahdapp/commit/85fc5d5c7254521405ea7c1a3bfdea2c5d297497))
+* **feed:** prevent calling api without location enabled ([1be502a](https://github.com/wahdapp/Wahdapp/commit/1be502a2be271876ac633ae90fd4371aec74f9d3))
+* **feed:** prevent further scroll triggers ([dea7234](https://github.com/wahdapp/Wahdapp/commit/dea72346b54a82fb4d3101de4066afdbf03658d3))
+* **i18n:** typo in indonesian ([aeb544a](https://github.com/wahdapp/Wahdapp/commit/aeb544ab0b04d62ddfaa5e897f93f1ab50d5b44c))
+* **map:** hide location button ([0581439](https://github.com/wahdapp/Wahdapp/commit/0581439cb96af5cd2b0d2f76bc69dbd6c9b69843))
+* **map:** restrict actions for users without accounts ([fcf27af](https://github.com/wahdapp/Wahdapp/commit/fcf27af34ec89e64d453ae17729a217850061985))
+* **map:** stop animating to user position after dependency change ([d2f597d](https://github.com/wahdapp/Wahdapp/commit/d2f597dd2b108e87b1afae355f7af3a08ac388ef))
+* **permission:** ask location permission on ready ([750b54f](https://github.com/wahdapp/Wahdapp/commit/750b54fb25cab1256a90722893d396b61c671918))
+* **permission:** guide user to permission settings ([795f7c5](https://github.com/wahdapp/Wahdapp/commit/795f7c53e0c29955ba38ef732ecf8146b3ab6073))
+* **permissions:** guide to settings after catching exception ([e214313](https://github.com/wahdapp/Wahdapp/commit/e214313891942a7b6ea5002ef2576fb4dd5bed03))
+* **permissions:** sync user position, fix notification range ([e4136ad](https://github.com/wahdapp/Wahdapp/commit/e4136ad8f257b31743618ff4a6ced165028fd828))
+* **profile:** history list refresh ([ac4c940](https://github.com/wahdapp/Wahdapp/commit/ac4c9406acdc1d6e5289d8ed0705f61b5040eeb1))
+* **screen:** avoid directing to gender selection screen after oauth login ([634b8b9](https://github.com/wahdapp/Wahdapp/commit/634b8b9467d5811f8eeac66a91adf9c5d2dd7cf3))
+* **signup:** remove the necessity to verify account after signup ([dd5e020](https://github.com/wahdapp/Wahdapp/commit/dd5e02082cab32d1b46cb58ff1b244ef8ad5133f))
+* **splash-screen:** remove preventAutoHideAsync ([87d41cb](https://github.com/wahdapp/Wahdapp/commit/87d41cba27a33345ccc8fb6512aee129a0ff28cd))
+* apple signup, invitation required fields ([2095885](https://github.com/wahdapp/Wahdapp/commit/20958854da68084040820889bc8e3e34355f4335))
+* several ux issues ([c5c11aa](https://github.com/wahdapp/Wahdapp/commit/c5c11aa85f650b939822acc81828808e1691d08c))
+* typo ([44e774a](https://github.com/wahdapp/Wahdapp/commit/44e774a9d12fabb5e49985acab8c0237c1f18132))
+
 ## [0.5.0](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.5.0) (2021-04-04)
 
 ### [0.4.4](https://github.com/aboudicheng/Jamaat/compare/v0.4.3...v0.4.4) (2021-04-03)
