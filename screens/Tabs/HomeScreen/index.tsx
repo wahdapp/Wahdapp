@@ -13,8 +13,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';
 import useLogScreenView from '@/hooks/useLogScreenView';
-import { auth } from '@/firebase';
+import { logEvent } from 'expo-firebase-analytics';
 import { useAuthStatus } from '@/hooks/auth';
+import { isLocationEmpty } from '@/helpers/geo';
 
 const PAGE_SIZE = 5;
 
@@ -104,6 +105,17 @@ export default function HomeScreen({ navigation }: Props) {
     }
   }
 
+  function handleCreateInvitation() {
+    navigation.navigate('CreateInvitation', {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      removeMarker: () => {
+        return;
+      },
+    });
+    logEvent('confirm_location', { type: 'new' });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -160,6 +172,11 @@ export default function HomeScreen({ navigation }: Props) {
           />
         )}
       </View>
+      {isAuth && !isLocationEmpty(location) && (
+        <TouchableOpacity style={styles.floatingBtn} onPress={handleCreateInvitation}>
+          <Feather name="plus" size={30} color="#ffffff" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -212,5 +229,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#7C7C7C',
     fontSize: 18,
+  },
+  floatingBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    position: 'absolute',
+    bottom: Platform.OS === 'ios' ? 20 : 10,
+    right: 10,
+    height: 60,
+    backgroundColor: colors.secondary,
+    borderRadius: 100,
   },
 });

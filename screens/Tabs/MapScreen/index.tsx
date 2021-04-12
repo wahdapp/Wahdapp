@@ -28,11 +28,11 @@ import { setNotifyRegion } from '@/actions/user';
 import { useDispatch } from 'react-redux';
 import { logEvent } from 'expo-firebase-analytics';
 import useLogScreenView from '@/hooks/useLogScreenView';
-import { getLatLong } from '@/helpers/geo';
+import { getLatLong, isLessThanKm } from '@/helpers/geo';
 import { useAuthStatus } from '@/hooks/auth';
 import * as Notifications from 'expo-notifications';
 import { registerToken } from '@/services/device-token';
-import { askPermissions, guideToSettings } from '@/helpers/permission';
+import { guideToSettings } from '@/helpers/permission';
 import { useSnackbar } from '@/contexts/snackbar';
 
 type FilteredMapQuery = Prayer & { geohash: string };
@@ -45,6 +45,8 @@ type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Map'>;
 type Props = {
   navigation: MapScreenNavigationProp;
 };
+
+const isLessThan30Km = isLessThanKm(30);
 
 export default function MapScreen({ navigation }: Props) {
   useLogScreenView('map');
@@ -136,12 +138,20 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   function handleLongPress(coords) {
+    const { coordinate } = coords.nativeEvent;
     // prevent users without an account to select
     if (!isAuth) return;
     // prevent getting triggered while choosing notification area
     if (isChoosingRange) return;
+    // prevent marker being select at anywhere farther than 30km from the current location
+    if (
+      !isLessThan30Km(
+        { lat: userPosition.latitude, lon: userPosition.longitude },
+        { lat: coordinate.latitude, lon: coordinate.longitude }
+      )
+    )
+      return;
 
-    const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     mapRef.current.animateToRegion(
       {
@@ -160,12 +170,21 @@ export default function MapScreen({ navigation }: Props) {
 
   // Google Maps only
   function handlePoiClick(coords) {
+    const { coordinate } = coords.nativeEvent;
+
     // prevent users without an account to select
     if (!isAuth) return;
     // prevent getting triggered while choosing notification area
     if (isChoosingRange) return;
+    // prevent marker being select at anywhere farther than 30km from the current location
+    if (
+      !isLessThan30Km(
+        { lat: userPosition.latitude, lon: userPosition.longitude },
+        { lat: coordinate.latitude, lon: coordinate.longitude }
+      )
+    )
+      return;
 
-    const { coordinate } = coords.nativeEvent;
     setSelectedLocation(coordinate);
     mapRef.current.animateToRegion(
       {

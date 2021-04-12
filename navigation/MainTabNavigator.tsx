@@ -72,11 +72,6 @@ function MapStack() {
     <Stack.Navigator initialRouteName="Map">
       <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
       <Stack.Screen
-        name="CreateInvitation"
-        component={CreateInvitationScreen}
-        options={{ ...headerOptions, title: '', headerBackTitle: ' ' }}
-      />
-      <Stack.Screen
         name="MarkerPrayers"
         component={MarkerPrayersScreen}
         options={{ ...headerOptions, title: t('HISTORY_PRAYERS'), headerBackTitle: ' ' }}
@@ -276,7 +271,11 @@ function MainStack() {
           gestureDirection: 'horizontal',
         })}
       />
-
+      <Stack.Screen
+        name="CreateInvitation"
+        component={CreateInvitationScreen}
+        options={{ ...headerOptions, title: '', headerBackTitle: ' ' }}
+      />
       <Stack.Screen
         name="ReportPrayer"
         component={ReportPrayerScreen}
