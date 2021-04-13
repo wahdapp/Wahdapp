@@ -139,7 +139,9 @@ export default function ProfileScreen({ navigation }: Props) {
             navigation.navigate('Contact');
             break;
           case 2:
-            Linking.openURL(`https://wahd.app${subpath}/`);
+            Linking.openURL(
+              `https://www.launchgood.com/campaign/creative_application_to_invite_people_to_pray_together#!/`
+            );
             break;
           case 3:
             Linking.openURL(`https://wahd.app${subpath}/faq`);
@@ -151,7 +153,6 @@ export default function ProfileScreen({ navigation }: Props) {
       }
     );
   }
-
   function updateFullName(e) {
     if (currentFullName.length && currentFullName !== user.full_name) {
       updateUserName(currentFullName);
