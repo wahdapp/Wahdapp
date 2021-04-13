@@ -8,6 +8,7 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import { useSnackbar } from '@/contexts/snackbar';
 import { Text, BoldText, Touchable, Loader, RoundButton } from '@/components';
@@ -209,14 +210,14 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
                   <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.MALE')}</Text>
                 </View>
                 <View style={styles.counter}>
-                  <Touchable
+                  <TouchableOpacity
                     onPress={() => handleOperation('M', '-')}
                     style={{ position: 'relative', left: 60 }}
                   >
                     <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
                       <Text style={styles.operationText}>-</Text>
                     </View>
-                  </Touchable>
+                  </TouchableOpacity>
 
                   <View style={styles.numberBtn}>
                     <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
@@ -224,13 +225,13 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
                     </Text>
                   </View>
 
-                  <Touchable onPress={() => handleOperation('M', '+')}>
+                  <TouchableOpacity onPress={() => handleOperation('M', '+')}>
                     <View
                       style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}
                     >
                       <Text style={styles.operationText}>+</Text>
                     </View>
-                  </Touchable>
+                  </TouchableOpacity>
                 </View>
               </View>
             )}
@@ -239,14 +240,14 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
                 <Text style={styles.sectionSubHeader}>{t('COMMON:GENDER.FEMALE')}</Text>
               </View>
               <View style={styles.counter}>
-                <Touchable
+                <TouchableOpacity
                   onPress={() => handleOperation('F', '-')}
                   style={{ position: 'relative', left: 60 }}
                 >
                   <View style={[styles.operationBtn, { paddingLeft: 8 }]}>
                     <Text style={styles.operationText}>-</Text>
                   </View>
-                </Touchable>
+                </TouchableOpacity>
 
                 <View style={styles.numberBtn}>
                   <Text style={{ minWidth: 30, textAlign: 'center', color: colors.primary }}>
@@ -254,11 +255,11 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
                   </Text>
                 </View>
 
-                <Touchable onPress={() => handleOperation('F', '+')}>
+                <TouchableOpacity onPress={() => handleOperation('F', '+')}>
                   <View style={[styles.operationBtn, { alignItems: 'flex-end', paddingRight: 8 }]}>
                     <Text style={styles.operationText}>+</Text>
                   </View>
-                </Touchable>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

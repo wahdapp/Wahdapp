@@ -121,20 +121,20 @@ export default function App() {
   }
 
   return (
-    <SnackbarProvider>
-      <Root>
-        <ActionSheetProvider>
-          <Provider store={store}>
-            <View style={styles.container}>
-              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-              <Provider store={store}>
+    <Root>
+      <ActionSheetProvider>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <Provider store={store}>
+              <SnackbarProvider>
                 <AppNavigator userAuth={userAuth} userInfo={userInfo} position={position} />
-              </Provider>
-            </View>
-          </Provider>
-        </ActionSheetProvider>
-      </Root>
-    </SnackbarProvider>
+              </SnackbarProvider>
+            </Provider>
+          </View>
+        </Provider>
+      </ActionSheetProvider>
+    </Root>
   );
 }
 

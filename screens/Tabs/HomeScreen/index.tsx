@@ -137,7 +137,7 @@ export default function HomeScreen({ navigation }: Props) {
         ) : (
           <FlatList
             style={{ height: '100%' }}
-            contentContainerStyle={{ paddingBottom: 60 }}
+            contentContainerStyle={{ paddingBottom: 120 }}
             data={prayers}
             renderItem={({ item }) => (
               <PrayerCard key={item.id} {...item} navigate={navigation.navigate} query={query} />

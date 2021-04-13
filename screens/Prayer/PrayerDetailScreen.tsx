@@ -393,7 +393,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
         )}
 
         {(guests_male > 0 || guests_female > 0) && (
-          <View style={[styles.detailSection, { paddingBottom: 50 }]}>
+          <View style={styles.detailSection}>
             <BoldText style={styles.sectionHeader}>
               {t('GUESTS')} ({guests_male + guests_female})
             </BoldText>
@@ -406,6 +406,8 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
             />
           </View>
         )}
+
+        <View style={{ paddingBottom: 50 }} />
       </ScrollView>
     </View>
   );
@@ -482,7 +484,7 @@ const styles = StyleSheet.create({
   userItem: {
     marginTop: 15,
     minHeight: 75,
-    maxWidth: 100,
+    width: 80,
     marginRight: 10,
   },
   userName: {
