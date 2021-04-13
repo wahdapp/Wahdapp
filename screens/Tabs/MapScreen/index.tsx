@@ -73,10 +73,12 @@ export default function MapScreen({ navigation }: Props) {
       : null
   );
   const [hasSeenGetNotified, setHasSeenGetNotified] = useState(true); // whether the user has previously seen the GetNotified screen
+  const [isFirstMounted, setIsFirstMounted] = useState(false);
   const mapRef = useRef(null);
   const circleRef = useRef(null);
 
   useEffect(() => {
+    setIsFirstMounted(true);
     (async () => {
       if (!notifyLocation) {
         try {
@@ -92,7 +94,7 @@ export default function MapScreen({ navigation }: Props) {
   }, []);
 
   useEffect(() => {
-    if (userPosition && mapRef.current) {
+    if (!isFirstMounted && userPosition && mapRef.current) {
       animateToRegion(userPosition);
     }
   }, [userPosition, mapRef]);

@@ -13,6 +13,7 @@ import { getUserInfo, updateLocale } from '@/services/user';
 import { getPrayerByID } from '@/services/prayer';
 import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
+import { getLatLong } from '@/helpers/geo';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -46,6 +47,16 @@ export default function AppNavigator({ userAuth, userInfo, position }) {
     if (position) {
       dispatch(setLocation(position));
     }
+
+    // Update current position every minute
+    setInterval(async () => {
+      try {
+        const position = await getLatLong();
+        dispatch(setLocation(position));
+      } catch (e) {
+        return;
+      }
+    }, 60000);
   }, [position]);
 
   useEffect(() => {
