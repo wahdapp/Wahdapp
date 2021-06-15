@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/aboudicheng/Jamaat/compare/v0.5.0...v0.5.2) (2021-04-13)
+
+
+### Features
+
+* **location:** update position by interval ([f686f37](https://github.com/aboudicheng/Jamaat/commit/f686f37397a915c7fca0e1a8a3c55d34fc7fb3ea))
+* create invitation from home, prayer location limit ([ecc0814](https://github.com/aboudicheng/Jamaat/commit/ecc0814101748c14ee9075b811de80b8916c4137))
+* **prayer:** add taraweeh option ([8da8094](https://github.com/aboudicheng/Jamaat/commit/8da809486648470bb0ab930b043f3697ea32a6bd))
+
+
+### Bug Fixes
+
+* **style:** snackbar, styling ([6873b6d](https://github.com/aboudicheng/Jamaat/commit/6873b6de6c276d9e68ee5a3d5117c14a6099ad0e))
+
+### [0.4.4](https://github.com/aboudicheng/Jamaat/compare/v0.4.3...v0.4.4) (2021-04-03)
+
+
+### Features
+
+* **splash-screen:** fetch user data in splash screen ([bcf4082](https://github.com/aboudicheng/Jamaat/commit/bcf4082252c1a5aa91e6b86992e88c5a5f475c00))
+
+### [0.4.3](https://github.com/aboudicheng/Jamaat/compare/v0.4.2...v0.4.3) (2021-04-02)
+
+### [0.4.2](https://github.com/aboudicheng/Jamaat/compare/v0.4.1...v0.4.2) (2021-04-02)
+
 ### 0.5.1 (2021-04-09)
 
 
