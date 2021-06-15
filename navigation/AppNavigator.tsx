@@ -14,12 +14,15 @@ import { getPrayerByID } from '@/services/prayer';
 import i18n from 'i18next';
 import { formatLanguage } from '@/helpers/dateFormat';
 import { getLatLong } from '@/helpers/geo';
+import { Platform } from 'react-native';
+import { AndroidNotificationPriority } from 'expo-notifications';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
+    priority: AndroidNotificationPriority.MAX,
   }),
 });
 
@@ -30,6 +33,18 @@ export default function AppNavigator({ userAuth, userInfo, position }) {
 
   useEffect(() => {
     init();
+
+    if (Platform.OS === 'android') {
+      (async () => {
+        const result = await Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+        });
+
+        console.log({ result });
+      })();
+    }
 
     const notificationListener = Notifications.addNotificationReceivedListener(handleNotification);
     const responseListener = Notifications.addNotificationResponseReceivedListener(
