@@ -96,6 +96,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
     location,
     id,
     description,
+    place_name,
   } = route.params;
 
   const [distance, setDistance] = useState(null);
@@ -350,23 +351,36 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
 
         <View style={styles.line} />
 
-        <View style={styles.detailSection}>
-          <BoldText style={styles.sectionHeader} selectable={true}>
-            {t('DESCRIPTION')}
-          </BoldText>
-          <Text style={styles.sectionSubHeader} selectable={true}>
-            {currentDescription}
-          </Text>
-          <TouchableOpacity onPress={handleTranslation}>
-            <Text style={styles.translate}>
-              {isTranslating
-                ? t('COMMON:LOADING')
-                : showTranslation
-                ? t('VIEW_ORIGINAL')
-                : t('VIEW_TRANSLATION')}
+        {place_name?.length ? (
+          <View style={styles.detailSection}>
+            <BoldText style={styles.sectionHeader} selectable={true}>
+              {t('PLACE')}
+            </BoldText>
+            <Text style={styles.sectionSubHeader} selectable={true}>
+              {place_name} the name of the place
             </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+        ) : null}
+
+        {description?.length ? (
+          <View style={styles.detailSection}>
+            <BoldText style={styles.sectionHeader} selectable={true}>
+              {t('DESCRIPTION')}
+            </BoldText>
+            <Text style={styles.sectionSubHeader} selectable={true}>
+              {currentDescription}
+            </Text>
+            <TouchableOpacity onPress={handleTranslation}>
+              <Text style={styles.translate}>
+                {isTranslating
+                  ? t('COMMON:LOADING')
+                  : showTranslation
+                  ? t('VIEW_ORIGINAL')
+                  : t('VIEW_TRANSLATION')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         <View style={styles.line} />
 

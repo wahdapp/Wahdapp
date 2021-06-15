@@ -43,7 +43,8 @@ export interface Prayer {
   guests_male: number;
   guests_female: number;
   schedule_time: string;
-  description: string;
+  place_name?: string;
+  description?: string;
 }
 
 export interface User {

@@ -46,6 +46,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   const dispatch = useDispatch();
 
   const [selectedPrayer, setSelectedPrayer] = useState('');
+  const [placeName, setPlaceName] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(null);
@@ -57,9 +58,9 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   const user = useUserInfo();
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
-  const isComplete = useMemo(() => !!selectedPrayer.length && !!description.length && !!time, [
+  const isComplete = useMemo(() => !!selectedPrayer.length && !!placeName.length && !!time, [
     selectedPrayer,
-    description,
+    placeName,
     time,
   ]);
 
@@ -115,6 +116,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       const payload = {
         schedule_time: formattedSchedule,
         selected_prayer: selectedPrayer,
+        placeName,
         description,
         lat: latitude,
         lng: longitude,
@@ -133,6 +135,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       const params = {
         schedule_time: payload.schedule_time,
         prayer: payload.selected_prayer,
+        place: payload.placeName,
         description: payload.description,
         location: {
           lat: payload.lat,
@@ -334,8 +337,20 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
           />
 
           <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
+            <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>{t('PLACE')} *</BoldText>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="#dedede"
+              placeholder={t('PLACE_PLACEHOLDER')}
+              maxLength={40}
+              onChangeText={setPlaceName}
+              value={placeName}
+            />
+          </View>
+
+          <View style={[styles.detailSection, { paddingHorizontal: 25 }]}>
             <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>
-              {t('DESCRIPTION')} *
+              {t('DESCRIPTION')}
             </BoldText>
             <TextInput
               multiline={true}
@@ -527,6 +542,13 @@ const styles = StyleSheet.create({
   operationText: {
     fontSize: 26,
     color: '#fff',
+  },
+  input: {
+    fontFamily: 'Sen',
+    borderWidth: 0,
+    letterSpacing: 1.8,
+    fontSize: 14,
+    lineHeight: 22,
   },
   textArea: {
     width: '100%',
