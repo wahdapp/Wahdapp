@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/wahdapp/Wahdapp/compare/v0.5.1...v0.6.0) (2021-06-15)
+
+
+### Features
+
+* **expo:** upgrade to sdk 41, TrackingTransparency on iOS ([9804cb9](https://github.com/wahdapp/Wahdapp/commit/9804cb995b80331a5290ca8555ffff0550944b8a))
+* **location:** update position by interval ([f686f37](https://github.com/wahdapp/Wahdapp/commit/f686f37397a915c7fca0e1a8a3c55d34fc7fb3ea))
+* **notification:** set priority ([38f71ef](https://github.com/wahdapp/Wahdapp/commit/38f71ef2de55c97f6c217c50dfcc8323ad8bc000))
+* **prayer:** add location name field ([630a4af](https://github.com/wahdapp/Wahdapp/commit/630a4afe920233291eeecb2ceaca66ebbb0b1dff))
+* **prayer:** linkify urls in description ([deed180](https://github.com/wahdapp/Wahdapp/commit/deed180b9c9332bab4955ab6d218f5a2d9e6dcb0))
+* create invitation from home, prayer location limit ([ecc0814](https://github.com/wahdapp/Wahdapp/commit/ecc0814101748c14ee9075b811de80b8916c4137))
+
+
+### Bug Fixes
+
+* **api:** payload field name ([ead2b32](https://github.com/wahdapp/Wahdapp/commit/ead2b32452ef93e5da76c3f241c3472218ab806e))
+* **details:** remove dummy text ([de0c8ae](https://github.com/wahdapp/Wahdapp/commit/de0c8aecf707a81a4d6048a82ce10139d4061842))
+* **style:** snackbar, styling ([6873b6d](https://github.com/wahdapp/Wahdapp/commit/6873b6de6c276d9e68ee5a3d5117c14a6099ad0e))
+
 ### [0.5.2](https://github.com/aboudicheng/Jamaat/compare/v0.5.0...v0.5.2) (2021-04-13)
 
 
