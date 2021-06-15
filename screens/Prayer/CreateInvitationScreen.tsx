@@ -340,11 +340,12 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
             <BoldText style={[styles.sectionHeader, { paddingLeft: 0 }]}>{t('PLACE')} *</BoldText>
             <TextInput
               style={styles.input}
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
               placeholder={t('PLACE_PLACEHOLDER')}
               maxLength={40}
               onChangeText={setPlaceName}
               value={placeName}
+              returnKeyType="done"
             />
           </View>
 
@@ -358,7 +359,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
               onChangeText={setDescription}
               value={description}
               style={styles.textArea}
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
               placeholder={t('PLACEHOLDER')}
             />
           </View>
@@ -546,7 +547,6 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: 'Sen',
     borderWidth: 0,
-    letterSpacing: 1.8,
     fontSize: 14,
     lineHeight: 22,
   },
