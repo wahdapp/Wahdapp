@@ -358,7 +358,7 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
               {t('PLACE')}
             </BoldText>
             <Text style={styles.sectionSubHeader} selectable={true}>
-              {place_name} the name of the place
+              {place_name}
             </Text>
           </View>
         ) : null}
