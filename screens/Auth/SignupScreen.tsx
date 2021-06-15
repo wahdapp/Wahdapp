@@ -105,7 +105,7 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
               onChangeText={setFullName}
               style={styles.textInput}
               placeholder="Ahmad Ali"
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
               maxLength={30}
             />
           </Animatable.View>
@@ -117,7 +117,7 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
               onChangeText={setEmail}
               style={styles.textInput}
               placeholder="ahmad@email.com"
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
             />
           </Animatable.View>
 
@@ -129,7 +129,7 @@ export default function SignupScreen({ navigation: { navigate } }: Props) {
               secureTextEntry={true}
               style={styles.textInput}
               placeholder="********"
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
             />
           </Animatable.View>
 

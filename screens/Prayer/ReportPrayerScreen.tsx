@@ -101,7 +101,7 @@ function ReportPrayerScreen({ route, navigation }: Props) {
           onChangeText={setDescription}
           value={description}
           style={styles.textArea}
-          placeholderTextColor="#dedede"
+          placeholderTextColor="#ccc"
           placeholder={t('PLACEHOLDER')}
         />
       </ScrollView>

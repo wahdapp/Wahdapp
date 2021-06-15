@@ -82,7 +82,7 @@ export default function ForgotPasswordScreen({ navigation: { navigate } }: Props
                     onChangeText={setEmail}
                     style={styles.textInput}
                     placeholder="ahmad@email.com"
-                    placeholderTextColor="#dedede"
+                    placeholderTextColor="#ccc"
                   />
                 </View>
 

@@ -192,7 +192,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
                   backgroundColor={selectedPrayer === item ? colors.primary : '#fff'}
                   textStyle={{
                     textTransform: 'capitalize',
-                    color: selectedPrayer === item ? '#fff' : '#dedede',
+                    color: selectedPrayer === item ? '#fff' : '#ccc',
                   }}
                 >
                   {PRAYERS[item]}
@@ -369,8 +369,8 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
               <View
                 style={{
                   ...styles.inviteBtn,
-                  backgroundColor: isComplete ? colors.primary : '#dedede',
-                  borderColor: isComplete ? colors.primary : '#dedede',
+                  backgroundColor: isComplete ? colors.primary : '#ccc',
+                  borderColor: isComplete ? colors.primary : '#ccc',
                   borderWidth: isComplete ? 2 : 0,
                 }}
               >

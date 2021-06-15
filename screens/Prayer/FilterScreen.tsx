@@ -120,7 +120,7 @@ export default function FilterScreen({ navigation }: Props) {
               backgroundColor={selectedSort === 'distance' ? colors.primary : '#fff'}
               textStyle={{
                 textTransform: 'capitalize',
-                color: selectedSort === 'distance' ? '#fff' : '#dedede',
+                color: selectedSort === 'distance' ? '#fff' : '#ccc',
               }}
             >
               {t('DISTANCE')}
@@ -131,7 +131,7 @@ export default function FilterScreen({ navigation }: Props) {
               backgroundColor={selectedSort === 'participants' ? colors.primary : '#fff'}
               textStyle={{
                 textTransform: 'capitalize',
-                color: selectedSort === 'participants' ? '#fff' : '#dedede',
+                color: selectedSort === 'participants' ? '#fff' : '#ccc',
               }}
             >
               {t('PARTICIPANTS')}
@@ -142,7 +142,7 @@ export default function FilterScreen({ navigation }: Props) {
               backgroundColor={selectedSort === 'time' ? colors.primary : '#fff'}
               textStyle={{
                 textTransform: 'capitalize',
-                color: selectedSort === 'time' ? '#fff' : '#dedede',
+                color: selectedSort === 'time' ? '#fff' : '#ccc',
               }}
             >
               {t('TIME')}
@@ -171,7 +171,7 @@ export default function FilterScreen({ navigation }: Props) {
                 backgroundColor={selectedPrayers.includes(item) ? colors.primary : '#fff'}
                 textStyle={{
                   textTransform: 'capitalize',
-                  color: selectedPrayers.includes(item) ? '#fff' : '#dedede',
+                  color: selectedPrayers.includes(item) ? '#fff' : '#ccc',
                 }}
               >
                 {PRAYERS[item]}

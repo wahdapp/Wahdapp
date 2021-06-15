@@ -148,7 +148,7 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
               onChangeText={setEmail}
               style={styles.textInput}
               placeholder="ahmad@email.com"
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
             />
           </Animatable.View>
 
@@ -160,7 +160,7 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
               secureTextEntry={true}
               style={styles.textInput}
               placeholder="********"
-              placeholderTextColor="#dedede"
+              placeholderTextColor="#ccc"
             />
           </Animatable.View>
 
