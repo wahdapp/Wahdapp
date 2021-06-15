@@ -35,6 +35,7 @@ import useLogScreenView from '@/hooks/useLogScreenView';
 import { useAuthStatus } from '@/hooks/auth';
 import isEmpty from 'lodash/isEmpty';
 import i18n from 'i18next';
+import Hyperlink from 'react-native-hyperlink';
 
 type PrayerDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PrayerDetail'>;
 
@@ -363,23 +364,25 @@ export default function PrayerDetailScreen({ route, navigation }: Props) {
         ) : null}
 
         {description?.length ? (
-          <View style={styles.detailSection}>
-            <BoldText style={styles.sectionHeader} selectable={true}>
-              {t('DESCRIPTION')}
-            </BoldText>
-            <Text style={styles.sectionSubHeader} selectable={true}>
-              {currentDescription}
-            </Text>
-            <TouchableOpacity onPress={handleTranslation}>
-              <Text style={styles.translate}>
-                {isTranslating
-                  ? t('COMMON:LOADING')
-                  : showTranslation
-                  ? t('VIEW_ORIGINAL')
-                  : t('VIEW_TRANSLATION')}
+          <Hyperlink linkDefault={true} linkStyle={styles.link}>
+            <View style={styles.detailSection}>
+              <BoldText style={styles.sectionHeader} selectable={true}>
+                {t('DESCRIPTION')}
+              </BoldText>
+              <Text style={styles.sectionSubHeader} selectable={true}>
+                {currentDescription}
               </Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity onPress={handleTranslation}>
+                <Text style={styles.translate}>
+                  {isTranslating
+                    ? t('COMMON:LOADING')
+                    : showTranslation
+                    ? t('VIEW_ORIGINAL')
+                    : t('VIEW_TRANSLATION')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Hyperlink>
         ) : null}
 
         <View style={styles.line} />
@@ -485,6 +488,9 @@ const styles = StyleSheet.create({
     color: '#7C7C7C',
     lineHeight: 22,
     marginBottom: 8,
+  },
+  link: {
+    color: colors.primary,
   },
   translate: {
     fontSize: 12,
