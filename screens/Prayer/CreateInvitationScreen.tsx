@@ -116,7 +116,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       const payload = {
         schedule_time: formattedSchedule,
         selected_prayer: selectedPrayer,
-        placeName,
+        place_name: placeName,
         description,
         lat: latitude,
         lng: longitude,
@@ -135,7 +135,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
       const params = {
         schedule_time: payload.schedule_time,
         prayer: payload.selected_prayer,
-        place: payload.placeName,
+        place_name: payload.place_name,
         description: payload.description,
         location: {
           lat: payload.lat,
