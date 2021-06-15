@@ -11,8 +11,7 @@ import { registerToken } from '@/services/device-token';
 import * as Notifications from 'expo-notifications';
 import * as Animatable from 'react-native-animatable';
 import colors from '@/constants/colors';
-import { logEvent } from 'expo-firebase-analytics';
-import useLogScreenView from '@/hooks/useLogScreenView';
+import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
 import i18n from 'i18next';
 
 function SelectGenderScreen() {

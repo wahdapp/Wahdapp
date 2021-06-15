@@ -30,8 +30,7 @@ import { RootStackParamList } from '@/types';
 import { useUserInfo } from '@/hooks/redux';
 import { deleteDeviceToken } from '@/services/device-token';
 import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
-import { logEvent } from 'expo-firebase-analytics';
-import useLogScreenView from '@/hooks/useLogScreenView';
+import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
 import * as Device from 'expo-device';
 import SelectGenderScreen from '@/screens/Auth/SelectGenderScreen';
 

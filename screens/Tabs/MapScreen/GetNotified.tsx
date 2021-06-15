@@ -2,7 +2,6 @@ import React, { Dispatch, useState, useEffect } from 'react';
 import { WAVE } from '@/assets/images';
 import { StyleSheet, Image, View, ScrollView } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 import { BoldText, RoundButton, Text } from '@/components';
 import colors from '@/constants/colors';
 import { useDispatch } from 'react-redux';

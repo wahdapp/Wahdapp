@@ -18,6 +18,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { UserPrivateInfo } from './types';
 import { getUserInfo, updateLocale } from './services/user';
 import i18n from 'i18next';
+import { requestTrackingPermissionsAsync, isAvailable } from 'expo-tracking-transparency';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -79,6 +80,11 @@ export default function App() {
           const result = await askPermissions();
           if (!position) {
             setPosition(result);
+          }
+
+          // TrackingTransparency Permission, necessary for iOS 14 and higher
+          if (isAvailable) {
+            requestTrackingPermissionsAsync();
           }
         } catch (e) {
           return;
