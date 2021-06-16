@@ -55,6 +55,7 @@ export default ({ config }) => {
       },
       "infoPlist": {
         "UIBackgroundModes": ["fetch"],
+        "NSUserTrackingUsageDescription": "Wahdapp tracks user behaviors in order to further improve its user experience.",
         "NSLocationWhenInUseUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
         "NSLocationAlwaysUsageDescription": "Wahdapp requires your location in order to find prayers around you.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Wahdapp requires your location in order to find prayers around you.",

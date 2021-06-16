@@ -83,7 +83,7 @@ export default function App() {
           }
 
           // TrackingTransparency Permission, necessary for iOS 14 and higher
-          if (isAvailable) {
+          if (isAvailable()) {
             requestTrackingPermissionsAsync();
           }
         } catch (e) {
