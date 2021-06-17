@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import MapView, { MapEvent, Marker, Circle } from 'react-native-maps';
+import MapView, { MapEvent, Marker, Circle, Region, LatLng } from 'react-native-maps';
 import {
   StyleSheet,
   Image,
@@ -36,10 +36,6 @@ import { guideToSettings } from '@/helpers/permission';
 import { useSnackbar } from '@/contexts/snackbar';
 
 type FilteredMapQuery = Prayer & { geohash: string };
-type Region = {
-  latitude: number;
-  longitude: number;
-};
 type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Map'>;
 
 type Props = {
@@ -55,16 +51,16 @@ export default function MapScreen({ navigation }: Props) {
   const { t } = useTranslation(['INVITATION', 'HOME']);
   const dispatch = useDispatch();
   const prayers = useMapPrayers();
-  const userPosition: Region = useLocation() as Region;
+  const userPosition: LatLng = useLocation() as LatLng;
   const [, setErrorMessage] = useSnackbar();
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [currentRegion, setCurrentRegion] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState<LatLng>(null);
+  const [currentRegion, setCurrentRegion] = useState<LatLng>(null);
   const [currentZoom, setCurrentZoom] = useState({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
   const [isQuerying, setIsQuerying] = useState(false);
   const [filteredNearbyMarkers, setFilteredNearbyMarkers] = useState<FilteredMapQuery[]>([]);
   const [showAreaSelectionTip, setShowAreaSelectionTip] = useState(!user.location?.lat);
   const [isChoosingRange, setIsChoosingRange] = useState(false);
-  const [notifyLocation, setNotifyLocation] = useState<Region>(
+  const [notifyLocation, setNotifyLocation] = useState<LatLng>(
     user.location?.lat
       ? {
           latitude: user.location.lat,
@@ -100,6 +96,8 @@ export default function MapScreen({ navigation }: Props) {
   }, [userPosition, mapRef]);
 
   useEffect(() => {
+    // when user starts picking the notification area, animate the current
+    // region to the previously selected area, otherwise to the current position
     if (isChoosingRange && mapRef.current) {
       animateToRegion(notifyLocation ?? userPosition);
     }
@@ -119,7 +117,7 @@ export default function MapScreen({ navigation }: Props) {
     }
   }, [isAuth, showAreaSelectionTip]);
 
-  function animateToRegion(region: Region) {
+  function animateToRegion(region: LatLng) {
     setTimeout(() => {
       mapRef?.current?.animateToRegion(
         {
@@ -134,13 +132,13 @@ export default function MapScreen({ navigation }: Props) {
     }, 100);
   }
 
-  function handleDrag(coords) {
+  function handleDrag(coords: Region) {
     setCurrentRegion({ latitude: coords.latitude, longitude: coords.longitude });
     setCurrentZoom({ latitudeDelta: coords.latitudeDelta, longitudeDelta: coords.longitudeDelta });
   }
 
-  function handleLongPress(coords) {
-    const { coordinate } = coords.nativeEvent;
+  function handleLongPress(event: MapEvent) {
+    const { coordinate } = event.nativeEvent;
     // prevent users without an account to select
     if (!isAuth) return;
     // prevent getting triggered while choosing notification area
@@ -171,8 +169,13 @@ export default function MapScreen({ navigation }: Props) {
   }
 
   // Google Maps only
-  function handlePoiClick(coords) {
-    const { coordinate } = coords.nativeEvent;
+  function handlePoiClick(
+    event: MapEvent<{
+      placeId: string;
+      name: string;
+    }>
+  ) {
+    const { coordinate } = event.nativeEvent;
 
     // prevent users without an account to select
     if (!isAuth) return;
@@ -217,8 +220,10 @@ export default function MapScreen({ navigation }: Props) {
     setSelectedLocation({ latitude: userPosition.latitude, longitude: userPosition.longitude });
   }
 
-  const handleMarkerDrag = (setLocation) => (coords) => {
-    const { coordinate } = coords.nativeEvent;
+  const handleMarkerDrag = (setLocation: React.Dispatch<React.SetStateAction<LatLng>>) => (
+    event: MapEvent
+  ) => {
+    const { coordinate } = event.nativeEvent;
     setLocation(coordinate);
     mapRef.current.animateToRegion({
       ...coordinate,
