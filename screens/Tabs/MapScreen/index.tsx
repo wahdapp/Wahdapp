@@ -70,6 +70,7 @@ export default function MapScreen({ navigation }: Props) {
   );
   const [hasSeenGetNotified, setHasSeenGetNotified] = useState(true); // whether the user has previously seen the GetNotified screen
   const [isFirstMounted, setIsFirstMounted] = useState(false);
+  const [poiPlace, setPoiPlace] = useState('');
   const mapRef = useRef(null);
   const circleRef = useRef(null);
 
@@ -166,6 +167,7 @@ export default function MapScreen({ navigation }: Props) {
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
     });
+    setPoiPlace('');
   }
 
   // Google Maps only
@@ -204,6 +206,7 @@ export default function MapScreen({ navigation }: Props) {
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
     });
+    setPoiPlace(event.nativeEvent.name);
   }
 
   async function handleFloatBtnClick() {
@@ -218,6 +221,7 @@ export default function MapScreen({ navigation }: Props) {
     );
 
     setSelectedLocation({ latitude: userPosition.latitude, longitude: userPosition.longitude });
+    setPoiPlace('');
   }
 
   const handleMarkerDrag = (setLocation: React.Dispatch<React.SetStateAction<LatLng>>) => (
@@ -234,10 +238,11 @@ export default function MapScreen({ navigation }: Props) {
 
   function removeMarker() {
     setSelectedLocation(null);
+    setPoiPlace('');
   }
 
   function handleConfirm(location: { latitude: number; longitude: number }) {
-    navigation.navigate('CreateInvitation', { ...location, removeMarker });
+    navigation.navigate('CreateInvitation', { ...location, removeMarker, poiPlace });
     logEvent('confirm_location', { type: 'new' });
   }
 

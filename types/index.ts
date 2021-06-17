@@ -4,7 +4,12 @@ export type RootStackParamList = {
   PrayerTime: undefined;
   Profile: undefined;
   Filter: undefined;
-  CreateInvitation: { latitude: number; longitude: number; removeMarker: () => void };
+  CreateInvitation: {
+    latitude: number;
+    longitude: number;
+    removeMarker: () => void;
+    poiPlace?: string;
+  };
   MarkerPrayers: {
     nearbyPrayers: Prayer[];
     handleConfirm: (location: { latitude: number; longitude: number }) => void;

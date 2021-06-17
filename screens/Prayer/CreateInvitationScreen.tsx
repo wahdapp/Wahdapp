@@ -47,7 +47,7 @@ export default function CreateInvitationScreen({ route, navigation }: Props) {
   const dispatch = useDispatch();
 
   const [selectedPrayer, setSelectedPrayer] = useState('');
-  const [placeName, setPlaceName] = useState('');
+  const [placeName, setPlaceName] = useState(route.params.poiPlace ?? '');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(null);
