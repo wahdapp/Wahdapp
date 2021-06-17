@@ -258,14 +258,22 @@ export default function MapScreen({ navigation }: Props) {
       dispatch({ type: 'SET_MAP', payload: list });
 
       // Gather all unique geohashes to prevent multiple markers on the same spot
-      const geohashes = [];
-      const filtered = [];
-      for (const prayer of list) {
-        const hash = geohash.encode(prayer.location.lat, prayer.location.lng);
+      const geohashes = new Set();
+      const filtered: FilteredMapQuery[] = [];
 
-        if (!geohashes.includes(hash)) {
-          geohashes.push(hash);
-          filtered.push({ ...prayer, geohash: hash });
+      for (const prayer of list) {
+        const isPrayerActive = dayjs().isBefore(dayjs(prayer.schedule_time));
+        const hash: string = geohash.encode(prayer.location.lat, prayer.location.lng);
+
+        if (!geohashes.has(hash)) {
+          geohashes.add(hash);
+
+          // make sure the active ones can be seen as a green dot on the map
+          if (isPrayerActive) {
+            filtered.unshift({ ...prayer, geohash: hash });
+          } else {
+            filtered.push({ ...prayer, geohash: hash });
+          }
         }
       }
 
