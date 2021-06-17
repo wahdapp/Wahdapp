@@ -264,7 +264,7 @@ export default function MapScreen({ navigation }: Props) {
 
       // Gather all unique geohashes to prevent multiple markers on the same spot
       const geohashes = new Set();
-      const filtered: FilteredMapQuery[] = [];
+      let filtered: FilteredMapQuery[] = [];
 
       for (const prayer of list) {
         const isPrayerActive = dayjs().isBefore(dayjs(prayer.schedule_time));
@@ -272,13 +272,14 @@ export default function MapScreen({ navigation }: Props) {
 
         if (!geohashes.has(hash)) {
           geohashes.add(hash);
+          filtered.push({ ...prayer, geohash: hash });
+        }
 
-          // make sure the active ones can be seen as a green dot on the map
-          if (isPrayerActive) {
-            filtered.unshift({ ...prayer, geohash: hash });
-          } else {
-            filtered.push({ ...prayer, geohash: hash });
-          }
+        // make sure the active ones can be seen as a green dot on the map
+        if (isPrayerActive) {
+          geohashes.add(hash);
+          filtered = filtered.filter((prayer) => prayer.geohash !== hash);
+          filtered.push({ ...prayer, geohash: hash });
         }
       }
 
