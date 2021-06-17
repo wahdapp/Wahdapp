@@ -12,7 +12,8 @@ import { setNotificationRedirect } from '@/actions/notifications';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useLocation, useNotification, useFeedPrayers } from '@/hooks/redux';
-import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
+import useLogScreenView from '@/hooks/useLogScreenView';
+import { logEvent } from 'expo-firebase-analytics';
 import { useAuthStatus } from '@/hooks/auth';
 import { isLocationEmpty } from '@/helpers/geo';
 

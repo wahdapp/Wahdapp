@@ -21,7 +21,8 @@ import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { useFilter, useUserInfo } from '@/hooks/redux';
-import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
+import useLogScreenView from '@/hooks/useLogScreenView';
+import { logEvent } from 'expo-firebase-analytics';
 
 type FilterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Filter'>;
 

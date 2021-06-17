@@ -19,6 +19,7 @@ import { UserPrivateInfo } from './types';
 import { getUserInfo, updateLocale } from './services/user';
 import i18n from 'i18next';
 import { requestTrackingPermissionsAsync, isAvailable } from 'expo-tracking-transparency';
+import { setAnalyticsCollectionEnabled } from 'expo-firebase-analytics';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -84,7 +85,9 @@ export default function App() {
 
           // TrackingTransparency Permission, necessary for iOS 14 and higher
           if (isAvailable()) {
-            requestTrackingPermissionsAsync();
+            const { granted } = await requestTrackingPermissionsAsync();
+
+            await setAnalyticsCollectionEnabled(granted);
           }
         } catch (e) {
           return;

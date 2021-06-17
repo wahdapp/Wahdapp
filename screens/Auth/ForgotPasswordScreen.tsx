@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import colors from '@/constants/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/types';
-import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
+import useLogScreenView from '@/hooks/useLogScreenView';
+import { logEvent } from 'expo-firebase-analytics';
 
 type ForgotPasswordScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ForgotPassword'>;
 

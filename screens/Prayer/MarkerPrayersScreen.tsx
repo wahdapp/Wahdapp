@@ -6,7 +6,8 @@ import * as Animatable from 'react-native-animatable';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
-import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
+import useLogScreenView from '@/hooks/useLogScreenView';
+import { logEvent } from 'expo-firebase-analytics';
 import { useAuthStatus } from '@/hooks/auth';
 
 type MarkerPrayersNavigationProp = StackNavigationProp<RootStackParamList, 'MarkerPrayers'>;

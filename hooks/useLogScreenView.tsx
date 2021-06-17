@@ -1,28 +1,11 @@
 import { useEffect } from 'react';
-import { setCurrentScreen, logEvent as log } from 'expo-firebase-analytics';
-import { getTrackingPermissionsAsync } from 'expo-tracking-transparency';
-
-export async function logEvent(
-  name: string,
-  properties?: {
-    [key: string]: any;
-  }
-) {
-  const { granted } = await getTrackingPermissionsAsync();
-
-  if (granted) {
-    log(name, properties);
-  }
-}
+import { setCurrentScreen } from 'expo-firebase-analytics';
 
 function useLogScreenView(screen: string) {
   useEffect(() => {
     (async () => {
       try {
-        const { granted } = await getTrackingPermissionsAsync();
-        if (granted) {
-          await setCurrentScreen(screen);
-        }
+        await setCurrentScreen(screen);
       } catch (e) {
         console.log(e);
       }

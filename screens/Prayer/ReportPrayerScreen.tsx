@@ -13,7 +13,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 import { RouteProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import useLogScreenView, { logEvent } from '@/hooks/useLogScreenView';
+import useLogScreenView from '@/hooks/useLogScreenView';
+import { logEvent } from 'expo-firebase-analytics';
 
 type ReportPrayerScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ReportPrayer'>;
 
