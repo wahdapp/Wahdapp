@@ -110,9 +110,10 @@ export default function AppNavigator({ userAuth, userInfo, position }) {
   }
 
   async function initFilter() {
-    const prayersFilter = await AsyncStorage.getItem('prayersFilter');
-    if (prayersFilter) {
-      dispatch(setFilter(JSON.parse(prayersFilter)));
+    // load filter preferences from storage to redux (if any)
+    const preferences = await AsyncStorage.getItem('filter_preferences');
+    if (preferences) {
+      dispatch(setFilter(JSON.parse(preferences)));
     }
   }
 

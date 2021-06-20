@@ -20,6 +20,7 @@ import { getUserInfo, updateLocale } from './services/user';
 import i18n from 'i18next';
 import { requestTrackingPermissionsAsync, isAvailable } from 'expo-tracking-transparency';
 import { setAnalyticsCollectionEnabled } from 'expo-firebase-analytics';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 // Enable sentry in production
 if (!__DEV__) {
@@ -36,6 +37,7 @@ export default function App() {
     SenBold: require('./assets/fonts/Sen-Bold.ttf'),
     ...Feather.font,
   });
+  const userInfoStorage = useAsyncStorage('user_info');
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
@@ -115,7 +117,18 @@ export default function App() {
     }
     try {
       await authenticateUser();
-      const info = await getUserInfo(auth.currentUser.uid);
+
+      const { getItem, setItem } = userInfoStorage;
+
+      // retrieve user info directly from storage if it already exists
+      // otherwise fetch from server and save in storage
+      let info = JSON.parse(await getItem()) as UserPrivateInfo;
+
+      if (!info) {
+        info = await getUserInfo(auth.currentUser.uid);
+        await setItem(JSON.stringify(info));
+      }
+
       if (info.locale !== i18n.language) {
         updateLocale(i18n.language);
       }

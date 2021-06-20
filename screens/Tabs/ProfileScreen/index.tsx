@@ -164,7 +164,8 @@ export default function ProfileScreen({ navigation }: Props) {
   function logout() {
     deleteDeviceToken(); // no need to await
     auth.signOut();
-    AsyncStorage.removeItem('prayersFilter');
+    AsyncStorage.removeItem('filter_preferences');
+    AsyncStorage.removeItem('user_info');
     dispatch(initUser());
   }
 

@@ -74,15 +74,19 @@ export interface UserPrivateInfo {
   participatedAmount?: number;
 }
 
+export interface FilterPreference {
+  sort_by: 'distance' | 'participants' | 'time';
+  selected_prayers: string[];
+  same_gender: boolean;
+}
+
 export interface RootState {
   userState: UserPrivateInfo;
   locationState: {
     latitude?: number;
     longitude?: number;
   };
-  filterState: {
-    sortBy: 'distance' | 'participants' | 'time';
-  };
+  filterState: FilterPreference;
   notificationState: {
     redirectScreen: keyof RootStackParamList;
     redirectPayload: any;

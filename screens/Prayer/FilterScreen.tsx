@@ -9,12 +9,12 @@ import {
   Switch,
   Platform,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
 import { Text, BoldText, RoundButton, Loader } from '@/components';
 import { Feather } from '@expo/vector-icons';
 import { prayerTypes } from '@/constants/prayers';
-import { setSortBy } from '@/actions/filter';
+import { setFilter } from '@/actions/filter';
 import { useTranslation } from 'react-i18next';
 import { getFilterPreference, updateFilterPreference } from '@/services/user';
 import colors from '@/constants/colors';
@@ -32,20 +32,42 @@ type Props = {
 
 export default function FilterScreen({ navigation }: Props) {
   useLogScreenView('filter');
+  const filterStorage = useAsyncStorage('filter_preferences');
   const user = useUserInfo();
   const filterState = useFilter();
   const dispatch = useDispatch();
 
-  const [selectedPrayers, setSelectedPrayers] = useState(prayerTypes);
-  const [sameGender, setSameGender] = useState(false);
-  const [selectedSort, setSelectedSort] = useState(filterState.sortBy);
+  const [selectedPrayers, setSelectedPrayers] = useState(filterState.selected_prayers);
+  const [sameGender, setSameGender] = useState(filterState.same_gender);
+  const [selectedSort, setSelectedSort] = useState(filterState.sort_by);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['FILTER', 'COMMON']);
 
   const PRAYERS = t('COMMON:PRAYERS', { returnObjects: true });
 
   useEffect(() => {
-    fetchFilterPreference();
+    (async () => {
+      try {
+        const { getItem, setItem } = filterStorage;
+
+        // retrieve preferences directly from storage if already exists
+        // otherwise fetch from server, save in storage and update redux store
+        let preferences = JSON.parse(await getItem());
+
+        if (preferences) {
+          setSelectedSort(preferences.sort_by ?? 'distance');
+        } else {
+          preferences = await getFilterPreference();
+          dispatch(setFilter({ ...preferences, sort_by: 'distance' }));
+          await setItem(JSON.stringify(preferences));
+        }
+
+        setSameGender(preferences.same_gender);
+        setSelectedPrayers(preferences.selected_prayers);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, []);
 
   React.useLayoutEffect(() => {
@@ -57,17 +79,6 @@ export default function FilterScreen({ navigation }: Props) {
       ),
     });
   }, [navigation]);
-
-  async function fetchFilterPreference() {
-    try {
-      const preference = await getFilterPreference();
-
-      setSameGender(preference.same_gender);
-      setSelectedPrayers(preference.selected_prayers);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   function resetFilter() {
     setSelectedPrayers(prayerTypes);
@@ -84,9 +95,15 @@ export default function FilterScreen({ navigation }: Props) {
         same_gender: sameGender,
       });
 
-      await AsyncStorage.setItem('prayersFilter', JSON.stringify({ sortBy: selectedSort }));
+      const newState = {
+        sort_by: selectedSort,
+        selected_prayers: selectedPrayers,
+        same_gender: sameGender,
+      };
+
+      await filterStorage.setItem(JSON.stringify(newState));
       logEvent('update_filter', { status: 'success' });
-      dispatch(setSortBy(selectedSort));
+      dispatch(setFilter(newState));
       setIsLoading(false);
 
       navigation.goBack();

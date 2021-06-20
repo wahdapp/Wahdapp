@@ -1,7 +1,10 @@
 import { SET_FILTER, INITIALIZE_FILTER, SET_SORT_BY } from '@/actions/filter';
+import { prayerTypes } from '@/constants/prayers';
 
 const INITIAL_STATE = {
-  sortBy: 'distance',
+  sort_by: 'distance',
+  selected_prayers: prayerTypes,
+  same_gender: false,
 };
 
 function filterReducer(state = INITIAL_STATE, action) {

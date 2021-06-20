@@ -73,7 +73,7 @@ export default function HomeScreen({ navigation }: Props) {
           lng: location.longitude,
           lat: location.latitude,
           pageNumber: refresh ? 0 : currentPage,
-          sortType: filter.sortBy,
+          sortType: filter.sort_by,
           isAuth,
         });
 

@@ -60,7 +60,7 @@ export async function getUserInfo(user_id: string) {
 export async function getFilterPreference() {
   try {
     const token = await auth.currentUser.getIdToken();
-    const { data } = await axios.get(`${API_DOMAIN}/user/filter`, {
+    const { data } = await axios.get<{ data: FilterPayload }>(`${API_DOMAIN}/user/filter`, {
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -72,7 +72,7 @@ export async function getFilterPreference() {
   }
 }
 
-type FilterPayload = {
+export type FilterPayload = {
   selected_prayers?: string[];
   same_gender?: boolean;
 };
