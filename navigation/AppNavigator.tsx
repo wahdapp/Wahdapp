@@ -89,6 +89,8 @@ export default function AppNavigator({ userAuth, userInfo, position }) {
           setUserDataFetched(false);
           const info = await getUserInfo(userAuth.uid);
 
+          await AsyncStorage.setItem('user_info', JSON.stringify(info));
+
           if (info.locale !== i18n.language) {
             updateLocale(i18n.language);
           }
