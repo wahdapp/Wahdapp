@@ -9,8 +9,9 @@ import {
   TextInput,
   Linking,
   Platform,
+  RefreshControl,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSnackbar } from '@/contexts/snackbar';
 import SnackBar from 'react-native-snackbar-component';
@@ -33,7 +34,6 @@ import { getInvitedAmount, getParticipatedAmount } from '@/services/prayer';
 import useLogScreenView from '@/hooks/useLogScreenView';
 import { logEvent } from 'expo-firebase-analytics';
 import * as Device from 'expo-device';
-import SelectGenderScreen from '@/screens/Auth/SelectGenderScreen';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -46,7 +46,9 @@ export default function ProfileScreen({ navigation }: Props) {
   const { t } = useTranslation(['PROFILE', 'SIGN', 'COMMON']);
   const user = useUserInfo();
   const dispatch = useDispatch();
+  const historyActivity = useAsyncStorage('history_activity');
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const [currentFullName, setCurrentFullName] = useState(user.full_name);
@@ -66,12 +68,17 @@ export default function ProfileScreen({ navigation }: Props) {
 
   useEffect(() => {
     (async () => {
-      // Get the total amount of previously invited & participated, store in redux
-      const invited = await getInvitedAmount(user.id);
-      const participated = await getParticipatedAmount(user.id);
+      const history = JSON.parse(await historyActivity.getItem()) as {
+        invitedAmount: number;
+        participatedAmount: number;
+      };
 
-      dispatch(setInvitedAmount(invited.amount));
-      dispatch(setParticipatedAmount(participated.amount));
+      if (history) {
+        dispatch(setInvitedAmount(history.invitedAmount));
+        dispatch(setParticipatedAmount(history.participatedAmount));
+      } else {
+        await getHistoryActivity();
+      }
     })();
   }, []);
 
@@ -85,6 +92,27 @@ export default function ProfileScreen({ navigation }: Props) {
       );
     }
   }, [emailSentMessage]);
+
+  async function getHistoryActivity() {
+    (async () => {
+      try {
+        setIsRefreshing(true);
+
+        const invited = await getInvitedAmount(user.id);
+        const participated = await getParticipatedAmount(user.id);
+        dispatch(setInvitedAmount(invited.amount));
+        dispatch(setParticipatedAmount(participated.amount));
+        historyActivity.setItem(
+          JSON.stringify({ invitedAmount: invited.amount, participatedAmount: participated.amount })
+        );
+
+        setIsRefreshing(false);
+      } catch (e) {
+        setIsRefreshing(false);
+        console.log(e);
+      }
+    })();
+  }
 
   function openActionSheet() {
     let subpath = '';
@@ -166,6 +194,7 @@ export default function ProfileScreen({ navigation }: Props) {
     auth.signOut();
     AsyncStorage.removeItem('filter_preferences');
     AsyncStorage.removeItem('user_info');
+    AsyncStorage.removeItem('history_activity');
     dispatch(initUser());
   }
 
@@ -201,7 +230,10 @@ export default function ProfileScreen({ navigation }: Props) {
 
   return (
     <>
-      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView
+        style={{ flex: 1, backgroundColor: '#fff' }}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={getHistoryActivity} />}
+      >
         <LinearGradient
           style={styles.profileHeader}
           start={[1, 1]}

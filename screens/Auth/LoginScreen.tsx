@@ -49,7 +49,6 @@ export default function LoginScreen({ navigation: { navigate } }: Props) {
     try {
       const token = (await Notifications.getExpoPushTokenAsync()).data;
       await registerToken(token);
-      console.log({ token });
 
       dispatch(setDeviceToken(token));
     } catch (e) {
