@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/wahdapp/Wahdapp/compare/v0.6.1...v0.6.2) (2021-07-11)
+
+
+### Features
+
+* **cache:** save to storage after oauth login ([1530dcd](https://github.com/wahdapp/Wahdapp/commit/1530dcdaa0e38c30ae13cf0c99a730ea816dcdb2))
+* **map:** auto load poi place name ([d1acce1](https://github.com/wahdapp/Wahdapp/commit/d1acce139fbb392ad2bad85e88fafc615a14550a))
+* **prayer:** add share option ([3d49908](https://github.com/wahdapp/Wahdapp/commit/3d499088f264ee52fa78f7568ac8fecd7e8e7f45))
+* **profile:** cache history activity ([175f1d2](https://github.com/wahdapp/Wahdapp/commit/175f1d2caf1d87ead67a96d3fd253492115e0b68))
+* **storage:** cache user and filter preferences ([910ad16](https://github.com/wahdapp/Wahdapp/commit/910ad16c12b1a933a228b6bcf463fed7244df2be))
+
+
+### Bug Fixes
+
+* **map:** correctly display overlapping dots ([c207a7c](https://github.com/wahdapp/Wahdapp/commit/c207a7c1be011e6be105d0e0cf341ca802158fde))
+* **map:** show active prayer when overlapping ([84d15cc](https://github.com/wahdapp/Wahdapp/commit/84d15ccc5a45ef793f580c79ed2c7d497ae5f0db))
+
 ### [0.6.1](https://github.com/wahdapp/Wahdapp/compare/v0.6.0...v0.6.1) (2021-06-16)
 
 
