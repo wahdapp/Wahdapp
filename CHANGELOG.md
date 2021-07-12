@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.3](https://github.com/aboudicheng/Jamaat/compare/v0.5.2...v0.6.3) (2021-07-12)
+
+
+### Features
+
+* **cache:** save to storage after oauth login ([1530dcd](https://github.com/aboudicheng/Jamaat/commit/1530dcdaa0e38c30ae13cf0c99a730ea816dcdb2))
+* **expo:** upgrade to sdk 41, TrackingTransparency on iOS ([9804cb9](https://github.com/aboudicheng/Jamaat/commit/9804cb995b80331a5290ca8555ffff0550944b8a))
+* **map:** auto load poi place name ([d1acce1](https://github.com/aboudicheng/Jamaat/commit/d1acce139fbb392ad2bad85e88fafc615a14550a))
+* **notification:** set priority ([38f71ef](https://github.com/aboudicheng/Jamaat/commit/38f71ef2de55c97f6c217c50dfcc8323ad8bc000))
+* **prayer:** add location name field ([630a4af](https://github.com/aboudicheng/Jamaat/commit/630a4afe920233291eeecb2ceaca66ebbb0b1dff))
+* **prayer:** add share option ([3d49908](https://github.com/aboudicheng/Jamaat/commit/3d499088f264ee52fa78f7568ac8fecd7e8e7f45))
+* **prayer:** linkify urls in description ([deed180](https://github.com/aboudicheng/Jamaat/commit/deed180b9c9332bab4955ab6d218f5a2d9e6dcb0))
+* **profile:** cache history activity ([175f1d2](https://github.com/aboudicheng/Jamaat/commit/175f1d2caf1d87ead67a96d3fd253492115e0b68))
+* **storage:** cache user and filter preferences ([910ad16](https://github.com/aboudicheng/Jamaat/commit/910ad16c12b1a933a228b6bcf463fed7244df2be))
+
+
+### Bug Fixes
+
+* **api:** payload field name ([ead2b32](https://github.com/aboudicheng/Jamaat/commit/ead2b32452ef93e5da76c3f241c3472218ab806e))
+* **details:** remove dummy text ([de0c8ae](https://github.com/aboudicheng/Jamaat/commit/de0c8aecf707a81a4d6048a82ce10139d4061842))
+* **ios:** tracking description in infoPlist ([0d66f1a](https://github.com/aboudicheng/Jamaat/commit/0d66f1a74c5df64a607bed725c979d2b8da5ba3e))
+* **map:** correctly display overlapping dots ([c207a7c](https://github.com/aboudicheng/Jamaat/commit/c207a7c1be011e6be105d0e0cf341ca802158fde))
+* **map:** show active prayer when overlapping ([84d15cc](https://github.com/aboudicheng/Jamaat/commit/84d15ccc5a45ef793f580c79ed2c7d497ae5f0db))
+
 ### [0.6.2](https://github.com/wahdapp/Wahdapp/compare/v0.6.1...v0.6.2) (2021-07-11)
 
 
