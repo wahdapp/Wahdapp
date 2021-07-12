@@ -48,6 +48,7 @@ export default ({ config }) => {
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleMapsApiKey": process.env.IOS_GOOGLE_MAPS_API_KEY,
+        "usesNonExemptEncryption": false
       },
       "splash": {
         "image": "./assets/images/splash_screens/ios/splash.png",
